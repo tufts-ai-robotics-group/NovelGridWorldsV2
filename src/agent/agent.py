@@ -6,6 +6,4 @@ class GenericAgent:
         self.ob_space = ob_space
     
     def get_action(self, observation):
-        return self.action_space[0]
-
-
+        raise NotImplementedError("Get action for " + self.name + " is not implemented.")

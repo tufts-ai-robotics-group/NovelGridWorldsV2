@@ -1,3 +1,3 @@
 class Action:
-    def __init__(self):
+    def do_action():
         pass
