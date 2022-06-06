@@ -10,4 +10,3 @@ class NovelGridWorldEnv(gym.Env):
         info_n   = {'n': []}
         # ...
         return obs_n, reward_n, done_n, info_n
-    
