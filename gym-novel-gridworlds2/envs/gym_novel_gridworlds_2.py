@@ -1,5 +1,4 @@
 import gym
-from .agent.agent import GenericAgent
 
 class NovelGridWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
