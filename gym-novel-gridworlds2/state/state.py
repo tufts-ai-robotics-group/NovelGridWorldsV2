@@ -2,7 +2,7 @@ from typing import List
 from copy import deepcopy
 import numpy as np
 
-from .agent_state import EntityState, Facing
+from .entity_state import EntityState, Facing
 from ..utils.item_encoder import SimpleItemEncoder
 
 
