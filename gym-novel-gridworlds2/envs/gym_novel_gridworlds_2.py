@@ -4,11 +4,11 @@ class NovelGridWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
     def __init__(self, actions):
-    	self.action_space = spaces.Discrete(len(actions))
-    	self.recipes = []
-    	self.unbreakable_items = []
-    	self.goal_item_to_craft = ""
-    	#note: other parameters could be passed in here, like the names of JSON folders
+        self.action_space = spaces.Discrete(len(actions))
+        self.recipes = []
+        self.unbreakable_items = []
+        self.goal_item_to_craft = ""
+        #note: other parameters could be passed in here, like the names of JSON folders
 
     def step(self, action_n):
         obs_n    = list()
