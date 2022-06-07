@@ -1,0 +1,1 @@
+from gym_novel_gridworlds_2 import NovelGridWorldEnv
