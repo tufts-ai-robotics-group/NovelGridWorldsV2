@@ -22,7 +22,7 @@ class State:
             self._entity_states.append(EntityState())
         
         self._map = np.zeros(map_size)
-        self._world_inventory = {}
+        # self._world_inventory = {} probably not used as map json specifies this anyways
         self._step_count = 0
     
 
