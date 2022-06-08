@@ -8,6 +8,17 @@ class Recipe:
 		f = open(fileName)
 		self.recipes = json.load(f)
 
+	def getRecipes(self):
+		return self.recipes
+
+	def addRecipes(self, fileName):
+		f = open(fileName)
+		addedRecipes = json.load(f)
+		self.recipes.update(addedRecipes)
+
+	def removeRecipe(self, toRemove):
+		self.recipes.pop(toRemove)
+
 	def recipes_to_actions(self):
 		recipeNames = list(self.recipes.keys())
 		print(recipeNames)
