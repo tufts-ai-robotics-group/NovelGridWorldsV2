@@ -1,24 +1,27 @@
+import json
+from copy import deepcopy
+
 class SimpleItemEncoder:
     class TooManyItemTypes(Exception):
         pass
 
-    def __init__(self, item_list=None, initial_id=1, id_limit=0):
+    def __init__(self, item_dict=None, initial_id=1, id_limit=0):
         self.curr_id = initial_id - 1
-        self.item_list = {}
+        self.item_dict = {}
         self.reverse_look_up_table = {}
         self.id_limit = id_limit
-        if item_list is not None:
-            self.load_item_list(item_list)
+        if item_dict is not None:
+            self.load_item_list(item_dict)
     
 
-    def load_item_list(self, item_list):
+    def load_item_list(self, item_dict):
         """
         Load the item_list from a pre-set dictionary.
         """
-        for key, value in item_list.items():
+        for key, value in item_dict.items():
             self.curr_id = max(value, self.curr_id)
             self.reverse_look_up_table[value] = key
-        self.item_list = item_list
+        self.item_dict = deepcopy(item_dict)
 
 
     def load_json(self, file_name: str):
@@ -33,8 +36,8 @@ class SimpleItemEncoder:
         """
         Takes in a key, returns a list. Not thread-safe.
         """
-        if key in self.item_list:
-            return self.item_list[key]
+        if key in self.item_dict:
+            return self.item_dict[key]
         elif self.id_limit > 0 and self.curr_id + 1 >= self.id_limit:
             raise self.TooManyItemTypes(
                 "Cannot add item \"" + key + "\" to the encoder because there are " +
@@ -42,7 +45,7 @@ class SimpleItemEncoder:
             )
         else:
             self.curr_id += 1
-            self.item_list[key] = self.curr_id
+            self.item_dict[key] = self.curr_id
             self.reverse_look_up_table[self.curr_id] = key
             return self.curr_id
     
@@ -54,13 +57,13 @@ class SimpleItemEncoder:
         alias_dict: {"alias": "key"}
         """
         for alias, key in alias_dict.items():
-            if key in self.item_list and alias not in self.item_list:
-                self.item_list[alias] = self.item_list[key]
+            if key in self.item_dict and alias not in self.item_dict:
+                self.item_dict[alias] = self.item_dict[key]
 
     def save_json(self, file_name: str):
         """
         Saves the encoding to a json file for future run
         """
         with open(file_name, 'w') as f:
-            serialized = json.dumps(self.item_list)
+            serialized = json.dumps(self.item_dict)
             f.write(serialized)
