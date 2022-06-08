@@ -19,7 +19,9 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src"),
-    python_requires=">=3.6",
+    packages=setuptools.find_packages(
+        where='.',
+        include=['gym_novel_gridworlds2*'],  # ["*"] by default
+    ),
+    python_requires=">=3.6"
 )
