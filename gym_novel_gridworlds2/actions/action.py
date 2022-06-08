@@ -1,9 +1,6 @@
 class Action:
-    def __init__(self):
+    def check_precondition(self, dynamics):
         pass
 
-    def check_precondition(self):
-        pass
-
-    def do_action(self):
+    def do_action(self, dynamics):
         pass
