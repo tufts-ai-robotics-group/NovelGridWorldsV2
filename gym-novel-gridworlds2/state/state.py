@@ -31,7 +31,7 @@ class State:
     
 
     #############################   entity    ##############################
-    def update_entity_loc(self, entity_id, new_facing=None, new_loc=None):
+    def update_entity_loc(self, entity_id: int, new_loc: tuple):
         """
         Updates the location of an agent.
         """
@@ -53,7 +53,7 @@ class State:
         self._entity_states[entity_id].facing = new_facing
 
 
-    def update_entity_inventory(self, entity_id, item_id, quantity):
+    def update_entity_inventory(self, entity_id: int, item_id: int, quantity: int):
         self._entity_states[entity_id].inventory[item_id] = quantity
 
     
