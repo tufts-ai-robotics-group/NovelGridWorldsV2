@@ -1,9 +1,0 @@
-{
-	"map": {
-		"size": 5,
-		"objects": {
-			"tree": 3,
-			"crafting_table": 1
-		}
-	}
-}
