@@ -8,12 +8,13 @@ class Facing(Enum):
     WEST = 3
 
 class Entity(Object):
-    def __init__(self, name="", type=None, inventory={}, facing="NORTH"):
+    def __init__(self, name="", location=[0, 0], type=None, inventory={}, facing="NORTH"):
         # convert to enum
         facing = Facing[facing]
 
         # populate
         self.name = name
+        self.loc = location
         self.inventory = inventory
         self.type = type
         self.facing = facing

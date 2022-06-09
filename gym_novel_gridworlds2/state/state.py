@@ -86,6 +86,7 @@ class State:
 
     def random_place(self, object_str, count):
         """
+        TODO
         Randomly place the object in the map
         """
         for i in range(0, qt):
@@ -108,6 +109,7 @@ class State:
     def update_entity_facing(self, entity_name: str, new_facing: Facing):
         """
         Updates the facing of an agent.
+        TODO
         """
         assert entity_id >= 0 and entity_id < len(self._entity_states)
 
@@ -119,7 +121,7 @@ class State:
 
 
     ############################# ALL BLOCKS #############################
-    def place_object(self, object_name: str, loc: tuple):
+    def place_object(self, object_name: str, type=Object, properties: dict = {}):
         """
         Places an object onto the map. 
         Unchecked error if there's existing at the location.
@@ -130,8 +132,8 @@ class State:
         if object_name not in self._objects:
             self._objects[object_name] = []
         
-        self._map[loc] = self.item_encoder.get_create_id(object_id)
-        self._objects[object_id].append(Object(object_name, loc))
+        self._map[properties.loc] = self.item_encoder.get_create_id(object_id)
+        self._objects[object_id].append(Object(object_name, **properties))
     
     def remove_object(self, object_name: str, loc: tuple):
         """
@@ -156,8 +158,10 @@ class State:
             raise ValueError("Object " + object_name + \
                 " at " + str(loc) + " is not found in the list")
     
+
     def update_object_loc(self, entity_name: str, new_loc: tuple):
         """
+        TODO
         Updates the location of an agent.
         """
         # notes: this algorithm updates both the agent state and the state.
