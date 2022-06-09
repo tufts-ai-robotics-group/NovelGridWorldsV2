@@ -87,7 +87,7 @@ class State:
             self._objects[object_name] = []
         
         self._map[properties["loc"]] = self.item_encoder.get_create_id(object_id)
-        self._objects[object_id].append(Object(object_name, **properties))
+        self._objects[object_id].append(type(object_name, **properties))
     
     def remove_object(self, object_name: str, loc: tuple):
         """
@@ -127,11 +127,15 @@ class State:
 
     def get_object_at(self, loc: tuple):
         """
-        Gets a specific object at a specific location
+        Gets a specific object at a specific location.
+        Returns None if it's not found.
         WARNINGL Do not modify the locations
         """
-        pass
-
+        obj_type = self._map[loc]
+        for obj in self._objects.get(obj_type) or []:
+            if obj.loc == loc:
+                return obj
+        return None
     
 
     def update_object_loc(self, entity_name: str, new_loc: tuple):
