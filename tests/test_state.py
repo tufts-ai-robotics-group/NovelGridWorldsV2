@@ -10,17 +10,42 @@ class StateTestPlacement(unittest.TestCase):
         loc = (2, 3)
         state.place_object("tree", properties={"loc": loc})
         obj_type_id = state.item_encoder.get_id("tree")
-        print(state._objects)
-        print(state._map)
         self.assertEqual(state._map[loc], obj_type_id)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
+    
+    def testPlaceItemOverItem(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc = (2, 3)
+        state.place_object("tree", properties={"loc": loc})
+        state.place_object("tree", properties={"loc": loc})
+        obj_type_id = state.item_encoder.get_id("tree")
+        self.assertEqual(state._map[loc], obj_type_id)
+        self.assertEqual(len(state._objects[obj_type_id]), 1)
+    
+    def testPlaceItemOverItem2(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc = (2, 3)
+        state.place_object("tree", properties={"loc": loc})
+        state.place_object("chest", properties={"loc": loc})
+        obj_type_id_1 = state.item_encoder.get_id("tree")
+        obj_type_id_2 = state.item_encoder.get_id("chest")
+        self.assertEqual(state._map[loc], obj_type_id_1)
+        self.assertEqual(len(state._objects[obj_type_id_1]), 1)
+        self.assertTrue(obj_type_id_2 not in state._objects)
 
     
-    def randomPlaceItem(self):
+    def testrandomPlaceItem(self):
         state = State(map_size=(5, 5), objects=[])
         state.random_place(object_str="tree", count=2)
-        self.assertEqual((state._map == 0).count() == 2)
-        self.assertEqual(len(state._objects[0]) == 2)
+        self.assertEqual((state._map == 1).sum(), 2)
+        self.assertEqual(len(state._objects[1]), 2)
+
+
+    def testrandomPlaceItemFull(self):
+        state = State(map_size=(2, 2), objects=[])
+        state.random_place(object_str="tree", count=5)
+        self.assertEqual((state._map == 1).sum(), 4)
+        self.assertEqual(len(state._objects[1]), 4)
 
 
 

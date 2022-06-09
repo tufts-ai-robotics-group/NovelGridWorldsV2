@@ -64,11 +64,12 @@ class State:
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_create_id(object_type)
 
+        if self._map[properties["loc"]] != 0: #case where an item is already there
+            return False
+
         if object_id not in self._objects:
             self._objects[object_id] = []
-
-        # if self._map[properties["loc"]] != 0: #case where an item is already there
-        #     return False
+            
         print("properties", properties)
         self._map[properties["loc"]] = object_id
         self._objects[object_id].append(ObjectClass(object_type, **properties))
