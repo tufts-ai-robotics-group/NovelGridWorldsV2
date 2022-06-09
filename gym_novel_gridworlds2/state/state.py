@@ -38,9 +38,6 @@ class State:
         }
         self.item_encoder = SimpleItemEncoder(item_list)
 
-        if map_json is not None:
-            self.load_map(map_json)
-
         # Initialization of the objects
         self._objects: Mapping[str, List[Object]] = {}
         for name, object in objects.items():
