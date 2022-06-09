@@ -75,7 +75,7 @@ class State:
 
 
     ############################# ALL BLOCKS #############################
-    def place_object(self, object_name: str, type=Object, properties: dict = {}):
+    def place_object(self, object_name: str, ObjectType=Object, properties: dict = {}):
         """
         Places an object onto the map. 
         Unchecked error if there's existing at the location.
@@ -87,7 +87,7 @@ class State:
             self._objects[object_name] = []
         
         self._map[properties["loc"]] = self.item_encoder.get_create_id(object_id)
-        self._objects[object_id].append(type(object_name, **properties))
+        self._objects[object_id].append(ObjectType(object_name, **properties))
     
     def remove_object(self, object_name: str, loc: tuple):
         """
