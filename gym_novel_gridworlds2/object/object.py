@@ -1,5 +1,5 @@
 class Object:
-    def __init__(self, type, loc=[0, 0], **kwargs):
+    def __init__(self, type, loc=(0, 0), **kwargs):
         self.type = type
         self.loc = loc
     

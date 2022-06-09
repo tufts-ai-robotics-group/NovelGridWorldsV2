@@ -1,5 +1,6 @@
 from typing import List, Optional, Tuple, Mapping
 from copy import deepcopy
+from matplotlib.style import available
 import numpy as np
 import random
 from functools import reduce
@@ -43,8 +44,6 @@ class State:
         #     object_id = self.item_encoder.get_create_id(name)
         #     self.place_object(name, Object, properties=obj)
         
-        self.random_place("tree", 2)
-        print(self._map)
         # self._world_inventory = {}
         self._step_count = 0
 
@@ -63,31 +62,35 @@ class State:
         Unchecked error if there's existing at the location.
         """
         # get the object id for use in the object dict
-        object_id = self.item_encoder.get_id(object_type)
+        object_id = self.item_encoder.get_create_id(object_type)
 
-        if object_type not in self._objects:
-            self._objects[object_type] = []
+        if object_id not in self._objects:
+            self._objects[object_id] = []
 
         # if self._map[properties["loc"]] != 0: #case where an item is already there
         #     return False
-        
-        self._map[properties["loc"]] = self.item_encoder.get_create_id(object_id)
+        print("properties", properties)
+        self._map[properties["loc"]] = object_id
         self._objects[object_id].append(ObjectClass(object_type, **properties))
 
         return True
 
     def random_place(self, object_str, count):
         """
-        TODO
+        TODO: ObjectClass
         Randomly place the object in the map
+        
+        if there's not enough spots available, all available spots will be filled
         """
-        for i in range(0, count):
-            row = random.randrange(0, self.initial_info["map_size"][0])
-            col = random.randrange(0, self.initial_info["map_size"][1])
-            properties = {"loc": (row, col)}
+        all_available_spots = np.argwhere(self._map == 0)
+        if count >= all_available_spots.shape[0]:
+            count = all_available_spots.shape[0]
+
+        picked_indices = np.random.choice(a=all_available_spots.shape[0], size=count, replace=False)
+        for index in picked_indices:
+            properties = {"loc": tuple(all_available_spots[index])}
             print(properties)
-            if not self.place_object(object_str, properties):
-                i -= 1
+            self.place_object(object_str, properties=properties)
 
     
     def remove_object(self, object_name: str, loc: tuple):

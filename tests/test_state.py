@@ -4,12 +4,24 @@ import json
 
 from gym_novel_gridworlds2.state import State
 
-class StateTestLoadJSON(unittest.TestCase):    
-    def testLoad(self):
-        with open("tests/sample_state.json") as f:
-            data = json.load(f)
-            self.state = State(map_json=data)
-            self.assertEqual(True, False)
+class StateTestPlacement(unittest.TestCase):
+    def testPlaceItem(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc = (2, 3)
+        state.place_object("tree", properties={"loc": loc})
+        obj_type_id = state.item_encoder.get_id("tree")
+        print(state._objects)
+        print(state._map)
+        self.assertEqual(state._map[loc], obj_type_id)
+        self.assertEqual(len(state._objects[obj_type_id]), 1)
+
+    
+    def randomPlaceItem(self):
+        state = State(map_size=(5, 5), objects=[])
+        state.random_place(object_str="tree", count=2)
+        self.assertEqual((state._map == 0).count() == 2)
+        self.assertEqual(len(state._objects[0]) == 2)
+
 
 
 # class StateTestChangeMap(unittest.TestCase):
