@@ -4,11 +4,12 @@ import json
 
 from gym_novel_gridworlds2.state import State
 
-class StateTestLoadJSON(unittest.TestCase):
-    def setUp(self):
-        with open("sample_state.json") as f:
+class StateTestLoadJSON(unittest.TestCase):    
+    def testLoad(self):
+        with open("tests/sample_state.json") as f:
             data = json.load(f)
             self.state = State(map_json=data)
+
 
 # class StateTestChangeMap(unittest.TestCase):
 #     def setUp(self):

@@ -37,16 +37,13 @@ class State:
 
         # Initialization of the objects
         self._objects: Mapping[str, List[Object]] = {}
-        for name, object in objects.items():
-            object_id = self.item_encoder.get_create_id(name)
-            self._objects[object_id] = Object(name=name, **object)
-
-        for name, entity in entities.items():
-            entity_id = self.item_encoder.get_create_id(name)
-            self._objects[entity_id] = Entity(name=name, **entity)
-
         self._map = np.zeros(map_size)
-        random_place("tree", 2)
+
+        for name, obj in objects.items():
+            object_id = self.item_encoder.get_create_id(name)
+            self.place_object(name, Object, properties=obj)
+        
+        self.random_place("tree", 2)
         print(self._map)
         # self._world_inventory = {}
         self._step_count = 0
@@ -156,6 +153,9 @@ class State:
 
 
     def reset(self):
+        """
+        TODO: UNUSABLE FOR NOW, UPDATE NEEDED
+        """
         self.__init__(*self.initial_info)
 
 if __name__ == "__main__":

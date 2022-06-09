@@ -1,0 +1,31 @@
+{
+    "map": {
+        "size": [5, 5]
+    },
+    "objects": {
+        "tree": {
+            "objects": [
+                {"loc": [0, 1]}
+            ],
+            "random_placement": 3
+        },
+        "trader": {
+            "objects": [
+                {
+                    "inventory": {},
+                    "loc": [0, 2],
+                    "facing": "NORTH"
+                }
+            ]
+        },
+        "agent": {
+            "objects": [
+                {
+                    "inventory": {},
+                    "loc": [0, 1],
+                    "facing": "NORTH"
+                }
+            ]
+        }
+    }
+}
