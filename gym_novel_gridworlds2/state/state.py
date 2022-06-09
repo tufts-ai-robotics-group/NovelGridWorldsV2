@@ -22,15 +22,12 @@ class State:
         if map_json is not None:
             if map_size is None:
                 map_size = tuple(map_json.get('map').get('size'))
-            if entities is None:
-                entities = map_json.get('entities')
             if objects is None:
                 objects = map_json.get('objects')
 
 
         # TODO update
         self.initial_info = {
-            "entities": entities,
             "map_size": map_size,
             "objects": objects,
             "item_list": item_list,
@@ -146,19 +143,17 @@ class State:
         return None
     
 
-    def update_object_loc(self, entity_name: str, new_loc: tuple):
+    def update_object_loc(self, old_loc: tuple, new_loc: tuple):
         """
         TODO
         Updates the location of an agent.
         """
         # notes: this algorithm updates both the agent state and the state.
-        assert entity_name in self.item_encoder.item_dict
 
-        if new_loc is not None:
-            prev_loc = self._entity_states[entity_id].location
-            self._map[prev_loc] = self.item_encoder.get_create_id("air")
-            self._map[new_loc] = self.get_entity_object_id(entity_id)
-            self._entity_states[entity_id].location = new_loc
+        obj = self.get_object_at(old_loc)
+        self._map[old_loc] = self.item_encoder.get_create_id("air")
+        self._map[new_loc] = obj
+        obj.loc = new_loc
 
 
     def reset(self):
