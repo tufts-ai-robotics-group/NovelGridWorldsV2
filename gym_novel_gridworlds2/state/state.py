@@ -39,28 +39,14 @@ class State:
         self._objects: Mapping[str, List[Object]] = {}
         self._map = np.zeros(map_size)
 
-        for name, obj in objects.items():
-            object_id = self.item_encoder.get_create_id(name)
-            self.place_object(name, Object, properties=obj)
+        # for name, obj in objects.items():
+        #     object_id = self.item_encoder.get_create_id(name)
+        #     self.place_object(name, Object, properties=obj)
         
         self.random_place("tree", 2)
         print(self._map)
         # self._world_inventory = {}
         self._step_count = 0
-
-
-    def random_place(self, object_str, count):
-        """
-        TODO
-        Randomly place the object in the map
-        """
-        for i in range(0, count):
-            row = random.randrange(0, self.map_size[0])
-            col = random.randrange(0, self.map_size[1])
-            properties = {"loc": (row, col)}
-            print(properties)
-            if not place_object(object_str, properties):
-                i -= 1
 
     def make_copy(self):
         return deepcopy(self)
@@ -82,13 +68,26 @@ class State:
         if object_type not in self._objects:
             self._objects[object_type] = []
 
-        if self._map[properties["loc"]] != 0: #case where an item is already there
-            return False
+        # if self._map[properties["loc"]] != 0: #case where an item is already there
+        #     return False
         
         self._map[properties["loc"]] = self.item_encoder.get_create_id(object_id)
         self._objects[object_id].append(ObjectClass(object_type, **properties))
 
         return True
+
+    def random_place(self, object_str, count):
+        """
+        TODO
+        Randomly place the object in the map
+        """
+        for i in range(0, count):
+            row = random.randrange(0, self.initial_info["map_size"][0])
+            col = random.randrange(0, self.initial_info["map_size"][1])
+            properties = {"loc": (row, col)}
+            print(properties)
+            if not self.place_object(object_str, properties):
+                i -= 1
 
     
     def remove_object(self, object_name: str, loc: tuple):
