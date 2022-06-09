@@ -1,2 +1,2 @@
-from entity import Entity
-from object import Object
+from .entity import Entity
+from .object import Object
