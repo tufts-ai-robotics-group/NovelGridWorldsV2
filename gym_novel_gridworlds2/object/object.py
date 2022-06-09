@@ -1,6 +1,6 @@
 class Object:
-    def __init__(self, name, loc=[0, 0], **kwargs):
-        self.name = name
+    def __init__(self, type, loc=[0, 0], **kwargs):
+        self.type = type
         self.loc = loc
     
     def __str__(self):
