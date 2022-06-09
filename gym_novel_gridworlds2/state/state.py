@@ -158,8 +158,3 @@ class State:
 
     def reset(self):
         self.__init__(*self.initial_info)
-
-if __name__ == "__main__":
-    f = open("sample_state.json")
-    data = json.load(f)
-    lovethelows = State(map_json=data)
