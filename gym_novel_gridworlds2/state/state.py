@@ -71,22 +71,22 @@ class State:
 
 
     ############################# ALL BLOCKS #############################
-    def place_object(self, object_name: str, ObjectType=Object, properties: dict = {}):
+    def place_object(self, object_type: str, ObjectClass=Object, properties: dict = {}):
         """
         Places an object onto the map. 
         Unchecked error if there's existing at the location.
         """
         # get the object id for use in the object dict
-        object_id = self.item_encoder.get_id(object_name)
+        object_id = self.item_encoder.get_id(object_type)
 
-        if object_name not in self._objects:
-            self._objects[object_name] = []
+        if object_type not in self._objects:
+            self._objects[object_type] = []
 
         if self._map[properties["loc"]] != 0:
             return False
         
         self._map[properties["loc"]] = self.item_encoder.get_create_id(object_id)
-        self._objects[object_id].append(ObjectType(object_name, **properties))
+        self._objects[object_id].append(ObjectClass(object_type, **properties))
 
         return True
 
@@ -142,14 +142,13 @@ class State:
 
     def update_object_loc(self, old_loc: tuple, new_loc: tuple):
         """
-        TODO
         Updates the location of an agent.
         """
         # notes: this algorithm updates both the agent state and the state.
 
         obj = self.get_object_at(old_loc)
         self._map[old_loc] = self.item_encoder.get_create_id("air")
-        self._map[new_loc] = obj
+        self._map[new_loc] = self.item_encoder.get_create_id(obj.type)
         obj.loc = new_loc
 
 
