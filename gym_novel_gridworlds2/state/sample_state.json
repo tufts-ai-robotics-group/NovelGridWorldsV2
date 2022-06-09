@@ -4,23 +4,28 @@
     },
     "objects": {
         "tree": {
-            "locs": [
-                [1, 1],
-                [2, 3]
+            "objects": [
+                {"loc": [0, 1]}
             ],
             "random_placement": 3
-        }
-    },
-    "entities": {
-        "trader_1": {
-            "inventory": {},
-            "loc": [0, 2],
-            "facing": "NORTH"
+        },
+        "trader": {
+            "objects": [
+                {
+                    "inventory": {},
+                    "loc": [0, 2],
+                    "facing": "NORTH"
+                }
+            ]
         },
         "agent": {
-            "inventory": {},
-            "loc": [0, 2],
-            "facing": "NORTH"
+            "objects": [
+                {
+                    "inventory": {},
+                    "loc": [0, 1],
+                    "facing": "NORTH"
+                }
+            ]
         }
     }
 }
