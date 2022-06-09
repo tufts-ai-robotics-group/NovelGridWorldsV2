@@ -3,6 +3,7 @@ from copy import deepcopy
 import numpy as np
 import random
 from functools import reduce
+import json
 
 from ..object import Object, Entity
 from ..utils.item_encoder import SimpleItemEncoder
@@ -11,7 +12,6 @@ AIR_STR = "air"
 
 class State:
     def __init__(self, map_size: Tuple[int]=None, \
-            entities: Optional[Mapping[str, object]]=None, \
             objects: Mapping[str, object]=None,
             map_json: dict=None, \
             item_list: Mapping[str, int]={"air": 0}, \
@@ -49,6 +49,8 @@ class State:
             self._objects[entity_id] = Entity(name=name, **entity)
 
         self._map = np.zeros(map_size)
+        random_place("tree", 2)
+        print(self._map)
         # self._world_inventory = {}
         self._step_count = 0
 
@@ -61,9 +63,9 @@ class State:
         for i in range(0, count):
             row = random.randrange(0, self.map_size[0])
             col = random.randrange(0, self.map_size[1])
-            object_str.loc = [row, col]
-            print(object_str.loc)
-            if not place_object(object_str):
+            properties = {"loc": (row, col)}
+            print(properties)
+            if not place_object(object_str, properties):
                 i -= 1
 
     def make_copy(self):
@@ -86,7 +88,7 @@ class State:
         if object_name not in self._objects:
             self._objects[object_name] = []
 
-        if self._map[properties["loc"]] != 0:
+        if self._map[properties["loc"]] != 0: #case where an item is already there
             return False
         
         self._map[properties["loc"]] = self.item_encoder.get_create_id(object_id)
@@ -161,3 +163,8 @@ class State:
 
     def reset(self):
         self.__init__(*self.initial_info)
+
+if __name__ == "__main__":
+    f = open("sample_state.json")
+    data = json.load(f)
+    lovethelows = State(map_json=data)
