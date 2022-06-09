@@ -9,6 +9,7 @@ class StateTestLoadJSON(unittest.TestCase):
         with open("sample_state.json") as f:
             data = json.load(f)
             self.state = State(map_json=data)
+            self.assertEqual(True, False)
 
 # class StateTestChangeMap(unittest.TestCase):
 #     def setUp(self):
