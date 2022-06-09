@@ -58,13 +58,13 @@ class State:
         TODO
         Randomly place the object in the map
         """
-        for i in range(0, qt):
-            currId = self.item_encoder.get_id(item_name)
-            row = random.randrange(0, map_json["map"]["size"])
-            col = random.randrange(0, map_json["map"]["size"])
-            if self._map[row][col] == 0:
-                self._map[row][col] = currId
-
+        for i in range(0, count):
+            row = random.randrange(0, self.map_size[0])
+            col = random.randrange(0, self.map_size[1])
+            object_str.loc = [row, col]
+            print(object_str.loc)
+            if not place_object(object_str):
+                i -= 1
 
     def make_copy(self):
         return deepcopy(self)
@@ -85,9 +85,16 @@ class State:
 
         if object_name not in self._objects:
             self._objects[object_name] = []
+
+        if self._map[properties["loc"]] != 0:
+            return False
         
         self._map[properties["loc"]] = self.item_encoder.get_create_id(object_id)
         self._objects[object_id].append(Object(object_name, **properties))
+
+        return True
+
+
     
     def remove_object(self, object_name: str, loc: tuple):
         """
