@@ -23,9 +23,9 @@ class StateTestChangeEntityLoc(unittest.TestCase):
 
         old_loc = self.state._entity_states[0].location
         self.state.update_entity_loc(entity_id, new_loc)
-        entity_id_str_encoded = self.state.item_encoder.get_id("entity-" + str(entity_id))
+        entity_id_str_encoded = self.state.item_encoder.get_create_id("entity-" + str(entity_id))
 
         self.assertEqual(self.state._map[new_loc], entity_id_str_encoded)
-        self.assertEqual(self.state._map[old_loc], self.state.item_encoder.get_id("air"))
+        self.assertEqual(self.state._map[old_loc], self.state.item_encoder.get_create_id("air"))
         self.assertEqual(self.state._entity_states[0].location, new_loc)
 

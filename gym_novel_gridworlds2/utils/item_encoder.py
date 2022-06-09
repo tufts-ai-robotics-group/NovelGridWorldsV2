@@ -32,7 +32,7 @@ class SimpleItemEncoder:
             item_list = json.load(f)
             self.load_item_list(item_list)
     
-    def get_id(self, key: str):
+    def get_create_id(self, key: str):
         """
         Takes in a key, returns a list. Not thread-safe.
         """
@@ -48,6 +48,12 @@ class SimpleItemEncoder:
             self.item_dict[key] = self.curr_id
             self.reverse_look_up_table[self.curr_id] = key
             return self.curr_id
+    
+    def get_id(self, key: str):
+        if key in self.item_dict:
+            return self.item_dict[key]
+        else:
+            return None
     
     def reverse_look_up(self, id: int):
         return self.reverse_look_up_table[id]
