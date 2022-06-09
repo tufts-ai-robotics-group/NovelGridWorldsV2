@@ -53,34 +53,6 @@ class State:
         self._step_count = 0
 
 
-    # def load_map(self, map_size, objects, entities):
-    #     """
-    #     Initializes the map, a 2D numpy array, using the provided JSON
-    #     Initializes based off of selected mode
-    #     Randomization gets parameters from the JSON to initialize
-    #     entities in random locations
-    #     Seeded initializes entities in specified coords
-    #     """
-    #     self._map = np.zeros(map_size)
-
-    #     # Initialization of the objects
-    #     self._objects: List[Object] = {}
-    #     for name, object in objects.items():
-    #         object_id = self.item_encoder.get_create_id(name)
-    #         self._objects[object_id] = Object(name=name, **object)
-
-    #         # random placement of items
-
-
-
-    #     for name, entity in entities.items():
-    #         entity_id = self.item_encoder.get_create_id(name)
-    #         self._objects[entity_id] = Entity(name=name, **entity)
-
-    #     print(self._map)
-    #     print(self._objects)
-
-
     def random_place(self, object_str, count):
         """
         TODO
@@ -102,21 +74,6 @@ class State:
         return self.item_encoder.get_create_id(object_name)
 
 
-    #############################   entity    ##############################
-    def update_entity_facing(self, entity_name: str, new_facing: Facing):
-        """
-        Updates the facing of an agent.
-        TODO
-        """
-        assert entity_id >= 0 and entity_id < len(self._entity_states)
-
-        self._entity_states[entity_id].facing = new_facing
-
-
-    def update_entity_inventory(self, entity_id: int, item_id: int, quantity: int):
-        self._entity_states[entity_id].inventory[item_id] = quantity
-
-
     ############################# ALL BLOCKS #############################
     def place_object(self, object_name: str, type=Object, properties: dict = {}):
         """
@@ -129,7 +86,7 @@ class State:
         if object_name not in self._objects:
             self._objects[object_name] = []
         
-        self._map[properties.loc] = self.item_encoder.get_create_id(object_id)
+        self._map[properties["loc"]] = self.item_encoder.get_create_id(object_id)
         self._objects[object_id].append(Object(object_name, **properties))
     
     def remove_object(self, object_name: str, loc: tuple):
@@ -154,6 +111,27 @@ class State:
         except StopIteration:
             raise ValueError("Object " + object_name + \
                 " at " + str(loc) + " is not found in the list")
+    
+
+    def get_objects_of_type(self, object_type: str):
+        """
+        Gets a list of objects of specific type
+        WARNING: Do not modify the locations in the object!!
+        """
+        type_id = self.item_encoder.get_id(object_type)
+        if type_id is not None:
+            return self._objects.get(type_id) or []
+        else:
+            return []
+
+
+    def get_object_at(self, loc: tuple):
+        """
+        Gets a specific object at a specific location
+        WARNINGL Do not modify the locations
+        """
+        pass
+
     
 
     def update_object_loc(self, entity_name: str, new_loc: tuple):
