@@ -98,24 +98,26 @@ class State:
         """
         Removes an object from the map, replacing it with air
         """
-        assert object_name in self._objects, f"Object {object_name} unknown."
-        # assert all(i >= j for i, j in zip(loc, [0] * self._map.ndim)), f"Location "
 
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_id(object_name)
+        if object_id is not None:
+            # assert object_name in self._objects, f"Object {object_name} unknown."
+            # won't work as object_name isnt directly comparable to objs
+            # assert all(i >= j for i, j in zip(loc, [0] * self._map.ndim)), f"Location "
 
-        # update the map
-        self._map[loc] = self.item_encoder.get_create_id(AIR_STR)
+            # update the map
+            self._map[loc] = self.item_encoder.get_create_id(AIR_STR)
 
-        try:
-            # find the location of the object.
-            obj_index = next(i for i, v in enumerate(self._objects[object_id]) if v.loc == loc)
+            try:
+                # find the location of the object.
+                obj_index = next(i for i, v in enumerate(self._objects[object_id]) if v.loc == loc)
 
-            # remove the object from the list but without freeing.
-            self._objects[object_id].pop(obj_index)
-        except StopIteration:
-            raise ValueError("Object " + object_name + \
-                " at " + str(loc) + " is not found in the list")
+                # remove the object from the list but without freeing.
+                self._objects[object_id].pop(obj_index)
+            except StopIteration:
+                raise ValueError("Object " + object_name + \
+                    " at " + str(loc) + " is not found in the list")
     
 
     def get_objects_of_type(self, object_type: str):

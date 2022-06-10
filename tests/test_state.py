@@ -33,13 +33,26 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(len(state._objects[obj_type_id_1]), 1)
         self.assertTrue(obj_type_id_2 not in state._objects)
 
-    
+    def testPlaceTwoItems(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 4)
+        state.place_object("tree", properties={"loc": loc1})
+        state.place_object("chest", properties={"loc": loc2})
+
+        obj_type_id1 = state.item_encoder.get_id("tree")
+        self.assertEqual(state._map[loc1], obj_type_id1)
+        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+
+        obj_type_id2 = state.item_encoder.get_id("chest")
+        self.assertEqual(state._map[loc2], obj_type_id2)
+        self.assertEqual(len(state._objects[obj_type_id2]), 1)
+
     def testrandomPlaceItem(self):
         state = State(map_size=(5, 5), objects=[])
         state.random_place(object_str="tree", count=2)
         self.assertEqual((state._map == 1).sum(), 2)
         self.assertEqual(len(state._objects[1]), 2)
-
 
     def testrandomPlaceItemFull(self):
         state = State(map_size=(2, 2), objects=[])
@@ -47,6 +60,125 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual((state._map == 1).sum(), 4)
         self.assertEqual(len(state._objects[1]), 4)
 
+    def testDoubleRandomPlaceItem(self):
+        state = State(map_size=(5, 5), objects=[])
+        state.random_place(object_str="tree", count=3)
+        self.assertEqual((state._map == 1).sum(), 3)
+        self.assertEqual(len(state._objects[1]), 3)
+
+        state.random_place(object_str="chest", count=1)
+        self.assertEqual((state._map == 2).sum(), 1)
+        self.assertEqual(len(state._objects[2]), 1)
+
+    def testMultipleRandomPlaceItem(self):
+        state = State(map_size=(5, 5), objects=[])
+        state.random_place(object_str="tree", count=3)
+        self.assertEqual((state._map == 1).sum(), 3)
+        self.assertEqual(len(state._objects[1]), 3)
+
+        state.random_place(object_str="chest", count=1)
+        self.assertEqual((state._map == 2).sum(), 1)
+        self.assertEqual(len(state._objects[2]), 1)
+
+        state.random_place(object_str="crafting_table", count=1)
+        self.assertEqual((state._map == 3).sum(), 1)
+        self.assertEqual(len(state._objects[3]), 1)
+
+        state.random_place(object_str="iron", count=2)
+        self.assertEqual((state._map == 4).sum(), 2)
+        self.assertEqual(len(state._objects[4]), 2)
+
+    def testMultipleRandomPlaceItemFull(self):
+        state = State(map_size=(2, 2), objects=[])
+        state.random_place(object_str="tree", count=3)
+        self.assertEqual((state._map == 1).sum(), 3)
+        self.assertEqual(len(state._objects[1]), 3)
+
+        state.random_place(object_str="chest", count=1)
+        self.assertEqual((state._map == 2).sum(), 1)
+        self.assertEqual(len(state._objects[2]), 1)
+
+        state.random_place(object_str="crafting_table", count=1)
+        self.assertEqual((state._map == 3).sum(), 0)
+
+        state.random_place(object_str="iron", count=2)
+        self.assertEqual((state._map == 4).sum(), 0)
+
+    def testRemoveObject(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        state.place_object("tree", properties={"loc": loc1})
+
+        obj_type_id1 = state.item_encoder.get_id("tree")
+        self.assertEqual(state._map[loc1], obj_type_id1)
+        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+
+        state.remove_object("tree", loc1)
+        self.assertEqual(state._map[loc1], 0)
+        self.assertEqual(len(state._objects[obj_type_id1]), 0)
+
+    def testRemoveIllegalObject(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        state.place_object("tree", properties={"loc": loc1})
+
+        obj_type_id1 = state.item_encoder.get_id("tree")
+        self.assertEqual(state._map[loc1], obj_type_id1)
+        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+
+        state.remove_object("car", loc1)
+        self.assertEqual(state._map[loc1], obj_type_id1)
+        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+
+
+    def testRemoveWrongObject(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 3)
+        state.place_object("tree", properties={"loc": loc1})
+
+        obj_type_id1 = state.item_encoder.get_id("tree")
+        self.assertEqual(state._map[loc1], obj_type_id1)
+        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+
+        state.remove_object("tree", loc2)
+        self.assertEqual(state._map[loc1], 1)
+        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+
+    def testRemoveOneWhenTwoObjects(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        state.place_object("tree", properties={"loc": loc2})
+
+        obj_type_id1 = state.item_encoder.get_id("tree")
+        self.assertEqual(len(state._objects[obj_type_id1]), 2)
+
+        state.remove_object("tree", loc2)
+        self.assertEqual(state._map[loc1], 1)
+        self.assertEqual(state._map[loc2], 0)
+        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+
+    def testRemoveTwoObjects(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        state.place_object("tree", properties={"loc": loc2})
+
+        obj_type_id1 = state.item_encoder.get_id("tree")
+        self.assertEqual(len(state._objects[obj_type_id1]), 2)
+
+        state.remove_object("tree", loc2)
+        self.assertEqual(state._map[loc1], 1)
+        self.assertEqual(state._map[loc2], 0)
+        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+
+        state.remove_object("tree", loc1)
+        self.assertEqual(state._map[loc1], 0)
+        self.assertEqual(state._map[loc2], 0)
+        self.assertEqual(len(state._objects[obj_type_id1]), 0)
 
 
 # class StateTestChangeMap(unittest.TestCase):
