@@ -1,5 +1,5 @@
 class Object:
-    def __init__(self, type, loc=(0, 0), state="block" **kwargs):
+    def __init__(self, type, loc=(0, 0), state="block", **kwargs):
         self.type = type
         self.loc = loc
         self.state = state #two states: block and floating

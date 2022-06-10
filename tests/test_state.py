@@ -316,6 +316,38 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc1], 1)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
 
+    def testGetObjectState(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        res = state.get_object_state(loc1)
+        self.assertEqual(res, "block")
+
+    def testUpdateObjectState(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        state.update_object_state(loc1)
+        obj = state.get_object_at(loc1)
+        self.assertEqual(obj.state, "floating")
+        state.update_object_state(loc1)
+        obj = state.get_object_at(loc1)
+        self.assertEqual(obj.state, "block")
+
+    def testReset(self):
+        state = State(map_size=(5, 5), objects=[])
+        state.random_place(object_str="tree", count=3)
+        self.assertEqual((state._map == 1).sum(), 3)
+        self.assertEqual(len(state._objects[1]), 3)
+
+        state.random_place(object_str="chest", count=1)
+        self.assertEqual((state._map == 2).sum(), 1)
+        self.assertEqual(len(state._objects[2]), 1)
+        state.reset()
+        self.assertEqual(len(state._objects[1]), 0)
+        self.assertEqual(len(state._objects[2]), 0)
+        # self.assertEqual(True, False)
+
 
 # class StateTestChangeMap(unittest.TestCase):
 #     def setUp(self):

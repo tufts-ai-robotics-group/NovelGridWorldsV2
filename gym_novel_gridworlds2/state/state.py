@@ -59,7 +59,7 @@ class State:
     def place_object(self, object_type: str, ObjectClass=Object, properties: dict = {}):
         """
         Places an object onto the map. 
-        Unchecked error if there's existing at the location.
+        Returns true if success, false if there was a block there
         """
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_create_id(object_type)
@@ -162,9 +162,39 @@ class State:
         else:
             return False
 
+    def get_object_state(self, loc: tuple):
+        """
+        Gets the state of an object at a specific location
+        """
+        obj = self.get_object_at(loc)
+        return obj.state
+
+    def update_object_state(self, loc: tuple):
+        """
+        Updates state of an object at a specific location
+        If it was a block, it is now floating, and vice versa
+        """
+        obj = self.get_object_at(loc)
+        if obj.state == "block":
+            obj.state = "floating"
+        else:
+            obj.state = "block"
+
 
     def reset(self):
         """
+        Removes all objects from the list and clears the map/item list
+        """
+        #remove all objects:
+        for index, obj_id in np.ndenumerate(self._map):
+            if obj_id != 0:
+                obj = self.get_object_at(index)
+                print(obj.type, index)
+                self.remove_object(obj.type, index)
+        #resets item encoder
+        self.item_encoder = SimpleItemEncoder()
+        #old version:
+        """
         TODO: UNUSABLE FOR NOW, UPDATE NEEDED
         """
-        self.__init__(*self.initial_info)
+        # self.__init__(*self.initial_info)
