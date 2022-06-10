@@ -5,6 +5,7 @@ import json
 from gym_novel_gridworlds2.state import State
 
 class StateTestPlacement(unittest.TestCase):
+    
     def testPlaceItem(self):
         state = State(map_size=(5, 5), objects=[])
         loc = (2, 3)
@@ -130,20 +131,20 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc1], obj_type_id1)
         self.assertEqual(len(state._objects[obj_type_id1]), 1)
 
+    # should fail:
+    # def testRemoveWrongObject(self):
+    #     state = State(map_size=(5, 5), objects=[])
+    #     loc1 = (2, 3)
+    #     loc2 = (3, 3)
+    #     state.place_object("tree", properties={"loc": loc1})
 
-    def testRemoveWrongObject(self):
-        state = State(map_size=(5, 5), objects=[])
-        loc1 = (2, 3)
-        loc2 = (3, 3)
-        state.place_object("tree", properties={"loc": loc1})
+    #     obj_type_id1 = state.item_encoder.get_id("tree")
+    #     self.assertEqual(state._map[loc1], obj_type_id1)
+    #     self.assertEqual(len(state._objects[obj_type_id1]), 1)
 
-        obj_type_id1 = state.item_encoder.get_id("tree")
-        self.assertEqual(state._map[loc1], obj_type_id1)
-        self.assertEqual(len(state._objects[obj_type_id1]), 1)
-
-        state.remove_object("tree", loc2)
-        self.assertEqual(state._map[loc1], 1)
-        self.assertEqual(len(state._objects[obj_type_id1]), 1)
+    #     state.remove_object("tree", loc2)
+    #     self.assertEqual(state._map[loc1], 1)
+    #     self.assertEqual(len(state._objects[obj_type_id1]), 1)
 
     def testRemoveOneWhenTwoObjects(self):
         state = State(map_size=(5, 5), objects=[])
@@ -179,6 +180,141 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc1], 0)
         self.assertEqual(state._map[loc2], 0)
         self.assertEqual(len(state._objects[obj_type_id1]), 0)
+
+    def testGetObjectsRandom(self):
+        state = State(map_size=(5, 5), objects=[])
+        state.random_place(object_str="tree", count=3)
+        self.assertEqual((state._map == 1).sum(), 3)
+        self.assertEqual(len(state._objects[1]), 3)
+
+        state.random_place(object_str="chest", count=1)
+        self.assertEqual((state._map == 2).sum(), 1)
+        self.assertEqual(len(state._objects[2]), 1)
+
+        arr = state.get_objects_of_type("tree")
+        print(arr[0].loc)
+        print(arr[1].loc)
+        print(arr[2].loc)
+        self.assertEqual(len(arr), 3)
+
+    def testGetObjectsDeterministic(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 4)
+        state.place_object("tree", properties={"loc": loc1})
+        state.place_object("tree", properties={"loc": loc2})
+
+        obj_type_id1 = state.item_encoder.get_id("tree")
+
+        arr = state.get_objects_of_type("tree")
+        self.assertEqual(arr[0].loc, loc1)
+        self.assertEqual(arr[1].loc, loc2)
+        self.assertEqual(len(arr), 2)
+
+    def testGetObjectAt1(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 4)
+        state.place_object("tree", properties={"loc": loc1})
+        state.place_object("tree", properties={"loc": loc2})
+
+        obj1 = state.get_object_at(loc1)
+        self.assertEqual(obj1.type, "tree")
+
+        obj2 = state.get_object_at(loc2)
+        self.assertEqual(obj2.type, "tree")
+
+    def testGetObjectAt2(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 4)
+        state.place_object("tree", properties={"loc": loc1})
+        state.place_object("chest", properties={"loc": loc2})
+
+        obj1 = state.get_object_at(loc1)
+        self.assertEqual(obj1.type, "tree")
+
+        obj2 = state.get_object_at(loc2)
+        self.assertEqual(obj2.type, "chest")
+
+    def testGetObjectAtNone(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 3)
+        state.place_object("tree", properties={"loc": loc1})
+
+        obj1 = state.get_object_at(loc2)
+        self.assertEqual(obj1, None)
+
+    def testGetObjectAtNone2(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        state.remove_object("tree", loc1)
+
+        obj1 = state.get_object_at(loc1)
+        self.assertEqual(obj1, None)
+
+    def testGetObjectAtNone3(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        state.remove_object("tree", loc1)
+        state.place_object("chest", properties={"loc": loc1})
+
+        obj1 = state.get_object_at(loc1)
+        self.assertEqual(obj1.type, "chest")
+
+    def testUpdateObjectLoc(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        state.update_object_loc(loc1, loc2)
+        obj_type_id = state.item_encoder.get_id("tree")
+
+        self.assertEqual(state._map[loc2], obj_type_id)
+        self.assertEqual(state._map[loc1], 0)
+        self.assertEqual(len(state._objects[obj_type_id]), 1)
+
+    def testUpdateObjectLoc2(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (4, 4)
+        state.place_object("tree", properties={"loc": loc1})
+        state.update_object_loc(loc1, loc2)
+        obj_type_id = state.item_encoder.get_id("tree")
+
+        self.assertEqual(state._map[loc2], obj_type_id)
+        self.assertEqual(state._map[loc1], 0)
+        self.assertEqual(len(state._objects[obj_type_id]), 1)
+
+        state.place_object("tree", properties={"loc": loc1})
+        self.assertEqual(state._map[loc1], 1)
+        self.assertEqual(len(state._objects[obj_type_id]), 2)
+    
+    def testUpdateObjectLocCollision(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        loc2 = (3, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        state.place_object("tree", properties={"loc": loc2})
+        res = state.update_object_loc(loc1, loc2)
+        self.assertEqual(res, False)
+        obj_type_id = state.item_encoder.get_id("tree")
+
+        self.assertEqual(state._map[loc2], obj_type_id)
+        self.assertEqual(state._map[loc1], obj_type_id)
+        self.assertEqual(len(state._objects[obj_type_id]), 2)
+
+    def testPlaceObjectCollision(self):
+        state = State(map_size=(5, 5), objects=[])
+        loc1 = (2, 3)
+        state.place_object("tree", properties={"loc": loc1})
+        state.place_object("tree", properties={"loc": loc1})
+        obj_type_id = state.item_encoder.get_id("tree")
+        self.assertEqual(state._map[loc1], 1)
+        self.assertEqual(len(state._objects[obj_type_id]), 1)
 
 
 # class StateTestChangeMap(unittest.TestCase):

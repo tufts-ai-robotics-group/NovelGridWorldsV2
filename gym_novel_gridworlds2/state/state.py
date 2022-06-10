@@ -70,7 +70,7 @@ class State:
         if object_id not in self._objects:
             self._objects[object_id] = []
             
-        print("properties", properties)
+        # print("properties", properties)
         self._map[properties["loc"]] = object_id
         self._objects[object_id].append(ObjectClass(object_type, **properties))
 
@@ -90,7 +90,7 @@ class State:
         picked_indices = np.random.choice(a=all_available_spots.shape[0], size=count, replace=False)
         for index in picked_indices:
             properties = {"loc": tuple(all_available_spots[index])}
-            print(properties)
+            # print(properties)
             self.place_object(object_str, properties=properties)
 
     
@@ -147,14 +147,20 @@ class State:
 
     def update_object_loc(self, old_loc: tuple, new_loc: tuple):
         """
-        Updates the location of an agent.
+        Updates the location of an object.
         """
         # notes: this algorithm updates both the agent state and the state.
 
-        obj = self.get_object_at(old_loc)
-        self._map[old_loc] = self.item_encoder.get_create_id("air")
-        self._map[new_loc] = self.item_encoder.get_create_id(obj.type)
-        obj.loc = new_loc
+        #does this not handle cases where an object is already there?
+
+        if self.get_object_at(new_loc) == None:
+            obj = self.get_object_at(old_loc)
+            self._map[old_loc] = self.item_encoder.get_create_id("air")
+            self._map[new_loc] = self.item_encoder.get_create_id(obj.type)
+            obj.loc = new_loc
+            return True
+        else:
+            return False
 
 
     def reset(self):
