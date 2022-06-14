@@ -72,8 +72,9 @@ class State:
             self._objects[object_id] = []
             
         # print("properties", properties)
-        self._map[properties["loc"]] = object_id
-        self._objects[object_id].append(ObjectClass(object_type, **properties))
+        obj = ObjectClass(object_type, **properties)
+        self._map[properties["loc"]] = obj
+        self._objects[object_id].append(obj)
 
         return True
 
@@ -108,7 +109,7 @@ class State:
             # assert all(i >= j for i, j in zip(loc, [0] * self._map.ndim)), f"Location "
 
             # update the map
-            self._map[loc] = self.item_encoder.get_create_id(AIR_STR)
+            self._map[loc] = None
 
             try:
                 # find the location of the object.
@@ -139,11 +140,7 @@ class State:
         Returns None if it's not found.
         WARNINGL Do not modify the locations
         """
-        obj_type = self._map[loc]
-        for obj in self._objects.get(obj_type) or []:
-            if obj.loc == loc:
-                return obj
-        return None
+        return self._map[loc]
     
 
     def update_object_loc(self, old_loc: tuple, new_loc: tuple):
@@ -156,31 +153,30 @@ class State:
 
         if self.get_object_at(new_loc) == None:
             obj = self.get_object_at(old_loc)
-            self._map[old_loc] = self.item_encoder.get_create_id("air")
-            self._map[new_loc] = self.item_encoder.get_create_id(obj.type)
+            self._map[old_loc] = None
+            self._map[new_loc] = obj
             obj.loc = new_loc
             return True
         else:
             return False
 
-    def get_object_state(self, loc: tuple):
-        """
-        Gets the state of an object at a specific location
-        """
-        obj = self.get_object_at(loc)
-        return obj.state
+    # def get_object_state(self, loc: tuple):
+    #     """
+    #     Gets the state of an object at a specific location
+    #     """
+    #     obj = self.get_object_at(loc)
+    #     return obj.state
 
-    def update_object_state(self, loc: tuple):
-        """
-        Updates state of an object at a specific location
-        If it was a block, it is now floating, and vice versa
-        """
-        obj = self.get_object_at(loc)
-        if obj.state == "block":
-            obj.state = "floating"
-        else:
-            obj.state = "block"
-
+    # def update_object_state(self, loc: tuple):
+    #     """
+    #     Updates state of an object at a specific location
+    #     If it was a block, it is now floating, and vice versa
+    #     """
+    #     obj = self.get_object_at(loc)
+    #     if obj.state == "block":
+    #         obj.state = "floating"
+    #     else:
+    #         obj.state = "block"
 
     def reset(self):
         """
