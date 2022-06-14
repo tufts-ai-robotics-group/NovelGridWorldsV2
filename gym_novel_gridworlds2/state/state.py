@@ -85,7 +85,7 @@ class State:
         
         if there's not enough spots available, all available spots will be filled
         """
-        all_available_spots = np.argwhere(self._map == 0)
+        all_available_spots = np.argwhere(self._map == None)
         if count >= all_available_spots.shape[0]:
             count = all_available_spots.shape[0]
 

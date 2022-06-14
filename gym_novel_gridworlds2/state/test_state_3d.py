@@ -4,6 +4,8 @@ import json
 
 from gym_novel_gridworlds2.state import State
 
+"""
+
 class StateTestPlacement3D(unittest.TestCase):
     
     def testPlaceItem(self):
@@ -29,7 +31,7 @@ class StateTestPlacement3D(unittest.TestCase):
         self.assertEqual(state._map[2, 3, 1], obj_type_id1)
         self.assertEqual(len(state._objects[obj_type_id1]), 1)
         self.assertEqual(len(state._objects[obj_type_id2]), 1)
-    """
+    
     def testPlaceItemOverItem2(self):
         state = State(map_size=(5, 5), objects=[])
         loc = (2, 3)
