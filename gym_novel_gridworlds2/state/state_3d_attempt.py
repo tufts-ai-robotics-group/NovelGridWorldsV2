@@ -38,7 +38,8 @@ class State:
 
         # Initialization of the objects
         self._objects: Mapping[str, List[Object]] = {}
-        self._map = np.zeros(map_size)
+        self._map = np.zeros((map_size[0], map_size[1], 1)) #3D array
+        # self._map = np.zeros(map_size)
 
         # for name, obj in objects.items():
         #     object_id = self.item_encoder.get_create_id(name)
@@ -54,25 +55,55 @@ class State:
     def get_object_id(self, object_name: str):
         return self.item_encoder.get_create_id(object_name)
 
+    def new3DSpot(self, object_id, loc):
+        """
+        At a specified location, expands 3D array to place the new 
+        id there
+        """
+        arr = self._map[loc]
+        np.append(arr, object_id)
+        self._map[loc] = arr
 
     ############################# ALL BLOCKS #############################
     def place_object(self, object_type: str, ObjectClass=Object, properties: dict = {}):
         """
         Places an object onto the map. 
-        Returns true if success, false if there was a block there
+        Returns true if nothing or floating obj there, false if there was a block
         """
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_create_id(object_type)
+        self._objects[object_id] = []
 
-        if self._map[properties["loc"]] != 0: #case where an item is already there
-            return False
+        # if self._map[properties["loc"]] != 0: #case where an item is already there
+        #     return False
 
-        if object_id not in self._objects:
-            self._objects[object_id] = []
+        there = self._map[properties["loc"]]
+
+        if len(there) == 1: #one item, could be block
+            # obj = self._map[properties["loc"][0], properties["loc"][1], 0]
+            obj = self.get_objects_at(properties["loc"])
+            # print(obj)
+            if obj is not None:
+                if obj[0].state == "block": #there is a block here, can't place 
+                    return False
+                else: #there is a floating obj here, can place if also floating obj
+                    if properties["state"] == "floating":
+                        new3DSpot(object_id, properties["loc"])
+                    else:
+                        return False
+            else: #just air, update to object
+                # print("look at me")
+                self._map[properties["loc"][0], properties["loc"][1], 0] = object_id
+        else: #multiple items, has to be floating
+            if object_id not in self._objects:
+                if properties["state"] == "floating":
+                    new3DSpot(object_id, properties["loc"])
+                else:
+                    return False    
             
-        # print("properties", properties)
-        self._map[properties["loc"]] = object_id
-        self._objects[object_id].append(ObjectClass(object_type, **properties))
+        # self._map[properties["loc"]] = object_id
+        # self._objects[object_id].append(ObjectClass(object_type, **properties))
+        self._objects[object_id].append(ObjectClass(object_type, properties["loc"], properties["state"]))
 
         return True
 
@@ -132,17 +163,52 @@ class State:
             return []
 
 
-    def get_object_at(self, loc: tuple):
+    def get_objects_at(self, loc: tuple):
         """
         Gets a specific object at a specific location.
         Returns None if it's not found.
         WARNINGL Do not modify the locations
         """
+        to_return = []
+        print(self._map[loc])
+        for i in range(len(self._map[loc])):
+            print("i:", i)
+            obj_type = self._map[loc[0], loc[1], i]
+            print("type:", obj_type)
+            #error: recognizes obj as none
+            print([self._objects.get(obj_type)])
+            for obj in self._objects.get(obj_type) or []:
+                if obj.loc == loc:
+                    np.append(to_return, obj)
+        if len(to_return) == 0:
+            return None
+        else:
+            return to_return
+
+        """
+        obj_type = self._map[loc][0]
+        for obj in self._objects.get(obj_type) or []:
+            if obj.loc == loc:
+                if len(self._map[loc]) > 1:
+                    #get all the other objects at this location
+                    return [obj]
+                else:
+                    return obj
+        return None
+        """
+    """
+    def get_object_at(self, loc: tuple):
+        
+        Gets a specific object at a specific location.
+        Returns None if it's not found.
+        WARNINGL Do not modify the locations
+        
         obj_type = self._map[loc]
         for obj in self._objects.get(obj_type) or []:
             if obj.loc == loc:
                 return obj
         return None
+    """
     
 
     def update_object_loc(self, old_loc: tuple, new_loc: tuple):
