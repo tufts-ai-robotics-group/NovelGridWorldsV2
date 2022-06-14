@@ -38,7 +38,8 @@ class State:
 
         # Initialization of the objects
         self._objects: Mapping[str, List[Object]] = {}
-        self._map = np.zeros(map_size)
+        self._map = np.empty(map_size, dtype="object")
+
 
         # for name, obj in objects.items():
         #     object_id = self.item_encoder.get_create_id(name)
@@ -64,7 +65,7 @@ class State:
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_create_id(object_type)
 
-        if self._map[properties["loc"]] != 0: #case where an item is already there
+        if self._map[properties["loc"]] is not None: #case where an item is already there
             return False
 
         if object_id not in self._objects:
@@ -184,10 +185,11 @@ class State:
     def reset(self):
         """
         Removes all objects from the list and clears the map/item list
+        TODO not tested
         """
         #remove all objects:
         for index, obj_id in np.ndenumerate(self._map):
-            if obj_id != 0:
+            if obj_id is not None:
                 obj = self.get_object_at(index)
                 print(obj.type, index)
                 self.remove_object(obj.type, index)
