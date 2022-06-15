@@ -30,7 +30,8 @@ class Approach(Action):
         """
         Takes in the start location, either desired type or desired object, and
         distance.
-        Does a dfs and finds an object that is closest to the entity.
+        Does a dfs and returns the direction of the item, and its location.
+        If not found, returns None.
         """
 
         # BFS for a path to the target object
@@ -67,6 +68,8 @@ class Approach(Action):
     ) -> Tuple[bool, str, tuple]:
         """
         Helper function for checking if the action is valid or not.
+        Takes in all action parameters, 
+        Returns if precondition met, direction of the item, and its location
         """
         if target_object is None:
             if target_type is None:
