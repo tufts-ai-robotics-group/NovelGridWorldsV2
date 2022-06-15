@@ -42,8 +42,10 @@ class Move(Action):
         """
         Checks for precondition, then moves the object to the destination.
         """
-        new_loc = tuple(np.add(self.vec, agent_entity.loc))
-        if not self.check_precondition(agent_entity, target_object):
-            raise PreconditionNotMetError(f"Cannot move agent {agent_entity.name} from {agent_entity.loc} to {new_loc}")
-        self.state.update_object_loc(agent_entity.loc, new_loc)
         agent_entity.facing = DIRECTION_TO_FACING[self.direction]
+        new_loc = tuple(np.add(self.vec, agent_entity.loc))
+        if self.check_precondition(agent_entity, target_object):
+            self.state.update_object_loc(agent_entity.loc, new_loc)
+            # raise PreconditionNotMetError(f"Cannot move agent {agent_entity.name} from {agent_entity.loc} to {new_loc}")
+        
+        # agent_entity.facing = DIRECTION_TO_FACING[self.direction]
