@@ -1,6 +1,5 @@
 from typing import List, Optional, Tuple, Mapping
 from copy import deepcopy
-from matplotlib.style import available
 import numpy as np
 import random
 from functools import reduce
