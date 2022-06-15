@@ -11,6 +11,12 @@ from ..utils.item_encoder import SimpleItemEncoder
 
 AIR_STR = "air"
 
+class LocationOutOfBound(IndexError):
+    pass
+
+class LocationOccupied(Exception):
+    pass
+
 class State:
     def __init__(self, map_size: Tuple[int]=None, \
             objects: Mapping[str, object]=None,
@@ -38,7 +44,8 @@ class State:
 
         # Initialization of the objects
         self._objects: Mapping[str, List[Object]] = {}
-        self._map = np.empty(map_size, dtype="object").fill(None)
+        self._map: np.ndarray = np.empty(map_size, dtype="object")
+        self._map.fill(None)
 
 
         # for name, obj in objects.items():
@@ -65,18 +72,28 @@ class State:
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_create_id(object_type)
 
+        # sanity check
+        try:
+            new_loc_obj = self._map[properties["loc"]]
+        except IndexError as e:
+            raise LocationOutOfBound from e
+        
         if self._map[properties["loc"]] is not None: #case where an item is already there
-            return False
+            raise LocationOccupied
 
+        # instanciate object
+        obj = ObjectClass(object_type, **properties)
+
+        # placing object in the map
+        self._map[properties["loc"]] = obj
+
+        # placing object in the list
         if object_id not in self._objects:
             self._objects[object_id] = []
-            
-        # print("properties", properties)
-        obj = ObjectClass(object_type, **properties)
-        self._map[properties["loc"]] = obj
         self._objects[object_id].append(obj)
 
-        return True
+        return obj
+
 
     def random_place(self, object_str, count):
         """

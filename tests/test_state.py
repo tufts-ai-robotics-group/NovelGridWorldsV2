@@ -3,6 +3,7 @@ import numpy as np
 import json
 
 from gym_novel_gridworlds2.state import State
+from gym_novel_gridworlds2.state.state import LocationOccupied
 
 class StateTestPlacement(unittest.TestCase):
     
@@ -19,7 +20,10 @@ class StateTestPlacement(unittest.TestCase):
         state = State(map_size=(5, 5), objects=[])
         loc = (2, 3)
         state.place_object("tree", properties={"loc": loc})
-        state.place_object("tree", properties={"loc": loc})
+        self.assertRaises(
+            LocationOccupied,
+            lambda: state.place_object("tree", properties={"loc": loc})
+        )
         obj_type_id = state.item_encoder.get_id("tree")
         self.assertEqual(state._map[loc].type, "tree")
         self.assertEqual(state._map[loc].loc, loc)
@@ -29,7 +33,10 @@ class StateTestPlacement(unittest.TestCase):
         state = State(map_size=(5, 5), objects=[])
         loc = (2, 3)
         state.place_object("tree", properties={"loc": loc})
-        state.place_object("chest", properties={"loc": loc})
+        self.assertRaises(
+            LocationOccupied,
+            lambda: state.place_object("chest", properties={"loc": loc})
+        )
         obj_type_id_1 = state.item_encoder.get_id("tree")
         obj_type_id_2 = state.item_encoder.get_id("chest")
         self.assertEqual(state._map[loc].type, "tree")
@@ -315,15 +322,6 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc2].type, "tree")
         self.assertEqual(state._map[loc1].type, "tree")
         self.assertEqual(len(state._objects[obj_type_id]), 2)
-
-    def testPlaceObjectCollision(self):
-        state = State(map_size=(5, 5), objects=[])
-        loc1 = (2, 3)
-        state.place_object("tree", properties={"loc": loc1})
-        state.place_object("tree", properties={"loc": loc1})
-        obj_type_id = state.item_encoder.get_id("tree")
-        self.assertEqual(state._map[loc1].type, "tree")
-        self.assertEqual(len(state._objects[obj_type_id]), 1)
 
     # def testGetObjectState(self):
     #     state = State(map_size=(5, 5), objects=[])
