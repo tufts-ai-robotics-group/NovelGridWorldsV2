@@ -18,7 +18,7 @@ class Move(Action):
         self.dynamics = dynamics
         self.state = state
     
-    def check_precondition(self, agent_entity: Entity, _: Object=None):
+    def check_precondition(self, agent_entity: Entity, target_type=None, target_object=None):
         """
         Checks preconditions of the move action: 
         1) The new location must not be out of bounds
@@ -30,7 +30,7 @@ class Move(Action):
             self.state._map[tuple(new_loc)] is None
     
 
-    def do_action(self, agent_entity, target_object=None):
+    def do_action(self, agent_entity, target_type=None, target_object=None):
         """
         Checks for precondition, then moves the object to the destination.
         """
