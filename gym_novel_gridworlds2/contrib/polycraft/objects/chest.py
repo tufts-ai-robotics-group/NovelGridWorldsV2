@@ -9,8 +9,7 @@ class Chest(PolycraftObject):
         self.state = state #two states: block and floating
         self.inventory = inventory
     
-    def acted_upon(self, action_id, action_params):
-        """
-        TODO
-        """
-        return super().acted_upon(action_id, action_params)
+    def acted_upon(self, action_name, agent):
+        if action_name == "break":
+            agent.inventory = Merge(agent.inventory, self.inventory)
+            self.state = "floating"
