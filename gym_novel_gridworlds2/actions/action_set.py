@@ -1,4 +1,4 @@
-from action_set import action 
+from .action import Action 
 
 class ActionSet:
     def __init__(self, actions):

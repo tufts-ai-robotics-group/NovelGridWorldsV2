@@ -195,7 +195,7 @@ class State:
     #     else:
     #         obj.state = "block"
 
-    def reset(self):
+    def clear(self):
         """
         Removes all objects from the list and clears the map/item list
         TODO not tested
