@@ -1,7 +1,7 @@
 from gym_novel_gridworlds2.actions import Action
 
 class Break(Action):
-    def __init__(self, state: State, dynamics, location):
+    def __init__(self, state: State, dynamics):
         self.dynamics = dynamics
         self.state = state
 
@@ -31,9 +31,9 @@ class Break(Action):
         return correctDirection && (target_object.state == "block")
 
     def do_action(self, agent_entity: Entity, target_object: Object):
-        """
-        Given the agent and the target plus corresponding extra arguments,
-        Do the action if the action's precondition is met.
-        Raises error if the action's precondition is not met.
-        """
-        pass
+    	"""
+    	Checks for precondition, then breaks the object
+    	"""
+    	if not self.check_precondition(agent_entity, target_object):
+    		raise PreconditionNotMetError(f"Agent {agent_entity.name} cannot perform break on {target_object.type}.")
+    	self.state.remove_object(target_object.type, target_object.loc)

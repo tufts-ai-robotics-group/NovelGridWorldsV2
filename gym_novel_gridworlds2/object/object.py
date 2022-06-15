@@ -7,7 +7,7 @@ class Object:
     def __str__(self):
         return f"<{self.__class__.__name__} at {str(self.loc)}>"
 
-    def acted_upon(self, action_id, action_params):
+    def acted_upon(self, action_name, agent):
         #there could be a broader "interact" action
         pass
 
