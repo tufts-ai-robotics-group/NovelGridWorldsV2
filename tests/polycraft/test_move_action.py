@@ -20,18 +20,22 @@ class MoveTests(unittest.TestCase):
         """
         Tests moving in four directions
         """
-        obj = self.state.place_object("agent", Entity, properties={"loc": (1, 2)})
+        obj: Entity = self.state.place_object("agent", Entity, properties={"loc": (1, 2)})
         self.actions["up"].do_action(obj)
         self.assertEqual(obj.loc, (0, 2))
+        self.assertEqual(obj.facing, "NORTH")
 
         self.actions["left"].do_action(obj)
         self.assertEqual(obj.loc, (0, 1))
+        self.assertEqual(obj.facing, "WEST")
 
         self.actions["down"].do_action(obj)
         self.assertEqual(obj.loc, (1, 1))
+        self.assertEqual(obj.facing, "SOUTH")
 
         self.actions["right"].do_action(obj)
         self.assertEqual(obj.loc, (1, 2))
+        self.assertEqual(obj.facing, "EAST")
 
         self.state.clear()
 

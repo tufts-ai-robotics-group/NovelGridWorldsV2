@@ -4,8 +4,16 @@ from gym_novel_gridworlds2.object.entity import Entity, Object
 
 import numpy as np
 
+DIRECTION_TO_FACING = {
+    "UP": "NORTH",
+    "DOWN": "SOUTH",
+    "LEFT": "WEST",
+    "RIGHT": "EAST"
+}
+
 class Move(Action):
     def __init__(self, state: State, dynamics=None, direction="UP"):
+        self.direction = direction
         if direction == "UP":
             self.vec = (-1, 0)
         elif direction == "DOWN":
@@ -38,3 +46,4 @@ class Move(Action):
         if not self.check_precondition(agent_entity, target_object):
             raise PreconditionNotMetError(f"Cannot move agent {agent_entity.name} from {agent_entity.loc} to {new_loc}")
         self.state.update_object_loc(agent_entity.loc, new_loc)
+        agent_entity.facing = DIRECTION_TO_FACING[self.direction]
