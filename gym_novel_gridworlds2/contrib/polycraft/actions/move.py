@@ -28,8 +28,9 @@ class Move(Action):
     
     def check_precondition(self, agent_entity: Entity, target_type=None, target_object=None):
         """
-        Checks precondition of the move action, which checks if the 
-        new location is out of bound or not.
+        Checks preconditions of the move action: 
+        1) The new location must not be out of bounds
+        2) The new location must not be occupied by another object
         """
         new_loc = np.add(self.vec, agent_entity.loc)
         return (new_loc >= 0).all() and \
