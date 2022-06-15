@@ -38,7 +38,7 @@ class State:
 
         # Initialization of the objects
         self._objects: Mapping[str, List[Object]] = {}
-        self._map = np.empty(map_size, dtype="object")
+        self._map = np.empty(map_size, dtype="object").fill(None)
 
 
         # for name, obj in objects.items():
