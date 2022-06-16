@@ -25,7 +25,6 @@ class Craft(Action):
         for item in self.inputs:
             temp = list(item.keys())
             if temp[0] in agent_entity.inventory:
-                    #print(self.recipe[self.itemToCraft]["input"][i])
                     if self.recipe[self.itemToCraft]["input"][count][temp[0]] > agent_entity.inventory[temp[0]]: 
                         return False #not enough of the item 
             else:
