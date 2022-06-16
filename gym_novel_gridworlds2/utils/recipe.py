@@ -1,17 +1,22 @@
 import json
 
 class Recipe:
-    def __init__(self, fileName):
-        #takes in a fileName for a json and then parses it for the recipes
+    def __init__(self, json=None):
         #these recipes have an input of ingredients and yield and output
         #ex. 'pogo_stick': {'input': {'stick': 4, 'plank': 2, 'rubber': 1}, 'output': {'pogo_stick': 1}
+        self.recipes = json
+
+    def useFile(self, fileName):
+        #takes in a fileName for a json and then parses it for the recipes
         f = open(fileName)
         self.recipes = json.load(f)
+
 
     def getRecipes(self):
         return self.recipes
 
     def addRecipes(self, fileName):
+        #adds recipes to the current ones using a file
         f = open(fileName)
         addedRecipes = json.load(f)
         self.recipes.update(addedRecipes)
@@ -33,9 +38,3 @@ class Recipe:
                 print(item[arda[0]])
 
         #TODO: determine action format and convert the recipes to that
-
-#add modifiers 
-
-if __name__ == "__main__":
-    lovethelows = Recipe("oldrecipes.json")
-    lovethelows.recipes_to_actions()

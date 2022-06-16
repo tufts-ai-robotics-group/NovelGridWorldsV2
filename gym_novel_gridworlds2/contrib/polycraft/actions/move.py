@@ -41,6 +41,7 @@ class Move(Action):
     def do_action(self, agent_entity, target_type=None, target_object=None):
         """
         Checks for precondition, then moves the object to the destination.
+        This action should never fail - only the moving part of it should
         """
         agent_entity.facing = DIRECTION_TO_FACING[self.direction]
         new_loc = tuple(np.add(self.vec, agent_entity.loc))
