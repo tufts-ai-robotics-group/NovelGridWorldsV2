@@ -34,14 +34,21 @@ class Move(Action):
         """
 
         new_loc = np.add(self.vec, agent_entity.loc)
-        obj = self.state.get_object_at(new_loc)
-        if obj is not None:
-            print(self.state._map)
-            print(obj)
-            if obj.state == "block":
-                return False
-        return (new_loc >= 0).all() and \
-            (new_loc < self.state._map.shape).all()
+        # check for bounds
+        if (new_loc >= 0).all() and \
+            (new_loc < self.state._map.shape).all():
+            # if it's inside the bounds
+            obj = self.state.get_object_at(tuple(new_loc))
+            if obj is not None:
+                # check if object is floating or not.
+                # if floating, still able to pass thru
+                # if block, cannot pass thru
+                if not hasattr(obj, "state") or obj.state == "block":
+                    return False
+            return True
+        else:
+            # out of the bound
+            return False
     
 
     def do_action(self, agent_entity, target_type=None, target_object=None):
