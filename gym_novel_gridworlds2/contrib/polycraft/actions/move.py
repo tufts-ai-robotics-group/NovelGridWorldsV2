@@ -30,12 +30,18 @@ class Move(Action):
         """
         Checks preconditions of the move action: 
         1) The new location must not be out of bounds
-        2) The new location must not be occupied by another object
+        2) The new location must not be occupied by another non-floating object
         """
+
         new_loc = np.add(self.vec, agent_entity.loc)
+        obj = self.state.get_object_at(new_loc)
+        if obj is not None:
+            print(self.state._map)
+            print(obj)
+            if obj.state == "block":
+                return False
         return (new_loc >= 0).all() and \
-            (new_loc < self.state._map.shape).all() and \
-            self.state._map[tuple(new_loc)] is None
+            (new_loc < self.state._map.shape).all()
     
 
     def do_action(self, agent_entity, target_type=None, target_object=None):
@@ -46,6 +52,13 @@ class Move(Action):
         agent_entity.facing = DIRECTION_TO_FACING[self.direction]
         new_loc = tuple(np.add(self.vec, agent_entity.loc))
         if self.check_precondition(agent_entity, target_object):
+            obj = self.state.get_object_at(new_loc)
+            if obj is not None: #update agent inventory
+                if obj.type in agent_entity.inventory:
+                    agent_entity.inventory[obj.type] = agent_entity.inventory[obj.type] + 1
+                else:
+                    agent_entity.inventory[obj.type] = 1
+                self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
             # raise PreconditionNotMetError(f"Cannot move agent {agent_entity.name} from {agent_entity.loc} to {new_loc}")
         
