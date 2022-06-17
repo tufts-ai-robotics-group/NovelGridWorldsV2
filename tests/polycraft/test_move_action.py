@@ -4,7 +4,9 @@ from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.actions.move import Move
+from gym_novel_gridworlds2.contrib.polycraft.actions.break_item import Break
 from gym_novel_gridworlds2.object.entity import Entity
+from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import PolycraftObject
 
 class MoveTests(unittest.TestCase):
     def setUp(self):
@@ -13,7 +15,8 @@ class MoveTests(unittest.TestCase):
             "up": Move(direction="UP", state=self.state),
             "down": Move(direction="DOWN", state=self.state),
             "left": Move(direction="LEFT", state=self.state),
-            "right": Move(direction="RIGHT", state=self.state)
+            "right": Move(direction="RIGHT", state=self.state),
+            "break": Break(state=self.state)
         }
     
     def testMove(self):
@@ -104,5 +107,15 @@ class MoveTests(unittest.TestCase):
         self.actions["down"].do_action(agent)
         self.assertEqual(agent.loc, (3, 2))
         
+    def testPickupMove(self):
+        agent = self.state.place_object("agent", Entity, properties={"loc": (1, 2)})
+        agent.inventory = {}
+        obj = self.state.place_object("tree", PolycraftObject, properties={"loc": (0, 2)})
+        self.actions["up"].do_action(agent, obj)
+        self.actions["break"].do_action(agent, obj)
+        hbn = self.state.get_object_at((0,2))
+        self.assertEqual(hbn.state, "floating")
+        self.actions["up"].do_action(agent, obj)
+        self.assertEqual(agent.inventory["tree"], 1)
 
         
