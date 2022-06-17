@@ -5,11 +5,11 @@ class Door(PolycraftObject):
         self.type = typee
         self.loc = loc #update such that we update the 3D arr and add the item to it
         self.state = state #two states: block and floating
-        self.isOpen = False
+        self.canWalkOver = False
     
     def acted_upon(self, action_name, agent):
-        if action_name = "use_door":
-            if self.isOpen == True:
-                self.isOpen = False
+        if action_name == "use_door":
+            if self.canWalkOver == True:
+                self.canWalkOver = False
             else:
-                self.isOpen = True
+                self.canWalkOver = True
