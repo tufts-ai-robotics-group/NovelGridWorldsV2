@@ -23,6 +23,16 @@ class CraftTests(unittest.TestCase):
                 ]   
             }
         }
+        plank_recipe = {
+            "plank": {
+                "input": [
+                    {"tree": 1}
+                ],
+                "output": [
+                    {"plank": 4}
+                ]   
+            }
+        }
         pogostick_recipe = {
             "pogo_stick": {
                 "input": [
@@ -42,6 +52,7 @@ class CraftTests(unittest.TestCase):
             "right": Move(direction="RIGHT", state=self.state),
             "break": Break(state=self.state),
             "craft_stick": Craft(state=self.state, recipe=stick_recipe),
+            "craft_plank": Craft(state=self.state, recipe=plank_recipe),
             "craft_pogo_stick": Craft(state=self.state, recipe=pogostick_recipe)
         }
     
@@ -93,16 +104,21 @@ class CraftTests(unittest.TestCase):
 
     def testBreakAndCraft(self):
         agent = self.state.place_object("agent", Entity, properties={"loc": (1, 2)})
-        agent.inventory = {"plank" : 4, "rubber": 1}
+        agent.inventory = {"rubber": 1}
         obj = self.state.place_object("tree", PolycraftObject, properties={"loc": (0, 2)})
         self.actions["break"].do_action(agent, obj)
-
         hbn = self.state.get_object_at((0,2))
         self.assertEqual(hbn.state, "floating")
+        self.actions["up"].do_action(agent, obj)
+
+        self.actions["craft_plank"].do_action(agent)
+        self.assertEqual(agent.inventory["plank"], 4)
 
         self.actions["craft_stick"].do_action(agent)
-        self.actions["craft_pogo_stick"].do_action(agent)
+        self.assertEqual(agent.inventory["stick"], 4)
+        self.assertEqual(agent.inventory["plank"], 2)
 
+        self.actions["craft_pogo_stick"].do_action(agent)
         self.assertEqual(agent.inventory["pogo_stick"], 1)
         self.assertEqual(agent.inventory["stick"], 0)
         self.assertEqual(agent.inventory["plank"], 0)
