@@ -201,13 +201,18 @@ class State:
         if self.get_object_at(new_loc) == None:
             obj = self.get_object_at(old_loc)
             self._map[old_loc].remove_object(obj)
-            
+
             self._ensure_not_none(new_loc)
             self._map[new_loc].place_object(obj)
             obj.loc = new_loc
             return True
         else:
             return False
+    
+    def is_full(self, loc: tuple):
+        if self._map[loc] is None:
+            return (False, False)
+        return  self._map[loc].is_full()
 
     # def get_object_state(self, loc: tuple):
     #     """
