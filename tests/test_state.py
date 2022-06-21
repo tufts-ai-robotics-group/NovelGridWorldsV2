@@ -53,7 +53,7 @@ class StateTestPlacement(unittest.TestCase):
         """
         state = State(map_size=(5, 5), objects=[])
         loc = (2, 3)
-        state.place_object("tree", properties={"loc": loc})
+        state.place_object("tree", properties={"loc": loc, "state": "floating"})
         state.place_object("trader", Entity, properties={"loc": loc})
         obj_entities = state._map[loc].get_obj_entities()
         obj_type_id_1 = state.item_encoder.get_id("tree")
@@ -65,6 +65,24 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc].get_obj_entities()[1][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id_1]), 1)
         self.assertEqual(len(state._objects[obj_type_id_2]), 1)
+
+    def testPlaceEntityOverBlockItem(self):
+        """
+        Should now throw an error
+        TODO
+        """
+        state = State(map_size=(5, 5), objects=[])
+        loc = (2, 3)
+        state.place_object("tree", properties={"loc": loc})
+        self.assertRaises(
+            LocationOccupied,
+            lambda: state.place_object("tree", Entity, properties={"loc": loc})
+        )
+        obj_type_id = state.item_encoder.get_id("tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
+        self.assertEqual(len(state._objects[obj_type_id]), 1)
+
 
     def testPlaceTwoItems(self):
         state = State(map_size=(5, 5), objects=[])
