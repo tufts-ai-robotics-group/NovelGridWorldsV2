@@ -11,11 +11,12 @@ class Use(Action):
         self.state = state
 
 
-    def check_precondition(self, agent_entity: Entity, target_object: Door=None, **kwargs):
+    def check_precondition(self, agent_entity: Entity, target_object: Object=None, **kwargs):
         """
-        Checks preconditions of the UseDoor action:
+        Checks preconditions of the Use action:
         1) The agent is facing the object
-        2) The object is a door
+        2) The object is a door or chest
+        3) The object is in block state
         """
         #convert the entity facing direction to coords
         direction = (0,0) 
@@ -35,15 +36,17 @@ class Use(Action):
         if temp_loc[0] == target_object.loc[0] and temp_loc[1] == target_object.loc[1]:
         	correctDirection = True
 
-        return correctDirection
+        validTypes = ["door", "chest", "safe"]
 
-    def do_action(self, agent_entity: Entity, target_object: Door):
+        return correctDirection and (target_object.type in validTypes) and (target_object.state == "block")
+
+    def do_action(self, agent_entity: Entity, target_object: Object):
     	"""
     	Checks for precondition, then breaks the object
     	"""
     	if not self.check_precondition(agent_entity, target_object):
     		raise PreconditionNotMetError(f"Agent {agent_entity.name} cannot perform break on {target_object.type}.")
-    	target_object.acted_upon("use_door", agent_entity)
+    	target_object.acted_upon("use", agent_entity)
     	# target_object.state = "floating"
     	# self.state.remove_object(target_object.type, target_object.loc)
 

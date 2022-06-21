@@ -8,7 +8,7 @@ class Door(PolycraftObject):
         self.canWalkOver = False
     
     def acted_upon(self, action_name, agent):
-        if action_name == "use_door":
+        if action_name == "use":
             if self.canWalkOver == True:
                 self.canWalkOver = False
             else:
