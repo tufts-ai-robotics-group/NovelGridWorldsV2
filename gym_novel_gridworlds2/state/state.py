@@ -236,8 +236,10 @@ class State:
         for index, obj_id in np.ndenumerate(self._map):
             if obj_id is not None:
                 obj = self.get_object_at(index)
-                print(obj.type, index)
-                self.remove_object(obj.type, index)
+                print(obj)
+                # print(obj.type, index)
+                if obj is not None:
+                    self.remove_object(obj.type, index)
         #resets item encoder
         self.item_encoder = SimpleItemEncoder()
         #old version:
