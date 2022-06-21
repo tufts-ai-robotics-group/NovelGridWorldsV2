@@ -1,0 +1,1 @@
+from .agent import GenericAgent as Agent

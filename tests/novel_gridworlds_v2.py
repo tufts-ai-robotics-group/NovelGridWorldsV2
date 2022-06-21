@@ -1,8 +1,7 @@
 import gym
 from gym.utils.play import play
 import pygame
-import gym_examples
-
+import numpy as np
 
 env = gym.make('NovelGridWorlds-v2')
 
@@ -13,7 +12,13 @@ observation, info = env.reset(return_info=True)
 
 for _ in range(1000):
     for i in n_agents:
-        observation, reward, done, info = env.step(env.action_space[i].sample())
+        # randomly sample
+        action_picked = env.action_space[i].sample()
+
+        # all zeros unless it's the picked agent
+        actions = np.zeros(n_agents)
+        actions[i] = action_picked
+        observation, reward, done, info = env.step(actions)
         env.render()
 
         if done:

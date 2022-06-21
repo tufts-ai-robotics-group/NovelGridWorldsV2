@@ -6,10 +6,12 @@ class PreconditionNotMetError(Exception):
 
 
 class Action:
-    def __init__(self, state: State, dynamics, **kwargs):
+    def __init__(self, state: State, dynamics=None, **kwargs):
         """
         Initialize action with a reference to the state, the dynamics, and respective actions.
         """
+        self.dynamics = dynamics
+        self.state = state
         pass
 
     def check_precondition(self, agent_entity: Entity, target_type: str=None, target_object: Object=None, **kwargs):
