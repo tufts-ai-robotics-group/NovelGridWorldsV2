@@ -1,7 +1,7 @@
 from .object import Object
 
 class Entity(Object):
-    def __init__(self, name="", loc=(0, 0), type=None, inventory={}, facing="NORTH"):
+    def __init__(self, type=None, loc=(0, 0), state="block", inventory={}, name="", facing="NORTH", **kwargs):
 
         # populate
         self.name = name
@@ -9,6 +9,7 @@ class Entity(Object):
         self.inventory = inventory
         self.type = type
         self.facing = facing
+        self.state = state
 
     
     def __str__(self):

@@ -1,6 +1,7 @@
 import unittest
 import numpy as np 
 import json
+from gym_novel_gridworlds2.object.entity import Entity
 
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.state.state import LocationOccupied
@@ -12,8 +13,9 @@ class StateTestPlacement(unittest.TestCase):
         loc = (2, 3)
         state.place_object("tree", properties={"loc": loc})
         obj_type_id = state.item_encoder.get_id("tree")
-        self.assertEqual(state._map[loc].type, "tree")
-        self.assertEqual(state._map[loc].loc, loc)
+        print(state._map[loc].get_obj_entities())
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
     
     def testPlaceItemOverItem(self):
@@ -25,8 +27,8 @@ class StateTestPlacement(unittest.TestCase):
             lambda: state.place_object("tree", properties={"loc": loc})
         )
         obj_type_id = state.item_encoder.get_id("tree")
-        self.assertEqual(state._map[loc].type, "tree")
-        self.assertEqual(state._map[loc].loc, loc)
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
     
     def testPlaceItemOverItem2(self):
@@ -39,10 +41,30 @@ class StateTestPlacement(unittest.TestCase):
         )
         obj_type_id_1 = state.item_encoder.get_id("tree")
         obj_type_id_2 = state.item_encoder.get_id("chest")
-        self.assertEqual(state._map[loc].type, "tree")
-        self.assertEqual(state._map[loc].loc, loc)
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id_1]), 1)
         self.assertTrue(obj_type_id_2 not in state._objects)
+    
+    def testPlaceEntityOverItem(self):
+        """
+        Should now throw an error
+        TODO
+        """
+        state = State(map_size=(5, 5), objects=[])
+        loc = (2, 3)
+        state.place_object("tree", properties={"loc": loc})
+        state.place_object("trader", Entity, properties={"loc": loc})
+        obj_entities = state._map[loc].get_obj_entities()
+        obj_type_id_1 = state.item_encoder.get_id("tree")
+        obj_type_id_2 = state.item_encoder.get_id("trader")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
+        print(state._map[loc].get_obj_entities()[1][0])
+        self.assertEqual(state._map[loc].get_obj_entities()[1][0].type, "trader")
+        self.assertEqual(state._map[loc].get_obj_entities()[1][0].loc, loc)
+        self.assertEqual(len(state._objects[obj_type_id_1]), 1)
+        self.assertEqual(len(state._objects[obj_type_id_2]), 1)
 
     def testPlaceTwoItems(self):
         state = State(map_size=(5, 5), objects=[])
@@ -52,13 +74,13 @@ class StateTestPlacement(unittest.TestCase):
         state.place_object("chest", properties={"loc": loc2})
 
         obj_type_id1 = state.item_encoder.get_id("tree")
-        self.assertEqual(state._map[loc].type, "tree")
-        self.assertEqual(state._map[loc].loc, loc)
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id1]), 1)
 
         obj_type_id2 = state.item_encoder.get_id("chest")
-        self.assertEqual(state._map[loc2].type, "chest")
-        self.assertEqual(state._map[loc2].loc, loc2)
+        self.assertEqual(state._map[loc2].get_obj_entities()[0][0].type, "chest")
+        self.assertEqual(state._map[loc2].get_obj_entities()[0][0].loc, loc2)
         self.assertEqual(len(state._objects[obj_type_id2]), 1)
 
     def testrandomPlaceItem(self):
@@ -124,12 +146,12 @@ class StateTestPlacement(unittest.TestCase):
         loc = (2, 3)
         state.place_object("tree", properties={"loc": loc})
         obj_type_id = state.item_encoder.get_id("tree")
-        self.assertEqual(state._map[loc].type, "tree")
-        self.assertEqual(state._map[loc].loc, loc)
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
 
         state.remove_object("tree", loc)
-        self.assertEqual(state._map[loc], None)
+        self.assertEqual(len(state._map[loc].get_obj_entities()[0]), 0)
         self.assertEqual(len(state._objects[obj_type_id]), 0)
 
     def testRemoveIllegalObject(self):
@@ -137,13 +159,13 @@ class StateTestPlacement(unittest.TestCase):
         loc = (2, 3)
         state.place_object("tree", properties={"loc": loc})
         obj_type_id = state.item_encoder.get_id("tree")
-        self.assertEqual(state._map[loc].type, "tree")
-        self.assertEqual(state._map[loc].loc, loc)
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
 
         state.remove_object("car", loc)
-        self.assertEqual(state._map[loc].type, "tree")
-        self.assertEqual(state._map[loc].loc, loc)
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
 
     # should fail:
@@ -154,11 +176,11 @@ class StateTestPlacement(unittest.TestCase):
     #     state.place_object("tree", properties={"loc": loc1})
 
     #     obj_type_id1 = state.item_encoder.get_id("tree")
-    #     self.assertEqual(state._map[loc1], obj_type_id1)
+    #     self.assertEqual(state._map[loc1].get_obj_entities()[0][0], obj_type_id1)
     #     self.assertEqual(len(state._objects[obj_type_id1]), 1)
 
     #     state.remove_object("tree", loc2)
-    #     self.assertEqual(state._map[loc1], 1)
+    #     self.assertEqual(state._map[loc1].get_obj_entities()[0][0], 1)
     #     self.assertEqual(len(state._objects[obj_type_id1]), 1)
 
     def testRemoveOneWhenTwoObjects(self):
@@ -172,9 +194,9 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(len(state._objects[obj_type_id1]), 2)
 
         state.remove_object("tree", loc2)
-        self.assertEqual(state._map[loc1].type, "tree")
-        self.assertEqual(state._map[loc1].loc, loc1)
-        self.assertEqual(state._map[loc2], None)
+        self.assertEqual(state._map[loc1].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc1].get_obj_entities()[0][0].loc, loc1)
+        self.assertEqual(len(state._map[loc2].get_obj_entities()[0]), 0)
         self.assertEqual(len(state._objects[obj_type_id1]), 1)
 
     def testRemoveTwoObjects(self):
@@ -188,13 +210,13 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(len(state._objects[obj_type_id1]), 2)
 
         state.remove_object("tree", loc2)
-        self.assertEqual(state._map[loc1].type, "tree")
-        self.assertEqual(state._map[loc1].loc, loc1)
-        self.assertEqual(state._map[loc2], None)
+        self.assertEqual(state._map[loc1].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc1].get_obj_entities()[0][0].loc, loc1)
+        self.assertEqual(len(state._map[loc2].get_obj_entities()[0]), 0)
         self.assertEqual(len(state._objects[obj_type_id1]), 1)
 
         state.remove_object("tree", loc1)
-        self.assertEqual(state._map[loc1], None)
+        self.assertEqual(len(state._map[loc1].get_obj_entities()[0]), 0)
         self.assertEqual(len(state._objects[obj_type_id1]), 0)
 
     def testGetObjectsRandom(self):
@@ -289,8 +311,8 @@ class StateTestPlacement(unittest.TestCase):
         state.update_object_loc(loc1, loc2)
         obj_type_id = state.item_encoder.get_id("tree")
 
-        self.assertEqual(state._map[loc2].type, "tree")
-        self.assertEqual(state._map[loc1], None)
+        self.assertEqual(state._map[loc2].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(len(state._map[loc1].get_obj_entities()[0]), 0)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
 
     def testUpdateObjectLoc2(self):
@@ -301,12 +323,12 @@ class StateTestPlacement(unittest.TestCase):
         state.update_object_loc(loc1, loc2)
         obj_type_id = state.item_encoder.get_id("tree")
 
-        self.assertEqual(state._map[loc2].type, "tree")
-        self.assertEqual(state._map[loc1], None)
+        self.assertEqual(state._map[loc2].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(len(state._map[loc1].get_obj_entities()[0]), 0)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
 
         state.place_object("tree", properties={"loc": loc1})
-        self.assertEqual(state._map[loc1].type, "tree")
+        self.assertEqual(state._map[loc1].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(len(state._objects[obj_type_id]), 2)
     
     def testUpdateObjectLocCollision(self):
@@ -319,8 +341,8 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(res, False)
         obj_type_id = state.item_encoder.get_id("tree")
 
-        self.assertEqual(state._map[loc2].type, "tree")
-        self.assertEqual(state._map[loc1].type, "tree")
+        self.assertEqual(state._map[loc2].get_obj_entities()[0][0].type, "tree")
+        self.assertEqual(state._map[loc1].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(len(state._objects[obj_type_id]), 2)
 
     # def testGetObjectState(self):
