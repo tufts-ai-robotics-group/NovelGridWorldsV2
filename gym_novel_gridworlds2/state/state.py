@@ -7,6 +7,7 @@ import json
 
 from ..object import Object, Entity
 from ..utils.item_encoder import SimpleItemEncoder
+from .cell import Cell
 
 AIR_STR = "air"
 
@@ -60,6 +61,11 @@ class State:
 
     def get_object_id(self, object_name: str):
         return self.item_encoder.get_create_id(object_name)
+    
+
+    def _ensure_not_none(self, loc: tuple):
+        if self._map[loc] is None:
+            self._map[loc] = Cell()
 
 
     ############################# ALL BLOCKS #############################
@@ -77,14 +83,18 @@ class State:
         except IndexError as e:
             raise LocationOutOfBound from e
         
-        if self._map[properties["loc"]] is not None: #case where an item is already there
-            raise LocationOccupied
+        # ensure there's a cell at this location
+        self._ensure_not_none(properties["loc"])
+        cell: Cell = self._map[properties["loc"]]
 
         # instanciate object
         obj = ObjectClass(object_type, **properties)
 
         # placing object in the map
-        self._map[properties["loc"]] = obj
+        success = cell.place_object(obj)
+        if not success:
+            # map is full, skip the next step and raise an exception.
+            raise LocationOccupied
 
         # placing object in the list
         if object_id not in self._objects:
@@ -123,19 +133,23 @@ class State:
             # assert object_name in self._objects, f"Object {object_name} unknown."
             # won't work as object_name isnt directly comparable to objs
             # assert all(i >= j for i, j in zip(loc, [0] * self._map.ndim)), f"Location "
-
-            # update the map
-            self._map[loc] = None
+            obj = None  
 
             try:
                 # find the location of the object.
                 obj_index = next(i for i, v in enumerate(self._objects[object_id]) if v.loc == loc)
+                obj = self._objects[object_id][obj_index]
 
                 # remove the object from the list but without freeing.
                 self._objects[object_id].pop(obj_index)
+
             except StopIteration:
                 raise ValueError("Object " + object_name + \
                     " at " + str(loc) + " is not found in the list")
+            
+            # update the map
+            cell: Cell = self._map[loc]
+            cell.remove_object(obj)
     
 
     def get_objects_of_type(self, object_type: str):
@@ -150,14 +164,31 @@ class State:
             return []
 
 
+    def get_objects_at(self, loc: tuple):
+        """
+        Gets all objects at a specific location.
+        """
+        return self._map[loc].get_obj_entities()
+    
     def get_object_at(self, loc: tuple):
         """
-        Gets a specific object at a specific location.
+        LEGACY API:
+        Gets an object at a specific location.
+            If there are multiple objects, the first non-entity 
+            object will be returned.
         Returns None if it's not found.
-        WARNINGL Do not modify the locations
+
+        WARNING: Do not modify the locations
         """
-        return self._map[loc]
-    
+        if self._map[loc] is None:
+            return None
+        objs = self._map[loc].get_obj_entities()
+        if len(objs[0]) > 0:
+            return objs[0][0]
+        elif len(objs[1]) > 0:
+            return objs[1][0]
+        return None
+
 
     def update_object_loc(self, old_loc: tuple, new_loc: tuple):
         """
@@ -169,8 +200,10 @@ class State:
 
         if self.get_object_at(new_loc) == None:
             obj = self.get_object_at(old_loc)
-            self._map[old_loc] = None
-            self._map[new_loc] = obj
+            self._map[old_loc].remove_object(obj)
+            
+            self._ensure_not_none(new_loc)
+            self._map[new_loc].place_object(obj)
             obj.loc = new_loc
             return True
         else:

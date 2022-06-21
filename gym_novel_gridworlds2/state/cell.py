@@ -1,4 +1,6 @@
 from typing import List, Tuple
+
+from numpy import object_
 from gym_novel_gridworlds2.object import Object, Entity
 
 class Cell:
@@ -14,36 +16,47 @@ class Cell:
         self._entity_limit = entity_limit
         self._item_encoder = item_encoder
     
-    def place_object(self, obj: Object) -> bool:
-        """
-        If the number of objects is within the limit, place the object and return true.
-        Otherwise, return false and do nothing.
-        """
-        if len(self._objects) < self._obj_limit:
-            self._objects.append(obj)
-            return True
-        else:
-            return False
-    
-    def place_entity(self, entity: Entity) -> bool:
+    def place_object(self, obj: Entity) -> bool:
         """
         If the number of entities is within the limit, place the object and return true.
         Otherwise, return false and do nothing.
         """
-        if len(self._entities) < self._entity_limit:
-            self._objects.append(entity)
+        is_full = self.is_full()
+        if isinstance(obj, Entity) and not is_full[1]:
+            self._entities.append(obj)
             return True
-        else:
-            return False
+        elif isinstance(obj, Object) and not is_full[0]:
+            self._objects.append(obj)
+            return True
+        return False
     
+
+    def is_full(self):
+        """
+        returns whether the cell is full or not.
+        (enti)
+        """
+        return (len(self._objects) >= self._obj_limit, len(self._entities) >= self._entity_limit)
+
+
     def remove_object(self, obj: Object):
-        self._objects.remove(obj)
-    
-    def remove_entity(self, entity: Entity):
-        self._entities.remove(entity)
+        """
+        Removes an object from the cell.
+        raises Value Error if the item does not exist
+        """
+        if isinstance(obj, Entity):
+            self._entities.remove(obj)
+        else:
+            self._objects.remove(obj)
+
     
     def clear(self):
+        """
+        clears everything in the cell.
+        """
         self._objects = []
+        self._entities = []
+
 
     def get_obj_entities(self) -> Tuple[List[Object], List[Entity]]:
         return (self._objects, self._entities)
