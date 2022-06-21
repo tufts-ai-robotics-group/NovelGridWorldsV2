@@ -45,19 +45,24 @@ class Approach(Action):
         while not q.empty():
             curr_loc = q.get()
             visited[curr_loc] = True
+
             # search if it's at the distance from the agent
             for direction, vec in search_directions.items():
                 new_loc = tuple(curr_loc + vec * distance)
-                if self._in_bound(new_loc) and self.state._map[new_loc] is not None:
-                    if desired_type is not None and self.state._map[new_loc].type == desired_type:
+
+                # compare the item in the block with the desired type
+                if self._in_bound(new_loc) and self.state.contains_block(new_loc):
+                    obj = self.state.get_object_at(new_loc)
+                    if desired_type is not None and obj.type == desired_type:
                         return direction, curr_loc
-                    elif desired_obj is not None and self.state._map[new_loc] == desired_obj:
+                    elif desired_obj is not None and obj == desired_obj:
                         return direction, curr_loc
 
             # add its adjacent blocks to the queue
             for _, vec in search_directions.items():
                 new_loc = tuple(np.add(curr_loc, vec))
-                if self._in_bound(new_loc) and not visited[new_loc] and self.state._map[new_loc] is None:
+                if self._in_bound(new_loc) and not visited[new_loc] and not self.state.is_full(new_loc)[1]:
+                    print(new_loc)
                     q.put(new_loc)
 
         # Not found, return None

@@ -212,7 +212,12 @@ class State:
     def is_full(self, loc: tuple):
         if self._map[loc] is None:
             return (False, False)
-        return  self._map[loc].is_full()
+        return self._map[loc].is_full()
+    
+    def contains_block(self, loc: tuple):
+        if self._map[loc] is None:
+            return False
+        return self._map[loc]._contains_block
 
     # def get_object_state(self, loc: tuple):
     #     """

@@ -15,6 +15,7 @@ class Cell:
         self._obj_limit = obj_limit
         self._entity_limit = entity_limit
         self._item_encoder = item_encoder
+        self._contains_block = False
     
     def place_object(self, obj: Entity) -> bool:
         """
@@ -27,6 +28,8 @@ class Cell:
             return True
         elif isinstance(obj, Object) and not is_full[0]:
             self._objects.append(obj)
+            if obj.state == "block":
+                self._contains_block = True
             return True
         return False
     
@@ -36,6 +39,8 @@ class Cell:
         returns whether the cell is full or not.
         (enti)
         """
+        if self._contains_block:
+            return (True, True)
         return (len(self._objects) >= self._obj_limit, len(self._entities) >= self._entity_limit)
 
 
@@ -48,8 +53,9 @@ class Cell:
             self._entities.remove(obj)
         else:
             self._objects.remove(obj)
+            if obj.state == "block":
+                self._contains_block = False
 
-    
     def clear(self):
         """
         clears everything in the cell.
