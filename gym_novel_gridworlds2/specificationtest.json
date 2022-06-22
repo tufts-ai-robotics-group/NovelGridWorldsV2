@@ -1,30 +1,87 @@
 {
-	"recipes": {
-		"stick": {
-                "input": [
-                    {"plank": 2}
-                ],
-                "output": [
-                    {"stick": 4}
-                ]   
-            },
-	    "plank": {
-	            "input": [
-	                {"tree": 1}
-	            ],
-	            "output": [
-	                {"plank": 4}
-	            ]   
-	        },
-	    "pogo_stick": {
-                "input": [
-                    {"stick": 4},
-                    {"plank": 2},
-                    {"rubber": 1}
-                ],
-                "output": [
-                    {"pogo_stick": 1}
-                ]
-            }
-        }
+  "actions": {
+    "approach_tree": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break",
+      "target_type": "tree"
+    },
+    "move_left": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
+      "direction": "LEFT"
+    },
+    "move_up": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
+      "direction": "UP"
+    },
+    "move_right": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
+      "direction": "RIGHT"
+    },
+    "move_down": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
+      "direction": "DOWN"
+    }
+  },
+  "action_sets": {
+    "main": [
+      "approach_tree",
+      "move_left",
+      "move_up",
+      "move_right",
+      "move_down"
+    ],
+    "trader": [
+      "move_left",
+      "move_up",
+      "move_right",
+      "move_down"
+    ]
+  },
+  "object_types": {
+    "door": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+  },
+  "entities": {
+    "main_1": {
+      "agent": "gym_novel_gridworlds2.contrib.polycraft.agents.RandomAgent",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "main",
+      "inventory": [
+        "door",
+        "THINGS_IN_object_types"
+      ]
+    },
+    "trader_joe": {
+      "agent": "gym_novel_gridworlds2.contrib.polycraft.actions.RandomAgent",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "trader",
+      "inventory": []
+    }
+  },
+  "recipes": {
+    "stick": {
+      "input": [
+        {"plank": 2}
+      ],
+      "output": [
+        {"stick": 4}
+      ]
+    },
+    "plank": {
+      "input": [
+        {"tree": 1}
+      ],
+      "output": [
+        {"plank": 4}
+      ]
+    },
+    "pogo_stick": {
+      "input": [
+        {"stick": 4},
+        {"plank": 2},
+        {"rubber": 1}
+      ],
+      "output": [
+        {"pogo_stick": 1}
+      ]
+    }
+  }
 }
