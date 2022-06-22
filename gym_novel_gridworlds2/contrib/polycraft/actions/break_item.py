@@ -13,7 +13,7 @@ class Break(Action):
     def check_precondition(self, agent_entity: Entity, target_object: Object=None, **kwargs):
         """
         Checks preconditions of the break action:
-        1) The agent is facing the object to break
+        1) The agent is facing an object
         2) The object is breakable 
         """
         #convert the entity facing direction to coords
@@ -29,19 +29,23 @@ class Break(Action):
 
         correctDirection = False
 
-        temp_loc = np.add(agent_entity.loc, direction)
-        print(temp_loc)
-        if temp_loc[0] == target_object.loc[0] and temp_loc[1] == target_object.loc[1]:
+        self.temp_loc = tuple(np.add(agent_entity.loc, direction))
+        objs = self.state.get_objects_at(self.temp_loc)
+        if len(objs[0]) == 1:
             correctDirection = True
+        # print(temp_loc)
+        # if temp_loc[0] == target_object.loc[0] and temp_loc[1] == target_object.loc[1]:
+        #     correctDirection = True
 
-        return correctDirection and (target_object.state == "block")
+        return correctDirection and (objs[0][0].state == "block")
 
-    def do_action(self, agent_entity: Entity, target_object: Object):
+    def do_action(self, agent_entity: Entity, target_object: Object=None):
         """
         Checks for precondition, then breaks the object
         """
         if not self.check_precondition(agent_entity, target_object):
             raise PreconditionNotMetError(f"Agent {agent_entity.name} cannot perform break on {target_object.type}.")
-        target_object.acted_upon("break", agent_entity)
+        objs = self.state.get_objects_at(self.temp_loc)
+        objs[0][0].acted_upon("break", agent_entity)
         # target_object.state = "floating"
         # self.state.remove_object(target_object.type, target_object.loc)

@@ -32,5 +32,3 @@ class ActionSpaceTests(unittest.TestCase):
 		self.action_space.removeActionSpace(0)
 		res = self.action_space.sample()
 		print(res)
-
-		assertEqual(True, False)

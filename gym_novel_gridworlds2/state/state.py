@@ -168,7 +168,10 @@ class State:
         """
         Gets all objects at a specific location.
         """
-        return self._map[loc].get_obj_entities()
+        if self._map[loc] is None:
+            return ([], [])
+        else:
+            return self._map[loc].get_obj_entities()
     
     def get_object_at(self, loc: tuple):
         """

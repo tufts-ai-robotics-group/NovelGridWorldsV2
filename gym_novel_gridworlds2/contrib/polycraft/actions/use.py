@@ -21,32 +21,33 @@ class Use(Action):
         #convert the entity facing direction to coords
         direction = (0,0) 
         if agent_entity.facing == "NORTH":
-        	direction = (-1,0)
+            direction = (-1,0)
         elif agent_entity.facing == "SOUTH":
-        	direction = (1,0)
+            direction = (1,0)
         elif agent_entity.facing == "EAST":
-        	direction = (0,1)
+            direction = (0,1)
         else: 
-        	direction = (0,-1)
+            direction = (0,-1)
 
         correctDirection = False
 
-        temp_loc = np.add(agent_entity.loc, direction)
-        print(temp_loc)
-        if temp_loc[0] == target_object.loc[0] and temp_loc[1] == target_object.loc[1]:
-        	correctDirection = True
+        self.temp_loc = tuple(np.add(agent_entity.loc, direction))
+        objs = self.state.get_objects_at(self.temp_loc)
+        if len(objs[0]) == 1:
+            correctDirection = True
 
         validTypes = ["door", "chest", "safe"]
 
-        return correctDirection and (target_object.type in validTypes) and (target_object.state == "block")
+        return correctDirection and (objs[0][0].type in validTypes) and (objs[0][0].state == "block")
 
     def do_action(self, agent_entity: Entity, target_object: Object):
-    	"""
-    	Checks for precondition, then breaks the object
-    	"""
-    	if not self.check_precondition(agent_entity, target_object):
-    		raise PreconditionNotMetError(f"Agent {agent_entity.name} cannot perform break on {target_object.type}.")
-    	target_object.acted_upon("use", agent_entity)
-    	# target_object.state = "floating"
-    	# self.state.remove_object(target_object.type, target_object.loc)
+        """
+        Checks for precondition, then breaks the object
+        """
+        if not self.check_precondition(agent_entity, target_object):
+            raise PreconditionNotMetError(f"Agent {agent_entity.name} cannot perform break on {target_object.type}.")
+        objs = self.state.get_objects_at(self.temp_loc)
+        objs[0][0].acted_upon("use", agent_entity)
+        # target_object.state = "floating"
+        # self.state.remove_object(target_object.type, target_object.loc)
 
