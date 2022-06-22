@@ -1,7 +1,9 @@
 import unittest
 import numpy as np 
+import gym
 
 from gym_novel_gridworlds2.utils import Recipe
+# from gym_novel_gridworlds2.envs.gym_novel_gridworlds2 import NovelGridWorldEnv
 
 class RecipeTests(unittest.TestCase):
 

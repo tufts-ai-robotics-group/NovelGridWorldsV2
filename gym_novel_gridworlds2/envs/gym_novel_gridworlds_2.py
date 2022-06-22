@@ -7,18 +7,21 @@ from gym_novel_gridworlds2.agents import Agent
 import numpy as np
 
 from ..state.state import State
+import json
 
 class NovelGridWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
-    def __init__(self, agents: List[Agent], actions: list):
+    def __init__(self, agents: List[Agent], actions: list, fileName=None: str):
+
         self.agents = agents
         self.actions = actions
         self.action_space = spaces.MultiDiscrete([len(actions)] * len(agents))
-        self.recipes = [] # TODO @Arvind
+        f = open(fileName)
+        self.specs = json.load(f)
+        self.recipes = self.specs["recipes"]
         self.state = State()
         self.goal_item_to_craft = ""
-        #note: other parameters could be passed in here, like the names of JSON folders
 
     def step(self, action_n):
         obs      = self.state
