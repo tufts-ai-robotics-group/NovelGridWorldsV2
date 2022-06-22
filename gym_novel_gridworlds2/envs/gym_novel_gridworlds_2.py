@@ -4,6 +4,7 @@ from gym import spaces
 import pygame
 
 from gym_novel_gridworlds2.agents import Agent
+from gym_novel_gridworlds2.utils.MultiAgentActionSpace import MultiAgentActionSpace
 import numpy as np
 
 from ..state.state import State
@@ -14,9 +15,11 @@ class NovelGridWorldEnv(gym.Env):
 
     def __init__(self, agents: List[Agent], actions: list, fileName=None: str):
 
+        #actions should be a list containing lists for every agents action spaces
         self.agents = agents
         self.actions = actions
-        self.action_space = spaces.MultiDiscrete([len(actions)] * len(agents))
+        #self.action_space = spaces.MultiDiscrete([len(actions)] * len(agents))
+        self.action_space = MultiAgentActionSpace([spaces.Discrete(len(actions)) for _ in agents])
         f = open(fileName)
         self.specs = json.load(f)
         self.recipes = self.specs["recipes"]
