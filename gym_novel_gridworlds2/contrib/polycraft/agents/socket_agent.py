@@ -1,6 +1,6 @@
-from agents.agent import GenericAgent
+from agents.agent import Agent
 
-class SocketAgent(GenericAgent):
+class SocketAgent(Agent):
     def __init__(self):
         pass
 

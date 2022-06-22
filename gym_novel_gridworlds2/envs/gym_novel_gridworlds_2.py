@@ -12,8 +12,7 @@ import json
 class NovelGridWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
-    def __init__(self, agents: List[Agent], actions: list, fileName=None: str):
-
+    def __init__(self, agents: List[Agent], actions: list, fileName: str = None):
         self.agents = agents
         self.actions = actions
         self.action_space = spaces.MultiDiscrete([len(actions)] * len(agents))
