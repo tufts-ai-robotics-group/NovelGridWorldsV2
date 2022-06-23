@@ -2,8 +2,13 @@ import json
 import importlib
 from typing import Type
 
+from gym_novel_gridworlds2.actions.action_set import ActionSet
+
 from ..agents import Agent
 from ..object.entity import Entity
+
+class ParseError(Exception):
+    pass
 
 class ConfigParser:
     def parse_json(self, json_file_name):
@@ -12,7 +17,7 @@ class ConfigParser:
             self.json_content = json.load(f)
 
         # recipe
-        recipe = self.parse_recipe(self.json_content['recipe'])
+        self.recipe = self.parse_recipe(self.json_content['recipe'])
 
         # actions
         self.actions = {}
@@ -25,10 +30,11 @@ class ConfigParser:
             self.action_sets[key] = self.create_action_set(action_list)
         
         # entities
-        entities = {}
+        self.entities = {}
         for key, entity_info in self.json_content['entities'].items():
-            entities[key] = 
-
+            self.entities[key] = self.create_entity(entity_info)
+        
+        return (self.recipe, self.actions, self.action_sets, self.entities)
 
     
     def parse_recipe(self, recipe_dict):
@@ -56,20 +62,28 @@ class ConfigParser:
             action_list.append(self.actions[action_str])
         return action_list
 
-    def create_entity(self, action_sets, entity_info):
+    def create_entity(self, name: str, entity_info: dict):
         AgentClass: Type[Agent] = importlib.import_module(entity_info['agent'])
         EntityClass: Type[Entity] = importlib.import_module(entity_info['entity'])
-        info = {**entity_info}
+
+        # action set
+        try:
+            action_set_name = entity_info['action_set']
+            action_set: ActionSet = self.action_sets[action_set_name]
+        except KeyError as e:
+            raise ParseError(f'Action Set {action_set_name} not found in config') from e
+        
+        # entity object
+        info = entity_info.copy()
         del info['agent']
         del info['entity']
         del info['action_set']
-
-        inventory = {}
-        for name, count in entity_info['inventory'].items():
-            inventory[name] = []
-            for _ in range(count):
-                inventory[name].append(self.create_object(name, ))
-
-        info['inventory'] = inventory
-
         entity_obj = EntityClass(**info)
+
+        # agent object
+        agent_obj = AgentClass(name=name, action_space=action_set.get_actionset())
+        return {
+            "action_set": action_set,
+            "agent": agent_obj,
+            "entity": entity_obj
+        }
