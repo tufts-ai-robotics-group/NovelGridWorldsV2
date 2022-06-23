@@ -8,6 +8,7 @@ from gym_novel_gridworlds2.contrib.polycraft.actions.break_item import Break
 from gym_novel_gridworlds2.contrib.polycraft.actions.craft import Craft
 from gym_novel_gridworlds2.object.entity import Entity
 from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import PolycraftObject
+from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
 
 class CraftTests(unittest.TestCase):
@@ -50,10 +51,12 @@ class CraftTests(unittest.TestCase):
             "right": Move(direction="RIGHT", state=self.state),
             "break": Break(state=self.state)
         }
-        items = list(recipe_dict["recipes"].keys())
-        for i in range(len(items)):
-            craftStr = "craft_" + items[i]
-            self.actions[craftStr] = Craft(state=self.state, recipe=recipe_dict["recipes"][items[i]])
+        parser = ConfigParser()
+        self.actions.update(parser.parse_json(self.state, "specificationtest.json"))
+        # items = list(recipe_dict["recipes"].keys())
+        # for i in range(len(items)):
+        #     craftStr = "craft_" + items[i]
+        #     self.actions[craftStr] = Craft(state=self.state, recipe=recipe_dict["recipes"][items[i]])
         """End section"""
     
     def testCraftStick(self):
