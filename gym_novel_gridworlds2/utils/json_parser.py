@@ -2,25 +2,32 @@ import json
 import importlib
 from typing import Type
 
-from gym_novel_gridworlds2.actions.action_set import ActionSet
+from ..actions.action_set import ActionSet
 
 from ..agents import Agent
 from ..object.entity import Entity
+
+
+from ..contrib.polycraft.actions.craft import Craft
+from ..state import State
+
 
 class ParseError(Exception):
     pass
 
 class ConfigParser:
-    def parse_json(self, json_file_name):
+    def parse_json(self, state: State, json_file_name):
+        self.state = state
         self.json_content = None
         with open(json_file_name, "r") as f:
             self.json_content = json.load(f)
 
+        self.actions = {}
+
         # recipe
-        self.recipe = self.parse_recipe(self.json_content['recipe'])
+        self.parse_recipe(self.json_content['recipes'])
 
         # actions
-        self.actions = {}
         for key, action_info in self.json_content['actions'].items():
             self.actions[key] = self.create_action(action_info)
         
@@ -38,7 +45,11 @@ class ConfigParser:
 
     
     def parse_recipe(self, recipe_dict):
-        pass
+        items = list(recipe_dict.keys())
+        for i in range(len(items)):
+            craftStr = "craft_" + items[i]
+            self.actions[craftStr] = Craft(state=self.state, recipe=recipe_dict[items[i]])
+
 
     def create_object(self, obj_infos, obj_name):
         if type(obj_info) == str:
