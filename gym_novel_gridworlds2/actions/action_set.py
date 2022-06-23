@@ -16,3 +16,6 @@ class ActionSet:
 
     def add_action(self, index):
         pass
+
+    def get_actionset(self):
+        return Discrete(len(self.actions))

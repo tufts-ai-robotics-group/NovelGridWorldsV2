@@ -4,8 +4,11 @@ from gym import spaces
 import pygame
 
 from gym_novel_gridworlds2.agents import Agent
+from gym_novel_gridworlds2.state.dynamic import Dynamic
 from gym_novel_gridworlds2.utils.MultiAgentActionSpace import MultiAgentActionSpace
 import numpy as np
+
+from ..utils.json_parser import ConfigParser
 
 from ..state.state import State
 import json
@@ -13,14 +16,10 @@ import json
 class NovelGridWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
-    def __init__(self, agents: List[Agent], actions: list, fileName: str = None):
-        self.agents = agents
-        self.actions = actions
-        #self.action_space = spaces.MultiDiscrete([len(actions)] * len(agents))
-        self.action_space = MultiAgentActionSpace([spaces.Discrete(len(actions)) for _ in agents])
-        f = open(fileName)
-        self.specs = json.load(f)
-        self.recipes = self.specs["recipes"]
+    def __init__(self, state: State, dynamic: Dynamic):
+        #
+        
+        self.action_space = self.dynamic.action_space
         self.state = State()
         self.goal_item_to_craft = ""
 
@@ -46,4 +45,3 @@ class NovelGridWorldEnv(gym.Env):
         if self.window is not None:
             pygame.display.quit()
             pygame.quit()
-
