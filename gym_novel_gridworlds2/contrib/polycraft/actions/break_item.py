@@ -33,9 +33,13 @@ class Break(Action):
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[0]) == 1:
             correctDirection = True
+            if objs[0][0].type == "bedrock":
+                return False
         # print(temp_loc)
         # if temp_loc[0] == target_object.loc[0] and temp_loc[1] == target_object.loc[1]:
         #     correctDirection = True
+
+        
 
         return correctDirection and (objs[0][0].state == "block")
 
