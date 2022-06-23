@@ -13,48 +13,48 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import Polycr
 class CraftTests(unittest.TestCase):
     def setUp(self):
         self.state = State(map_size=(5, 8), objects=[])
-        stick_recipe = {
+        recipe_dict = {
+        "recipes": {
             "stick": {
-                "input": [
-                    {"plank": 2}
-                ],
-                "output": [
-                    {"stick": 4}
-                ]   
-            }
-        }
-        plank_recipe = {
+              "input": [
+                {"plank": 2}
+              ],
+              "output": [
+                {"stick": 4}
+              ]
+            },
             "plank": {
-                "input": [
-                    {"tree": 1}
-                ],
-                "output": [
-                    {"plank": 4}
-                ]   
-            }
-        }
-        pogostick_recipe = {
+              "input": [
+                {"tree": 1}
+              ],
+              "output": [
+                {"plank": 4}
+              ]
+            },
             "pogo_stick": {
-                "input": [
-                    {"stick": 4},
-                    {"plank": 2},
-                    {"rubber": 1}
-                ],
-                "output": [
-                    {"pogo_stick": 1}
-                ]
+              "input": [
+                {"stick": 4},
+                {"plank": 2},
+                {"rubber": 1}
+              ],
+              "output": [
+                {"pogo_stick": 1}
+              ]
             }
-        }
+        }}
+        """How to parse the recipe dict and convert it to actions"""
         self.actions = {
             "up": Move(direction="UP", state=self.state),
             "down": Move(direction="DOWN", state=self.state),
             "left": Move(direction="LEFT", state=self.state),
             "right": Move(direction="RIGHT", state=self.state),
-            "break": Break(state=self.state),
-            "craft_stick": Craft(state=self.state, recipe=stick_recipe),
-            "craft_plank": Craft(state=self.state, recipe=plank_recipe),
-            "craft_pogo_stick": Craft(state=self.state, recipe=pogostick_recipe)
+            "break": Break(state=self.state)
         }
+        items = list(recipe_dict["recipes"].keys())
+        for i in range(len(items)):
+            craftStr = "craft_" + items[i]
+            self.actions[craftStr] = Craft(state=self.state, recipe=recipe_dict["recipes"][items[i]])
+        """End section"""
     
     def testCraftStick(self):
         agent = self.state.place_object("agent", Entity, properties={"loc": (1, 2)})
