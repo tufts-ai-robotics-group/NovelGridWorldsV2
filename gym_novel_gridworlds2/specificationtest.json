@@ -44,10 +44,10 @@
       "agent": "gym_novel_gridworlds2.contrib.polycraft.agents.RandomAgent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
-      "inventory": [
-        "door",
-        "THINGS_IN_object_types"
-      ]
+      "inventory": {
+        "door": 1,
+        "THINGS_IN_object_types": 2
+      }
     },
     "trader_joe": {
       "agent": "gym_novel_gridworlds2.contrib.polycraft.actions.RandomAgent",
