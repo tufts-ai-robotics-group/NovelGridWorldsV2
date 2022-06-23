@@ -121,6 +121,21 @@ class State:
             # print(properties)
             self.place_object(object_str, properties=properties)
 
+    def init_border(self):
+        """
+        Initializes a bedrock border surrounding the edges of the map
+        """
+        for i in range(self.initial_info["map_size"][0]):
+            for j in range(self.initial_info["map_size"][1]):
+                if i == 0 or j == 0:
+                    print(i, j)
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                elif i == self.initial_info["map_size"][0] - 1:
+                    print(i, j)
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                elif j == self.initial_info["map_size"][1] - 1:
+                    print(i, j)
+                    self.place_object("bedrock", properties={"loc": (i, j)})
     
     def remove_object(self, object_name: str, loc: tuple):
         """

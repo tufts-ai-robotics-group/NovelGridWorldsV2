@@ -363,6 +363,44 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc1].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(len(state._objects[obj_type_id]), 2)
 
+    def testInitBorder(self):
+        state = State(map_size=(5, 5), objects=[])
+        state.init_border()
+
+        self.assertEqual(state._map[(0, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 3)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(0, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(1, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(2, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(3, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 0)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(4, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 3)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(1, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(2, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(3, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(1, 3)], None)
+        self.assertEqual(state._map[(2, 3)], None)
+        self.assertEqual(state._map[(3, 3)], None)
+        self.assertEqual(state._map[(1, 2)], None)
+        self.assertEqual(state._map[(2, 2)], None)
+        self.assertEqual(state._map[(3, 2)], None)
+        self.assertEqual(state._map[(1, 1)], None)
+        self.assertEqual(state._map[(2, 1)], None)
+        self.assertEqual(state._map[(3, 1)], None)
+
+
+
     # def testGetObjectState(self):
     #     state = State(map_size=(5, 5), objects=[])
     #     loc1 = (2, 3)
