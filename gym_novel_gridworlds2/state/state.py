@@ -76,18 +76,21 @@ class State:
         """
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_create_id(object_type)
+        new_loc = tuple(properties["loc"])
 
         # sanity check
         try:
-            new_loc_obj = self._map[properties["loc"]]
+            new_loc_obj = self._map[new_loc]
         except IndexError as e:
             raise LocationOutOfBound from e
         
         # ensure there's a cell at this location
-        self._ensure_not_none(properties["loc"])
-        cell: Cell = self._map[properties["loc"]]
+        self._ensure_not_none(new_loc)
+        cell: Cell = self._map[new_loc]
 
         # instanciate object
+        if 'type' in properties:
+            del properties['type']
         obj = ObjectClass(object_type, **properties)
 
         # placing object in the map

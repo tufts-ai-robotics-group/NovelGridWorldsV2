@@ -5,7 +5,7 @@ from gym_novel_gridworlds2.actions.action import Action
 from ..actions.action_set import ActionSet
 
 class Agent:
-    def __init__(self, name: str, action_space: Space, ob_space: Space):
+    def __init__(self, name: str, action_space: Space, ob_space: Space=None):
         self.name = name
         self.action_space = action_space
         self.ob_space = ob_space

@@ -15,9 +15,10 @@ search_directions = {
 }
 
 class Approach(Action):
-    def __init__(self, state: State, dynamics=None):
+    def __init__(self, state: State, dynamics=None, target_type: str = None):
         self.dynamics = dynamics
         self.state = state
+        self.target_type = target_type
     
     def _in_bound(self, coord: tuple):
         shape = self.state._map.shape
