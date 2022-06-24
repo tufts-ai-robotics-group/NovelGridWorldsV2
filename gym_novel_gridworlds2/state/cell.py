@@ -3,6 +3,9 @@ from typing import List, Tuple
 from numpy import object_
 from gym_novel_gridworlds2.object import Object, Entity
 
+class CellFull(Exception):
+    pass
+
 class Cell:
     """
     Cell class, representing a grid box of the grid world
@@ -15,31 +18,39 @@ class Cell:
         self._obj_limit = obj_limit
         self._entity_limit = entity_limit
         self._item_encoder = item_encoder
-        self._contains_block = False
     
     def place_object(self, obj: Entity) -> bool:
         """
         If the number of entities is within the limit, place the object and return true.
-        Otherwise, return false and do nothing.
+        Otherwise, return raise an error
         """
         is_full = self.is_full()
+        print(is_full)
         if isinstance(obj, Entity) and not is_full[1]:
             self._entities.append(obj)
             return True
         elif isinstance(obj, Object) and not is_full[0]:
             self._objects.append(obj)
-            if obj.state == "block":
-                self._contains_block = True
             return True
-        return False
+        raise CellFull
     
+    def _contains_block(self):
+        """
+        checks if the object contained in the cell is a block
+        TODO: assert???
+        """
+        if len(self._objects) != 1:
+            return False
+        else:
+            return self._objects[0].state == "block"
+        
 
     def is_full(self):
         """
         returns whether the cell is full or not.
         (enti)
         """
-        if self._contains_block:
+        if self._contains_block():
             return (True, True)
         return (len(self._objects) >= self._obj_limit, len(self._entities) >= self._entity_limit)
 
@@ -53,8 +64,6 @@ class Cell:
             self._entities.remove(obj)
         else:
             self._objects.remove(obj)
-            if obj.state == "block":
-                self._contains_block = False
 
     def clear(self):
         """

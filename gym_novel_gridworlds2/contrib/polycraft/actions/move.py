@@ -59,13 +59,15 @@ class Move(Action):
         agent_entity.facing = DIRECTION_TO_FACING[self.direction]
         new_loc = tuple(np.add(self.vec, agent_entity.loc))
         if self.check_precondition(agent_entity, target_object):
-            obj = self.state.get_object_at(new_loc)
-            if obj is not None: #update agent inventory
-                if obj.type in agent_entity.inventory:
-                    agent_entity.inventory[obj.type] += 1
-                else:
-                    agent_entity.inventory[obj.type] = 1
-                self.state.remove_object(obj.type, new_loc)
+            # multiple objects handling
+            objs = self.state.get_objects_at(new_loc)
+            if len(objs[0]) != 0:
+                for obj in objs[0]:
+                    if obj.type in agent_entity.inventory:
+                        agent_entity.inventory[obj.type] += 1
+                    else:
+                        agent_entity.inventory[obj.type] = 1
+                    self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
             # raise PreconditionNotMetError(f"Cannot move agent {agent_entity.name} from {agent_entity.loc} to {new_loc}")
         
