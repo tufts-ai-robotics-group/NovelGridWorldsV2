@@ -11,11 +11,7 @@ from .cell import Cell
 
 AIR_STR = "air"
 
-class LocationOutOfBound(IndexError):
-    pass
-
-class LocationOccupied(Exception):
-    pass
+from .exceptions import LocationOccupied, LocationOutOfBound
 
 class State:
     def __init__(self, map_size: Tuple[int]=None, \

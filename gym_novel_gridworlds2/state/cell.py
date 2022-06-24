@@ -1,10 +1,9 @@
 from typing import List, Tuple
 
 from numpy import object_
-from gym_novel_gridworlds2.object import Object, Entity
+from ..object import Object, Entity
+from .exceptions import LocationOccupied
 
-class CellFull(Exception):
-    pass
 
 class Cell:
     """
@@ -31,7 +30,7 @@ class Cell:
         elif isinstance(obj, Object) and not is_full[0]:
             self._objects.append(obj)
             return True
-        raise CellFull
+        raise LocationOccupied
     
     def _contains_block(self):
         """
