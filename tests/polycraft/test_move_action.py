@@ -117,5 +117,6 @@ class MoveTests(unittest.TestCase):
         self.assertEqual(hbn.state, "floating")
         self.actions["up"].do_action(agent, obj)
         self.assertEqual(agent.inventory["tree"], 1)
+        self.actions["down"].do_action(agent, obj)
 
         

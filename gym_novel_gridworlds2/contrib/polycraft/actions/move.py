@@ -62,7 +62,7 @@ class Move(Action):
             obj = self.state.get_object_at(new_loc)
             if obj is not None: #update agent inventory
                 if obj.type in agent_entity.inventory:
-                    agent_entity.inventory[obj.type] = agent_entity.inventory[obj.type] + 1
+                    agent_entity.inventory[obj.type] += 1
                 else:
                     agent_entity.inventory[obj.type] = 1
                 self.state.remove_object(obj.type, new_loc)

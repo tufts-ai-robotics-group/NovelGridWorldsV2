@@ -44,11 +44,14 @@ class ConfigParser:
         return (self.recipe, self.actions, self.action_sets, self.entities)
 
     
-    def parse_recipe(self, recipe_dict):
+    def parse_recipe(self, state: State, recipe_dict):
+        self.state = state
+        self.actions = {}
         items = list(recipe_dict.keys())
         for i in range(len(items)):
             craftStr = "craft_" + items[i]
             self.actions[craftStr] = Craft(state=self.state, recipe=recipe_dict[items[i]])
+            return self.actions
 
 
     def create_object(self, obj_infos, obj_name):

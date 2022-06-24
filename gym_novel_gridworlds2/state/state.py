@@ -104,7 +104,7 @@ class State:
         return obj
 
 
-    def random_place(self, object_str, count):
+    def random_place(self, object_str, count, ObjectClass=Object):
         """
         TODO: ObjectClass
         Randomly place the object in the map
@@ -119,7 +119,7 @@ class State:
         for index in picked_indices:
             properties = {"loc": tuple(all_available_spots[index])}
             # print(properties)
-            self.place_object(object_str, properties=properties)
+            self.place_object(object_str, ObjectClass, properties=properties)
 
     def init_border(self):
         """

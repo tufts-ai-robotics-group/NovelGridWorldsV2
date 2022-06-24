@@ -23,7 +23,7 @@ class BreakTests(unittest.TestCase):
     def testBreak(self):
         agent = self.state.place_object("agent", Entity, properties={"loc": (1, 2)})
         obj = self.state.place_object("tree", PolycraftObject, properties={"loc": (0, 2)})
-        self.actions["break"].do_action(agent, obj)
+        self.actions["break"].do_action(agent)
 
         hbn = self.state.get_object_at((0,2))
         self.assertEqual(hbn.state, "floating")
@@ -85,6 +85,14 @@ class BreakTests(unittest.TestCase):
 
         hbn = self.state.get_object_at((0,2))
         self.assertEqual(hbn.state, "floating")
+
+        self.state.clear()
+
+    def testBreakBedrock(self):
+        agent = self.state.place_object("agent", Entity, properties={"loc": (1, 2)})
+        obj = self.state.place_object("bedrock", PolycraftObject, properties={"loc": (0, 2)})
+        
+        self.assertRaises(PreconditionNotMetError, lambda: self.actions["break"].do_action(agent, obj))
 
         self.state.clear()
 
