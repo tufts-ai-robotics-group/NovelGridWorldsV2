@@ -211,6 +211,8 @@ class State:
     def update_object_loc(self, old_loc: tuple, new_loc: tuple):
         """
         Updates the location of an object.
+        #TODO: fix; maybe this should move the OBJECT at the location
+        while an update_entity_loc should move the ENTITY at the location
         """
         # notes: this algorithm updates both the agent state and the state.
 

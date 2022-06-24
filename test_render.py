@@ -60,15 +60,21 @@ class TestRender():
         self.state.random_place("tree", 3, PolycraftObject)
         self.state.random_place("rubber", 1, PolycraftObject)
 
-    def getSymbol(self, obj):
+    def getSymbol(self, obj, state):
         if obj == "tree":
-            return 'T'
+            if state == "block":
+                return 'T'
+            else:
+                return 't'
         elif obj == "air":
             return ' '
         elif obj == "bedrock":
             return 'X'
         elif obj == "rubber":
-            return 'R'
+            if state == "block":
+                return 'R'
+            else:
+                return 'r'
         elif obj == "agent":
             return 'A'
         else:
@@ -80,9 +86,9 @@ class TestRender():
             for j in range(self.state.initial_info["map_size"][1]):
                 obj = self.state.get_objects_at((i,j))
                 if len(obj[0]) != 0:
-                    res[i][j] = self.getSymbol(obj[0][0].type)
+                    res[i][j] = self.getSymbol(obj[0][0].type, obj[0][0].state)
                 elif len(obj[1]) != 0:
-                    res[i][j] = self.getSymbol(obj[1][0].type)
+                    res[i][j] = self.getSymbol(obj[1][0].type, obj[1][0].state)
                 else:
                     res[i][j] = ' '
         print(res)
