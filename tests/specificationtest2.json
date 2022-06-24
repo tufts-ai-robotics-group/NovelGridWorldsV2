@@ -1,7 +1,7 @@
 {
   "actions": {
     "approach_tree": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break",
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Approach",
       "target_type": "tree"
     },
     "move_left": {
@@ -52,7 +52,7 @@
   },
   "entities": {
     "main_1": {
-      "agent": "gym_novel_gridworlds2.contrib.polycraft.agents.RandomAgent",
+      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
       "type": "main_agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
@@ -63,7 +63,7 @@
       "loc": [0, 2]
     },
     "trader_joe": {
-      "agent": "gym_novel_gridworlds2.contrib.polycraft.actions.RandomAgent",
+      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
       "type": "trader",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "trader",

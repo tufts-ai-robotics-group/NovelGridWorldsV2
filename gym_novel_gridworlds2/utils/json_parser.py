@@ -38,12 +38,16 @@ class ConfigParser:
         json_content = None
         with open(json_file_name, "r") as f:
             json_content = json.load(f, strict=False)
-            print(json.dumps(json_content))
         
         # state
         self.state = State(
             map_size=tuple(json_content['map_size']),
         )
+
+        # actions
+        self.actions = {}
+        for key, action_info in json_content['actions'].items():
+            self.actions[key] = self.create_action(action_info)
 
         # object types
         self.parse_object_types(json_content['object_types'])
@@ -54,11 +58,6 @@ class ConfigParser:
 
         # recipe
         self.parse_recipe(json_content['recipes'])
-
-        # actions
-        self.actions = {}
-        for key, action_info in json_content['actions'].items():
-            self.actions[key] = self.create_action(action_info)
         
         # action sets
         self.action_sets = {}
@@ -66,12 +65,14 @@ class ConfigParser:
             self.action_sets[key] = self.create_action_set(action_list)
         
         # entities
-        self.entities: Mapping[str, Entity] = {}
+        self.entities: Mapping[str, dict] = {}
         for key, entity_info in json_content['entities'].items():
-            self.entities[key] = self.create_entity(entity_info)
-            self.state.place_object()
+            self.entities[key] = self.create_place_entity(
+                name=key,
+                entity_info=entity_info
+            )
         
-        action_space = MultiAgentActionSpace([e for e in self.entities])
+        action_space = MultiAgentActionSpace([e['action_set'].get_action_space() for name, e in self.entities.items()])
         
         # TODO: separate out recipes?
         dynamic = Dynamic(
@@ -124,14 +125,19 @@ class ConfigParser:
     def create_action(self, action_info):
         ActionModule = import_module(action_info['module'])
         del action_info['module']
-        action = ActionModule(**action_info)
+        try:
+            action = ActionModule(state=self.state, **action_info)
+        except TypeError as e:
+            raise ParseError(
+                f"Module {ActionModule.__name__} initialization error: " + \
+                str(e))
         return action
 
     def create_action_set(self, action_str_list):
         action_list = []
         for action_str in action_str_list:
             action_list.append(self.actions[action_str])
-        return action_list
+        return ActionSet(action_list)
 
     def create_place_entity(self, name: str, entity_info: dict):
         AgentClass: Type[Agent] = import_module(entity_info['agent'])
@@ -152,7 +158,7 @@ class ConfigParser:
         entity_obj = self.state.place_object(entity_info['type'], EntityClass, entity_info)
 
         # agent object
-        agent_obj = AgentClass(name=name, action_space=action_set.get_actionset())
+        agent_obj = AgentClass(name=name, action_space=action_set.get_action_space())
         return {
             "action_set": action_set,
             "agent": agent_obj,

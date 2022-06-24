@@ -1,4 +1,4 @@
-from gym_novel_gridworlds_2 import NovelGridWorldEnv
+from .gym_novel_gridworlds_2 import NovelGridWorldEnv
 from gym.envs.registration import register
 
 register(

@@ -3,13 +3,12 @@ from .action import Action
 from gym.spaces import Discrete
 
 class ActionSet:
-    def __init__(self, actions: Action, entity: Entity):
+    def __init__(self, actions: Action):
         self.actions = actions
-        self.entity = entity
     
-    def do_action(self, index):
+    def do_action(self, entity, index):
         action: Action = self.actions[index]
-        action.do_action(self.entity)
+        action.do_action(entity)
 
     def remove_action(self, index):
         pass
@@ -17,5 +16,5 @@ class ActionSet:
     def add_action(self, index):
         pass
 
-    def get_actionset(self):
+    def get_action_space(self):
         return Discrete(len(self.actions))

@@ -14,7 +14,7 @@ def test_novel_gridworlds():
     state, dynamic, entities = json_parser.parse_json(config_file_path)
     
     print(state)
-    env = gym.make('NovelGridWorlds-v2')
+    env = gym.make('NovelGridWorldEnv', state=state, dynamic=dynamic)
 
     n_agents = 1
     i = 0

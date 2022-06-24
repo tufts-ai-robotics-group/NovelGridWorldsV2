@@ -18,9 +18,9 @@ class NovelGridWorldEnv(gym.Env):
 
     def __init__(self, state: State, dynamic: Dynamic):
         #
-        
+        self.state = state
+        self.dynamic = dynamic
         self.action_space = self.dynamic.action_space
-        self.state = State()
         self.goal_item_to_craft = ""
 
     def step(self, action_n):
