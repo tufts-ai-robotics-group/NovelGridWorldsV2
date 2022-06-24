@@ -1,7 +1,7 @@
 {
   "actions": {
     "approach_tree": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break",
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Approach",
       "target_type": "tree"
     },
     "move_left": {
@@ -37,23 +37,38 @@
     ]
   },
   "object_types": {
-    "door": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+    "default": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "door": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+  },
+  "map_size": [40, 50],
+  "objects": {
+    "door": [
+      [2, 3]
+    ],
+    "tree": [
+      [3, 4]
+    ]
   },
   "entities": {
     "main_1": {
-      "agent": "gym_novel_gridworlds2.contrib.polycraft.agents.RandomAgent",
+      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "type": "main_agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
         "door": 1,
         "THINGS_IN_object_types": 2
-      }
+      },
+      "loc": [0, 2]
     },
     "trader_joe": {
-      "agent": "gym_novel_gridworlds2.contrib.polycraft.actions.RandomAgent",
+      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "type": "trader",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "trader",
-      "inventory": []
+      "inventory": [],
+      "loc": [0, 2]
     }
   },
   "recipes": {
