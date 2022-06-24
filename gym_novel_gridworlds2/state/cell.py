@@ -25,7 +25,6 @@ class Cell:
         Otherwise, return raise an error
         """
         is_full = self.is_full()
-        print(is_full)
         if isinstance(obj, Entity) and not is_full[1]:
             self._entities.append(obj)
             return True

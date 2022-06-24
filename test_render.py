@@ -1,6 +1,7 @@
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 
 import numpy as np
+import time
 
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.actions.move import Move
@@ -56,7 +57,7 @@ class TestRender():
         }
         # self.actions.update(parser.parse_recipe(self.state, recipe_dict["recipes"]))
         pogoist: Entity = self.state.place_object("agent", Entity, properties={"loc": (2, 2)})
-        pogoist.inventory = {"tree": 1, "rubber": 1}
+        pogoist.inventory = {}
         self.state.random_place("tree", 3, PolycraftObject)
         self.state.random_place("rubber", 1, PolycraftObject)
 
@@ -126,6 +127,8 @@ class TestRender():
                     self.actions["craft_pogo_stick"].do_action(agent)
 
 def main():
+    print("Goal: Craft Pogostick (1 Rubber, 2 Planks, 4 Sticks)")
+    time.sleep(1)
     test = TestRender()
     test.setUp()
     test.mainLoop()
