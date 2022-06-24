@@ -42,9 +42,10 @@ class Move(Action):
             if obj is not None:
                 # check if object is floating or not.
                 # if floating, still able to pass thru
-                # if block, cannot pass thru
+                # if block, cannot pass thru unless door
                 if not hasattr(obj, "state") or obj.state == "block":
-                    return False
+                    if not hasattr(obj, "canWalkOver") or obj.canWalkOver == False:
+                        return False
             return True
         else:
             # out of the bound
