@@ -5,6 +5,7 @@ import time
 
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.actions.move import Move
+from gym_novel_gridworlds2.contrib.polycraft.actions.forward import Forward
 from gym_novel_gridworlds2.contrib.polycraft.actions.rotate_right import RotateRight
 from gym_novel_gridworlds2.contrib.polycraft.actions.rotate_left import RotateLeft
 from gym_novel_gridworlds2.contrib.polycraft.actions.break_item import Break
@@ -63,6 +64,7 @@ class TestRender:
             "down": Move(direction="DOWN", state=self.state),
             "left": Move(direction="LEFT", state=self.state),
             "right": Move(direction="RIGHT", state=self.state),
+            "forward": Forward(state=self.state),
             "break": Break(state=self.state),
             "rotate_right": RotateRight(state=self.state),
             "rotate_left": RotateLeft(state=self.state),
@@ -168,6 +170,8 @@ class TestRender:
                     self.actions["left"].do_action(agent)
                 elif choice == "right":
                     self.actions["right"].do_action(agent)
+                elif choice == "forward":
+                    self.actions["forward"].do_action(agent)
                 elif choice == "rotate_right":
                     self.actions["rotate_right"].do_action(agent)
                 elif choice == "rotate_left":
