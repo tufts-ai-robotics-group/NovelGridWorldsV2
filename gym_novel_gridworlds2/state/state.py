@@ -13,28 +13,31 @@ AIR_STR = "air"
 
 from .exceptions import LocationOccupied, LocationOutOfBound
 
+
 class State:
-    def __init__(self, map_size: Tuple[int]=None, \
-            objects: Mapping[str, object]=None,
-            map_json: dict=None, \
-            item_list: Mapping[str, int]={"air": 0}, \
-            **kwargs):
+    def __init__(
+        self,
+        map_size: Tuple[int] = None,
+        objects: Mapping[str, object] = None,
+        map_json: dict = None,
+        item_list: Mapping[str, int] = {"air": 0},
+        **kwargs
+    ):
         """
         Initialization of the State Object.
         """
         if map_json is not None:
             if map_size is None:
-                map_size = tuple(map_json.get('map').get('size'))
+                map_size = tuple(map_json.get("map").get("size"))
             if objects is None:
-                objects = map_json.get('objects')
-
+                objects = map_json.get("objects")
 
         # TODO update
         self.initial_info = {
             "map_size": map_size,
             "objects": objects,
             "item_list": item_list,
-            **kwargs
+            **kwargs,
         }
         self.item_encoder = SimpleItemEncoder(item_list)
 
@@ -43,31 +46,27 @@ class State:
         self._map: np.ndarray = np.empty(map_size, dtype="object")
         self._map.fill(None)
 
-
         # for name, obj in objects.items():
         #     object_id = self.item_encoder.get_create_id(name)
         #     self.place_object(name, Object, properties=obj)
-        
+
         # self._world_inventory = {}
         self._step_count = 0
 
     def make_copy(self):
         return deepcopy(self)
 
-
     def get_object_id(self, object_name: str):
         return self.item_encoder.get_create_id(object_name)
-    
 
     def _ensure_not_none(self, loc: tuple):
         if self._map[loc] is None:
             self._map[loc] = Cell()
 
-
     ############################# ALL BLOCKS #############################
     def place_object(self, object_type: str, ObjectClass=Object, properties: dict = {}):
         """
-        Places an object onto the map. 
+        Places an object onto the map.
         Returns true if success, false if there was a block there
         """
         # get the object id for use in the object dict
@@ -79,14 +78,14 @@ class State:
             new_loc_obj = self._map[new_loc]
         except IndexError as e:
             raise LocationOutOfBound from e
-        
+
         # ensure there's a cell at this location
         self._ensure_not_none(new_loc)
         cell: Cell = self._map[new_loc]
 
         # instanciate object
-        if 'type' in properties:
-            del properties['type']
+        if "type" in properties:
+            del properties["type"]
         obj = ObjectClass(object_type, **properties)
 
         # placing object in the map
@@ -102,19 +101,20 @@ class State:
 
         return obj
 
-
     def random_place(self, object_str, count, ObjectClass=Object):
         """
         TODO: ObjectClass
         Randomly place the object in the map
-        
+
         if there's not enough spots available, all available spots will be filled
         """
         all_available_spots = np.argwhere(self._map == None)
         if count >= all_available_spots.shape[0]:
             count = all_available_spots.shape[0]
 
-        picked_indices = np.random.choice(a=all_available_spots.shape[0], size=count, replace=False)
+        picked_indices = np.random.choice(
+            a=all_available_spots.shape[0], size=count, replace=False
+        )
         for index in picked_indices:
             properties = {"loc": tuple(all_available_spots[index])}
             # print(properties)
@@ -132,7 +132,7 @@ class State:
                     self.place_object("bedrock", properties={"loc": (i, j)})
                 elif j == self.initial_info["map_size"][1] - 1:
                     self.place_object("bedrock", properties={"loc": (i, j)})
-    
+
     def remove_object(self, object_name: str, loc: tuple):
         """
         Removes an object from the map, replacing it with air
@@ -144,24 +144,30 @@ class State:
             # assert object_name in self._objects, f"Object {object_name} unknown."
             # won't work as object_name isnt directly comparable to objs
             # assert all(i >= j for i, j in zip(loc, [0] * self._map.ndim)), f"Location "
-            obj = None  
+            obj = None
 
             try:
                 # find the location of the object.
-                obj_index = next(i for i, v in enumerate(self._objects[object_id]) if v.loc == loc)
+                obj_index = next(
+                    i for i, v in enumerate(self._objects[object_id]) if v.loc == loc
+                )
                 obj = self._objects[object_id][obj_index]
 
                 # remove the object from the list but without freeing.
                 self._objects[object_id].pop(obj_index)
 
             except StopIteration:
-                raise ValueError("Object " + object_name + \
-                    " at " + str(loc) + " is not found in the list")
-            
+                raise ValueError(
+                    "Object "
+                    + object_name
+                    + " at "
+                    + str(loc)
+                    + " is not found in the list"
+                )
+
             # update the map
             cell: Cell = self._map[loc]
             cell.remove_object(obj)
-    
 
     def get_objects_of_type(self, object_type: str):
         """
@@ -174,7 +180,6 @@ class State:
         else:
             return []
 
-
     def get_objects_at(self, loc: tuple):
         """
         Gets all objects at a specific location.
@@ -183,12 +188,12 @@ class State:
             return ([], [])
         else:
             return self._map[loc].get_obj_entities()
-    
+
     def get_object_at(self, loc: tuple):
         """
         LEGACY API:
         Gets an object at a specific location.
-            If there are multiple objects, the first non-entity 
+            If there are multiple objects, the first non-entity
             object will be returned.
         Returns None if it's not found.
 
@@ -203,7 +208,6 @@ class State:
             return objs[1][0]
         return None
 
-
     def update_object_loc(self, old_loc: tuple, new_loc: tuple):
         """
         Updates the location of an object.
@@ -212,24 +216,39 @@ class State:
         """
         # notes: this algorithm updates both the agent state and the state.
 
-        #does this not handle cases where an object is already there?
+        curr_obj = self.get_object_at(new_loc)
+        if curr_obj == None or (
+            hasattr(curr_obj, "canWalkOver") and curr_obj.canWalkOver == True
+        ):
+            objs = self.get_objects_at(old_loc)
+            print(objs)
+            if len(objs[1]) != 0:
+                temp = objs[1][0]
+                self._map[old_loc].remove_object(
+                    objs[1][0]
+                )  # this removes the object from the list as well?
+                print(objs)
 
-        if self.get_object_at(new_loc) == None:
-            obj = self.get_object_at(old_loc)
-            self._map[old_loc].remove_object(obj)
+                self._ensure_not_none(new_loc)
+                print(temp)
+                self._map[new_loc].place_object(temp)
+                temp.loc = new_loc
+                return True
+            else:
+                self._map[old_loc].remove_object(objs[0][0])
 
-            self._ensure_not_none(new_loc)
-            self._map[new_loc].place_object(obj)
-            obj.loc = new_loc
-            return True
+                self._ensure_not_none(new_loc)
+                self._map[new_loc].place_object(objs[0][0])
+                objs[0][0].loc = new_loc
+                return True
         else:
             return False
-    
+
     def is_full(self, loc: tuple):
         if self._map[loc] is None:
             return (False, False)
         return self._map[loc].is_full()
-    
+
     def contains_block(self, loc: tuple):
         if self._map[loc] is None:
             return False
@@ -258,7 +277,7 @@ class State:
         Removes all objects from the list and clears the map/item list
         TODO not tested
         """
-        #remove all objects:
+        # remove all objects:
         for index, obj_id in np.ndenumerate(self._map):
             if obj_id is not None:
                 obj = self.get_object_at(index)
@@ -266,9 +285,9 @@ class State:
                 # print(obj.type, index)
                 if obj is not None:
                     self.remove_object(obj.type, index)
-        #resets item encoder
+        # resets item encoder
         self.item_encoder = SimpleItemEncoder()
-        #old version:
+        # old version:
         """
         TODO: UNUSABLE FOR NOW, UPDATE NEEDED
         """

@@ -39,6 +39,8 @@ class Cell:
         """
         if len(self._objects) != 1:
             return False
+        elif hasattr(self._objects[0], "canWalkOver") and self._objects[0].canWalkOver == True:
+            return False
         else:
             return self._objects[0].state == "block"
         

@@ -130,13 +130,13 @@ class TestRender():
                         res[i][j] = self.getSymbol(obj[0][0].type, obj[0][0].state, canWalkOver=obj[0][0].canWalkOver)
                     else:
                         res[i][j] = self.getSymbol(obj[0][0].type, obj[0][0].state)
-                elif len(obj[1]) != 0:
+                else:
+                    res[i][j] = ' '
+                if len(obj[1]) != 0:
                     if hasattr(obj[1][0], "facing"):
                         res[i][j] = self.getSymbol(obj[1][0].type, obj[1][0].state, facing=obj[1][0].facing)
                     else:
                         res[i][j] = self.getSymbol(obj[1][0].type, obj[1][0].state)
-                else:
-                    res[i][j] = ' '
         print(res)
 
     def mainLoop(self):
