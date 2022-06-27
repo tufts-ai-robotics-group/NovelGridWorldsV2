@@ -5,6 +5,8 @@ import time
 
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.actions.move import Move
+from gym_novel_gridworlds2.contrib.polycraft.actions.rotate_right import RotateRight
+from gym_novel_gridworlds2.contrib.polycraft.actions.rotate_left import RotateLeft
 from gym_novel_gridworlds2.contrib.polycraft.actions.break_item import Break
 from gym_novel_gridworlds2.contrib.polycraft.actions.craft import Craft
 from gym_novel_gridworlds2.contrib.polycraft.actions.use import Use
@@ -18,18 +20,6 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.chest import Chest
 
 class TestRender:
     def setUp(self):
-
-        """
-        #EASY
-        self.state = State(map_size=(8, 8), objects=[])
-        self.state.init_border()
-        pogoist: Entity = self.state.place_object("agent", Entity, properties={"loc": (2, 2)})
-        pogoist.inventory = {}
-        self.state.random_place("tree", 3, PolycraftObject)
-        self.state.random_place("rubber", 1, PolycraftObject)
-        """
-
-        # MEDIUM
         self.state = State(map_size=(15, 15), objects=[])
         self.state.init_border()
         pogoist: Entity = self.state.place_object(
@@ -74,6 +64,8 @@ class TestRender:
             "left": Move(direction="LEFT", state=self.state),
             "right": Move(direction="RIGHT", state=self.state),
             "break": Break(state=self.state),
+            "rotate_right": RotateRight(state=self.state),
+            "rotate_left": RotateLeft(state=self.state),
             "use": Use(state=self.state),
             "craft_stick": Craft(
                 state=self.state, recipe=recipe_dict["recipes"]["stick"]
@@ -176,6 +168,10 @@ class TestRender:
                     self.actions["left"].do_action(agent)
                 elif choice == "right":
                     self.actions["right"].do_action(agent)
+                elif choice == "rotate_right":
+                    self.actions["rotate_right"].do_action(agent)
+                elif choice == "rotate_left":
+                    self.actions["rotate_left"].do_action(agent)
                 elif choice == "break":
                     self.actions["break"].do_action(agent)
                 elif choice == "use":
