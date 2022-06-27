@@ -40,14 +40,12 @@ class Use(Action):
 
         return correctDirection and (objs[0][0].type in validTypes) and (objs[0][0].state == "block")
 
-    def do_action(self, agent_entity: Entity, target_object: Object):
+    def do_action(self, agent_entity: Entity, target_object: Object=None):
         """
         Checks for precondition, then breaks the object
         """
         if not self.check_precondition(agent_entity, target_object):
-            raise PreconditionNotMetError(f"Agent {agent_entity.name} cannot perform break on {target_object.type}.")
+            raise PreconditionNotMetError(f"Agent {agent_entity.name} cannot perform use on {target_object.type}.")
         objs = self.state.get_objects_at(self.temp_loc)
         objs[0][0].acted_upon("use", agent_entity)
-        # target_object.state = "floating"
-        # self.state.remove_object(target_object.type, target_object.loc)
 
