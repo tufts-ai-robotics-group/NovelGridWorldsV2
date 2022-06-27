@@ -1,17 +1,21 @@
 # NovelGridWorlds Version 2
 This is a redesigned version of NovelGridWorlds, built on top of OpenAI gym.
 
-## Installation
+## Building
+
 To build the project, run 
 ```
-python -m build
+python3 -m build
 ```
+
+## Installation
 
 To install the project directly from source, run
 ```
-python setup.py
+python3 setup.py install
 ```
 
+To 
 
 ## Project Structure
 The package is structured as follows:
