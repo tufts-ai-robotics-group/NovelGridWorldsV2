@@ -97,10 +97,13 @@ class TestRender:
         elif obj == "bedrock":
             return "X"
         elif obj == "door":
-            if canWalkOver == True:
-                return " "
+            if canWalkOver == False:
+                if state == "block":
+                    return "D"
+                else:
+                    return "d"
             else:
-                return "D"
+                return " "
         elif obj == "rubber":
             if state == "block":
                 return "R"

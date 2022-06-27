@@ -61,7 +61,11 @@ class Move(Action):
             objs = self.state.get_objects_at(new_loc)
             if len(objs[0]) != 0:
                 for obj in objs[0]:
-                    if hasattr(obj, "canWalkOver") and obj.canWalkOver == True:
+                    if (
+                        hasattr(obj, "canWalkOver")
+                        and obj.canWalkOver == True
+                        and obj.state == "block"
+                    ):
                         pass
                     else:
                         if obj.type in agent_entity.inventory:
@@ -69,8 +73,4 @@ class Move(Action):
                         else:
                             agent_entity.inventory[obj.type] = 1
                         self.state.remove_object(obj.type, new_loc)
-                        print("dat coca")
             self.state.update_object_loc(agent_entity.loc, new_loc)
-            # raise PreconditionNotMetError(f"Cannot move agent {agent_entity.name} from {agent_entity.loc} to {new_loc}")
-
-        # agent_entity.facing = DIRECTION_TO_FACING[self.direction]
