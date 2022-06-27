@@ -224,22 +224,19 @@ class State:
             print(objs)
             if len(objs[1]) != 0:
                 temp = objs[1][0]
-                self._map[old_loc].remove_object(
-                    objs[1][0]
-                )  # this removes the object from the list as well?
-                print(objs)
+                self._map[old_loc].remove_object(objs[1][0])
 
                 self._ensure_not_none(new_loc)
-                print(temp)
                 self._map[new_loc].place_object(temp)
                 temp.loc = new_loc
                 return True
             else:
+                temp = objs[0][0]
                 self._map[old_loc].remove_object(objs[0][0])
 
                 self._ensure_not_none(new_loc)
-                self._map[new_loc].place_object(objs[0][0])
-                objs[0][0].loc = new_loc
+                self._map[new_loc].place_object(temp)
+                temp.loc = new_loc
                 return True
         else:
             return False

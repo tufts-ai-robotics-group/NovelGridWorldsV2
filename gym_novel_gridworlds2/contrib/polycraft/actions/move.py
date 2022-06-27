@@ -54,7 +54,6 @@ class Move(Action):
         Checks for precondition, then moves the object to the destination.
         This action should never fail - only the moving part of it should
         """
-        print("doing move action")
         agent_entity.facing = DIRECTION_TO_FACING[self.direction]
         new_loc = tuple(np.add(self.vec, agent_entity.loc))
         if self.check_precondition(agent_entity, target_object):
@@ -63,7 +62,6 @@ class Move(Action):
             if len(objs[0]) != 0:
                 for obj in objs[0]:
                     if hasattr(obj, "canWalkOver") and obj.canWalkOver == True:
-                        print("peaced it")
                         pass
                     else:
                         if obj.type in agent_entity.inventory:
@@ -74,7 +72,5 @@ class Move(Action):
                         print("dat coca")
             self.state.update_object_loc(agent_entity.loc, new_loc)
             # raise PreconditionNotMetError(f"Cannot move agent {agent_entity.name} from {agent_entity.loc} to {new_loc}")
-        else:
-            print("beibs")
 
         # agent_entity.facing = DIRECTION_TO_FACING[self.direction]
