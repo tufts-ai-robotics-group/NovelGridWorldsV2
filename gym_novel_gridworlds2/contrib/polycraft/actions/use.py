@@ -45,7 +45,7 @@ class Use(Action):
         Checks for precondition, then breaks the object
         """
         if not self.check_precondition(agent_entity, target_object):
-            obj_type = target_object.type if hasattr(target_object, "type") else target_object.__class__
+            obj_type = target_object.type if hasattr(target_object, "type") else target_object.__class__.__name__
             raise PreconditionNotMetError(f"Agent \"{agent_entity.name}\" cannot perform use on {obj_type}.")
         objs = self.state.get_objects_at(self.temp_loc)
         objs[0][0].acted_upon("use", agent_entity)
