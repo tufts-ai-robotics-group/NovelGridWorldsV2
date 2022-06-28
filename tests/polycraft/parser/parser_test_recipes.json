@@ -1,0 +1,50 @@
+{
+  "recipes": {
+    "stick": {
+      "input": [
+        {
+          "plank": 2
+        }
+      ],
+      "output": [
+        {
+          "stick": 4
+        }
+      ]
+    },
+    "plank": {
+      "input": [
+        {
+          "tree": 1
+        }
+      ],
+      "output": [
+        {
+          "plank": 4
+        }
+      ]
+    },
+    "pogo_stick": {
+      "input": [
+        {
+          "stick": 4
+        },
+        {
+          "plank": 2
+        },
+        {
+          "rubber": 1
+        }
+      ],
+      "output": [
+        {
+          "pogo_stick": 1
+        }
+      ]
+    }
+  },
+  "map_size": [
+    20,
+    30
+  ]
+}
