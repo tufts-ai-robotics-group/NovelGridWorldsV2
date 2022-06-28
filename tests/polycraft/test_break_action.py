@@ -142,7 +142,6 @@ class BreakTests(unittest.TestCase):
         hbn = self.state.get_object_at((0, 2))
         print(hbn)
 
-        self.asser
         # self.assertEqual(True, False)
 
         self.state.clear()
