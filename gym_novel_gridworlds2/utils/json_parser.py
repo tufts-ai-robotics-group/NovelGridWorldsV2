@@ -3,15 +3,12 @@ import importlib
 from re import L
 from typing import Mapping, Tuple, Type
 
-from gym_novel_gridworlds2.state.dynamic import Dynamic
 from .MultiAgentActionSpace import MultiAgentActionSpace
 
-from ..object.object import Object
-
-from ..actions.action_set import ActionSet
-
+from ..object import Object, Entity
+from ..actions import ActionSet, Action
+from ..state.dynamic import Dynamic
 from ..agents import Agent
-from ..object.entity import Entity
 
 
 from ..contrib.polycraft.actions.craft import Craft
@@ -126,7 +123,7 @@ class ConfigParser:
 
 
     def create_action(self, action_info):
-        ActionModule = import_module(action_info['module'])
+        ActionModule: Type[Action] = import_module(action_info['module'])
         del action_info['module']
         try:
             action = ActionModule(state=self.state, **action_info)
