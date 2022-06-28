@@ -60,10 +60,6 @@ class TestRender:
         }
 
         self.actions = {
-            "up": Move(direction="UP", state=self.state),
-            "down": Move(direction="DOWN", state=self.state),
-            "left": Move(direction="LEFT", state=self.state),
-            "right": Move(direction="RIGHT", state=self.state),
             "forward": Forward(state=self.state),
             "break": Break(state=self.state),
             "rotate_right": RotateRight(state=self.state),
@@ -159,22 +155,14 @@ class TestRender:
                 print(agent.inventory)
                 print("")
                 print(
-                    "Actions: up, down, left, right, break, use, craft_stick, craft_plank, craft_pogo_stick"
+                    "Actions: forward, rotate_r, rotate_l, break, use, craft_stick, craft_plank, craft_pogo_stick"
                 )
                 choice = input("Select an action: ")
-                if choice == "up":
-                    self.actions["up"].do_action(agent)
-                elif choice == "down":
-                    self.actions["down"].do_action(agent)
-                elif choice == "left":
-                    self.actions["left"].do_action(agent)
-                elif choice == "right":
-                    self.actions["right"].do_action(agent)
-                elif choice == "forward":
+                if choice == "forward":
                     self.actions["forward"].do_action(agent)
-                elif choice == "rotate_right":
+                elif choice == "rotate_r":
                     self.actions["rotate_right"].do_action(agent)
-                elif choice == "rotate_left":
+                elif choice == "rotate_l":
                     self.actions["rotate_left"].do_action(agent)
                 elif choice == "break":
                     self.actions["break"].do_action(agent)

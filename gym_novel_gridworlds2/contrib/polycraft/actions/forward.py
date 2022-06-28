@@ -50,8 +50,8 @@ class Forward(Action):
         """
         Checks for precondition, then moves the object to the destination.
         """
-        new_loc = tuple(np.add(self.vec, agent_entity.loc))
         if self.check_precondition(agent_entity, target_object):
+            new_loc = tuple(np.add(self.vec, agent_entity.loc))
             # multiple objects handling
             objs = self.state.get_objects_at(new_loc)
             if len(objs[0]) != 0:
