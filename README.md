@@ -10,12 +10,18 @@ python3 -m build
 
 ## Installation
 
-To install the project directly from source, run
+To install the project directly from source, firstly make sure the dependencies
+are installed by running
+
+```
+pip install -r requirements.txt
+```
+
+and then run
 ```
 python3 setup.py install
 ```
 
-To 
 
 ## Project Structure
 The package is structured as follows:
