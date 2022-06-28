@@ -5,6 +5,9 @@ import time
 
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.actions.move import Move
+from gym_novel_gridworlds2.contrib.polycraft.actions.forward import Forward
+from gym_novel_gridworlds2.contrib.polycraft.actions.rotate_right import RotateRight
+from gym_novel_gridworlds2.contrib.polycraft.actions.rotate_left import RotateLeft
 from gym_novel_gridworlds2.contrib.polycraft.actions.break_item import Break
 from gym_novel_gridworlds2.contrib.polycraft.actions.craft import Craft
 from gym_novel_gridworlds2.contrib.polycraft.actions.use import Use
@@ -18,18 +21,6 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.chest import Chest
 
 class TestRender:
     def setUp(self):
-
-        """
-        #EASY
-        self.state = State(map_size=(8, 8), objects=[])
-        self.state.init_border()
-        pogoist: Entity = self.state.place_object("agent", Entity, properties={"loc": (2, 2)})
-        pogoist.inventory = {}
-        self.state.random_place("tree", 3, PolycraftObject)
-        self.state.random_place("rubber", 1, PolycraftObject)
-        """
-
-        # MEDIUM
         self.state = State(map_size=(15, 15), objects=[])
         self.state.init_border()
         pogoist: Entity = self.state.place_object(
@@ -69,11 +60,10 @@ class TestRender:
         }
 
         self.actions = {
-            "up": Move(direction="UP", state=self.state),
-            "down": Move(direction="DOWN", state=self.state),
-            "left": Move(direction="LEFT", state=self.state),
-            "right": Move(direction="RIGHT", state=self.state),
+            "forward": Forward(state=self.state),
             "break": Break(state=self.state),
+            "rotate_right": RotateRight(state=self.state),
+            "rotate_left": RotateLeft(state=self.state),
             "use": Use(state=self.state),
             "craft_stick": Craft(
                 state=self.state, recipe=recipe_dict["recipes"]["stick"]
@@ -97,10 +87,13 @@ class TestRender:
         elif obj == "bedrock":
             return "X"
         elif obj == "door":
-            if canWalkOver == True:
-                return " "
+            if canWalkOver == False:
+                if state == "block":
+                    return "D"
+                else:
+                    return "d"
             else:
-                return "D"
+                return " "
         elif obj == "rubber":
             if state == "block":
                 return "R"
@@ -162,17 +155,15 @@ class TestRender:
                 print(agent.inventory)
                 print("")
                 print(
-                    "Actions: up, down, left, right, break, use, craft_stick, craft_plank, craft_pogo_stick"
+                    "Actions: forward, rotate_r, rotate_l, break, use, craft_stick, craft_plank, craft_pogo_stick"
                 )
                 choice = input("Select an action: ")
-                if choice == "up":
-                    self.actions["up"].do_action(agent)
-                elif choice == "down":
-                    self.actions["down"].do_action(agent)
-                elif choice == "left":
-                    self.actions["left"].do_action(agent)
-                elif choice == "right":
-                    self.actions["right"].do_action(agent)
+                if choice == "forward":
+                    self.actions["forward"].do_action(agent)
+                elif choice == "rotate_r":
+                    self.actions["rotate_right"].do_action(agent)
+                elif choice == "rotate_l":
+                    self.actions["rotate_left"].do_action(agent)
                 elif choice == "break":
                     self.actions["break"].do_action(agent)
                 elif choice == "use":

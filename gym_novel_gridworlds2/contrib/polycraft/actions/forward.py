@@ -4,21 +4,10 @@ from gym_novel_gridworlds2.object.entity import Entity, Object
 
 import numpy as np
 
-DIRECTION_TO_FACING = {"UP": "NORTH", "DOWN": "SOUTH", "LEFT": "WEST", "RIGHT": "EAST"}
 
-
-class Move(Action):
-    def __init__(self, state: State, dynamics=None, direction="UP"):
-        self.direction = direction
-        if direction == "UP":
-            self.vec = (-1, 0)
-        elif direction == "DOWN":
-            self.vec = (1, 0)
-        elif direction == "LEFT":
-            self.vec = (0, -1)
-        else:
-            self.vec = (0, 1)
-
+class Forward(Action):
+    def __init__(self, state: State, dynamics=None):
+        self.vec = (0, 0)
         self.dynamics = dynamics
         self.state = state
 
@@ -31,6 +20,14 @@ class Move(Action):
         2) The new location must not be occupied by another non-floating object
         3) If the new location is occupied by a door, it must be open
         """
+        if agent_entity.facing == "NORTH":
+            self.vec = (-1, 0)
+        elif agent_entity.facing == "SOUTH":
+            self.vec = (1, 0)
+        elif agent_entity.facing == "WEST":
+            self.vec = (0, -1)
+        else:
+            self.vec = (0, 1)
 
         new_loc = np.add(self.vec, agent_entity.loc)
         # check for bounds
@@ -52,11 +49,9 @@ class Move(Action):
     def do_action(self, agent_entity, target_type=None, target_object=None):
         """
         Checks for precondition, then moves the object to the destination.
-        This action should never fail - only the moving part of it should
         """
-        agent_entity.facing = DIRECTION_TO_FACING[self.direction]
-        new_loc = tuple(np.add(self.vec, agent_entity.loc))
         if self.check_precondition(agent_entity, target_object):
+            new_loc = tuple(np.add(self.vec, agent_entity.loc))
             # multiple objects handling
             objs = self.state.get_objects_at(new_loc)
             if len(objs[0]) != 0:
