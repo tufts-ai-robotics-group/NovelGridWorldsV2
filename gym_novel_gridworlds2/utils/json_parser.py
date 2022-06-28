@@ -90,8 +90,7 @@ class ConfigParser:
         )
         return (self.state, dynamic, self.entities)
 
-    def parse_recipe(self, state: State, recipe_dict):
-        self.state = state
+    def parse_recipe(self, recipe_dict):
         items = list(recipe_dict.keys())
         for i in range(len(items)):
             craftStr = "craft_" + items[i]
