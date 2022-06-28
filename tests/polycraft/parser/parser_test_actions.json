@@ -1,0 +1,24 @@
+{
+    "actions": {
+      "approach_tree": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Approach",
+        "target_type": "tree"
+      },
+      "move_left": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
+        "direction": "LEFT"
+      },
+      "move_up": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
+        "direction": "UP"
+      },
+      "move_right": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
+        "direction": "RIGHT"
+      },
+      "move_down": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
+        "direction": "DOWN"
+      }
+    }
+  }
