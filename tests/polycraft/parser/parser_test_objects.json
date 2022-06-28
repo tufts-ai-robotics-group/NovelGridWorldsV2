@@ -1,0 +1,16 @@
+{
+  "object_types": {
+    "default": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "door": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+  },
+  "map_size": [40, 50],
+  "objects": {
+    "door": [
+      [2, 3]
+    ],
+    "tree": [
+      [3, 4]
+    ]
+  }
+}
