@@ -31,6 +31,10 @@ class ConfigParser:
         self.obj_types = {}
 
     def parse_json(self, json_file_name) -> Tuple[State, Dynamic, dict]:
+        """
+        Parses the json
+        TODO: check error
+        """
         json_content = None
         with open(json_file_name, "r") as f:
             json_content = json.load(f, strict=False)
@@ -42,30 +46,36 @@ class ConfigParser:
 
         # actions
         self.actions = {}
-        for key, action_info in json_content["actions"].items():
-            self.actions[key] = self.create_action(action_info)
+        if "actions" in json_content:
+            for key, action_info in json_content["actions"].items():
+                self.actions[key] = self.create_action(action_info)
 
         # object types
-        self.parse_object_types(json_content["object_types"])
+        if "object_types" in json_content:
+            self.parse_object_types(json_content["object_types"])
 
         # placement of objects on the map
-        for obj_name, locs in json_content["objects"].items():
-            self.create_place_obj(self.state, obj_name, locs)
+        if "objects" in json_content:
+            for obj_name, locs in json_content["objects"].items():
+                self.create_place_obj(self.state, obj_name, locs)
 
         # recipe
-        self.parse_recipe(json_content["recipes"])
+        if "recipes" in json_content:
+            self.parse_recipe(json_content["recipes"])
 
         # action sets
         self.action_sets = {}
-        for key, action_list in json_content["action_sets"].items():
-            self.action_sets[key] = self.create_action_set(action_list)
+        if "action_sets" in json_content:
+            for key, action_list in json_content["action_sets"].items():
+                self.action_sets[key] = self.create_action_set(action_list)
 
         # entities
         self.entities: Mapping[str, dict] = {}
-        for key, entity_info in json_content["entities"].items():
-            self.entities[key] = self.create_place_entity(
-                name=key, entity_info=entity_info
-            )
+        if "entities" in json_content:
+            for key, entity_info in json_content["entities"].items():
+                self.entities[key] = self.create_place_entity(
+                    name=key, entity_info=entity_info
+                )
 
         action_space = MultiAgentActionSpace(
             [e["action_set"].get_action_space() for name, e in self.entities.items()]

@@ -1,9 +1,5 @@
 {
     "actions": {
-      "approach_tree": {
-        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Approach",
-        "target_type": "tree"
-      },
       "move_left": {
         "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
         "direction": "LEFT"
@@ -20,5 +16,6 @@
         "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Move",
         "direction": "DOWN"
       }
-    }
+    },
+    "map_size": [20, 30]
   }

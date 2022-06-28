@@ -5,3 +5,6 @@ from .loot import Loot
 from .place_item import PlaceItem
 from .use import Use
 from .craft import Craft
+from .forward import Forward
+from .rotate_left import RotateLeft
+from .rotate_right import RotateRight
