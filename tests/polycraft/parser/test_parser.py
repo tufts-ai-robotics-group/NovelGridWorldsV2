@@ -48,3 +48,6 @@ class ActionSpaceTests(unittest.TestCase):
         state, dynamic, entities = json_parser.parse_json(config_file_path)
 
         self.assertEqual(len(dynamic.actions), 3)
+        self.assertTrue("craft_stick" in dynamic.actions)
+        self.assertTrue("craft_plank" in dynamic.actions)
+        self.assertTrue("craft_pogo_stick" in dynamic.actions)
