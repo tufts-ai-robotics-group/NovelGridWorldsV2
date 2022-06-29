@@ -5,4 +5,4 @@ class RandomAgent(Agent):
         super().__init__(**kwargs)
     
     def get_action(self, observation):
-        return self.ob_space.sample()
+        return self.get_action_space().sample()
