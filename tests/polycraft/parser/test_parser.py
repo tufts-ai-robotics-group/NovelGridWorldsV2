@@ -57,6 +57,8 @@ class ActionSpaceTests(unittest.TestCase):
         obj_tree = state.get_objects_at((3, 4))[0][0]
         self.assertEqual(obj_tree.type, "tree")
         self.assertEqual(obj_tree.__class__, PolycraftObject)
+        res = state.get_objects_of_type("tree")
+        self.assertEqual(len(res), 4)
 
     def test_recipes(self):
         file_name = "parser_test_recipes.json"

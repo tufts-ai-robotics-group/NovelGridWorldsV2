@@ -57,7 +57,11 @@ class ConfigParser:
         # placement of objects on the map
         if "objects" in json_content:
             for obj_name, locs in json_content["objects"].items():
-                self.create_place_obj(self.state, obj_name, locs)
+                for loc in locs:
+                    if len(loc) == 2:
+                        self.create_place_obj(self.state, obj_name, loc)
+                    else:
+                        self.create_random_obj(self.state, obj_name, loc[0])
 
         # recipe
         if "recipes" in json_content:
@@ -115,18 +119,23 @@ class ConfigParser:
                     "params": info["params"],
                 }
 
-    def create_place_obj(self, state: State, obj_name, obj_locs):
+    def create_place_obj(self, state: State, obj_name, loc):
         """
         Given a name, creates an object using the correct name
         """
         obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
         ObjectModule: Object = obj_type_info["module"]
-        for loc in obj_locs:
-            state.place_object(
-                obj_name,
-                ObjectModule,
-                properties={"loc": loc, **obj_type_info["params"]},
-            )
+        state.place_object(
+            obj_name, ObjectModule, properties={"loc": loc, **obj_type_info["params"]}
+        )
+
+    def create_random_obj(self, state: State, obj_name, quantity):
+        """
+        Given a name, creates an object using the correct name
+        """
+        obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
+        ObjectModule: Object = obj_type_info["module"]
+        state.random_place(obj_name, quantity, ObjectModule)
 
     def create_action(self, action_info):
         ActionModule: Type[Action] = import_module(action_info["module"])
