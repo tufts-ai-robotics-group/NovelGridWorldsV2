@@ -37,7 +37,8 @@ class NovelGridWorldEnv(gym.Env):
         info_n   = []
         for agent_id, action in enumerate(action_n):
             if action != 0: 
-                self.agent_manager.do_action(agent_id, action)
+                print(agent_id, action)
+                self.agent_manager.do_action(agent_id, int(action))
 
             # .. execute th action
         return obs, reward_n, done_n, info_n
