@@ -3,6 +3,8 @@ import importlib
 from re import L
 from typing import Mapping, Tuple, Type
 
+from gym_novel_gridworlds2.agents.agent_manager import AgentManager
+
 from .MultiAgentActionSpace import MultiAgentActionSpace
 
 from ..object import Object, Entity
@@ -74,15 +76,17 @@ class ConfigParser:
                 self.action_sets[key] = self.create_action_set(action_list)
 
         # entities
-        self.entities: Mapping[str, dict] = {}
+        # self.entities: Mapping[str, dict] = {}
+        self.agent_manager = AgentManager()
         if "entities" in json_content:
             for key, entity_info in json_content["entities"].items():
-                self.entities[key] = self.create_place_entity(
+                agent_entity = self.create_place_entity(
                     name=key, entity_info=entity_info
                 )
+                self.agent_manager.add_agent(**agent_entity)
 
         action_space = MultiAgentActionSpace(
-            [e["action_set"].get_action_space() for name, e in self.entities.items()]
+            [e.action_set.get_action_space() for name, e in self.agent_manager.agents.items()]
         )
 
         # TODO: separate out recipes?
@@ -92,7 +96,7 @@ class ConfigParser:
             action_space=action_space,
             obj_types=self.obj_types,
         )
-        return (self.state, dynamic, self.entities)
+        return (self.state, dynamic, self.agent_manager)
 
     def parse_recipe(self, recipe_dict):
         items = list(recipe_dict.keys())
@@ -175,5 +179,5 @@ class ConfigParser:
         )
 
         # agent object
-        agent_obj = AgentClass(name=name, action_space=action_set.get_action_space())
+        agent_obj = AgentClass(name=name, action_set=action_set)
         return {"action_set": action_set, "agent": agent_obj, "entity": entity_obj}
