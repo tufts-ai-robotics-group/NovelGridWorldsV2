@@ -41,13 +41,23 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
-  "map_size": [40, 50],
+  "map_size": [
+    40,
+    50
+  ],
   "objects": {
     "door": [
-      [2, 3]
+      [
+        2,
+        3
+      ]
     ],
     "tree": [
-      [3, 4]
+      [
+        3,
+        4
+      ],
+      3
     ]
   },
   "entities": {
@@ -60,7 +70,10 @@
         "door": 1,
         "THINGS_IN_object_types": 2
       },
-      "loc": [0, 2]
+      "loc": [
+        0,
+        2
+      ]
     },
     "trader_joe": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
@@ -68,34 +81,53 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "trader",
       "inventory": [],
-      "loc": [0, 2]
+      "loc": [
+        0,
+        2
+      ]
     }
   },
   "recipes": {
     "stick": {
       "input": [
-        {"plank": 2}
+        {
+          "plank": 2
+        }
       ],
       "output": [
-        {"stick": 4}
+        {
+          "stick": 4
+        }
       ]
     },
     "plank": {
       "input": [
-        {"tree": 1}
+        {
+          "tree": 1
+        }
       ],
       "output": [
-        {"plank": 4}
+        {
+          "plank": 4
+        }
       ]
     },
     "pogo_stick": {
       "input": [
-        {"stick": 4},
-        {"plank": 2},
-        {"rubber": 1}
+        {
+          "stick": 4
+        },
+        {
+          "plank": 2
+        },
+        {
+          "rubber": 1
+        }
       ],
       "output": [
-        {"pogo_stick": 1}
+        {
+          "pogo_stick": 1
+        }
       ]
     }
   }

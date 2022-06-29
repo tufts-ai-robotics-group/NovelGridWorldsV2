@@ -4,13 +4,25 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
-  "map_size": [4, 5],
+  "map_size": [
+    4,
+    5
+  ],
   "objects": {
     "door": [
-      [2, 3]
+      [
+        2,
+        3
+      ]
     ],
     "tree": [
-      [3, 4]
+      [
+        3,
+        4
+      ],
+      [
+        3
+      ]
     ]
   }
 }
