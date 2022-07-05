@@ -1,13 +1,13 @@
 import unittest
-import numpy as np 
+import numpy as np
 import json
 from gym_novel_gridworlds2.object.entity import Entity
 
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.state.state import LocationOccupied
 
+
 class StateTestPlacement(unittest.TestCase):
-    
     def testPlaceItem(self):
         state = State(map_size=(5, 5), objects=[])
         loc = (2, 3)
@@ -17,27 +17,27 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
-    
+
     def testPlaceItemOverItem(self):
         state = State(map_size=(5, 5), objects=[])
         loc = (2, 3)
         state.place_object("tree", properties={"loc": loc})
         self.assertRaises(
             LocationOccupied,
-            lambda: state.place_object("tree", properties={"loc": loc})
+            lambda: state.place_object("tree", properties={"loc": loc}),
         )
         obj_type_id = state.item_encoder.get_id("tree")
         self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
-    
+
     def testPlaceItemOverItem2(self):
         state = State(map_size=(5, 5), objects=[])
         loc = (2, 3)
         state.place_object("tree", properties={"loc": loc})
         self.assertRaises(
             LocationOccupied,
-            lambda: state.place_object("chest", properties={"loc": loc})
+            lambda: state.place_object("chest", properties={"loc": loc}),
         )
         obj_type_id_1 = state.item_encoder.get_id("tree")
         obj_type_id_2 = state.item_encoder.get_id("chest")
@@ -45,7 +45,7 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id_1]), 1)
         self.assertTrue(obj_type_id_2 not in state._objects)
-    
+
     def testPlaceEntityOverItem(self):
         """
         Should now throw an error
@@ -76,13 +76,12 @@ class StateTestPlacement(unittest.TestCase):
         state.place_object("tree", properties={"loc": loc})
         self.assertRaises(
             LocationOccupied,
-            lambda: state.place_object("tree", Entity, properties={"loc": loc})
+            lambda: state.place_object("tree", Entity, properties={"loc": loc}),
         )
         obj_type_id = state.item_encoder.get_id("tree")
         self.assertEqual(state._map[loc].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(state._map[loc].get_obj_entities()[0][0].loc, loc)
         self.assertEqual(len(state._objects[obj_type_id]), 1)
-
 
     def testPlaceTwoItems(self):
         state = State(map_size=(5, 5), objects=[])
@@ -348,7 +347,7 @@ class StateTestPlacement(unittest.TestCase):
         state.place_object("tree", properties={"loc": loc1})
         self.assertEqual(state._map[loc1].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(len(state._objects[obj_type_id]), 2)
-    
+
     def testUpdateObjectLocCollision(self):
         state = State(map_size=(5, 5), objects=[])
         loc1 = (2, 3)
@@ -362,6 +361,78 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[loc2].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(state._map[loc1].get_obj_entities()[0][0].type, "tree")
         self.assertEqual(len(state._objects[obj_type_id]), 2)
+
+    def testInitBorderMulti(self):
+        state = State(map_size=(5, 5), objects=[])
+        state.init_border_multi([0, 0], [4, 4])
+
+        self.assertEqual(state._map[(0, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 3)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(0, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(1, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(2, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(3, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 0)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(4, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 3)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(1, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(2, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(3, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(1, 3)], None)
+        self.assertEqual(state._map[(2, 3)], None)
+        self.assertEqual(state._map[(3, 3)], None)
+        self.assertEqual(state._map[(1, 2)], None)
+        self.assertEqual(state._map[(2, 2)], None)
+        self.assertEqual(state._map[(3, 2)], None)
+        self.assertEqual(state._map[(1, 1)], None)
+        self.assertEqual(state._map[(2, 1)], None)
+        self.assertEqual(state._map[(3, 1)], None)
+
+    def testInitBorderMulti2(self):
+        state = State(map_size=(10, 10), objects=[])
+        state.init_border_multi([4, 0], [9, 9])
+
+        self.assertEqual(state._map[(4, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 3)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 5)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 6)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 7)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 8)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 9)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(5, 9)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(6, 9)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(7, 9)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(8, 9)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 9)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(9, 8)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 7)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 6)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 5)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 3)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 0)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(8, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(7, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(6, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(5, 0)].get_obj_entities()[0][0].type, "bedrock")
 
     def testInitBorder(self):
         state = State(map_size=(5, 5), objects=[])
@@ -398,8 +469,6 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[(1, 1)], None)
         self.assertEqual(state._map[(2, 1)], None)
         self.assertEqual(state._map[(3, 1)], None)
-
-
 
     # def testGetObjectState(self):
     #     state = State(map_size=(5, 5), objects=[])
@@ -458,6 +527,3 @@ class StateTestPlacement(unittest.TestCase):
 #         self.assertEqual(self.state._map[new_loc], entity_id_str_encoded)
 #         self.assertEqual(self.state._map[old_loc], self.state.item_encoder.get_create_id("air"))
 #         self.assertEqual(self.state._entity_states[0].location, new_loc)
-
-
-

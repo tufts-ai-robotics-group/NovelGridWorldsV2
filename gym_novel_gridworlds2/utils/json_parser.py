@@ -56,11 +56,26 @@ class ConfigParser:
         if "object_types" in json_content:
             self.parse_object_types(json_content["object_types"])
 
+        # initialization of borders
+        if "rooms" in json_content:
+            for room_num, data in json_content["rooms"].items():
+                self.state.init_border_multi(
+                    json_content["rooms"][room_num]["start"],
+                    json_content["rooms"][room_num]["end"],
+                )
+
         # placement of objects on the map
         if "objects" in json_content:
             for obj_name, locs in json_content["objects"].items():
                 for loc in locs:
                     if len(loc) == 2:
+                        if (
+                            obj_name == "door"
+                        ):  # need to be able to place doors where there was bedrock
+                            resz = self.state.get_objects_at(tuple(loc))
+                            if len(resz[0]) > 0:
+                                self.state.remove_object(resz[0][0].type, tuple(loc))
+
                         self.create_place_obj(self.state, obj_name, loc)
                     else:
                         self.create_random_obj(self.state, obj_name, loc[0])
@@ -86,7 +101,10 @@ class ConfigParser:
                 self.agent_manager.add_agent(**agent_entity)
 
         action_space = MultiAgentActionSpace(
-            [e.action_set.get_action_space() for name, e in self.agent_manager.agents.items()]
+            [
+                e.action_set.get_action_space()
+                for name, e in self.agent_manager.agents.items()
+            ]
         )
 
         # TODO: separate out recipes?

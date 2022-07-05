@@ -133,6 +133,17 @@ class State:
                 elif j == self.initial_info["map_size"][1] - 1:
                     self.place_object("bedrock", properties={"loc": (i, j)})
 
+    def init_border_multi(self, start, end):
+        """
+        Given a start and an endpoint,
+        initializes a bedrock border surrounding the edges
+        """
+        for i in range(end[0] + 1):
+            for j in range(end[1] + 1):
+                if i == start[0] or i == end[0] or j == start[1] or j == end[1]:
+                    if not self.contains_block((i, j)):
+                        self.place_object("bedrock", properties={"loc": (i, j)})
+
     def remove_object(self, object_name: str, loc: tuple):
         """
         Removes an object from the map, replacing it with air
@@ -250,24 +261,6 @@ class State:
         if self._map[loc] is None:
             return False
         return self._map[loc]._contains_block
-
-    # def get_object_state(self, loc: tuple):
-    #     """
-    #     Gets the state of an object at a specific location
-    #     """
-    #     obj = self.get_object_at(loc)
-    #     return obj.state
-
-    # def update_object_state(self, loc: tuple):
-    #     """
-    #     Updates state of an object at a specific location
-    #     If it was a block, it is now floating, and vice versa
-    #     """
-    #     obj = self.get_object_at(loc)
-    #     if obj.state == "block":
-    #         obj.state = "floating"
-    #     else:
-    #         obj.state = "block"
 
     def clear(self):
         """

@@ -60,6 +60,85 @@ class ActionSpaceTests(unittest.TestCase):
         res = state.get_objects_of_type("tree")
         self.assertEqual(len(res), 4)
 
+    def test_map_gen(self):
+        file_name = "parser_test_mapgen.json"
+
+        config_file_path = self.get_file_path(file_name)
+        state, dynamic, entities = self.json_parser.parse_json(config_file_path)
+
+        # obj_door = state.get_objects_at((2, 3))[0][0]
+        # self.assertEqual(obj_door.type, "door")
+        # self.assertEqual(obj_door.__class__, Door)
+
+        # obj_tree = state.get_objects_at((3, 4))[0][0]
+        # self.assertEqual(obj_tree.type, "tree")
+        # self.assertEqual(obj_tree.__class__, PolycraftObject)
+        # res = state.get_objects_of_type("tree")
+        # self.assertEqual(len(res), 4)
+
+        self.assertEqual(state._map[(0, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 3)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(0, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(0, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(1, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(2, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(3, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 0)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(4, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 3)].get_obj_entities()[0][0].type, "door")
+        self.assertEqual(state._map[(4, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(1, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(2, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(3, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 4)].get_obj_entities()[0][0].type, "bedrock")
+
+        # self.assertEqual(state._map[(1, 3)], None)
+        # self.assertEqual(state._map[(2, 3)], None)
+        # self.assertEqual(state._map[(3, 3)], None)
+        # self.assertEqual(state._map[(1, 2)], None)
+        # self.assertEqual(state._map[(2, 2)], None)
+        # self.assertEqual(state._map[(3, 2)], None)
+        # self.assertEqual(state._map[(1, 1)], None)
+        # self.assertEqual(state._map[(2, 1)], None)
+        # self.assertEqual(state._map[(3, 1)], None)
+
+        self.assertEqual(state._map[(4, 9)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(5, 9)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(6, 9)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(8, 9)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 9)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(9, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(8, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(7, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(6, 0)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(5, 0)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(9, 1)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 2)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 3)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 4)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 5)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 6)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 7)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(9, 8)].get_obj_entities()[0][0].type, "bedrock")
+
+        self.assertEqual(state._map[(4, 8)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 7)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 6)].get_obj_entities()[0][0].type, "bedrock")
+        self.assertEqual(state._map[(4, 5)].get_obj_entities()[0][0].type, "bedrock")
+
+        # self.assertEqual(state._map[(8, 8)], None)
+        # self.assertEqual(state._map[(7, 7)], None)
+        # self.assertEqual(state._map[(6, 6)], None)
+        # self.assertEqual(state._map[(5, 5)], None)
+
     def test_recipes(self):
         file_name = "parser_test_recipes.json"
 
