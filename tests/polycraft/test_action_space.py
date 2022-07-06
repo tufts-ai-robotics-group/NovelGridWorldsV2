@@ -1,5 +1,4 @@
 import unittest
-import gym
 
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 
