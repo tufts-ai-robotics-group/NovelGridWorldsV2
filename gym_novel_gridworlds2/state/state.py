@@ -145,6 +145,46 @@ class State:
                         if not self.contains_block((i, j)):
                             self.place_object("bedrock", properties={"loc": (i, j)})
 
+        # start from every edge, place bedrock until bedrock is run into
+
+    def remove_space(self):
+        # for every row, and for every col
+        # proceed linearly down the row/col and place a bedrock until another bedrock is reached, then terminate
+        rows = range(self.initial_info["map_size"][0])
+        cols = range(self.initial_info["map_size"][1])
+        # this nested for loop iterates through rows
+        for i in rows:
+            for j in cols:
+                if not self.contains_block((i, j)):
+                    # place bedrock until another is reached
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                else:
+                    break
+        # this nested for loop iterates through rows backwards
+        for i in reversed(rows):
+            for j in reversed(cols):
+                if not self.contains_block((i, j)):
+                    # place bedrock until another is reached
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                else:
+                    break
+        # this nested for loop iterates through cols
+        for i in rows:
+            for j in cols:
+                if not self.contains_block((j, i)):
+                    # place bedrock until another is reached
+                    self.place_object("bedrock", properties={"loc": (j, i)})
+                else:
+                    break
+        # this nested for loop iterates through cols backwards
+        for i in reversed(rows):
+            for j in reversed(cols):
+                if not self.contains_block((j, i)):
+                    # place bedrock until another is reached
+                    self.place_object("bedrock", properties={"loc": (j, i)})
+                else:
+                    break
+
     def remove_object(self, object_name: str, loc: tuple):
         """
         Removes an object from the map, replacing it with air

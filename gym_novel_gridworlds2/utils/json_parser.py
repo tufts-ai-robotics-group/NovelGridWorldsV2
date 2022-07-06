@@ -64,6 +64,9 @@ class ConfigParser:
                     json_content["rooms"][room_num]["end"],
                 )
 
+        # filling in space to prevent other objects from spawning there
+        self.state.remove_space()
+
         # placement of objects on the map
         if "objects" in json_content:
             for obj_name, locs in json_content["objects"].items():
@@ -76,7 +79,7 @@ class ConfigParser:
                             if len(resz[0]) > 0:
                                 self.state.remove_object(resz[0][0].type, tuple(loc))
 
-                        self.create_place_obj(self.state, obj_name, loc)
+                        self.create_place_obj(self.state, obj_name, loc)  # some problem
                     else:
                         self.create_random_obj(self.state, obj_name, loc[0])
 
@@ -147,6 +150,7 @@ class ConfigParser:
         """
         obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
         ObjectModule: Object = obj_type_info["module"]
+        print(obj_type_info["params"])
         state.place_object(
             obj_name, ObjectModule, properties={"loc": loc, **obj_type_info["params"]}
         )
