@@ -141,8 +141,9 @@ class State:
         for i in range(end[0] + 1):
             for j in range(end[1] + 1):
                 if i == start[0] or i == end[0] or j == start[1] or j == end[1]:
-                    if not self.contains_block((i, j)):
-                        self.place_object("bedrock", properties={"loc": (i, j)})
+                    if i >= start[0] and j >= start[1]:
+                        if not self.contains_block((i, j)):
+                            self.place_object("bedrock", properties={"loc": (i, j)})
 
     def remove_object(self, object_name: str, loc: tuple):
         """

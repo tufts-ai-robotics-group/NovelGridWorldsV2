@@ -113,6 +113,7 @@ class TestRenderWithParser:
                 choice = input("Select an action: ")
                 if choice == "forward":
                     self.dynamic.actions["forward"].do_action(agent)
+                    print(agent.loc)
                 elif choice == "rotate_r":
                     self.dynamic.actions["rotate_right"].do_action(agent)
                 elif choice == "rotate_l":
