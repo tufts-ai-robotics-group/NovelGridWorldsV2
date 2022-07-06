@@ -13,6 +13,7 @@ import numpy as np
 from ..utils.json_parser import ConfigParser
 
 from ..state.state import State
+from gym.spaces import MultiDiscrete
 import json
 
 class NovelGridWorldEnv(gym.Env):
@@ -28,7 +29,11 @@ class NovelGridWorldEnv(gym.Env):
         self.dynamic = dynamic
         self.agent_manager = agent_manager
         self.action_space = self.dynamic.action_space
+        self.observation_space = MultiDiscrete(state._map.shape)
         self.goal_item_to_craft = ""
+    
+    def generate_observation(self, state):
+        return self.state._map
 
     def step(self, action_n):
         obs      = self.state
@@ -37,7 +42,8 @@ class NovelGridWorldEnv(gym.Env):
         info_n   = []
         for agent_id, action in enumerate(action_n):
             if action != 0: 
-                self.agent_manager.do_action(agent_id, action)
+                print(agent_id, action)
+                self.agent_manager.do_action(agent_id, int(action))
 
             # .. execute th action
         return obs, reward_n, done_n, info_n
@@ -46,7 +52,7 @@ class NovelGridWorldEnv(gym.Env):
         # TODO check if deepcopy works well
         self.state = deepcopy(self.reset_info['state'])
         self.dynamic = deepcopy(self.reset_info['dynamic'])
-        return self.state, None
+        return self.state._map, None
 
     def render(self, mode):
         pass

@@ -148,7 +148,7 @@ class State:
         """
         Removes an object from the map, replacing it with air
         """
-
+        loc = tuple(loc)
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_id(object_name)
         if object_id is not None:
@@ -195,6 +195,7 @@ class State:
         """
         Gets all objects at a specific location.
         """
+        loc = tuple(loc)
         if self._map[loc] is None:
             return ([], [])
         else:
@@ -210,6 +211,7 @@ class State:
 
         WARNING: Do not modify the locations
         """
+        loc = tuple(loc)
         if self._map[loc] is None:
             return None
         objs = self._map[loc].get_obj_entities()
@@ -226,7 +228,8 @@ class State:
         while an update_entity_loc should move the ENTITY at the location
         """
         # notes: this algorithm updates both the agent state and the state.
-
+        old_loc = tuple(old_loc)
+        new_loc = tuple(new_loc)
         curr_obj = self.get_object_at(new_loc)
         if curr_obj == None or (
             hasattr(curr_obj, "canWalkOver") and curr_obj.canWalkOver == True

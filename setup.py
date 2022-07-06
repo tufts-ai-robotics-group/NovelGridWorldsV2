@@ -1,7 +1,11 @@
 import setuptools
-
+import os
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
+
+if os.path.isfile("requirements.txt"):
+    with open("requirements.txt") as f:
+        install_requires = f.read().splitlines()
 
 setuptools.setup(
     name="NovelGridWorlds",
@@ -23,5 +27,6 @@ setuptools.setup(
         where='.',
         include=['gym_novel_gridworlds2*'],  # ["*"] by default
     ),
-    python_requires=">=3.6"
+    python_requires=">=3.6",
+    install_requires=install_requires
 )
