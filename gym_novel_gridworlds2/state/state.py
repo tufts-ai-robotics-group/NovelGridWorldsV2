@@ -4,6 +4,7 @@ import numpy as np
 import random
 from functools import reduce
 import json
+from numpy.random import default_rng
 
 from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 
@@ -19,11 +20,11 @@ from .exceptions import LocationOccupied, LocationOutOfBound
 class State:
     def __init__(
         self,
-        rng: np.random.Generator = None,
         map_size: Tuple[int] = None,
         objects: Mapping[str, object] = None,
         map_json: dict = None,
         item_list: Mapping[str, int] = {"air": 0},
+        rng: np.random.Generator = default_rng(),
         **kwargs
     ):
         """
@@ -220,6 +221,7 @@ class State:
 
     def init_doors(self):
         # for every wall, randomly init a door to replace a bedrock there
+        coord = (0, 0)
         for wall in self.walls_list:
             without_borders = wall[1 : len(wall) - 1]
             # don't want to place a door where its inaccessible
