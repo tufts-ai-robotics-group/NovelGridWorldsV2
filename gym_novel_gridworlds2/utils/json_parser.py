@@ -69,24 +69,11 @@ class ConfigParser:
                     json_content["rooms"][room_num]["end"],
                 )
 
+        # initialization of doors
+        self.state.init_doors()
+
         # filling in space to prevent other objects from spawning there
         self.state.remove_space()
-
-        # placement of objects on the map
-        if "objects" in json_content:
-            for obj_name, locs in json_content["objects"].items():
-                for loc in locs:
-                    if len(loc) == 2:
-                        if (
-                            obj_name == "door"
-                        ):  # need to be able to place doors where there was bedrock
-                            resz = self.state.get_objects_at(tuple(loc))
-                            if len(resz[0]) > 0:
-                                self.state.remove_object(resz[0][0].type, tuple(loc))
-
-                        self.create_place_obj(self.state, obj_name, loc)  # some problem
-                    else:
-                        self.create_random_obj(self.state, obj_name, loc[0])
 
         # recipe
         if "recipes" in json_content:
@@ -114,6 +101,11 @@ class ConfigParser:
                 for name, e in self.agent_manager.agents.items()
             ]
         )
+
+        # placement of objects on the map
+        if "objects" in json_content:
+            for obj_name, qt in json_content["objects"].items():
+                self.create_random_obj(self.state, obj_name, qt)
 
         # TODO: separate out recipes?
         dynamic = Dynamic(

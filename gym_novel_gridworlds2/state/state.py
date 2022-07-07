@@ -5,6 +5,8 @@ import random
 from functools import reduce
 import json
 
+from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
+
 from ..object import Object, Entity
 from ..utils.item_encoder import SimpleItemEncoder
 from .cell import Cell
@@ -42,6 +44,9 @@ class State:
         }
         self.item_encoder = SimpleItemEncoder(item_list)
 
+        self.walls_list = []
+        # to be used to store walls where bedrock overlaps on the map
+
         # Initialization of the objects
         self._objects: Mapping[str, List[Object]] = {}
         self._map: np.ndarray = np.empty(map_size, dtype="object")
@@ -58,6 +63,71 @@ class State:
     def _ensure_not_none(self, loc: tuple):
         if self._map[loc] is None:
             self._map[loc] = Cell()
+
+    def getSymbol(self, obj, state, canWalkOver=False, facing="NORTH"):
+        if obj == "tree":
+            if state == "block":
+                return "T"
+            else:
+                return "t"
+        elif obj == "air":
+            return " "
+        elif obj == "bedrock":
+            return "X"
+        elif obj == "door":
+            if canWalkOver == False:
+                if state == "block":
+                    return "D"
+                else:
+                    return "d"
+            else:
+                return " "
+        elif obj == "rubber":
+            if state == "block":
+                return "R"
+            else:
+                return "r"
+        elif obj == "chest":
+            if state == "block":
+                return "C"
+            else:
+                return "c"
+        elif obj == "agent":
+            if facing == "NORTH":
+                return "^"
+            elif facing == "SOUTH":
+                return "v"
+            elif facing == "EAST":
+                return ">"
+            else:
+                return "<"
+        else:
+            return " "
+
+    def mapRepresentation(self):
+        res: np.ndarray = np.empty(self.initial_info["map_size"], dtype="object")
+        for i in range(self.initial_info["map_size"][0]):
+            for j in range(self.initial_info["map_size"][1]):
+                obj = self.get_objects_at((i, j))
+                if len(obj[0]) != 0:
+                    if hasattr(obj[0][0], "canWalkOver"):
+                        res[i][j] = self.getSymbol(
+                            obj[0][0].type,
+                            obj[0][0].state,
+                            canWalkOver=obj[0][0].canWalkOver,
+                        )
+                    else:
+                        res[i][j] = self.getSymbol(obj[0][0].type, obj[0][0].state)
+                else:
+                    res[i][j] = " "
+                if len(obj[1]) != 0:
+                    if hasattr(obj[1][0], "facing"):
+                        res[i][j] = self.getSymbol(
+                            obj[1][0].type, obj[1][0].state, facing=obj[1][0].facing
+                        )
+                    else:
+                        res[i][j] = self.getSymbol(obj[1][0].type, obj[1][0].state)
+        print(res)
 
     ############################# ALL BLOCKS #############################
     def place_object(self, object_type: str, ObjectClass=Object, properties: dict = {}):
@@ -132,14 +202,31 @@ class State:
         Given a start and an endpoint,
         initializes a bedrock border surrounding the edges
         """
+        overlapping_wall = []
+        # only one overlapping wall max, add this wall to the walls list if we place over it
         for i in range(end[0] + 1):
             for j in range(end[1] + 1):
                 if i == start[0] or i == end[0] or j == start[1] or j == end[1]:
                     if i >= start[0] and j >= start[1]:
                         if not self.contains_block((i, j)):
                             self.place_object("bedrock", properties={"loc": (i, j)})
+                        else:
+                            overlapping_wall.append((i, j))
+
+        if len(overlapping_wall) > 0:
+            self.walls_list.append(overlapping_wall)
 
         # start from every edge, place bedrock until bedrock is run into
+
+    def init_doors(self):
+        # for every wall, randomly init a door to replace a bedrock there
+        for wall in self.walls_list:
+            without_borders = wall[1 : len(wall) - 1]
+            # don't want to place a door where its inaccessible
+            coord = tuple(self.rng.choice(without_borders))
+        properties = {"loc": coord}
+        self.remove_object("bedrock", coord)
+        self.place_object("door", Door, properties=properties)
 
     def remove_space(self):
         # for every row, and for every col
