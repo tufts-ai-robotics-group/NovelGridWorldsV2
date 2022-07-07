@@ -11,6 +11,7 @@ from ..object import Object, Entity
 from ..actions import ActionSet, Action
 from ..state.dynamic import Dynamic
 from ..agents import Agent
+import numpy as np
 
 
 from ..contrib.polycraft.actions.craft import Craft
@@ -41,8 +42,12 @@ class ConfigParser:
         with open(json_file_name, "r") as f:
             json_content = json.load(f, strict=False)
 
+        rng_seed = 0
+        if "seed" in json_content:
+            rng_seed = json_content["seed"]
         # state
         self.state = State(
+            rng=np.random.default_rng(seed=rng_seed),
             map_size=tuple(json_content["map_size"]),
         )
 

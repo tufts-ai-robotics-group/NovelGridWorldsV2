@@ -17,6 +17,7 @@ from .exceptions import LocationOccupied, LocationOutOfBound
 class State:
     def __init__(
         self,
+        rng: np.random.Generator = None,
         map_size: Tuple[int] = None,
         objects: Mapping[str, object] = None,
         map_json: dict = None,
@@ -45,12 +46,7 @@ class State:
         self._objects: Mapping[str, List[Object]] = {}
         self._map: np.ndarray = np.empty(map_size, dtype="object")
         self._map.fill(None)
-
-        # for name, obj in objects.items():
-        #     object_id = self.item_encoder.get_create_id(name)
-        #     self.place_object(name, Object, properties=obj)
-
-        # self._world_inventory = {}
+        self.rng = rng
         self._step_count = 0
 
     def make_copy(self):
@@ -103,7 +99,6 @@ class State:
 
     def random_place(self, object_str, count, ObjectClass=Object):
         """
-        TODO: ObjectClass
         Randomly place the object in the map
 
         if there's not enough spots available, all available spots will be filled
@@ -112,12 +107,11 @@ class State:
         if count >= all_available_spots.shape[0]:
             count = all_available_spots.shape[0]
 
-        picked_indices = np.random.choice(
+        picked_indices = self.rng.choice(
             a=all_available_spots.shape[0], size=count, replace=False
         )
         for index in picked_indices:
             properties = {"loc": tuple(all_available_spots[index])}
-            # print(properties)
             self.place_object(object_str, ObjectClass, properties=properties)
 
     def init_border(self):
