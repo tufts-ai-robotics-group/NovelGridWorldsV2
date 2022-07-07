@@ -1,5 +1,9 @@
+from typing import List
+
+from ..actions import Action, ActionSet
+
 class Dynamic:
-    def __init__(self, actions, action_sets, action_space, obj_types):
+    def __init__(self, actions: List[Action], action_sets: List[ActionSet], action_space, obj_types):
         """
         actions: the instanciated classes and funcs that execute the actions
         action_sets: the set of action functions for each "set"
