@@ -47,7 +47,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.agent_name_mapping = agent_manager.get_agent_name_mapping()
 
         # The agent is done when it's killed or when the goal is reached.
-        self.dones = {key: False for key, a in self.agent_manager.items()}
+        self.dones = {key: False for key, a in self.agent_manager.agents.items()}
 
         # spaces: we get from the agent
         self._action_spaces = {
@@ -55,12 +55,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 for key, a in self.agent_manager.agents.items()
         }
         self._observation_spaces = {
-            key: a.agent.get_observation_space()
+            key: a.agent.get_observation_space(self.state._map.shape, 10)
                 for key, a in self.agent_manager.agents.items()
         }
     
     def observe(self, agent_name):
-        return self.agent_manager.get_agent(agent_name).agent.get_observation(self.state)
+        return self.agent_manager.get_agent(agent_name).agent.get_observation()
 
 
     @functools.lru_cache(maxsize=None)
@@ -102,9 +102,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # agent should start again at 0
         self._cumulative_rewards[agent] = 0
 
-        # stores action of current agent
-        self.state[self.agent_selection] = action
-
         # collect reward if it is the last agent to act
         if self._agent_selector.is_last():
             # rewards for all agents are placed in the .rewards dictionary
@@ -112,7 +109,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             #     (self.state[self.agents[0]], self.state[self.agents[1]])
             # ]
             # TODO: rewards
-            self.rewards = {0 for _ in self.possible_agents}
+            self.rewards = {agent: 0 for agent in self.possible_agents}
 
             self.num_moves += 1
             # The dones dictionary must be updated for all players.
@@ -145,7 +142,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.agent_selection = self._agent_selector.next()
         return self.state._map, None
 
-    def render(self, mode):
+    def render(self, mode="human"):
+        print(self.state.mapRepresentation())
         pass
 
     def close(self):

@@ -12,10 +12,10 @@ class Agent:
         self.ob_space = ob_space
     
     def generate_observation(self, state):
-        return []
+        return [0]
     
     def get_observation_space(self, map_size: tuple, other_size: int):
-        return Discrete(0)
+        return Discrete(1)
     
     def get_observation(self):
         raise NotImplementedError("Get observation for " + self.name + " is not implemented.")
@@ -23,5 +23,8 @@ class Agent:
     def get_action_space(self):
         return self.action_set.get_action_space()
     
-    def get_action(self, observation):
+    def policy(self, observation):
+        """
+        Main policy for the agent
+        """
         raise NotImplementedError("Get action for " + self.name + " is not implemented.")
