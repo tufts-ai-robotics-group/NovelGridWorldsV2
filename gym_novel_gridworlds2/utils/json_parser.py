@@ -70,8 +70,9 @@ class ConfigParser:
                     json_content["rooms"][room_num]["end"],
                 )
 
-        # initialization of doors
-        self.state.init_doors()
+        # initialization of doors 
+        # TODO make sure all tests are passed before committing
+        # self.state.init_doors()
 
         # filling in space to prevent other objects from spawning there
         self.state.remove_space()

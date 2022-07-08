@@ -12,8 +12,8 @@ class Cell:
     when getting the obj/entities, just directly access this,
     """
     def __init__(self, obj_limit=1, entity_limit=1, item_encoder=None):
-        self._objects = []
-        self._entities = []
+        self._objects: List[Object] = []
+        self._entities: List[Entity] = []
         self._obj_limit = obj_limit
         self._entity_limit = entity_limit
         self._item_encoder = item_encoder
@@ -31,6 +31,18 @@ class Cell:
             self._objects.append(obj)
             return True
         raise LocationOccupied
+
+    def _contains_object(self, obj_type):
+        """
+        Returns whether a given type of object exists in the current cell.
+        """
+        for object in self._objects:
+            if object.type == obj_type:
+                return True
+        # for entity in self._entities:
+        #     if entity.type == obj_type:
+        #         return True
+        return False
     
     def _contains_block(self):
         """

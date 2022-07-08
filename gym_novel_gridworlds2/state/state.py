@@ -138,6 +138,9 @@ class State:
         object_id = self.item_encoder.get_create_id(object_type)
         new_loc = tuple(properties["loc"])
 
+        if object_type == "door":
+            print(new_loc)
+
         # sanity check
         try:
             new_loc_obj = self._map[new_loc]

@@ -1,10 +1,26 @@
+from ..objects.polycraft_obj import PolycraftObject
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
+from gym_novel_gridworlds2.state.cell import Cell
+from gym_novel_gridworlds2.state.exceptions import LocationOccupied
 
 class PolycraftState(State):
     """
     Extended State Representation with extra helper functions
     """
+    def place_object(self, object_type: str, ObjectClass=PolycraftObject, properties: dict = {}):
+        try:
+            result = super().place_object(object_type, ObjectClass, properties)
+        except LocationOccupied as e:
+            new_loc = tuple(properties["loc"])
+            cell: Cell = self._map[new_loc]
+            print(object_type, new_loc)
+            if object_type == "door" and cell._contains_object("bedrock"):
+                self.remove_object("bedrock", new_loc)
+                super().place_object(object_type, ObjectClass, properties)
+                return
+            raise LocationOccupied from e
+
     def init_border(self):
         """
         Initializes a bedrock border surrounding the edges of the map
