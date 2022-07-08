@@ -1,9 +1,7 @@
-from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
-import gym
-import numpy as np
 import pathlib
 import time
 
+from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
 file_name = "automaptest.json"
