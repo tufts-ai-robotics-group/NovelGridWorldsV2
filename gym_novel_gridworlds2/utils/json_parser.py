@@ -1,3 +1,4 @@
+from copy import deepcopy
 import json
 import importlib
 from re import L
@@ -34,14 +35,15 @@ class ConfigParser:
     def __init__(self) -> None:
         self.obj_types = {}
 
-    def parse_json(self, json_file_name) -> Tuple[State, Dynamic, AgentManager]:
+    def parse_json(self, json_file_name="", json_content=None) -> Tuple[State, Dynamic, AgentManager]:
         """
         Parses the json
         TODO: check error
         """
-        json_content = None
-        with open(json_file_name, "r") as f:
-            json_content = json.load(f, strict=False)
+        if json_content is None:
+            with open(json_file_name, "r") as f:
+                json_content = json.load(f, strict=False)
+        json_content = deepcopy(json_content)
 
         rng_seed = 0
         if "seed" in json_content:

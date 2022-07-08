@@ -22,9 +22,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
     def __init__(self, 
-            state: State, 
-            dynamic: Dynamic, 
-            agent_manager: AgentManager,
+            config_dict: str,
             MAX_ITER: int = 2000
         ):
         """
@@ -32,21 +30,19 @@ class NovelGridWorldSequentialEnv(AECEnv):
         TODO more docs
         """
         ### custom variables environment
-        self.reset_info = {
-            "state": deepcopy(state),
-            "dynamic": deepcopy(dynamic)
-        }
-        self.state = state
-        self.dynamic = dynamic
-        self.agent_manager = agent_manager
-        self.goal_item_to_craft = ""
+        self.config_dict = config_dict
+
+        self.json_parser = ConfigParser()
+        self.state, self.dynamic, self.agent_manager = \
+            self.json_parser.parse_json(json_content=config_dict)
+        self.goal_item_to_craft = "" # TODO add to config
         self.MAX_ITER = MAX_ITER
 
         
         ##### Required properties for the environment
         # Agent lists
-        self.possible_agents = agent_manager.get_possible_agents()
-        self.agent_name_mapping = agent_manager.get_agent_name_mapping()
+        self.possible_agents = self.agent_manager.get_possible_agents()
+        self.agent_name_mapping = self.agent_manager.get_agent_name_mapping()
 
         # The agent is done when it's killed or when the goal is reached.
         self.dones = {key: False for key, a in self.agent_manager.agents.items()}
@@ -142,8 +138,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
     def reset(self, seed=None, return_info=False, options=None):
         # TODO check if deepcopy works well
-        self.state: State = deepcopy(self.reset_info['state'])
-        self.dynamic = deepcopy(self.reset_info['dynamic'])
+        self.state, self.dynamic, self.agent_manager = \
+            self.json_parser.parse_json(json_content=self.config_dict)
 
         self.agents = self.possible_agents[:]
         self.rewards = {agent: 0 for agent in self.agents}
