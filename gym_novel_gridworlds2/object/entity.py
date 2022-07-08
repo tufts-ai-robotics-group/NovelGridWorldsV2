@@ -25,5 +25,5 @@ class Entity(Object):
     def __str__(self):
         return f'<{self.__class__.__name__} "{str(self.type)}" facing {self.facing} at {str(self.loc)}>'
 
-    def do_action(self):
+    def do_action(self, **kwargs):
         pass

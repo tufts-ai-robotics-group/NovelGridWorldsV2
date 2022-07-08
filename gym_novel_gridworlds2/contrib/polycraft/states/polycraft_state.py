@@ -11,14 +11,14 @@ class PolycraftState(State):
     def place_object(self, object_type: str, ObjectClass=PolycraftObject, properties: dict = {}):
         try:
             result = super().place_object(object_type, ObjectClass, properties)
+            return result
         except LocationOccupied as e:
             new_loc = tuple(properties["loc"])
             cell: Cell = self._map[new_loc]
-            print(object_type, new_loc)
             if object_type == "door" and cell._contains_object("bedrock"):
                 self.remove_object("bedrock", new_loc)
-                super().place_object(object_type, ObjectClass, properties)
-                return
+                result = super().place_object(object_type, ObjectClass, properties)
+                return result
             raise LocationOccupied from e
 
     def init_border(self):

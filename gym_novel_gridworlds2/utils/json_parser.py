@@ -180,7 +180,7 @@ class ConfigParser:
     def create_action_set(self, action_str_list):
         action_list = []
         for action_str in action_str_list:
-            action_list.append(self.actions[action_str])
+            action_list.append((action_str, self.actions[action_str]))
         return ActionSet(action_list)
 
     def create_place_entity(self, name: str, entity_info: dict):
@@ -202,6 +202,8 @@ class ConfigParser:
         entity_obj = self.state.place_object(
             entity_info["type"], EntityClass, entity_info
         )
+        print(EntityClass)
+        print("name:", name, entity_obj)
 
         # agent object
         agent_obj = AgentClass(name=name, action_set=action_set)

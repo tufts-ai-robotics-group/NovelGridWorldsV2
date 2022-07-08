@@ -60,6 +60,15 @@ class ActionSpaceTests(unittest.TestCase):
         res = state.get_objects_of_type("tree")
         self.assertEqual(len(res), 4)
 
+    def test_entity(self):
+        file_name = "parser_test_entity.json"
+
+        config_file_path = self.get_file_path(file_name)
+        state, dynamic, entities = self.json_parser.parse_json(config_file_path)
+
+        obj_entity = state.get_objects_at((2, 2))[1][0]
+        self.assertNotEqual(obj_entity, None)
+
     def test_map_gen(self):
         file_name = "parser_test_mapgen.json"
 

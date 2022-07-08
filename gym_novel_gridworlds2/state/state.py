@@ -126,7 +126,7 @@ class State:
                         )
                     else:
                         res[i][j] = self.getSymbol(obj[1][0].type, obj[1][0].state)
-        print(res)
+        return res
 
     ############################# ALL BLOCKS #############################
     def place_object(self, object_type: str, ObjectClass=Object, properties: dict = {}):
@@ -137,9 +137,6 @@ class State:
         # get the object id for use in the object dict
         object_id = self.item_encoder.get_create_id(object_type)
         new_loc = tuple(properties["loc"])
-
-        if object_type == "door":
-            print(new_loc)
 
         # sanity check
         try:
@@ -279,7 +276,6 @@ class State:
         ):
             # TODO: polycraft specific
             objs = self.get_objects_at(old_loc)
-            print(objs)
             if len(objs[1]) != 0:
                 temp = objs[1][0]
                 self._map[old_loc].remove_object(objs[1][0])
@@ -318,8 +314,6 @@ class State:
         for index, obj_id in np.ndenumerate(self._map):
             if obj_id is not None:
                 obj = self.get_object_at(index)
-                print(obj)
-                # print(obj.type, index)
                 if obj is not None:
                     self.remove_object(obj.type, index)
         # resets item encoder

@@ -9,6 +9,8 @@ from pettingzoo.utils import agent_selector
 from pettingzoo.utils import wrappers
 from gym.spaces import MultiDiscrete
 
+from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
+
 from ..agents import Agent, AgentManager
 from ..state.dynamic import Dynamic
 from ..state.state import State
@@ -58,6 +60,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
             key: a.agent.get_observation_space(self.state._map.shape, 10)
                 for key, a in self.agent_manager.agents.items()
         }
+
+        # rendering
+        self.window = None
     
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation()
@@ -93,9 +98,19 @@ class NovelGridWorldSequentialEnv(AECEnv):
             # handles stepping an agent which is already done
             # accepts a None action for the one agent, and moves the agent_selection to
             # the next done agent,  or if there are no more done agents, to the next live agent
-            return self._was_done_step(action)
+            return self._was_done_step(None)
 
         agent = self.agent_selection
+
+        # do the action
+        action_set = self.agent_manager.get_agent(agent).action_set
+        agent_entity = self.agent_manager.get_agent(agent).entity
+        # TODO only print when verbose
+        print("agent:", agent, "| action:", action_set.actions[action][0])
+        try:
+            action_set.actions[action][1].do_action(agent_entity)
+        except PreconditionNotMetError:
+            pass
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this
