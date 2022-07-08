@@ -4,11 +4,15 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 from gym_novel_gridworlds2.state.cell import Cell
 from gym_novel_gridworlds2.state.exceptions import LocationOccupied
 
+
 class PolycraftState(State):
     """
     Extended State Representation with extra helper functions
     """
-    def place_object(self, object_type: str, ObjectClass=PolycraftObject, properties: dict = {}):
+
+    def place_object(
+        self, object_type: str, ObjectClass=PolycraftObject, properties: dict = {}
+    ):
         try:
             result = super().place_object(object_type, ObjectClass, properties)
             return result
@@ -57,49 +61,61 @@ class PolycraftState(State):
 
     def init_doors(self):
         # for every wall, randomly init a door to replace a bedrock there
-        coord = (0, 0)
+
         for wall in self.walls_list:
+            print(wall)
+            coord = (0, 0)
             without_borders = wall[1 : len(wall) - 1]
             # don't want to place a door where its inaccessible
             coord = tuple(self.rng.choice(without_borders))
-        properties = {"loc": coord}
-        self.remove_object("bedrock", coord)
-        self.place_object("door", Door, properties=properties)
+            properties = {"loc": coord}
+            self.remove_object("bedrock", coord)
+            self.place_object("door", Door, properties=properties)
+
+        # # for every wall, randomly init a door to replace a bedrock there
+        # coord = (0, 0)
+        # for wall in self.walls_list:
+        #     without_borders = wall[1 : len(wall) - 1]
+        #     # don't want to place a door where its inaccessible
+        #     coord = tuple(self.rng.choice(without_borders))
+        # properties = {"loc": coord}
+        # self.remove_object("bedrock", coord)
+        # self.place_object("door", Door, properties=properties)
 
     def remove_space(self):
         # for every row, and for every col
         # proceed linearly down the row/col and place a bedrock until another bedrock is reached, then terminate
         rows = range(self.initial_info["map_size"][0])
         cols = range(self.initial_info["map_size"][1])
-        # # this nested for loop iterates through rows
-        # for i in rows:
-        #     for j in cols:
-        #         if not self.contains_block((i, j)):
-        #             # place bedrock until another is reached
-        #             self.place_object("bedrock", properties={"loc": (i, j)})
-        #         else:
-        #             break
-        # # this nested for loop iterates through rows backwards
-        # for i in reversed(rows):
-        #     for j in reversed(cols):
-        #         if not self.contains_block((i, j)):
-        #             # place bedrock until another is reached
-        #             self.place_object("bedrock", properties={"loc": (i, j)})
-        #         else:
-        #             break
-        # # this nested for loop iterates through cols
-        # for i in rows:
-        #     for j in cols:
-        #         if not self.contains_block((i, j)):
-        #             # place bedrock until another is reached
-        #             self.place_object("bedrock", properties={"loc": (i, j)})
-        #         else:
-        #             break
-        # # this nested for loop iterates through cols backwards
-        # for i in reversed(rows):
-        #     for j in reversed(cols):
-        #         if not self.contains_block((i, j)):
-        #             # place bedrock until another is reached
-        #             self.place_object("bedrock", properties={"loc": (i, j)})
-        #         else:
-        #             break
+        # this nested for loop iterates through rows
+        for i in rows:
+            for j in cols:
+                if not self.contains_block((i, j)):
+                    # place bedrock until another is reached
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                else:
+                    break
+        # this nested for loop iterates through rows backwards
+        for i in reversed(rows):
+            for j in reversed(cols):
+                if not self.contains_block((i, j)):
+                    # place bedrock until another is reached
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                else:
+                    break
+        # this nested for loop iterates through cols
+        for i in rows:
+            for j in cols:
+                if not self.contains_block((i, j)):
+                    # place bedrock until another is reached
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                else:
+                    break
+        # this nested for loop iterates through cols backwards
+        for i in reversed(rows):
+            for j in reversed(cols):
+                if not self.contains_block((i, j)):
+                    # place bedrock until another is reached
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                else:
+                    break

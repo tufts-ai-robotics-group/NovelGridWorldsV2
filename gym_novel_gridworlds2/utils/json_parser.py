@@ -70,9 +70,9 @@ class ConfigParser:
                     json_content["rooms"][room_num]["end"],
                 )
 
-        # initialization of doors 
+        # initialization of doors
         # TODO make sure all tests are passed before committing
-        # self.state.init_doors()
+        self.state.init_doors()
 
         # filling in space to prevent other objects from spawning there
         self.state.remove_space()
@@ -106,13 +106,8 @@ class ConfigParser:
 
         # placement of objects on the map
         if "objects" in json_content:
-            for obj_name, locs in json_content["objects"].items():
-                for loc in locs:
-                    if type(loc) == list:
-                        self.create_place_obj(self.state, obj_name, tuple(loc))
-                    else:
-                        # random place
-                        self.create_random_obj(self.state, obj_name, int(loc))
+            for obj_name, qt in json_content["objects"].items():
+                self.create_random_obj(self.state, obj_name, qt)
 
         # TODO: separate out recipes?
         dynamic = Dynamic(
@@ -195,9 +190,11 @@ class ConfigParser:
             raise ParseError(f"Action Set {action_set_name} not found in config") from e
 
         # entity object
-        entity_info['name'] = name
+        entity_info["name"] = name
         entity_obj = self.state.place_object(
-            entity_info["type"], EntityClass, entity_info,
+            entity_info["type"],
+            EntityClass,
+            entity_info,
         )
 
         # agent object

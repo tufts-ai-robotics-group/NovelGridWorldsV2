@@ -26,8 +26,9 @@ class TestRenderWithParser:
     def setUp(self):
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.entities = self.json_parser.parse_json(
-            pathlib.Path(__file__).parent.resolve() / "tests/automaptest.json"
+            pathlib.Path(__file__).parent.resolve() / "tests/maptest3.json"
         )
+        # tests/automaptest.json
 
     def getSymbol(self, obj, state, canWalkOver=False, facing="NORTH"):
         if obj == "tree":
