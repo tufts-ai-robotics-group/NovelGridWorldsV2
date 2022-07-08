@@ -4,6 +4,7 @@ from re import L
 from typing import Mapping, Tuple, Type
 
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
+from gym_novel_gridworlds2.contrib.polycraft.states import PolycraftState
 
 from .MultiAgentActionSpace import MultiAgentActionSpace
 
@@ -46,7 +47,7 @@ class ConfigParser:
         if "seed" in json_content:
             rng_seed = json_content["seed"]
         # state
-        self.state = State(
+        self.state = PolycraftState(
             rng=np.random.default_rng(seed=rng_seed),
             map_size=tuple(json_content["map_size"]),
         )
@@ -104,8 +105,13 @@ class ConfigParser:
 
         # placement of objects on the map
         if "objects" in json_content:
-            for obj_name, qt in json_content["objects"].items():
-                self.create_random_obj(self.state, obj_name, qt)
+            for obj_name, locs in json_content["objects"].items():
+                for loc in locs:
+                    if type(loc) == list:
+                        self.create_place_obj(self.state, obj_name, tuple(loc))
+                    else:
+                        # random place
+                        self.create_random_obj(self.state, obj_name, int(loc))
 
         # TODO: separate out recipes?
         dynamic = Dynamic(
@@ -147,7 +153,6 @@ class ConfigParser:
         """
         obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
         ObjectModule: Object = obj_type_info["module"]
-        print(obj_type_info["params"])
         state.place_object(
             obj_name, ObjectModule, properties={"loc": loc, **obj_type_info["params"]}
         )

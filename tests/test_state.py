@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 import json
+from gym_novel_gridworlds2.contrib.polycraft.states.polycraft_state import PolycraftState
 from gym_novel_gridworlds2.object.entity import Entity
 
 from gym_novel_gridworlds2.state import State
@@ -363,7 +364,7 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(len(state._objects[obj_type_id]), 2)
 
     def testInitBorderMulti(self):
-        state = State(map_size=(5, 5), objects=[])
+        state = PolycraftState(map_size=(5, 5), objects=[])
         state.init_border_multi([0, 0], [4, 4])
 
         self.assertEqual(state._map[(0, 0)].get_obj_entities()[0][0].type, "bedrock")
@@ -399,7 +400,7 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[(3, 1)], None)
 
     def testInitBorderMulti2(self):
-        state = State(map_size=(10, 10), objects=[])
+        state = PolycraftState(map_size=(10, 10), objects=[])
         state.init_border_multi([4, 0], [9, 9])
 
         self.assertEqual(state._map[(4, 0)].get_obj_entities()[0][0].type, "bedrock")
@@ -435,7 +436,7 @@ class StateTestPlacement(unittest.TestCase):
         self.assertEqual(state._map[(5, 0)].get_obj_entities()[0][0].type, "bedrock")
 
     def testInitBorder(self):
-        state = State(map_size=(5, 5), objects=[])
+        state = PolycraftState(map_size=(5, 5), objects=[])
         state.init_border()
 
         self.assertEqual(state._map[(0, 0)].get_obj_entities()[0][0].type, "bedrock")
