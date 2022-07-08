@@ -1,6 +1,6 @@
 # NovelGridWorlds Version 2
 This is a redesigned version of NovelGridWorlds, built on top of OpenAI gym.
-The project is tested on Python 3.8 and 3.9.
+The project is tested on Python 3.8, 3.9, and 3.10.
 
 ## Building
 
