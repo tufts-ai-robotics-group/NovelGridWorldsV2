@@ -2,6 +2,7 @@ from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
 import gym
 import numpy as np
 import pathlib
+import time
 
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
@@ -20,12 +21,16 @@ i = 0
 
 env.reset(return_info=True)
 
-for _ in range(1000):
-    for agent in env.agent_iter():
-        observation, reward, done, info = env.last()
-        action = agent_manager.agents[agent].agent.policy(observation)
-        env.step(action)
+last_agent = env.possible_agents[-1]
+
+for agent in env.agent_iter(max_iter=100):
+    observation, reward, done, info = env.last()
+    action = agent_manager.agents[agent].agent.policy(observation)
+    env.step(action)
+    
+    if agent == last_agent:
         env.render()
+        time.sleep(0.05)
 
 env.close()
 

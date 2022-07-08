@@ -195,15 +195,10 @@ class ConfigParser:
             raise ParseError(f"Action Set {action_set_name} not found in config") from e
 
         # entity object
-        info = entity_info.copy()
-        del info["agent"]
-        del info["entity"]
-        del info["action_set"]
+        entity_info['name'] = name
         entity_obj = self.state.place_object(
-            entity_info["type"], EntityClass, entity_info
+            entity_info["type"], EntityClass, entity_info,
         )
-        print(EntityClass)
-        print("name:", name, entity_obj)
 
         # agent object
         agent_obj = AgentClass(name=name, action_set=action_set)

@@ -23,6 +23,10 @@
       "rotate_right",
       "use",
       "break"
+    ],
+    "trader": [
+      "rotate_left",
+      "rotate_right"
     ]
   },
   "object_types": {
@@ -80,10 +84,15 @@
       "inventory": {
         "tree": 1
       },
-      "loc": [
-        2,
-        2
-      ]
+      "loc": [2, 2]
+    },
+    "trader_joe": {
+      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "type": "trader",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "trader",
+      "inventory": [],
+      "loc": [2, 3]
     }
   },
   "recipes": {

@@ -106,7 +106,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
         # TODO only print when verbose
-        print("agent:", agent, "| action:", action_set.actions[action][0])
+        print('{:<12}  {:<12} | action_picked: {:<12}'.format(agent, agent_entity.name, action_set.actions[action][0]))
         try:
             action_set.actions[action][1].do_action(agent_entity)
         except PreconditionNotMetError:
@@ -159,7 +159,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
     def render(self, mode="human"):
         print(self.state.mapRepresentation())
-        pass
+        print("-----------------------------")
 
     def close(self):
         if self.window is not None:
