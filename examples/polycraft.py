@@ -12,7 +12,7 @@ json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
 state, dynamic, agent_manager = json_parser.parse_json(config_file_path)
 
-print(state)
+# print(state)
 env = NovelGridWorldSequentialEnv(
     state=state, dynamic=dynamic, agent_manager=agent_manager
 )
