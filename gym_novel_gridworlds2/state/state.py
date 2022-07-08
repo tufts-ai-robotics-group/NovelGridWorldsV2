@@ -183,7 +183,6 @@ class State:
             properties = {"loc": tuple(all_available_spots[index])}
             self.place_object(object_str, ObjectClass, properties=properties)
 
-
     def remove_object(self, object_name: str, loc: tuple):
         """
         Removes an object from the map, replacing it with air
