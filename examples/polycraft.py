@@ -25,7 +25,7 @@ env.reset(return_info=True)
 
 last_agent = env.possible_agents[-1]
 
-for agent in env.agent_iter(max_iter=100):
+for agent in env.agent_iter():
     observation, reward, done, info = env.last()
     action = env.agent_manager.agents[agent].agent.policy(observation)
     env.step(action)
