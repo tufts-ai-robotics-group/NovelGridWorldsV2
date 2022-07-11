@@ -68,7 +68,7 @@
   },
   "objects": {
     "tree": 3,
-    "rubber": 1
+    "tree_tap": 1
   },
   "entities": {
     "main_1": {
