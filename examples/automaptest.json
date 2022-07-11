@@ -22,7 +22,10 @@
       "rotate_left",
       "rotate_right",
       "use",
-      "break"
+      "break",
+      "craft_stick",
+      "craft_plank",
+      "craft_pogo_stick"
     ],
     "trader": [
       "rotate_left",
@@ -72,7 +75,8 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "tree": 1
+        "tree": 100,
+        "rubber": 1
       },
       "loc": [
         2,

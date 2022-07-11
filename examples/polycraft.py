@@ -14,9 +14,7 @@ with open(config_file_path, "r") as f:
     config_content = json.load(f)
 
 # print(state)
-env = NovelGridWorldSequentialEnv(
-    config_dict=config_content
-)
+env = NovelGridWorldSequentialEnv(config_dict=config_content)
 
 n_agents = 1
 i = 0
@@ -25,7 +23,7 @@ env.reset(return_info=True)
 
 last_agent = env.possible_agents[-1]
 
-for agent in env.agent_iter(max_iter=100):
+for agent in env.agent_iter():
     observation, reward, done, info = env.last()
     action = env.agent_manager.agents[agent].agent.policy(observation)
     env.step(action)
