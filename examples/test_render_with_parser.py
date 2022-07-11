@@ -16,8 +16,6 @@ from gym_novel_gridworlds2.object.entity import Entity
 from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import (
     PolycraftObject,
 )
-from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
-from gym_novel_gridworlds2.contrib.polycraft.objects.chest import Chest
 
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
@@ -26,7 +24,7 @@ class TestRenderWithParser:
     def setUp(self):
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.entities = self.json_parser.parse_json(
-            pathlib.Path(__file__).parent.resolve() / "tests/maptest3.json"
+            pathlib.Path(__file__).parent.resolve() / "automaptest.json"
         )
         # tests/automaptest.json
 
@@ -58,6 +56,11 @@ class TestRenderWithParser:
                 return "C"
             else:
                 return "c"
+        elif obj == "tree_tap":
+            if state == "block":
+                return "R"
+            else:
+                return "r"
         elif obj == "agent":
             if facing == "NORTH":
                 return "^"
