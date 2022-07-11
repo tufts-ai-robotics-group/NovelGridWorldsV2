@@ -35,7 +35,9 @@ class ConfigParser:
     def __init__(self) -> None:
         self.obj_types = {}
 
-    def parse_json(self, json_file_name="", json_content=None) -> Tuple[State, Dynamic, AgentManager]:
+    def parse_json(
+        self, json_file_name="", json_content=None
+    ) -> Tuple[State, Dynamic, AgentManager]:
         """
         Parses the json
         TODO: check error

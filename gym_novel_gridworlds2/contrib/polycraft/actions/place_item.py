@@ -13,7 +13,7 @@ from gym_novel_gridworlds2.state.dynamic import Dynamic
 
 
 class PlaceItem(Action):
-    def __init__(self, state: State, dynamics: Dynamic, **kwargs):
+    def __init__(self, state: State, dynamics=None, **kwargs):
         self.state = state
         self.dynamics = dynamics
 
@@ -24,6 +24,8 @@ class PlaceItem(Action):
         target_object: Object = None,
         **kwargs,
     ):
+        if agent_entity.selectedItem == None:
+            return False
         # convert the entity facing direction to coords
         direction = (0, 0)
         if agent_entity.facing == "NORTH":
@@ -42,10 +44,13 @@ class PlaceItem(Action):
         if len(objs[0]) == 0 and len(objs[1]) == 0:  # no objs so its clear
             notOccupied = True
 
+        if agent_entity.selectedItem in self.dynamics.obj_types:
+            pass  # find a way to get the placement requirements out
+
         return (
-            agent_entity.selectedItem != None
-            and agent_entity.inventory[agent_entity.selectedItem] > 0
+            agent_entity.inventory[agent_entity.selectedItem] > 0
             and notOccupied
+            and agent_entity.selectedItem.placementReqs(self.temp_loc)
         )
 
     def do_action(

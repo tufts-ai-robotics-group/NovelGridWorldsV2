@@ -14,6 +14,13 @@
     },
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
+    },
+    "select_tree": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+      "target_type": "tree"
+    },
+    "place_item": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
     }
   },
   "action_sets": {
@@ -23,6 +30,8 @@
       "rotate_right",
       "use",
       "break",
+      "select_tree",
+      "place_item",
       "craft_stick",
       "craft_plank",
       "craft_pogo_stick"
@@ -37,13 +46,13 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
-    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.Tree"
   },
   "map_size": [
     10,
     10
   ],
-  "seed": 10,
+  "seed": 13,
   "rooms": {
     "1": {
       "start": [
