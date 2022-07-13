@@ -25,20 +25,21 @@ with open(config_file_path, "r") as f:
 # print(state)
 env = NovelGridWorldSequentialEnv(config_dict=config_content)
 
-n_agents = 1
-i = 0
-
-env.reset(return_info=True)
+num_episodes = config_content.get("num_episodes") or 1000
+novelties = config_content.get("novelties")
 
 last_agent = env.possible_agents[-1]
 
-for agent in env.agent_iter():
-    observation, reward, done, info = env.last()
-    action = env.agent_manager.agents[agent].agent.policy(observation)
-    env.step(action)
+for episode in range(num_episodes):
+    print("Running episode", episode)
+    env.reset(return_info=True)
+    for agent in env.agent_iter():
+        observation, reward, done, info = env.last()
+        action = env.agent_manager.agents[agent].agent.policy(observation)
+        env.step(action)
 
-    if agent == last_agent:
-        env.render()
-        time.sleep(0.05)
+        if agent == last_agent:
+            env.render()
+            time.sleep(0.05)
 
 env.close()

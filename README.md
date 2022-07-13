@@ -177,6 +177,9 @@ Example:
 },
 ```
 
+### Episodes
+an int specifying the total number of episodes.
+
 ## Project Structure
 The package is structured as follows:
 ```

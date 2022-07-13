@@ -79,6 +79,7 @@
     "tree": 3,
     "tree_tap": 1
   },
+  "num_episodes": 100,
   "entities": {
     "main_1": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
@@ -148,6 +149,30 @@
           "pogo_stick": 1
         }
       ]
+    }
+  },
+  "novelties": {
+    "100": {
+      "action": {
+        "jump": {
+          "module": "jump.Jump"
+        }
+      },
+      "action_set": {
+        "main": [
+          "forward",
+          "rotate_left",
+          "rotate_right",
+          "use",
+          "break",
+          "select_tree",
+          "place_item",
+          "craft_stick",
+          "craft_plank",
+          "craft_pogo_stick",
+          "jump"
+        ]
+      }
     }
   }
 }
