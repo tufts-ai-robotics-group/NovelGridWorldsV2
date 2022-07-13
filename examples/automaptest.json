@@ -82,8 +82,7 @@
     }
   },
   "objects": {
-    "tree": 3,
-    "tree_tap": 1
+    "tree": 4
   },
   "num_episodes": 100,
   "entities": {
