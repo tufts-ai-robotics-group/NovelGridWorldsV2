@@ -46,7 +46,7 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
-    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.Tree"
+    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
   "map_size": [
     10,

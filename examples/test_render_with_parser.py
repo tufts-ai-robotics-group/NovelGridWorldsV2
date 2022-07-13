@@ -61,6 +61,15 @@ class TestRenderWithParser:
                 return "R"
             else:
                 return "r"
+        elif obj == "trader":
+            if facing == "NORTH":
+                return "^"
+            elif facing == "SOUTH":
+                return "v"
+            elif facing == "EAST":
+                return ">"
+            else:
+                return "<"
         elif obj == "agent":
             if facing == "NORTH":
                 return "^"
@@ -114,7 +123,7 @@ class TestRenderWithParser:
                 print(agent.selectedItem)
                 print("")
                 print(
-                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), select_tree, place_item, craft_stick, craft_plank, craft_pogo_stick"
+                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), select_tree (si), place_item (pi), craft_stick, craft_plank, craft_pogo_stick"
                 )
                 choice = input("Select an action: ")
                 if choice == "f":
