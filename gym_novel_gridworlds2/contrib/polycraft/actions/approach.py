@@ -105,10 +105,7 @@ class Approach(Action):
             target_object, 
             distance=distance
         )
-        # print(precondition_met, direction, nearest_loc)
-        # print(np.argwhere(self.state._map != None))
         if precondition_met:
             agent_entity.facing = direction
             self.state.update_object_loc(agent_entity.loc, nearest_loc)
-            # print(agent_entity)
 
