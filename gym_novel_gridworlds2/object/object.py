@@ -7,7 +7,7 @@ class Object:
     def __str__(self):
         return f'<{self.__class__.__name__} "{str(self.type)}" at {str(self.loc)}>'
 
-    def placement_reqs(self, loc):
+    def placement_reqs(self, map_state, loc):
         return True
 
     def acted_upon(self, action_name, agent):

@@ -43,14 +43,28 @@ class PlaceItem(Action):
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[0]) == 0 and len(objs[1]) == 0:  # no objs so its clear
             notOccupied = True
-
-        if agent_entity.selectedItem in self.dynamics.obj_types:
+        print(self.dynamics)
+        canPlace = False
+        if agent_entity.selectedItem in self.dynamics:
+            self.dynamics[agent_entity.selectedItem]
+            self.state.place_object(
+                agent_entity.selectedItem,
+                self.dynamics[agent_entity.selectedItem]["module"],
+                properties={
+                    "loc": self.temp_loc,
+                    **self.dynamics[agent_entity.selectedItem]["params"],
+                },
+            )
+            objs = self.state.get_objects_at(self.temp_loc)
+            if objs[0][0].placement_reqs(self.state, self.temp_loc):
+                canPlace = True
+            self.state.remove_object(objs[0][0].type, self.temp_loc)
             pass  # find a way to get the placement requirements out
 
         return (
             agent_entity.inventory[agent_entity.selectedItem] > 0
             and notOccupied
-            and agent_entity.selectedItem.placementReqs(self.temp_loc)
+            and canPlace
         )
 
     def do_action(
@@ -64,15 +78,15 @@ class PlaceItem(Action):
                 f'Agent "{agent_entity.name}" cannot place item of type {agent_entity.selectedItem}.'
             )
         # place object of type selectedItem on map in the direction the agent is facing
-        if agent_entity.selectedItem in self.dynamics.obj_types:
-            obj_info = self.dynamics.obj_types[agent_entity.selectedItem]
+        if agent_entity.selectedItem in self.dynamics:
+            obj_info = self.dynamics[agent_entity.selectedItem]
             self.state.place_object(
                 agent_entity.selectedItem,
                 obj_info["module"],
                 properties={"loc": self.temp_loc, **obj_info["params"]},
             )
-        elif "default" in self.dynamics.obj_types:
-            obj_info = self.dynamics.obj_types["default"]
+        elif "default" in self.dynamics:
+            obj_info = self.dynamics["default"]
             self.state.place_object(
                 agent_entity.selectedItem,
                 obj_info["module"],

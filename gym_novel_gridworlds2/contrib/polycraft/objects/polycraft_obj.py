@@ -6,5 +6,5 @@ class PolycraftObject(Object):
         if action_name == "break":
             self.state = "floating"
 
-    def placement_reqs(self, loc):
+    def placement_reqs(self, map_state, loc):
         return True

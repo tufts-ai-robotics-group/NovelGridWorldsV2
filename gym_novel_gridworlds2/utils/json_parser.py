@@ -56,15 +56,15 @@ class ConfigParser:
             map_size=tuple(json_content["map_size"]),
         )
 
+        # object types
+        if "object_types" in json_content:
+            self.parse_object_types(json_content["object_types"])
+
         # actions
         self.actions = {}
         if "actions" in json_content:
             for key, action_info in json_content["actions"].items():
                 self.actions[key] = self.create_action(action_info)
-
-        # object types
-        if "object_types" in json_content:
-            self.parse_object_types(json_content["object_types"])
 
         # initialization of borders
         if "rooms" in json_content:
@@ -169,7 +169,9 @@ class ConfigParser:
         ActionModule: Type[Action] = import_module(action_info["module"])
         del action_info["module"]
         try:
-            action = ActionModule(state=self.state, **action_info)
+            action = ActionModule(
+                state=self.state, dynamics=self.obj_types, **action_info
+            )
         except TypeError as e:
             raise ParseError(
                 f"Module {ActionModule.__name__} initialization error: " + str(e)

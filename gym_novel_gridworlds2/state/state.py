@@ -91,6 +91,15 @@ class State:
                 return "C"
             else:
                 return "c"
+        elif obj == "trader":
+            if facing == "NORTH":
+                return "^"
+            elif facing == "SOUTH":
+                return "v"
+            elif facing == "EAST":
+                return ">"
+            else:
+                return "<"
         elif obj == "agent":
             if facing == "NORTH":
                 return "^"

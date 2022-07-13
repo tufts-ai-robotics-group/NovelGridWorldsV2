@@ -10,7 +10,7 @@ class Chest(PolycraftObject):
         self.state = state  # two states: block and floating
         self.inventory = inventory
 
-    def placement_reqs(self, loc):
+    def placement_reqs(self, map_state, loc):
         return True
 
     def acted_upon(self, action_name, agent):
