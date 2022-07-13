@@ -37,14 +37,10 @@ class PlaceItem(Action):
         else:
             direction = (0, -1)
 
-        # notOccupied = False
-
         self.temp_loc = tuple(np.add(agent_entity.loc, direction))
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[0]) == 1 or len(objs[1]) == 1:  # contains objs, not clear
-            print("oops")
             return False
-            notOccupied = True
         canPlace = False
         if agent_entity.selectedItem in self.dynamics:
             self.dynamics[agent_entity.selectedItem]
@@ -62,11 +58,7 @@ class PlaceItem(Action):
             self.state.remove_object(objs[0][0].type, self.temp_loc)
             # find a way to get the placement requirements out
 
-        return (
-            agent_entity.inventory[agent_entity.selectedItem] > 0
-            # and notOccupied
-            and canPlace
-        )
+        return agent_entity.inventory[agent_entity.selectedItem] > 0 and canPlace
 
     def do_action(
         self,

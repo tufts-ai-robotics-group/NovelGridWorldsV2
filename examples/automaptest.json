@@ -19,6 +19,10 @@
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
       "target_type": "tree"
     },
+    "select_tree_tap": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+      "target_type": "tree_tap"
+    },
     "place_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
     }
@@ -88,7 +92,8 @@
       "action_set": "main",
       "inventory": {
         "tree": 100,
-        "rubber": 1
+        "rubber": 1,
+        "tree_tap": 1
       },
       "loc": [
         2,

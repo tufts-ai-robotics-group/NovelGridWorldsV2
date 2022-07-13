@@ -138,6 +138,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["use"].do_action(agent)
                 elif choice == "si":
                     self.dynamic.actions["select_tree"].do_action(agent)
+                elif choice == "st":
+                    self.dynamic.actions["select_tree_tap"].do_action(agent)
                 elif choice == "pi":
                     self.dynamic.actions["place_item"].do_action(agent)
                 elif choice == "craft_stick":
