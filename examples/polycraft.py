@@ -15,7 +15,6 @@ parser.add_argument('filename', type=str, nargs=1,
 
 args = parser.parse_args()
 file_name = args.filename[0]
-print(file_name)
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
@@ -32,7 +31,7 @@ last_agent = env.possible_agents[-1]
 
 for episode in range(num_episodes):
     print("Running episode", episode)
-    env.reset(return_info=True)
+    env.reset(return_info=True, options={"episode": episode})
     for agent in env.agent_iter():
         observation, reward, done, info = env.last()
         action = env.agent_manager.agents[agent].agent.policy(observation)

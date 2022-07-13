@@ -10,6 +10,7 @@ from pettingzoo.utils import wrappers
 from gym.spaces import MultiDiscrete
 
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
+from gym_novel_gridworlds2.utils.novelty_injection import inject_novelty
 
 from ..agents import Agent, AgentManager
 from ..state.dynamic import Dynamic
@@ -29,14 +30,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ### custom variables environment
         self.config_dict = config_dict
 
+
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
             json_content=config_dict
         )
-        print(self.dynamic.actions)
         self.goal_item_to_craft = ""  # TODO add to config
         self.MAX_ITER = MAX_ITER
-
         ##### Required properties for the environment
         # Agent lists
         self.possible_agents = self.agent_manager.get_possible_agents()
@@ -138,7 +138,19 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self._accumulate_rewards()
 
     def reset(self, seed=None, return_info=False, options=None):
-        # TODO check if deepcopy works well
+        """
+        Resets the novelty and injects novelty
+        """
+        
+        ## injection of novelty
+        episode = 0
+        if options is not None:
+            episode = options.get("episode") or 0
+        
+        if str(episode) in self.config_dict.get("novelties") or {}:
+            self.config_dict = inject_novelty(self.config_dict,  self.config_dict["novelties"][str(episode)])
+
+        # initialization
         self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
             json_content=self.config_dict
         )
