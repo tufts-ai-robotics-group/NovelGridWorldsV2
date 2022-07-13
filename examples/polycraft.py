@@ -14,9 +14,7 @@ with open(config_file_path, "r") as f:
     config_content = json.load(f)
 
 # print(state)
-env = NovelGridWorldSequentialEnv(
-    config_dict=config_content
-)
+env = NovelGridWorldSequentialEnv(config_dict=config_content)
 
 n_agents = 1
 i = 0

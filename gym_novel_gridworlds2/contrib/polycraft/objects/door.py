@@ -8,6 +8,9 @@ class Door(PolycraftObject):
         self.state = state  # two states: block and floating
         self.canWalkOver = False
 
+    def placement_reqs(self, loc):
+        return True
+
     def acted_upon(self, action_name, agent):
         if action_name == "use":
             if self.canWalkOver == True:

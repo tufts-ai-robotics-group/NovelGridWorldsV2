@@ -4,8 +4,9 @@ from gym_novel_gridworlds2.state import State
 
 
 class SelectItem(Action):
-    def __init__(self, state: State, dynamics=None, **kwargs):
+    def __init__(self, state: State, dynamics=None, target_type=None):
         self.state = state
+        self.target_type = target_type
         self.dynamics = dynamics
 
     def check_precondition(
@@ -15,7 +16,7 @@ class SelectItem(Action):
         target_object: Object = None,
         **kwargs,
     ):
-        return target_type in agent_entity.inventory
+        return self.target_type in agent_entity.inventory
 
     def do_action(
         self,
@@ -23,8 +24,8 @@ class SelectItem(Action):
         target_type: str = None,
         target_object: Object = None,
     ):
-        if not self.check_precondition(agent_entity, target_type, target_object):
+        if not self.check_precondition(agent_entity, self.target_type, target_object):
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot select item of type {target_type}.'
+                f'Agent "{agent_entity.name}" cannot select item of type {self.target_type}.'
             )
-        agent_entity.selectedItem = target_type
+        agent_entity.selectedItem = self.target_type

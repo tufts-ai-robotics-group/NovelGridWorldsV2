@@ -21,10 +21,7 @@ from ..utils.json_parser import ConfigParser
 class NovelGridWorldSequentialEnv(AECEnv):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
-    def __init__(self, 
-            config_dict: str,
-            MAX_ITER: int = 2000
-        ):
+    def __init__(self, config_dict: str, MAX_ITER: int = 2000):
         """
         Init
         TODO more docs
@@ -33,12 +30,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.config_dict = config_dict
 
         self.json_parser = ConfigParser()
-        self.state, self.dynamic, self.agent_manager = \
-            self.json_parser.parse_json(json_content=config_dict)
-        self.goal_item_to_craft = "" # TODO add to config
+        self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
+            json_content=config_dict
+        )
+        print(self.dynamic.actions)
+        self.goal_item_to_craft = ""  # TODO add to config
         self.MAX_ITER = MAX_ITER
 
-        
         ##### Required properties for the environment
         # Agent lists
         self.possible_agents = self.agent_manager.get_possible_agents()
@@ -49,36 +47,33 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # spaces: we get from the agent
         self._action_spaces = {
-            key: a.agent.get_action_space() 
-                for key, a in self.agent_manager.agents.items()
+            key: a.agent.get_action_space()
+            for key, a in self.agent_manager.agents.items()
         }
         self._observation_spaces = {
             key: a.agent.get_observation_space(self.state._map.shape, 10)
-                for key, a in self.agent_manager.agents.items()
+            for key, a in self.agent_manager.agents.items()
         }
 
         # rendering
         self.window = None
-    
+
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation()
-
 
     @functools.lru_cache(maxsize=None)
     def observation_space(self, agent):
         # Gym spaces are defined and documented here: https://gym.openai.com/docs/#spaces
         return self._observation_spaces[agent]
-    
 
     @functools.lru_cache(maxsize=None)
     def action_space(self, agent):
         # Gym spaces are defined and documented here: https://gym.openai.com/docs/#spaces
         return self._action_spaces[agent]
 
-
     def step(self, action):
         """
-        TAKEN FROM 
+        TAKEN FROM
         https://www.pettingzoo.ml/environment_creation#example-custom-environment
 
         step(action) takes in an action for the current agent (specified by
@@ -102,7 +97,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
         # TODO only print when verbose
-        print('{:<12}  {:<12} | action_picked: {:<12}'.format(agent, agent_entity.name, action_set.actions[action][0]))
+        print(
+            "{:<12}  {:<12} | action_picked: {:<12}".format(
+                agent, agent_entity.name, action_set.actions[action][0]
+            )
+        )
+        print(agent_entity.inventory)
         try:
             action_set.actions[action][1].do_action(agent_entity)
         except PreconditionNotMetError:
@@ -124,7 +124,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
             self.num_moves += 1
             # The dones dictionary must be updated for all players.
-            self.dones = {agent: self.num_moves >= self.MAX_ITER for agent in self.agents}
+            self.dones = {
+                agent: self.num_moves >= self.MAX_ITER for agent in self.agents
+            }
         else:
             # necessary so that observe() returns a reasonable observation at all times.
             # no rewards are allocated until both players give an action
@@ -134,12 +136,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.agent_selection = self._agent_selector.next()
         # Adds .rewards to ._cumulative_rewards
         self._accumulate_rewards()
-        
 
     def reset(self, seed=None, return_info=False, options=None):
         # TODO check if deepcopy works well
-        self.state, self.dynamic, self.agent_manager = \
-            self.json_parser.parse_json(json_content=self.config_dict)
+        self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
+            json_content=self.config_dict
+        )
 
         self.agents = self.possible_agents[:]
         self.rewards = {agent: 0 for agent in self.agents}

@@ -16,8 +16,6 @@ from gym_novel_gridworlds2.object.entity import Entity
 from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import (
     PolycraftObject,
 )
-from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
-from gym_novel_gridworlds2.contrib.polycraft.objects.chest import Chest
 
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
@@ -26,7 +24,7 @@ class TestRenderWithParser:
     def setUp(self):
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.entities = self.json_parser.parse_json(
-            pathlib.Path(__file__).parent.resolve() / "tests/maptest3.json"
+            pathlib.Path(__file__).parent.resolve() / "automaptest.json"
         )
         # tests/automaptest.json
 
@@ -58,6 +56,11 @@ class TestRenderWithParser:
                 return "C"
             else:
                 return "c"
+        elif obj == "tree_tap":
+            if state == "block":
+                return "R"
+            else:
+                return "r"
         elif obj == "agent":
             if facing == "NORTH":
                 return "^"
@@ -107,21 +110,27 @@ class TestRenderWithParser:
                 print("")
                 print("Agent's Inventory:")
                 print(agent.inventory)
+                print("Selected Item:")
+                print(agent.selectedItem)
                 print("")
                 print(
-                    "Actions: forward, rotate_r, rotate_l, break, use, craft_stick, craft_plank, craft_pogo_stick"
+                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), select_tree, place_item, craft_stick, craft_plank, craft_pogo_stick"
                 )
                 choice = input("Select an action: ")
-                if choice == "forward":
+                if choice == "f":
                     self.dynamic.actions["forward"].do_action(agent)
-                elif choice == "rotate_r":
+                elif choice == "r":
                     self.dynamic.actions["rotate_right"].do_action(agent)
-                elif choice == "rotate_l":
+                elif choice == "l":
                     self.dynamic.actions["rotate_left"].do_action(agent)
-                elif choice == "break":
+                elif choice == "b":
                     self.dynamic.actions["break"].do_action(agent)
-                elif choice == "use":
+                elif choice == "u":
                     self.dynamic.actions["use"].do_action(agent)
+                elif choice == "si":
+                    self.dynamic.actions["select_tree"].do_action(agent)
+                elif choice == "pi":
+                    self.dynamic.actions["place_item"].do_action(agent)
                 elif choice == "craft_stick":
                     self.dynamic.actions["craft_stick"].do_action(agent)
                 elif choice == "craft_plank":
