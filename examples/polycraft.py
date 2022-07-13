@@ -1,12 +1,21 @@
 import pathlib
 import time
+import argparse
 
 import json
 
 from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
-file_name = "automaptest.json"
+# file_name = "automaptest.json"
+
+parser = argparse.ArgumentParser(description='Polycraft Environment')
+parser.add_argument('filename', type=str, nargs=1,
+                    help='the path of the config file')
+
+args = parser.parse_args()
+file_name = args.filename[0]
+print(file_name)
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name

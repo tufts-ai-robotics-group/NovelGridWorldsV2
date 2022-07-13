@@ -24,9 +24,22 @@ python3 setup.py install
 ```
 
 ## Running Examples
-There are example files in the `examples` folder. 
-Just install the package and
-then run the code.
+There are example files in the `examples` folder. Just
+make sure you install
+the package before you run the examples.
+
+### `polycraft.py`
+This file is an example environment for polycraft. 
+The file comes with a config file called `automaptest.json`.
+To run the example, run
+```
+python3 polycraft.py <config_file>
+```
+
+### `test_render_with_parser`
+This file allows you to type commands manually to test the render
+function and reproduce some errors.
+
 
 
 ## Configuration File
@@ -137,7 +150,7 @@ The situation with entities is a little more complicatedf than the objects.
 ```
 | Property | Type | Explanation |
 | -------- | ---- | ----------- |
-| `agent` | stirng | The path of the agent class, which should extend the `Agent` class (in `agents/agent.py`) and implement all necessary methods.|
+| `agent` | string | The path of the agent class, which should extend the `Agent` class (in `agents/agent.py`) and implement all necessary methods.|
 | `type`  | string | The type of the agent |
 | `entity` | string | The path of the entity class, which should extend the `Entity` class (in `objects/entity.py`) and implement all necessary methods. |
 | `action_set` | string | The action set (as defined in the action_set section) to be used |
@@ -223,3 +236,6 @@ specify what actions are available to a specific type of entity.
 - novelty in configuration file
 - generating items in rooms
 - Action name (currently, all actions are just instances of a class and is merely assigned an id)
+- placeable or not
+- chest with items in json
+- fix place_item
