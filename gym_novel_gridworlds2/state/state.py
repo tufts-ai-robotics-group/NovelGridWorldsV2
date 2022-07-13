@@ -91,6 +91,11 @@ class State:
                 return "C"
             else:
                 return "c"
+        elif obj == "diamond_ore":
+            if state == "block":
+                return "O"
+            else:
+                return "o"
         elif obj == "trader":
             if facing == "NORTH":
                 return "^"
