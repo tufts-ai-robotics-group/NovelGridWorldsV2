@@ -51,6 +51,11 @@ class TestRenderWithParser:
                 return "R"
             else:
                 return "r"
+        elif obj == "diamond_ore":
+            if state == "block":
+                return "O"
+            else:
+                return "o"
         elif obj == "chest":
             if state == "block":
                 return "C"
@@ -140,6 +145,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["select_tree"].do_action(agent)
                 elif choice == "st":
                     self.dynamic.actions["select_tree_tap"].do_action(agent)
+                elif choice == "sp":
+                    self.dynamic.actions["select_iron_pickaxe"].do_action(agent)
                 elif choice == "pi":
                     self.dynamic.actions["place_item"].do_action(agent)
                 elif choice == "craft_stick":

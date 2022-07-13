@@ -23,6 +23,10 @@
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
       "target_type": "tree_tap"
     },
+    "select_iron_pickaxe": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+      "target_type": "iron_pickaxe"
+    },
     "place_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
     }
@@ -36,6 +40,7 @@
       "break",
       "select_tree",
       "select_tree_tap",
+      "select_iron_pickaxe",
       "place_item",
       "craft_stick",
       "craft_plank",
@@ -52,7 +57,9 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
-    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre"
   },
   "map_size": [
     10,
@@ -82,7 +89,8 @@
     }
   },
   "objects": {
-    "tree": 4
+    "tree": 4,
+    "diamond_ore": 2
   },
   "num_episodes": 10,
   "entities": {
@@ -94,7 +102,7 @@
       "inventory": {
         "tree": 100,
         "rubber": 1,
-        "tree_tap": 1
+        "iron_pickaxe": 1
       },
       "loc": [
         2,
