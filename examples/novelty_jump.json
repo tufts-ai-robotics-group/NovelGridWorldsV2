@@ -84,7 +84,7 @@
   "objects": {
     "tree": 4
   },
-  "num_episodes": 100,
+  "num_episodes": 10,
   "entities": {
     "main_1": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
@@ -173,13 +173,14 @@
     }
   },
   "novelties": {
-    "100": {
-      "action": {
+    "0": {
+      "actions": {
         "jump": {
-          "module": "jump.Jump"
+          "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward",
+          "speed": 2
         }
       },
-      "action_set": {
+      "action_sets": {
         "main": [
           "forward",
           "rotate_left",

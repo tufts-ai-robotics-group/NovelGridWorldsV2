@@ -22,7 +22,7 @@ with open(config_file_path, "r") as f:
     config_content = json.load(f)
 
 # print(state)
-env = NovelGridWorldSequentialEnv(config_dict=config_content)
+env = NovelGridWorldSequentialEnv(config_dict=config_content, MAX_ITER=100)
 
 num_episodes = config_content.get("num_episodes") or 1000
 novelties = config_content.get("novelties")
@@ -30,7 +30,9 @@ novelties = config_content.get("novelties")
 last_agent = env.possible_agents[-1]
 
 for episode in range(num_episodes):
-    print("Running episode", episode)
+    print()
+    print("++++++++++++++ Running episode", episode, "+++++++++++++++")
+    print()
     env.reset(return_info=True, options={"episode": episode})
     for agent in env.agent_iter():
         observation, reward, done, info = env.last()

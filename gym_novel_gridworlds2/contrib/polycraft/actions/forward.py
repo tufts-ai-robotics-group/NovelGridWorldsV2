@@ -6,10 +6,11 @@ import numpy as np
 
 
 class Forward(Action):
-    def __init__(self, state: State, dynamics=None):
+    def __init__(self, state: State, dynamics=None, speed=1):
         self.vec = (0, 0)
         self.dynamics = dynamics
         self.state = state
+        self.speed = speed
 
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None
@@ -21,13 +22,13 @@ class Forward(Action):
         3) If the new location is occupied by a door, it must be open
         """
         if agent_entity.facing == "NORTH":
-            self.vec = (-1, 0)
+            self.vec = (-self.speed, 0)
         elif agent_entity.facing == "SOUTH":
-            self.vec = (1, 0)
+            self.vec = (self.speed, 0)
         elif agent_entity.facing == "WEST":
-            self.vec = (0, -1)
+            self.vec = (0, -self.speed)
         else:
-            self.vec = (0, 1)
+            self.vec = (0, self.speed)
 
         new_loc = np.add(self.vec, agent_entity.loc)
         # check for bounds
