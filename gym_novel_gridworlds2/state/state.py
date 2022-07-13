@@ -81,7 +81,7 @@ class State:
                     return "d"
             else:
                 return " "
-        elif obj == "rubber":
+        elif obj == "tree_tap":
             if state == "block":
                 return "R"
             else:
