@@ -39,7 +39,7 @@ class ConfigParser:
         self, json_file_name="", json_content=None
     ) -> Tuple[State, Dynamic, AgentManager]:
         """
-        Parses the json
+        Parses the json, given a json content.
         TODO: check error
         """
         if json_content is None:
@@ -47,12 +47,15 @@ class ConfigParser:
                 json_content = json.load(f, strict=False)
         json_content = deepcopy(json_content)
 
+        # seed
         rng_seed = 0
         if "seed" in json_content:
             rng_seed = json_content["seed"]
+        global_rng = np.random.default_rng(seed=rng_seed)
+
         # state
         self.state = PolycraftState(
-            rng=np.random.default_rng(seed=rng_seed),
+            rng=global_rng,
             map_size=tuple(json_content["map_size"]),
         )
 
