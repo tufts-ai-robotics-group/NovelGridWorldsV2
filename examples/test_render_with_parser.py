@@ -123,7 +123,7 @@ class TestRenderWithParser:
                 print(agent.selectedItem)
                 print("")
                 print(
-                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), select_tree (si), place_item (pi), craft_stick, craft_plank, craft_pogo_stick"
+                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), select_tree (si), select_tree_tap (st), place_item (pi), craft_stick, craft_plank, craft_pogo_stick"
                 )
                 choice = input("Select an action: ")
                 if choice == "f":
@@ -146,6 +146,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["craft_stick"].do_action(agent)
                 elif choice == "craft_plank":
                     self.dynamic.actions["craft_plank"].do_action(agent)
+                elif choice == "craft_tree_tap":
+                    self.dynamic.actions["craft_tree_tap"].do_action(agent)
                 elif choice == "craft_pogo_stick":
                     self.dynamic.actions["craft_pogo_stick"].do_action(agent)
 
