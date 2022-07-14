@@ -26,91 +26,6 @@ class TestRenderWithParser:
         self.state, self.dynamic, self.entities = self.json_parser.parse_json(
             pathlib.Path(__file__).parent.resolve() / "automaptest.json"
         )
-        # tests/automaptest.json
-
-    def getSymbol(self, obj, state, canWalkOver=False, facing="NORTH"):
-        if obj == "tree":
-            if state == "block":
-                return "T"
-            else:
-                return "t"
-        elif obj == "air":
-            return " "
-        elif obj == "bedrock":
-            return "X"
-        elif obj == "door":
-            if canWalkOver == False:
-                if state == "block":
-                    return "D"
-                else:
-                    return "d"
-            else:
-                return " "
-        elif obj == "rubber":
-            if state == "block":
-                return "R"
-            else:
-                return "r"
-        elif obj == "diamond_ore":
-            if state == "block":
-                return "O"
-            else:
-                return "o"
-        elif obj == "chest":
-            if state == "block":
-                return "C"
-            else:
-                return "c"
-        elif obj == "tree_tap":
-            if state == "block":
-                return "R"
-            else:
-                return "r"
-        elif obj == "trader":
-            if facing == "NORTH":
-                return "^"
-            elif facing == "SOUTH":
-                return "v"
-            elif facing == "EAST":
-                return ">"
-            else:
-                return "<"
-        elif obj == "agent":
-            if facing == "NORTH":
-                return "^"
-            elif facing == "SOUTH":
-                return "v"
-            elif facing == "EAST":
-                return ">"
-            else:
-                return "<"
-        else:
-            return " "
-
-    def mapRepresentation(self):
-        res: np.ndarray = np.empty(self.state.initial_info["map_size"], dtype="object")
-        for i in range(self.state.initial_info["map_size"][0]):
-            for j in range(self.state.initial_info["map_size"][1]):
-                obj = self.state.get_objects_at((i, j))
-                if len(obj[0]) != 0:
-                    if hasattr(obj[0][0], "canWalkOver"):
-                        res[i][j] = self.getSymbol(
-                            obj[0][0].type,
-                            obj[0][0].state,
-                            canWalkOver=obj[0][0].canWalkOver,
-                        )
-                    else:
-                        res[i][j] = self.getSymbol(obj[0][0].type, obj[0][0].state)
-                else:
-                    res[i][j] = " "
-                if len(obj[1]) != 0:
-                    if hasattr(obj[1][0], "facing"):
-                        res[i][j] = self.getSymbol(
-                            obj[1][0].type, obj[1][0].state, facing=obj[1][0].facing
-                        )
-                    else:
-                        res[i][j] = self.getSymbol(obj[1][0].type, obj[1][0].state)
-        print(res)
 
     def mainLoop(self):
         won = False
@@ -120,7 +35,7 @@ class TestRenderWithParser:
                 won = True
                 print("You won!")
             else:
-                self.mapRepresentation()
+                print(self.state.mapRepresentation())
                 print("")
                 print("Agent's Inventory:")
                 print(agent.inventory)
@@ -128,7 +43,7 @@ class TestRenderWithParser:
                 print(agent.selectedItem)
                 print("")
                 print(
-                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), select_tree (si), select_tree_tap (st), place_item (pi), craft_stick, craft_plank, craft_pogo_stick"
+                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), extract_rubber (e), select_tree (si), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick, craft_plank, craft_pogo_stick"
                 )
                 choice = input("Select an action: ")
                 if choice == "f":
@@ -141,6 +56,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["break"].do_action(agent)
                 elif choice == "u":
                     self.dynamic.actions["use"].do_action(agent)
+                elif choice == "e":
+                    self.dynamic.actions["extract_rubber"].do_action(agent)
                 elif choice == "si":
                     self.dynamic.actions["select_tree"].do_action(agent)
                 elif choice == "st":
@@ -160,7 +77,7 @@ class TestRenderWithParser:
 
 
 def main():
-    print("Goal: Craft Pogostick (1 Rubber, 2 Planks, 4 Sticks)")
+    print("Goal: Craft Pogostick (1 Rubber, 2 Diamond Ore, 2 Planks, 4 Sticks)")
     time.sleep(1)
     test = TestRenderWithParser()
     test.setUp()

@@ -14,26 +14,26 @@ class TreeTap(PolycraftObject):
         """
         obj1 = map_state.get_objects_at(np.add(loc, (0, -1)))
         if len(obj1[0]) == 1:
-            if obj1[0][0].type == "tree":
+            if obj1[0][0].type == "tree" and obj1[0][0].state == "block":
                 return True
         obj2 = map_state.get_objects_at(np.add(loc, (0, 1)))
         if len(obj2[0]) == 1:
-            if obj2[0][0].type == "tree":
+            if obj2[0][0].type == "tree" and obj2[0][0].state == "block":
                 return True
         obj3 = map_state.get_objects_at(np.add(loc, (1, 0)))
         if len(obj3[0]) == 1:
-            if obj3[0][0].type == "tree":
+            if obj3[0][0].type == "tree" and obj3[0][0].state == "block":
                 return True
         obj4 = map_state.get_objects_at(np.add(loc, (-1, 0)))
         if len(obj4[0]) == 1:
-            if obj4[0][0].type == "tree":
+            if obj4[0][0].type == "tree" and obj4[0][0].state == "block":
                 return True
         return False
 
     def acted_upon(self, action_name, agent):
         if action_name == "break":
             self.state = "floating"
-        if action_name == "use":
+        if action_name == "extract_rubber":
             if "rubber" in agent.inventory:
                 agent.inventory["rubber"] += 1
             else:

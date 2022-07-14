@@ -15,6 +15,9 @@
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
     },
+    "extract_rubber": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ExtractRubber"
+    },
     "select_tree": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
       "target_type": "tree"
@@ -37,6 +40,7 @@
       "rotate_left",
       "rotate_right",
       "use",
+      "extract_rubber",
       "break",
       "select_tree",
       "select_tree_tap",
@@ -168,6 +172,9 @@
         },
         {
           "plank": 2
+        },
+        {
+          "diamond_ore": 2
         },
         {
           "rubber": 1
