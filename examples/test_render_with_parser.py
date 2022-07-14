@@ -74,6 +74,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["craft_tree_tap"].do_action(agent)
                 elif choice == "craft_pogo_stick":
                     self.dynamic.actions["craft_pogo_stick"].do_action(agent)
+                elif choice == "trade_block_of_platinum":
+                    self.dynamic.actions["trade_block_of_platinum"].do_action(agent)
 
 
 def main():

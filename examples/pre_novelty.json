@@ -48,7 +48,8 @@
       "craft_stick",
       "craft_plank",
       "craft_tree_tap",
-      "craft_pogo_stick"
+      "craft_pogo_stick",
+      "trade_block_of_platinum"
     ],
     "trader": [
       "rotate_left",
@@ -116,7 +117,9 @@
       "type": "trader",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "trader",
-      "inventory": {},
+      "inventory": {
+        "block_of_platinum": 1
+      },
       "loc": [
         2,
         3
@@ -187,6 +190,20 @@
         }
       ],
       "needs_table": "True"
+    }
+  },
+  "trades": {
+    "block_of_platinum": {
+      "input": [
+        {
+          "tree": 1
+        }
+      ],
+      "output": [
+        {
+          "block_of_platinum": 1
+        }
+      ]
     }
   }
 }
