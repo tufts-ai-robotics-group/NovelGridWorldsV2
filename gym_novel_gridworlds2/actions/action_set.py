@@ -17,5 +17,8 @@ class ActionSet:
     def add_action(self, index):
         pass
 
+    def get_action_names(self):
+        return [a[0] for a in self.actions]
+
     def get_action_space(self):
         return Discrete(len(self.actions))

@@ -69,7 +69,7 @@
     10,
     10
   ],
-  "seed": 13,
+  "seed": 1208378971827,
   "rooms": {
     "1": {
       "start": [
@@ -99,7 +99,7 @@
   "num_episodes": 10,
   "entities": {
     "main_1": {
-      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "agent": "gym_novel_gridworlds2.agents.KeyboardAgent",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",

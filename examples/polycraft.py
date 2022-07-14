@@ -34,6 +34,7 @@ for episode in range(num_episodes):
     print("++++++++++++++ Running episode", episode, "+++++++++++++++")
     print()
     env.reset(return_info=True, options={"episode": episode})
+    env.render()
     for agent in env.agent_iter():
         observation, reward, done, info = env.last()
         action = env.agent_manager.agents[agent].agent.policy(observation)
