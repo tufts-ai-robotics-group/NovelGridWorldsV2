@@ -15,6 +15,9 @@
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
     },
+    "extract_rubber": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ExtractRubber"
+    },
     "select_tree": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
       "target_type": "tree"
@@ -22,6 +25,10 @@
     "select_tree_tap": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
       "target_type": "tree_tap"
+    },
+    "select_iron_pickaxe": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+      "target_type": "iron_pickaxe"
     },
     "place_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
@@ -33,6 +40,7 @@
       "rotate_left",
       "rotate_right",
       "use",
+      "extract_rubber",
       "break",
       "select_tree",
       "select_tree_tap",
@@ -52,7 +60,9 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
-    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre",
+    "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe"
   },
   "map_size": [
     10,
@@ -82,7 +92,8 @@
     }
   },
   "objects": {
-    "tree": 4
+    "tree": 4,
+    "diamond_ore": 2
   },
   "num_episodes": 10,
   "entities": {
@@ -93,8 +104,7 @@
       "action_set": "main",
       "inventory": {
         "tree": 100,
-        "rubber": 1,
-        "tree_tap": 1
+        "iron_pickaxe": 1
       },
       "loc": [
         2,
@@ -124,7 +134,8 @@
         {
           "stick": 4
         }
-      ]
+      ],
+      "needs_table": "False"
     },
     "plank": {
       "input": [
@@ -136,7 +147,8 @@
         {
           "plank": 4
         }
-      ]
+      ],
+      "needs_table": "False"
     },
     "tree_tap": {
       "input": [
@@ -151,7 +163,8 @@
         {
           "tree_tap": 1
         }
-      ]
+      ],
+      "needs_table": "True"
     },
     "pogo_stick": {
       "input": [
@@ -162,6 +175,9 @@
           "plank": 2
         },
         {
+          "diamond_ore": 2
+        },
+        {
           "rubber": 1
         }
       ],
@@ -169,7 +185,8 @@
         {
           "pogo_stick": 1
         }
-      ]
+      ],
+      "needs_table": "True"
     }
   }
 }

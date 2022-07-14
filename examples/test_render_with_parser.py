@@ -24,7 +24,7 @@ class TestRenderWithParser:
     def setUp(self):
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.entities = self.json_parser.parse_json(
-            pathlib.Path(__file__).parent.resolve() / "automaptest.json"
+            pathlib.Path(__file__).parent.resolve() / "pre_novelty.json"
         )
 
     def mainLoop(self):

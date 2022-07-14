@@ -91,6 +91,11 @@ class State:
                 return "C"
             else:
                 return "c"
+        elif obj == "iron_pickaxe":
+            if state == "block":
+                return "P"
+            else:
+                return "p"
         elif obj == "diamond_ore":
             if state == "block":
                 return "O"
