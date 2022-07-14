@@ -62,7 +62,8 @@
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
     "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre",
-    "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe"
+    "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe",
+    "crafting_table": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
   "map_size": [
     10,
@@ -93,7 +94,8 @@
   },
   "objects": {
     "tree": 4,
-    "diamond_ore": 2
+    "diamond_ore": 2,
+    "crafting_table": 1
   },
   "num_episodes": 10,
   "entities": {
