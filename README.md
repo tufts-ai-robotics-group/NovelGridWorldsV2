@@ -268,3 +268,4 @@ specify what actions are available to a specific type of entity.
 - done is true, quit
 - reward
 - Same id after we added something to the set
+- wild card action set

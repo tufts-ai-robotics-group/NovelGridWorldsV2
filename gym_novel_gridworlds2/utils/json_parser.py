@@ -65,6 +65,16 @@ class ConfigParser:
 
         # actions
         self.actions = {}
+        # automatically add select_<item_name> for all items available
+        select_actions = []
+        for obj_type in self.obj_types:
+            self.actions["select_" + obj_type] = self.create_action({
+                "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+                "target_type": obj_type
+            })
+            select_actions.append("select_" + obj_type)
+
+        # add manually added actions
         if "actions" in json_content:
             for key, action_info in json_content["actions"].items():
                 self.actions[key] = self.create_action(action_info)
