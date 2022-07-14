@@ -35,7 +35,26 @@ class Craft(Action):
         if self.recipe["needs_table"] == "False":
             return True
         else:
-            return False
+            # convert the entity facing direction to coords
+            direction = (0, 0)
+            if agent_entity.facing == "NORTH":
+                direction = (-1, 0)
+            elif agent_entity.facing == "SOUTH":
+                direction = (1, 0)
+            elif agent_entity.facing == "EAST":
+                direction = (0, 1)
+            else:
+                direction = (0, -1)
+
+            correctDirection = False
+
+            self.temp_loc = tuple(np.add(agent_entity.loc, direction))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[0]) == 1:
+                if objs[0][0].type == "crafting_table":
+                    return True
+                else:
+                    return False
 
     def do_action(self, agent_entity: Entity, target_type=None, target_object=None):
         if not self.check_precondition(agent_entity):
