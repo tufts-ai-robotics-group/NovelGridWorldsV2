@@ -120,7 +120,10 @@ class State:
             else:
                 return "<"
         else:
-            return " "
+            if state == "floating":
+                return obj[0].lower()
+            else:
+                return obj[0].upper()
 
     def mapRepresentation(self):
         res: np.ndarray = np.empty(self.initial_info["map_size"], dtype="object")

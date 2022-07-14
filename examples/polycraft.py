@@ -22,7 +22,7 @@ with open(config_file_path, "r") as f:
     config_content = json.load(f)
 
 # print(state)
-env = NovelGridWorldSequentialEnv(config_dict=config_content, MAX_ITER=100)
+env = NovelGridWorldSequentialEnv(config_dict=config_content, MAX_ITER=1000)
 
 num_episodes = config_content.get("num_episodes") or 1000
 novelties = config_content.get("novelties")

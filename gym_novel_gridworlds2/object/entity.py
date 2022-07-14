@@ -17,7 +17,7 @@ class Entity(Object):
         self.name = name
         self.loc = loc
         self.inventory = inventory
-        self.selectedItem = None
+        self.selectedItem: str = None
         self.type = type
         self.facing = facing
         self.state = state

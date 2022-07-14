@@ -32,7 +32,7 @@ class Craft(Action):
             else:
                 return False  # one of the inputs isnt in the agents inventory
             count += 1
-        if self.recipe["needs_table"] == "False":
+        if "needs_table" not in self.recipe or self.recipe["needs_table"] == "False":
             return True
         else:
             return False

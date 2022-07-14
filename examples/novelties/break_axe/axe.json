@@ -44,6 +44,7 @@
       "break",
       "select_tree",
       "select_tree_tap",
+      "select_iron_pickaxe",
       "place_item",
       "craft_stick",
       "craft_plank",
@@ -61,8 +62,8 @@
     "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
     "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
-    "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre",
-    "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe"
+    "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre"
   },
   "map_size": [
     10,
@@ -103,7 +104,8 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "tree": 100,
+        "tree": 0,
+        "rubber": 1,
         "iron_pickaxe": 1
       },
       "loc": [
@@ -116,7 +118,7 @@
       "type": "trader",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "trader",
-      "inventory": {},
+      "inventory": [],
       "loc": [
         2,
         3
@@ -134,8 +136,7 @@
         {
           "stick": 4
         }
-      ],
-      "needs_table": "False"
+      ]
     },
     "plank": {
       "input": [
@@ -147,8 +148,7 @@
         {
           "plank": 4
         }
-      ],
-      "needs_table": "False"
+      ]
     },
     "tree_tap": {
       "input": [
@@ -163,8 +163,7 @@
         {
           "tree_tap": 1
         }
-      ],
-      "needs_table": "True"
+      ]
     },
     "pogo_stick": {
       "input": [
@@ -185,8 +184,18 @@
         {
           "pogo_stick": 1
         }
-      ],
-      "needs_table": "True"
+      ]
+    }
+  },
+  "novelties": {
+    "0": {
+      "object_types": {
+        "tree": "novelties.break_axe.hard_tree.HardTree",
+        "axe": "novelties.break_axe.axe.Axe"
+      },
+      "objects": {
+        "axe": 1
+      }
     }
   }
 }
