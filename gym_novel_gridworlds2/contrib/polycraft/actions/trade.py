@@ -50,8 +50,9 @@ class Trade(Action):
         self.temp_loc = tuple(np.add(agent_entity.loc, direction))
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[1]) == 1:
-            if objs[0][1].type == "trader":
-                correctDirection = True
+            if objs[1][0].type == "trader":
+                if self.itemToTrade in objs[1][0].inventory:
+                    correctDirection = True
 
         return correctDirection
 

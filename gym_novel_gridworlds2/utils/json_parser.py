@@ -91,7 +91,7 @@ class ConfigParser:
 
         # trade
         if "trades" in json_content:
-            self.parse_recipe(json_content["trades"])
+            self.parse_trades(json_content["trades"])
 
         # action sets
         self.action_sets = {}
@@ -145,7 +145,7 @@ class ConfigParser:
         for i in range(len(items)):
             tradeStr = "trade_" + items[i]
             self.actions[tradeStr] = Trade(
-                state=self.state, recipe=trades_dict[items[i]]
+                state=self.state, trade=trades_dict[items[i]]
             )
 
         return self.actions
