@@ -190,5 +190,17 @@
       ],
       "needs_table": "True"
     }
+  },
+  "trades": {
+    "input": [
+      {
+        "tree": 1
+      }
+    ],
+    "output": [
+      {
+        "block_of_platinum": 1
+      }
+    ]
   }
 }

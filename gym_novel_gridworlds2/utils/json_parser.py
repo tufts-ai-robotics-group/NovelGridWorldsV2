@@ -17,6 +17,7 @@ import numpy as np
 
 
 from ..contrib.polycraft.actions.craft import Craft
+from ..contrib.polycraft.actions.trade import Trade
 from ..state import State
 
 
@@ -88,6 +89,10 @@ class ConfigParser:
         if "recipes" in json_content:
             self.parse_recipe(json_content["recipes"])
 
+        # trade
+        if "trades" in json_content:
+            self.parse_recipe(json_content["trades"])
+
         # action sets
         self.action_sets = {}
         if "action_sets" in json_content:
@@ -131,6 +136,16 @@ class ConfigParser:
             craftStr = "craft_" + items[i]
             self.actions[craftStr] = Craft(
                 state=self.state, recipe=recipe_dict[items[i]]
+            )
+
+        return self.actions
+
+    def parse_trades(self, trades_dict):
+        items = list(trades_dict.keys())
+        for i in range(len(items)):
+            tradeStr = "trade_" + items[i]
+            self.actions[tradeStr] = Trade(
+                state=self.state, recipe=trades_dict[items[i]]
             )
 
         return self.actions

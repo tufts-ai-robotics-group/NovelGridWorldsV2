@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
@@ -6,18 +7,33 @@ import numpy as np
 
 
 class Trade(Action):
-    def __init__(self, state: State, dynamics=None):
+    def __init__(self, state: State, trade=None, dynamics=None):
         self.dynamics = dynamics
         self.state = state
+        self.trade = trade
+        self.itemToTrade = list(trade["output"][0].keys())[0]
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs
     ):
         """
         Checks preconditions of the trade action:
-        1) The agent is facing an entity
-        2) The entity is of type "trader"
+        1) The agent is facing an entity of type trader
+        2) The trader has the item to trade
+        3) The agent must have all of the necessary inputs
         """
+        count = 0
+        for item in self.trade["input"]:
+            temp = list(item.keys())
+            if temp[0] in agent_entity.inventory:
+                if (
+                    self.trade["input"][count][temp[0]]
+                    > agent_entity.inventory[temp[0]]
+                ):
+                    return False  # not enough of the item
+            else:
+                return False  # one of the inputs isnt in the agents inventory
+            count += 1
         # convert the entity facing direction to coords
         direction = (0, 0)
         if agent_entity.facing == "NORTH":
@@ -41,16 +57,25 @@ class Trade(Action):
 
     def do_action(self, agent_entity: Entity, target_object: Object = None):
         """
-        Checks for precondition, then breaks the object
+        Checks for precondition, then trades for the item
         """
-        if not self.check_precondition(agent_entity, target_object):
-            obj_type = (
-                target_object.type
-                if hasattr(target_object, "type")
-                else target_object.__class__.__name__
-            )
+        if not self.check_precondition(agent_entity):
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot perform break on {obj_type}.'
+                f"Agent {agent_entity.name} cannot trade for {self.itemToTrade}."
             )
-        objs = self.state.get_objects_at(self.temp_loc)
-        objs[0][0].acted_upon("break", agent_entity)
+
+        count = 0
+        for item in self.trade["input"]:
+            temp = list(item.keys())
+            agent_entity.inventory[temp[0]] = (
+                agent_entity.inventory[temp[0]] - self.trade["input"][count][temp[0]]
+            )
+            count += 1
+        if self.itemToTrade in agent_entity.inventory:
+            agent_entity.inventory[self.itemToTrade] += self.trade["output"][0][
+                self.itemToTrade
+            ]
+        else:
+            agent_entity.inventory[self.itemToTrade] = self.trade["output"][0][
+                self.itemToTrade
+            ]
