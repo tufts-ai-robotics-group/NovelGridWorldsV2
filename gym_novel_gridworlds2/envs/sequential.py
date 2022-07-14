@@ -147,7 +147,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         if options is not None:
             episode = options.get("episode") or 0
         
-        if str(episode) in self.config_dict.get("novelties") or {}:
+        if str(episode) in (self.config_dict.get("novelties") or {}):
             self.config_dict = inject_novelty(self.config_dict,  self.config_dict["novelties"][str(episode)])
 
         # initialization

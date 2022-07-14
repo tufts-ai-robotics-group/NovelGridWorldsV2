@@ -30,7 +30,11 @@ the package before you run the examples.
 
 ### `polycraft.py`
 This file is an example environment for polycraft. 
-The file comes with a config file called `automaptest.json`.
+The file comes with some config files.
+
+`pre_novelty.json` is a basic environment pre-novelty.
+`novelty_jump.json` contains an extra novelty called "jump".
+
 To run the example, run
 ```
 python3 polycraft.py <config_file>
@@ -180,6 +184,25 @@ Example:
 ### Episodes
 an int specifying the total number of episodes.
 
+### Novelties
+Given an episode number, apply the "patches" to the configuration file.
+
+Example:
+```
+"novelties": {
+    "episode_number": {
+        <new_content>
+    }
+}
+```
+Objects (dicts) are updated on a key-by-key basis. (i.e. if a 
+key already exists, it does a recursive update. if it doesn't exist,
+a new entry will be added.)
+
+All other types of 
+data, including strings, ints, and lists are completely overridden
+if the key already exists.
+
 ## Project Structure
 The package is structured as follows:
 ```
@@ -242,3 +265,6 @@ specify what actions are available to a specific type of entity.
 - placeable or not
 - chest with items in json
 - fix place_item
+- done is true, quit
+- reward
+- Same id after we added something to the set

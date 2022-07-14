@@ -1,0 +1,183 @@
+{
+    "actions": {
+      "break": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break"
+      },
+      "rotate_left": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateLeft"
+      },
+      "rotate_right": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateRight"
+      },
+      "forward": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward"
+      },
+      "use": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
+      },
+      "select_tree": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+        "target_type": "tree"
+      },
+      "select_tree_tap": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+        "target_type": "tree_tap"
+      },
+      "place_item": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
+      }
+    },
+    "action_sets": {
+      "main": [
+        "forward",
+        "rotate_left",
+        "rotate_right",
+        "use",
+        "break",
+        "select_tree",
+        "place_item",
+        "craft_stick",
+        "craft_plank",
+        "craft_pogo_stick"
+      ],
+      "trader": [
+        "rotate_left",
+        "rotate_right"
+      ]
+    },
+    "object_types": {
+      "default": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+      "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
+      "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
+      "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
+      "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+    },
+    "map_size": [
+      10,
+      10
+    ],
+    "seed": 13,
+    "rooms": {
+      "1": {
+        "start": [
+          0,
+          0
+        ],
+        "end": [
+          4,
+          4
+        ]
+      },
+      "2": {
+        "start": [
+          0,
+          4
+        ],
+        "end": [
+          9,
+          9
+        ]
+      }
+    },
+    "objects": {
+      "tree": 3,
+      "tree_tap": 1
+    },
+    "num_episodes": 5,
+    "entities": {
+      "main_1": {
+        "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+        "type": "agent",
+        "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+        "action_set": "main",
+        "inventory": {
+          "tree": 100,
+          "rubber": 1,
+          "tree_tap": 1
+        },
+        "loc": [
+          2,
+          2
+        ]
+      },
+      "trader_joe": {
+        "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+        "type": "trader",
+        "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+        "action_set": "trader",
+        "inventory": [],
+        "loc": [
+          2,
+          3
+        ]
+      }
+    },
+    "recipes": {
+      "stick": {
+        "input": [
+          {
+            "plank": 2
+          }
+        ],
+        "output": [
+          {
+            "stick": 4
+          }
+        ]
+      },
+      "plank": {
+        "input": [
+          {
+            "tree": 1
+          }
+        ],
+        "output": [
+          {
+            "plank": 4
+          }
+        ]
+      },
+      "pogo_stick": {
+        "input": [
+          {
+            "stick": 4
+          },
+          {
+            "plank": 2
+          },
+          {
+            "rubber": 1
+          }
+        ],
+        "output": [
+          {
+            "pogo_stick": 1
+          }
+        ]
+      }
+    },
+    "novelties": {
+      "100": {
+        "actions": {
+          "jump": {
+            "module": "jump.Jump"
+          }
+        },
+        "action_sets": {
+          "main": [
+            "forward",
+            "rotate_left",
+            "rotate_right",
+            "use",
+            "break",
+            "select_tree",
+            "place_item",
+            "craft_stick",
+            "craft_plank",
+            "craft_pogo_stick",
+            "jump"
+          ]
+        }
+      }
+    }
+  }
