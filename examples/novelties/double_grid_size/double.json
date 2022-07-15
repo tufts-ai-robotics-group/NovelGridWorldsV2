@@ -1,0 +1,230 @@
+{
+    "actions": {
+      "break": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break"
+      },
+      "rotate_left": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateLeft"
+      },
+      "rotate_right": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateRight"
+      },
+      "forward": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward"
+      },
+      "use": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
+      },
+      "extract_rubber": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ExtractRubber"
+      },
+      "select_tree": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+        "target_type": "tree"
+      },
+      "select_tree_tap": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+        "target_type": "tree_tap"
+      },
+      "select_iron_pickaxe": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+        "target_type": "iron_pickaxe"
+      },
+      "place_item": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
+      }
+    },
+    "action_sets": {
+      "main": [
+        "forward",
+        "rotate_left",
+        "rotate_right",
+        "use",
+        "extract_rubber",
+        "break",
+        "select_tree",
+        "select_tree_tap",
+        "select_iron_pickaxe",
+        "place_item",
+        "craft_stick",
+        "craft_plank",
+        "craft_tree_tap",
+        "craft_pogo_stick"
+      ],
+      "trader": [
+        "rotate_left",
+        "rotate_right"
+      ]
+    },
+    "object_types": {
+      "default": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+      "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
+      "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
+      "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
+      "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+      "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+      "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre"
+    },
+    "map_size": [
+      10,
+      10
+    ],
+    "seed": 13,
+    "rooms": {
+      "1": {
+        "start": [
+          0,
+          0
+        ],
+        "end": [
+          4,
+          4
+        ]
+      },
+      "2": {
+        "start": [
+          0,
+          4
+        ],
+        "end": [
+          9,
+          9
+        ]
+      }
+    },
+    "objects": {
+      "tree": 4,
+      "diamond_ore": 2
+    },
+    "num_episodes": 10,
+    "entities": {
+      "main_1": {
+        "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+        "type": "agent",
+        "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+        "action_set": "main",
+        "inventory": {
+          "tree": 100,
+          "rubber": 1,
+          "iron_pickaxe": 1
+        },
+        "loc": [
+          2,
+          2
+        ]
+      },
+      "trader_joe": {
+        "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+        "type": "trader",
+        "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+        "action_set": "trader",
+        "inventory": [],
+        "loc": [
+          2,
+          3
+        ]
+      }
+    },
+    "recipes": {
+      "stick": {
+        "input": [
+          {
+            "plank": 2
+          }
+        ],
+        "output": [
+          {
+            "stick": 4
+          }
+        ]
+      },
+      "plank": {
+        "input": [
+          {
+            "tree": 1
+          }
+        ],
+        "output": [
+          {
+            "plank": 4
+          }
+        ]
+      },
+      "tree_tap": {
+        "input": [
+          {
+            "plank": 1
+          },
+          {
+            "stick": 2
+          }
+        ],
+        "output": [
+          {
+            "tree_tap": 1
+          }
+        ]
+      },
+      "pogo_stick": {
+        "input": [
+          {
+            "stick": 4
+          },
+          {
+            "plank": 2
+          },
+          {
+            "diamond_ore": 2
+          },
+          {
+            "rubber": 1
+          }
+        ],
+        "output": [
+          {
+            "pogo_stick": 1
+          }
+        ]
+      }
+    },
+    "novelties": {
+      "1": {
+        "map_size": [
+            20,
+            10
+          ],
+          "rooms": {
+            "1": {
+              "start": [
+                0,
+                0
+              ],
+              "end": [
+                4,
+                4
+              ]
+            },
+            "2": {
+              "start": [
+                0,
+                4
+              ],
+              "end": [
+                9,
+                9
+              ]
+            },
+            "3": {
+                "start": [
+                    9,
+                    0
+                  ],
+                  "end": [
+                    19,
+                    9
+                  ]
+            }
+          }
+      }
+    }
+  }
