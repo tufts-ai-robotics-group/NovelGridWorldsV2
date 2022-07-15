@@ -18,18 +18,6 @@
     "extract_rubber": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ExtractRubber"
     },
-    "select_tree": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
-      "target_type": "tree"
-    },
-    "select_tree_tap": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
-      "target_type": "tree_tap"
-    },
-    "select_iron_pickaxe": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
-      "target_type": "iron_pickaxe"
-    },
     "place_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
     }
@@ -44,6 +32,8 @@
       "break",
       "select_tree",
       "select_tree_tap",
+      "select_crafting_table",
+      "select_block_of_platinum",
       "place_item",
       "craft_stick",
       "craft_plank",
@@ -63,7 +53,9 @@
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
     "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre",
-    "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe"
+    "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe",
+    "crafting_table": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "block_of_platinum": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
   "map_size": [
     10,
@@ -94,7 +86,8 @@
   },
   "objects": {
     "tree": 4,
-    "diamond_ore": 2
+    "diamond_ore": 2,
+    "crafting_table": 1
   },
   "num_episodes": 10,
   "entities": {
@@ -156,10 +149,10 @@
     "tree_tap": {
       "input": [
         {
-          "plank": 1
+          "plank": 5
         },
         {
-          "stick": 2
+          "stick": 1
         }
       ],
       "output": [
@@ -172,13 +165,13 @@
     "pogo_stick": {
       "input": [
         {
-          "stick": 4
-        },
-        {
-          "plank": 2
+          "stick": 2
         },
         {
           "diamond_ore": 2
+        },
+        {
+          "block_of_platinum": 2
         },
         {
           "rubber": 1

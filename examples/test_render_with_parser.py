@@ -43,7 +43,7 @@ class TestRenderWithParser:
                 print(agent.selectedItem)
                 print("")
                 print(
-                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), extract_rubber (e), select_tree (si), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick, craft_plank, craft_pogo_stick"
+                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), extract_rubber (e), select_tree (si), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick (cs), craft_plank (cp), craft_tree_tap (ctt), craft_pogo_stick (cps), trade_block_of_platinum (t)"
                 )
                 choice = input("Select an action: ")
                 if choice == "f":
@@ -64,17 +64,21 @@ class TestRenderWithParser:
                     self.dynamic.actions["select_tree_tap"].do_action(agent)
                 elif choice == "sp":
                     self.dynamic.actions["select_iron_pickaxe"].do_action(agent)
+                elif choice == "sc":
+                    self.dynamic.actions["select_crafting_table"].do_action(agent)
+                elif choice == "sb":
+                    self.dynamic.actions["select_block_of_platinum"].do_action(agent)
                 elif choice == "pi":
                     self.dynamic.actions["place_item"].do_action(agent)
-                elif choice == "craft_stick":
+                elif choice == "cs":
                     self.dynamic.actions["craft_stick"].do_action(agent)
-                elif choice == "craft_plank":
+                elif choice == "cp":
                     self.dynamic.actions["craft_plank"].do_action(agent)
-                elif choice == "craft_tree_tap":
+                elif choice == "ctt":
                     self.dynamic.actions["craft_tree_tap"].do_action(agent)
-                elif choice == "craft_pogo_stick":
+                elif choice == "cps":
                     self.dynamic.actions["craft_pogo_stick"].do_action(agent)
-                elif choice == "trade_block_of_platinum":
+                elif choice == "t":
                     self.dynamic.actions["trade_block_of_platinum"].do_action(agent)
 
 
