@@ -28,6 +28,7 @@ class TestRenderWithParser:
         )
 
     def mainLoop(self):
+        np.set_printoptions(linewidth=np.inf)
         won = False
         while not won:
             agent = self.state.get_objects_of_type("agent")[0]
@@ -56,8 +57,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["break"].do_action(agent)
                 elif choice == "u":
                     self.dynamic.actions["use"].do_action(agent)
-                elif choice == "e":
-                    self.dynamic.actions["extract_rubber"].do_action(agent)
+                elif choice == "c":
+                    self.dynamic.actions["collect"].do_action(agent)
                 elif choice == "si":
                     self.dynamic.actions["select_tree"].do_action(agent)
                 elif choice == "st":
@@ -74,6 +75,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["craft_stick"].do_action(agent)
                 elif choice == "cp":
                     self.dynamic.actions["craft_plank"].do_action(agent)
+                elif choice == "cb":
+                    self.dynamic.actions["craft_block_of_diamond"].do_action(agent)
                 elif choice == "ctt":
                     self.dynamic.actions["craft_tree_tap"].do_action(agent)
                 elif choice == "cps":

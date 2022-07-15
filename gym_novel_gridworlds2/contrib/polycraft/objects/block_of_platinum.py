@@ -1,7 +1,7 @@
 from .polycraft_obj import PolycraftObject
 
 
-class DiamondOre(PolycraftObject):
+class BlockOfPlatinum(PolycraftObject):
     def __init__(self, typee, loc=(0, 0), state="block", **kwargs):
         self.type = typee
         self.loc = loc  # update such that we update the 3D arr and add the item to it
@@ -13,8 +13,4 @@ class DiamondOre(PolycraftObject):
     def acted_upon(self, action_name, agent):
         if action_name == "break":
             if agent.selectedItem == "iron_pickaxe":
-                if "diamond" in agent.inventory:
-                    agent.inventory["diamond"] += 9
-                else:
-                    agent.inventory.update({"diamond": 9})
-                self.state == "floating"
+                self.state = "floating"

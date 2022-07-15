@@ -15,8 +15,8 @@
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
     },
-    "extract_rubber": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ExtractRubber"
+    "collect": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
     },
     "place_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
@@ -28,15 +28,14 @@
       "rotate_left",
       "rotate_right",
       "use",
-      "extract_rubber",
+      "collect",
       "break",
-      "select_tree",
       "select_tree_tap",
       "select_crafting_table",
-      "select_block_of_platinum",
       "place_item",
       "craft_stick",
       "craft_plank",
+      "craft_block_of_diamond",
       "craft_tree_tap",
       "craft_pogo_stick",
       "trade_block_of_platinum"
@@ -55,11 +54,12 @@
     "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre",
     "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe",
     "crafting_table": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
-    "block_of_platinum": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+    "block_of_platinum": "gym_novel_gridworlds2.contrib.polycraft.objects.BlockOfPlatinum",
+    "block_of_titanium": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
   "map_size": [
-    10,
-    10
+    30,
+    30
   ],
   "seed": 13,
   "rooms": {
@@ -69,24 +69,35 @@
         0
       ],
       "end": [
-        4,
-        4
+        9,
+        9
       ]
     },
     "2": {
       "start": [
         0,
+        9
+      ],
+      "end": [
+        25,
+        25
+      ]
+    },
+    "3": {
+      "start": [
+        15,
         4
       ],
       "end": [
-        9,
+        24,
         9
       ]
     }
   },
   "objects": {
-    "tree": 4,
-    "diamond_ore": 2,
+    "tree": 5,
+    "diamond_ore": 4,
+    "block_of_platinum": 2,
     "crafting_table": 1
   },
   "num_episodes": 10,
@@ -111,7 +122,7 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "trader",
       "inventory": {
-        "block_of_platinum": 1
+        "block_of_titanium": 1
       },
       "loc": [
         2,
@@ -146,6 +157,19 @@
       ],
       "needs_table": "False"
     },
+    "block_of_diamond": {
+      "input": [
+        {
+          "diamond": 9
+        }
+      ],
+      "output": [
+        {
+          "block_of_diamond": 1
+        }
+      ],
+      "needs_table": "True"
+    },
     "tree_tap": {
       "input": [
         {
@@ -168,10 +192,10 @@
           "stick": 2
         },
         {
-          "diamond_ore": 2
+          "block_of_diamond": 2
         },
         {
-          "block_of_platinum": 2
+          "block_of_titanium": 2
         },
         {
           "rubber": 1
@@ -189,12 +213,12 @@
     "block_of_platinum": {
       "input": [
         {
-          "tree": 1
+          "block_of_platinum": 1
         }
       ],
       "output": [
         {
-          "block_of_platinum": 1
+          "block_of_titanium": 1
         }
       ]
     }

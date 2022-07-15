@@ -63,7 +63,6 @@ class PolycraftState(State):
         # for every wall, randomly init a door to replace a bedrock there
 
         for wall in self.walls_list:
-            print(wall)
             coord = (0, 0)
             without_borders = wall[1 : len(wall) - 1]
             # don't want to place a door where its inaccessible

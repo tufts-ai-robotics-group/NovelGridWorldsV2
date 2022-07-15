@@ -30,6 +30,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ### custom variables environment
         self.config_dict = config_dict
 
+        np.set_printoptions(linewidth=np.inf)
 
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
@@ -141,14 +142,16 @@ class NovelGridWorldSequentialEnv(AECEnv):
         """
         Resets the novelty and injects novelty
         """
-        
+
         ## injection of novelty
         episode = 0
         if options is not None:
             episode = options.get("episode") or 0
-        
+
         if str(episode) in (self.config_dict.get("novelties") or {}):
-            self.config_dict = inject_novelty(self.config_dict,  self.config_dict["novelties"][str(episode)])
+            self.config_dict = inject_novelty(
+                self.config_dict, self.config_dict["novelties"][str(episode)]
+            )
 
         # initialization
         self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(

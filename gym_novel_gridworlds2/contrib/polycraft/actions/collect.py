@@ -1,12 +1,11 @@
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
-from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 
 import numpy as np
 
 
-class ExtractRubber(Action):
+class Collect(Action):
     def __init__(self, state: State, dynamics=None):
         self.dynamics = dynamics
         self.state = state
@@ -15,7 +14,7 @@ class ExtractRubber(Action):
         self, agent_entity: Entity, target_object: Object = None, **kwargs
     ):
         """
-        Checks preconditions of the ExtractRubber action:
+        Checks preconditions of the Collect action:
         1) The agent is facing the object
         2) The object is a tree tap
         3) The object is in block state
@@ -67,7 +66,7 @@ class ExtractRubber(Action):
 
     def do_action(self, agent_entity: Entity, target_object: Object = None):
         """
-        Checks for precondition, then extracts rubber from the object
+        Checks for precondition, then collects from the object
         """
         if not self.check_precondition(agent_entity, target_object):
             obj_type = (
@@ -79,4 +78,4 @@ class ExtractRubber(Action):
                 f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
             )
         objs = self.state.get_objects_at(self.temp_loc)
-        objs[0][0].acted_upon("extract_rubber", agent_entity)
+        objs[0][0].acted_upon("collect", agent_entity)

@@ -64,9 +64,10 @@ class Forward(Action):
                     ):
                         pass
                     else:
-                        if obj.type in agent_entity.inventory:
-                            agent_entity.inventory[obj.type] += 1
-                        else:
-                            agent_entity.inventory[obj.type] = 1
+                        if obj.type != "diamond_ore":
+                            if obj.type in agent_entity.inventory:
+                                agent_entity.inventory[obj.type] += 1
+                            else:
+                                agent_entity.inventory[obj.type] = 1
                         self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
