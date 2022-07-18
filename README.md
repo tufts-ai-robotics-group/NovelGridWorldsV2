@@ -11,7 +11,7 @@ python3 -m build
 
 ## Installation
 
-To install the project directly from source, firstly make sure the dependencies
+To install the project directly from source, first make sure the dependencies
 are installed by running
 
 ```
@@ -82,8 +82,8 @@ Example:
 
 
 ### Action Sets
-Give a name of the action set and a list of action names (as defined in the action
-section) to be added to the action set.
+Give a name to the action set and a list of action names (as defined in the action
+section) to be added to said action set.
 
 Example:
 ```
@@ -118,11 +118,11 @@ Example:
 Defines the size of the whole map.
 
 ### Seed
-defines the random number generator seed of the game.
+Defines the random number generator seed of the game.
 
 ### Rooms
 Defines the top-left and bottom-right coordinates of the wall of a room.
-bedrocks will be used to generate the walls and fill in spaces not belonging
+Bedrock will be used to generate the walls and fill in spaces not belonging
 to a room.
 
 ### Objects
@@ -141,7 +141,7 @@ module is not defined, then the parser will default to the generic, base
 `Object` class.
 
 ### Entities
-The situation with entities is a little more complicatedf than the objects.
+Entities are a little more complicated than objects. They have associated action sets.
 ```
 "main_1": {
     "agent": "gym_novel_gridworlds2.agents.RandomAgent",
@@ -165,7 +165,7 @@ The situation with entities is a little more complicatedf than the objects.
 | \[extra parameters\] | ... |Extra parameters to be passed to the constructor of the custom `Action` class.|
 
 ### Recipes
-Defines how the object can be crafted.
+Defines how the object can be crafted. Automatically converted to a craft action which can be put in an action set.
 
 Example:
 ```
@@ -183,8 +183,21 @@ Example:
 },
 ```
 
+```
+ "action_sets": {
+    "main": [
+      "forward",
+      "rotate_left",
+      "rotate_right",
+      "use",
+      "break",
+      "craft_stick" #can input this without importing the module
+    ]
+  }
+```
+
 ### Episodes
-an int specifying the total number of episodes.
+An integer specifying the total number of episodes.
 
 ### Novelties
 Given an episode number, apply the "patches" to the configuration file.
@@ -259,14 +272,10 @@ specify what actions are available to a specific type of entity.
 
 
 ## TODO
-- propagation of random seeds
 - a socket client
 - novelty in configuration file
-- generating items in rooms
 - Action name (currently, all actions are just instances of a class and is merely assigned an id)
 - placeable or not
-- chest with items in json
-- fix place_item
 - done is true, quit
 - reward
 - Same id after we added something to the set
