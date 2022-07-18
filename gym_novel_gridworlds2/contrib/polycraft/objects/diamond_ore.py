@@ -13,8 +13,8 @@ class DiamondOre(PolycraftObject):
     def acted_upon(self, action_name, agent):
         if action_name == "break":
             if agent.selectedItem == "iron_pickaxe":
-                if "diamond" in agent.inventory:
-                    agent.inventory["diamond"] += 9
-                else:
-                    agent.inventory.update({"diamond": 9})
-                self.state == "floating"
+                self.state = "floating"
+                # if "diamond" in agent.inventory:
+                #     agent.inventory["diamond"] += 9
+                # else:
+                #     agent.inventory.update({"diamond": 9})

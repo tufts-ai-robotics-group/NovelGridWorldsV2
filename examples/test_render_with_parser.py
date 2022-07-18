@@ -1,21 +1,6 @@
 import pathlib
-from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
-
 import numpy as np
 import time
-
-from gym_novel_gridworlds2.state import State
-from gym_novel_gridworlds2.contrib.polycraft.actions.move import Move
-from gym_novel_gridworlds2.contrib.polycraft.actions.forward import Forward
-from gym_novel_gridworlds2.contrib.polycraft.actions.rotate_right import RotateRight
-from gym_novel_gridworlds2.contrib.polycraft.actions.rotate_left import RotateLeft
-from gym_novel_gridworlds2.contrib.polycraft.actions.break_item import Break
-from gym_novel_gridworlds2.contrib.polycraft.actions.craft import Craft
-from gym_novel_gridworlds2.contrib.polycraft.actions.use import Use
-from gym_novel_gridworlds2.object.entity import Entity
-from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import (
-    PolycraftObject,
-)
 
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
@@ -44,7 +29,7 @@ class TestRenderWithParser:
                 print(agent.selectedItem)
                 print("")
                 print(
-                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), extract_rubber (e), select_tree (si), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick (cs), craft_plank (cp), craft_tree_tap (ctt), craft_pogo_stick (cps), trade_block_of_platinum (t)"
+                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), collect (c), select_tree (si), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick (cs), craft_plank (cp), craft_tree_tap (ctt), craft_block_of_diamond (cb), craft_pogo_stick (cps), trade_block_of_platinum (t)"
                 )
                 choice = input("Select an action: ")
                 if choice == "f":
@@ -86,7 +71,9 @@ class TestRenderWithParser:
 
 
 def main():
-    print("Goal: Craft Pogostick (1 Rubber, 2 Diamond Ore, 2 Planks, 4 Sticks)")
+    print(
+        "Goal: Craft Pogostick (1 Rubber, 2 Blocks of Diamond, 2 Blocks of Titanium, 2 Sticks)"
+    )
     time.sleep(1)
     test = TestRenderWithParser()
     test.setUp()

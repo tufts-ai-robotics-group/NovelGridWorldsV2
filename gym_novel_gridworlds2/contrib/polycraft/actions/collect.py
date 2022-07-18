@@ -16,9 +16,10 @@ class Collect(Action):
         """
         Checks preconditions of the Collect action:
         1) The agent is facing the object
-        2) The object is a tree tap
+        2) The object is a tree tap or a safe
         3) The object is in block state
-        4) The object is adjacent to a tree
+        4) If the object is a tree tap, it should be adjacent to a tree
+        5) If the object is a safe, it should be unlocked
         """
         # convert the entity facing direction to coords
         direction = (0, 0)
@@ -31,38 +32,38 @@ class Collect(Action):
         else:
             direction = (0, -1)
 
-        correctDirection = False
-
         self.temp_loc = tuple(np.add(agent_entity.loc, direction))
         objs = self.state.get_objects_at(self.temp_loc)
-        if len(objs[0]) == 1:
-            correctDirection = True
+        # there is no object to collect from
+        if len(objs[0]) != 1:
+            return False
 
-        adjacentToTree = False
+        if objs[0][0].type == "tree_tap":
 
-        obj1 = self.state.get_objects_at(np.add(self.temp_loc, (0, -1)))
-        if len(obj1[0]) == 1:
-            if obj1[0][0].type == "tree" and obj1[0][0].state == "block":
-                adjacentToTree = True
-        obj2 = self.state.get_objects_at(np.add(self.temp_loc, (0, 1)))
-        if len(obj2[0]) == 1:
-            if obj2[0][0].type == "tree" and obj2[0][0].state == "block":
-                adjacentToTree = True
-        obj3 = self.state.get_objects_at(np.add(self.temp_loc, (1, 0)))
-        if len(obj3[0]) == 1:
-            if obj3[0][0].type == "tree" and obj3[0][0].state == "block":
-                adjacentToTree = True
-        obj4 = self.state.get_objects_at(np.add(self.temp_loc, (-1, 0)))
-        if len(obj4[0]) == 1:
-            if obj4[0][0].type == "tree" and obj4[0][0].state == "block":
-                adjacentToTree = True
+            adjacentToTree = False
 
-        return (
-            correctDirection
-            and adjacentToTree
-            and (objs[0][0].type == "tree_tap")
-            and (objs[0][0].state == "block")
-        )
+            obj1 = self.state.get_objects_at(np.add(self.temp_loc, (0, -1)))
+            if len(obj1[0]) == 1:
+                if obj1[0][0].type == "tree" and obj1[0][0].state == "block":
+                    adjacentToTree = True
+            obj2 = self.state.get_objects_at(np.add(self.temp_loc, (0, 1)))
+            if len(obj2[0]) == 1:
+                if obj2[0][0].type == "tree" and obj2[0][0].state == "block":
+                    adjacentToTree = True
+            obj3 = self.state.get_objects_at(np.add(self.temp_loc, (1, 0)))
+            if len(obj3[0]) == 1:
+                if obj3[0][0].type == "tree" and obj3[0][0].state == "block":
+                    adjacentToTree = True
+            obj4 = self.state.get_objects_at(np.add(self.temp_loc, (-1, 0)))
+            if len(obj4[0]) == 1:
+                if obj4[0][0].type == "tree" and obj4[0][0].state == "block":
+                    adjacentToTree = True
+
+            return adjacentToTree and (objs[0][0].state == "block")
+        elif objs[0][0].type == "safe":
+            return (objs[0][0].isLocked == False) and (objs[0][0].state == "block")
+        else:
+            return objs[0][0].state == "block"
 
     def do_action(self, agent_entity: Entity, target_object: Object = None):
         """

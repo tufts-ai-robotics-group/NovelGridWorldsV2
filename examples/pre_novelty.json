@@ -48,7 +48,8 @@
   "object_types": {
     "default": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
-    "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
+    "safe": "gym_novel_gridworlds2.contrib.polycraft.objects.Safe",
+    "plastic_chest": "gym_novel_gridworlds2.contrib.polycraft.objects.PlasticChest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
     "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre",
@@ -98,7 +99,9 @@
     "tree": 5,
     "diamond_ore": 4,
     "block_of_platinum": 2,
-    "crafting_table": 1
+    "crafting_table": 1,
+    "safe": 1,
+    "plastic_chest": 1
   },
   "num_episodes": 10,
   "entities": {

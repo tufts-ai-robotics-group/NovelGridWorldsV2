@@ -86,21 +86,21 @@ class State:
                 return "R"
             else:
                 return "r"
-        elif obj == "chest":
+        elif obj == "safe":
             if state == "block":
-                return "C"
+                return "S"
             else:
-                return "c"
-        elif obj == "crafting_table":
-            if state == "block":
-                return "H"
-            else:
-                return "h"
-        elif obj == "iron_pickaxe":
+                return "s"
+        elif obj == "plastic_chest":
             if state == "block":
                 return "P"
             else:
                 return "p"
+        elif obj == "crafting_table":
+            if state == "block":
+                return "C"
+            else:
+                return "c"
         elif obj == "diamond_ore":
             if state == "block":
                 return "O"

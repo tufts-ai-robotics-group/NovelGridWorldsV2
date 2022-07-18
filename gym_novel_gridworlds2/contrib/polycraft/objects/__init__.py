@@ -6,3 +6,5 @@ from .diamond_ore import DiamondOre
 from .block_of_platinum import BlockOfPlatinum
 from .iron_pickaxe import IronPickaxe
 from .tree_tap import TreeTap
+from .plastic_chest import PlasticChest
+from .safe import Safe

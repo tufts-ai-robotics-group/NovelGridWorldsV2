@@ -69,5 +69,10 @@ class Forward(Action):
                                 agent_entity.inventory[obj.type] += 1
                             else:
                                 agent_entity.inventory[obj.type] = 1
+                        else:
+                            if "diamond" in agent_entity.inventory:
+                                agent_entity.inventory["diamond"] += 9
+                            else:
+                                agent_entity.inventory.update({"diamond": 9})
                         self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
