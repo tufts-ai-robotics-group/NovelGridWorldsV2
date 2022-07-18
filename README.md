@@ -196,6 +196,38 @@ Example:
   }
 ```
 
+### Trades
+In a very similar vein to crafting, defines the inputs and outputs for a specific trade. Automatically converted to a trade action which can be put in an action set.
+
+Example:
+```
+"block_of_titanium_1": {
+      "input": [
+        {
+          "block_of_platinum": 1
+        }
+      ],
+      "output": [
+        {
+          "block_of_titanium": 1
+        }
+      ]
+    }
+```
+
+```
+ "action_sets": {
+    "main": [
+      "forward",
+      "rotate_left",
+      "rotate_right",
+      "use",
+      "break",
+      "trade_block_of_titanium_1" #can input this without importing the module
+    ]
+  }
+```
+
 ### Episodes
 An integer specifying the total number of episodes.
 
@@ -262,7 +294,7 @@ location.
 
 ### Action
 #### Actions
-The action class specifies the preconditions and consequences of an 
+The `Action` class specifies the preconditions and consequences of an 
 action, depending on the type of the entity that's executing the action
 and the object that is acted upon.
 

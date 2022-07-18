@@ -29,7 +29,7 @@ class TestRenderWithParser:
                 print(agent.selectedItem)
                 print("")
                 print(
-                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), collect (c), select_tree (si), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick (cs), craft_plank (cp), craft_tree_tap (ctt), craft_block_of_diamond (cb), craft_pogo_stick (cps), trade_block_of_platinum (t)"
+                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), collect (c), select_tree (si), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick (cs), craft_plank (cp), craft_tree_tap (ctt), craft_block_of_diamond (cb), craft_pogo_stick (cps), trade_block_of_platinum (tp1)"
                 )
                 choice = input("Select an action: ")
                 if choice == "f":
@@ -66,8 +66,14 @@ class TestRenderWithParser:
                     self.dynamic.actions["craft_tree_tap"].do_action(agent)
                 elif choice == "cps":
                     self.dynamic.actions["craft_pogo_stick"].do_action(agent)
-                elif choice == "t":
-                    self.dynamic.actions["trade_block_of_platinum"].do_action(agent)
+                elif choice == "tp1":
+                    self.dynamic.actions["trade_block_of_platinum_1"].do_action(agent)
+                elif choice == "tt1":
+                    self.dynamic.actions["trade_block_of_titanium_1"].do_action(agent)
+                elif choice == "td1":
+                    self.dynamic.actions["trade_diamond_1"].do_action(agent)
+                elif choice == "tt2":
+                    self.dynamic.actions["trade_block_of_titanium_2"].do_action(agent)
 
 
 def main():

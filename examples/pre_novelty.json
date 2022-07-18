@@ -38,7 +38,10 @@
       "craft_block_of_diamond",
       "craft_tree_tap",
       "craft_pogo_stick",
-      "trade_block_of_platinum"
+      "trade_block_of_platinum_1",
+      "trade_block_of_titanium_1",
+      "trade_diamond_1",
+      "trade_block_of_titanium_2"
     ],
     "trader": [
       "rotate_left",
@@ -96,12 +99,24 @@
     }
   },
   "objects": {
-    "tree": 5,
-    "diamond_ore": 4,
-    "block_of_platinum": 2,
-    "crafting_table": 1,
+    "tree": [
+      2,
+      5
+    ],
+    "diamond_ore": [
+      2,
+      4
+    ],
+    "block_of_platinum": [
+      2,
+      2
+    ],
+    "crafting_table": [
+      2,
+      1
+    ],
     "safe": [
-      3,
+      1,
       1
     ],
     "plastic_chest": [
@@ -131,11 +146,26 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "trader",
       "inventory": {
-        "block_of_titanium": 1
+        "block_of_titanium": 1,
+        "block_of_platinum": 1
       },
       "loc": [
-        2,
-        3
+        10,
+        12
+      ]
+    },
+    "trader_bob": {
+      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "type": "trader",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "trader",
+      "inventory": {
+        "diamond": 9,
+        "block_of_titanium": 2
+      },
+      "loc": [
+        10,
+        14
       ]
     }
   },
@@ -219,7 +249,7 @@
     }
   },
   "trades": {
-    "block_of_platinum": {
+    "block_of_titanium_1": {
       "input": [
         {
           "block_of_platinum": 1
@@ -228,6 +258,42 @@
       "output": [
         {
           "block_of_titanium": 1
+        }
+      ]
+    },
+    "block_of_platinum_1": {
+      "input": [
+        {
+          "diamond": 18
+        }
+      ],
+      "output": [
+        {
+          "block_of_platinum": 1
+        }
+      ]
+    },
+    "diamond_1": {
+      "input": [
+        {
+          "block_of_platinum": 2
+        }
+      ],
+      "output": [
+        {
+          "diamond": 9
+        }
+      ]
+    },
+    "block_of_titanium_2": {
+      "input": [
+        {
+          "tree": 10
+        }
+      ],
+      "output": [
+        {
+          "block_of_titanium": 2
         }
       ]
     }
