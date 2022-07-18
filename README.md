@@ -126,12 +126,14 @@ bedrocks will be used to generate the walls and fill in spaces not belonging
 to a room.
 
 ### Objects
-> Warning: currently updating api: will allow generation of object in a specific
-room.
-
 Defines the number of objects to be randomly placed in the environment.
 The objects will be instatiated using the defined class module
 in the `object_types` section of the json.
+
+In the json, specify a scalar number next to the object's name (i.e 2) to randomly 
+initialize that many instances of the objects on the whole map. Specify an array 
+with two values (i.e [3, 1]), and the object will be instantiated the last index of 
+the array number of times in the room corresponding to the first index of the array.
 
 If the object type name is not defined in the json, the parser will
 use the `default` module defined in the json. If even the `default`

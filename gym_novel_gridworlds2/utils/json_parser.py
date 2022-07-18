@@ -131,8 +131,19 @@ class ConfigParser:
 
         # placement of objects on the map
         if "objects" in json_content:
-            for obj_name, qt in json_content["objects"].items():
-                self.create_random_obj(self.state, obj_name, qt)
+            for obj_name, info in json_content["objects"].items():
+                if np.isscalar(info):
+                    self.create_random_obj(self.state, obj_name, info)
+                else:
+                    # first index of arr is room, 2nd index is quantity
+                    print(json_content["rooms"]["3"])
+                    self.create_random_obj_in_room(
+                        self.state,
+                        obj_name,
+                        info[1],
+                        json_content["rooms"][str(info[0])]["start"],
+                        json_content["rooms"][str(info[0])]["end"],
+                    )
 
         # TODO: separate out recipes?
         dynamic = Dynamic(
@@ -190,11 +201,21 @@ class ConfigParser:
 
     def create_random_obj(self, state: State, obj_name, quantity):
         """
-        Given a name, creates an object using the correct name
+        Given a name, creates an object using the correct name in a random place
         """
         obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
         ObjectModule: Object = obj_type_info["module"]
         state.random_place(obj_name, quantity, ObjectModule)
+
+    def create_random_obj_in_room(
+        self, state: State, obj_name, quantity, startPos, endPos
+    ):
+        """
+        Given a name, creates an object using the correct name randomly in a given room
+        """
+        obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
+        ObjectModule: Object = obj_type_info["module"]
+        state.random_place_in_room(obj_name, quantity, startPos, endPos, ObjectModule)
 
     def create_action(self, action_info):
         ActionModule: Type[Action] = import_module(action_info["module"])

@@ -1,3 +1,4 @@
+from tracemalloc import start
 from typing import List, Optional, Tuple, Mapping
 from copy import deepcopy
 import numpy as np
@@ -208,6 +209,30 @@ class State:
         )
         for index in picked_indices:
             properties = {"loc": tuple(all_available_spots[index])}
+            self.place_object(object_str, ObjectClass, properties=properties)
+
+    def random_place_in_room(
+        self, object_str, count, startPos, endPos, ObjectClass=Object
+    ):
+        """
+        Randomly place the object in the map in a specific room
+
+        if there's not enough spots available, all available spots will be filled
+        """
+        all_available_spots = []
+        for i in range(self.initial_info["map_size"][0]):
+            for j in range(self.initial_info["map_size"][1]):
+                if (i > startPos[0] and i < endPos[0]) and (
+                    j > startPos[1] and j < endPos[1]
+                ):
+                    all_available_spots.append((i, j))
+                    # print(i, j)
+
+        picked_spots = self.rng.choice(a=all_available_spots, size=count, replace=False)
+
+        for loc in picked_spots:
+            print(loc)
+            properties = {"loc": tuple(loc)}
             self.place_object(object_str, ObjectClass, properties=properties)
 
     def remove_object(self, object_name: str, loc: tuple):

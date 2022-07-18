@@ -62,7 +62,7 @@
     30,
     30
   ],
-  "seed": 13,
+  "seed": 16,
   "rooms": {
     "1": {
       "start": [
@@ -100,8 +100,14 @@
     "diamond_ore": 4,
     "block_of_platinum": 2,
     "crafting_table": 1,
-    "safe": 1,
-    "plastic_chest": 1
+    "safe": [
+      3,
+      1
+    ],
+    "plastic_chest": [
+      2,
+      1
+    ]
   },
   "num_episodes": 10,
   "entities": {
