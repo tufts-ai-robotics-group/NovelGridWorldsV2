@@ -116,7 +116,7 @@ class State:
                 return ">"
             else:
                 return "<"
-        elif obj == "agent":
+        elif obj == "agent" or obj == "pogoist":
             if facing == "NORTH":
                 return "^"
             elif facing == "SOUTH":

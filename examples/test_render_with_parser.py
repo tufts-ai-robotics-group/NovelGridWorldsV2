@@ -42,6 +42,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["break"].do_action(agent)
                 elif choice == "u":
                     self.dynamic.actions["use"].do_action(agent)
+                elif choice == "i":
+                    self.dynamic.actions["interact"].do_action(agent)
                 elif choice == "c":
                     self.dynamic.actions["collect"].do_action(agent)
                 elif choice == "si":

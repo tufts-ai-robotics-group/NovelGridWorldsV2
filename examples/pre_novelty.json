@@ -15,6 +15,12 @@
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
     },
+    "NOP": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
+    },
+    "interact": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact"
+    },
     "collect": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
     },
@@ -29,6 +35,7 @@
       "rotate_right",
       "use",
       "collect",
+      "interact",
       "break",
       "select_tree_tap",
       "select_crafting_table",
@@ -41,7 +48,8 @@
       "trade_block_of_platinum_1",
       "trade_block_of_titanium_1",
       "trade_diamond_1",
-      "trade_block_of_titanium_2"
+      "trade_block_of_titanium_2",
+      "NOP"
     ],
     "trader": [
       "rotate_left",
@@ -132,12 +140,11 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "tree": 100,
         "iron_pickaxe": 1
       },
       "loc": [
-        2,
-        2
+        16,
+        16
       ]
     },
     "trader_joe": {
@@ -166,6 +173,19 @@
       "loc": [
         10,
         14
+      ]
+    },
+    "pogoist_1": {
+      "agent": "gym_novel_gridworlds2.agents.Pogoist",
+      "type": "pogoist",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "main",
+      "inventory": {
+        "iron_pickaxe": 1
+      },
+      "loc": [
+        15,
+        15
       ]
     }
   },

@@ -10,3 +10,5 @@ from .craft import Craft
 from .forward import Forward
 from .rotate_left import RotateLeft
 from .rotate_right import RotateRight
+from .interact import Interact
+from .NOP import NOP

@@ -11,26 +11,32 @@ search_directions = {
     "EAST": np.array((0, 1)),
     "WEST": np.array((0, -1)),
     "SOUTH": np.array((1, 0)),
-    "NORTH": np.array((-1, 0))
+    "NORTH": np.array((-1, 0)),
 }
+
 
 class Approach(Action):
     def __init__(self, state: State, dynamics=None, target_type: str = None):
         self.dynamics = dynamics
         self.state = state
         self.target_type = target_type
-    
+
     def _in_bound(self, coord: tuple):
         shape = self.state._map.shape
-        return coord[0] >= 0 and coord[1] >= 0 and \
-            coord[0] < shape[0] and coord[1] < shape[1]
+        return (
+            coord[0] >= 0
+            and coord[1] >= 0
+            and coord[0] < shape[0]
+            and coord[1] < shape[1]
+        )
 
-    def _find_nearest_obj(self, 
-            start_loc: tuple, 
-            desired_type: Optional[str]=None, 
-            desired_obj: Optional[Object]=None, 
-            distance: int=1
-        ) -> Optional[Tuple[str, tuple]]:
+    def _find_nearest_obj(
+        self,
+        start_loc: tuple,
+        desired_type: Optional[str] = None,
+        desired_obj: Optional[Object] = None,
+        distance: int = 1,
+    ) -> Optional[Tuple[str, tuple]]:
         """
         Takes in the start location, either desired type or desired object, and
         distance.
@@ -62,24 +68,28 @@ class Approach(Action):
             # add its adjacent blocks to the queue
             for _, vec in search_directions.items():
                 new_loc = tuple(np.add(curr_loc, vec))
-                if self._in_bound(new_loc) and not visited[new_loc] and not self.state.is_full(new_loc)[1]:
+                if (
+                    self._in_bound(new_loc)
+                    and not visited[new_loc]
+                    and not self.state.is_full(new_loc)[1]
+                ):
                     print(new_loc)
                     q.put(new_loc)
 
         # Not found, return None
         return (0, 0), None
 
-
-    def _check_prepare_action(self,
+    def _check_prepare_action(
+        self,
         agent_entity: Entity,
         target_type: str = None,
         target_object: Object = None,
-        distance: int=1,
+        distance: int = 1,
         **kwargs
     ) -> Tuple[bool, str, tuple]:
         """
         Helper function for checking if the action is valid or not.
-        Takes in all action parameters, 
+        Takes in all action parameters,
         Returns if precondition met, direction of the item, and its location
         """
         if target_object is None:
@@ -88,24 +98,34 @@ class Approach(Action):
             target_object_list = self.state.get_objects_of_type(target_type)
             if len(target_object_list) == 0:
                 return False, None
-            direction, nearest_loc = self._find_nearest_obj(agent_entity.loc, desired_type=target_type, distance=distance)
+            direction, nearest_loc = self._find_nearest_obj(
+                agent_entity.loc, desired_type=target_type, distance=distance
+            )
             return nearest_loc is not None, direction, nearest_loc
         else:
             raise NotImplementedError("Approach the object not implemented")
 
-
-    def check_precondition(self, agent_entity: Entity, target_type: str = None, target_object: Object = None, **kwargs):
+    def check_precondition(
+        self,
+        agent_entity: Entity,
+        target_type: str = None,
+        target_object: Object = None,
+        **kwargs
+    ):
         return self._check_prepare_action(agent_entity, target_type, target_object)
-    
 
-    def do_action(self, agent_entity: Entity, target_type: str = None, target_object: Object = None, distance=1, **kwargs):
+    def do_action(
+        self,
+        agent_entity: Entity,
+        target_type: str = None,
+        target_object: Object = None,
+        distance=1,
+        **kwargs
+    ):
+        print(self.target_type)
         precondition_met, direction, nearest_loc = self._check_prepare_action(
-            agent_entity, 
-            target_type, 
-            target_object, 
-            distance=distance
+            agent_entity, self.target_type, target_object, distance=distance
         )
         if precondition_met:
             agent_entity.facing = direction
             self.state.update_object_loc(agent_entity.loc, nearest_loc)
-
