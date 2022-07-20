@@ -16,7 +16,7 @@
         "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
       },
       "extract_rubber": {
-        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ExtractRubber"
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
       },
       "select_tree": {
         "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
@@ -104,7 +104,7 @@
         "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
         "action_set": "main",
         "inventory": {
-          "tree": 100,
+          "tree": 0,
           "rubber": 1,
           "iron_pickaxe": 1
         },

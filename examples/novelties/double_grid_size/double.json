@@ -16,7 +16,7 @@
         "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
       },
       "extract_rubber": {
-        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ExtractRubber"
+        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
       },
       "select_tree": {
         "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
@@ -188,7 +188,7 @@
       }
     },
     "novelties": {
-      "1": {
+      "0": {
         "map_size": [
             20,
             10
