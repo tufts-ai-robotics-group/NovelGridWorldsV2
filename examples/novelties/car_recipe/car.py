@@ -23,7 +23,7 @@ class Forward(Action):
         """
 
         if agent_entity.selectedItem == "car":
-            self.speed = 2
+            self.speed = 2 # double agent's speed if car selected
         else:
             self.speed = 1
 
