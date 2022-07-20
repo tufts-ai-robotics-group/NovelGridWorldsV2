@@ -8,16 +8,17 @@ from .exceptions import LocationOccupied
 class Cell:
     """
     Cell class, representing a grid box of the grid world
-    when updating the obj/entities, use the functions. 
+    when updating the obj/entities, use the functions.
     when getting the obj/entities, just directly access this,
     """
+
     def __init__(self, obj_limit=1, entity_limit=1, item_encoder=None):
         self._objects: List[Object] = []
         self._entities: List[Entity] = []
         self._obj_limit = obj_limit
         self._entity_limit = entity_limit
         self._item_encoder = item_encoder
-    
+
     def place_object(self, obj: Entity) -> bool:
         """
         If the number of entities is within the limit, place the object and return true.
@@ -39,11 +40,17 @@ class Cell:
         for object in self._objects:
             if object.type == obj_type:
                 return True
-        # for entity in self._entities:
-        #     if entity.type == obj_type:
-        #         return True
         return False
-    
+
+    def _contains_entity(self, entity_id):
+        """
+        Returns whether a given id of entity exists in the current cell.
+        """
+        for entity in self._entities:
+            if entity.id == entity_id:
+                return True
+        return False
+
     def _contains_block(self):
         """
         checks if the object contained in the cell is a block
@@ -51,11 +58,13 @@ class Cell:
         """
         if len(self._objects) != 1:
             return False
-        elif hasattr(self._objects[0], "canWalkOver") and self._objects[0].canWalkOver == True:
+        elif (
+            hasattr(self._objects[0], "canWalkOver")
+            and self._objects[0].canWalkOver == True
+        ):
             return False
         else:
             return self._objects[0].state == "block"
-        
 
     def is_full(self):
         """
@@ -64,8 +73,10 @@ class Cell:
         """
         if self._contains_block():
             return (True, True)
-        return (len(self._objects) >= self._obj_limit, len(self._entities) >= self._entity_limit)
-
+        return (
+            len(self._objects) >= self._obj_limit,
+            len(self._entities) >= self._entity_limit,
+        )
 
     def remove_object(self, obj: Object):
         """
@@ -83,7 +94,6 @@ class Cell:
         """
         self._objects = []
         self._entities = []
-
 
     def get_obj_entities(self) -> Tuple[List[Object], List[Entity]]:
         return (self._objects, self._entities)

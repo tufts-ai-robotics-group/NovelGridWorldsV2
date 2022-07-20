@@ -1,7 +1,6 @@
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
-from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 
 import numpy as np
 

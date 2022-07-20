@@ -76,6 +76,10 @@ class TestRenderWithParser:
                     self.dynamic.actions["trade_diamond_1"].do_action(agent)
                 elif choice == "tt2":
                     self.dynamic.actions["trade_block_of_titanium_2"].do_action(agent)
+                elif choice == "tp2021":
+                    self.dynamic.actions["TP_TO_20,4,21"].do_action(agent)
+                elif choice == "tpe103":
+                    self.dynamic.actions["TP_TO_103"].do_action(agent)
 
 
 def main():

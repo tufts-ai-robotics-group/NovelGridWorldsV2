@@ -1,3 +1,4 @@
+from tkinter import NONE
 from tracemalloc import start
 from typing import List, Optional, Tuple, Mapping
 from copy import deepcopy
@@ -6,6 +7,8 @@ import random
 from functools import reduce
 import json
 from numpy.random import default_rng
+
+from gym_novel_gridworlds2.object import entity
 
 from ..object import Object, Entity
 from ..utils.item_encoder import SimpleItemEncoder
@@ -281,6 +284,18 @@ class State:
             return self._objects.get(type_id) or []
         else:
             return []
+
+    def get_entity_by_id(self, entity_id: int):
+        """
+        Gets an entity by id
+        """
+        for i in range(self.initial_info["map_size"][0]):
+            for j in range(self.initial_info["map_size"][1]):
+                if self._map[(i, j)] is not None:
+                    if self._map[(i, j)]._contains_entity(entity_id):
+                        objs = self.get_objects_at((i, j))
+                        return objs[1][0]
+        return None
 
     def get_objects_at(self, loc: tuple):
         """

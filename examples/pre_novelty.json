@@ -12,6 +12,15 @@
     "forward": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward"
     },
+    "TP_TO_20,4,21": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
+      "x": 20,
+      "y": 21
+    },
+    "TP_TO_103": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
+      "entity_id": 103
+    },
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
     },
@@ -49,7 +58,9 @@
       "trade_block_of_titanium_1",
       "trade_diamond_1",
       "trade_block_of_titanium_2",
-      "NOP"
+      "NOP",
+      "TP_TO_20,4,21",
+      "TP_TO_103"
     ],
     "trader": [
       "rotate_left",
@@ -140,7 +151,8 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "iron_pickaxe": 1
+        "iron_pickaxe": 1,
+        "tree": 4
       },
       "loc": [
         16,
@@ -156,6 +168,7 @@
         "block_of_titanium": 1,
         "block_of_platinum": 1
       },
+      "id": 103,
       "loc": [
         10,
         12
@@ -170,6 +183,7 @@
         "diamond": 9,
         "block_of_titanium": 2
       },
+      "id": 104,
       "loc": [
         10,
         14
@@ -183,6 +197,7 @@
       "inventory": {
         "iron_pickaxe": 1
       },
+      "id": 102,
       "loc": [
         15,
         15

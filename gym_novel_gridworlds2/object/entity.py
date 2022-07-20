@@ -1,3 +1,4 @@
+from scipy.fft import idct
 from .object import Object
 
 
@@ -8,6 +9,7 @@ class Entity(Object):
         loc=(0, 0),
         state="block",
         inventory={},
+        id=1,
         name="",
         facing="NORTH",
         **kwargs,
@@ -21,6 +23,7 @@ class Entity(Object):
         self.type = type
         self.facing = facing
         self.state = state
+        self.id = id
 
     def __str__(self):
         return f'<{self.__class__.__name__} "{str(self.type)}" facing {self.facing} at {str(self.loc)}>'
