@@ -33,7 +33,7 @@ class TreeTap(PolycraftObject):
     def acted_upon(self, action_name, agent):
         if action_name == "break":
             self.state = "floating"
-        if action_name == "extract_rubber":
+        if action_name == "collect":
             if "rubber" in agent.inventory:
                 agent.inventory["rubber"] += 1
             else:
