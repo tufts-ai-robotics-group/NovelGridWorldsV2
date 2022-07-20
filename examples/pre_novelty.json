@@ -12,11 +12,6 @@
     "forward": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward"
     },
-    "TP_TO_20,4,21": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
-      "x": 20,
-      "y": 21
-    },
     "TP_TO_103": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
       "entity_id": 103
@@ -59,7 +54,8 @@
       "trade_diamond_1",
       "trade_block_of_titanium_2",
       "NOP",
-      "TP_TO_20,4,21",
+      "TP_TO_1,17,0",
+      "TP_TO_3,17,3",
       "TP_TO_103"
     ],
     "trader": [

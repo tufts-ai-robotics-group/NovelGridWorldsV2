@@ -12,11 +12,6 @@ class TP_TO(Action):
         self.entity_id = entity_id
         self.x = x
         self.y = y
-        # if x != None:
-        #     self.loc = (int(x), int(y))
-        # else:
-        #     ent = self.state.get_entity_by_id(entity_id)
-        #     self.loc = ent.loc
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs
