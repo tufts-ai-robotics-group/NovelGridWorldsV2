@@ -234,6 +234,80 @@ class State:
         picked_spots = self.rng.choice(a=all_available_spots, size=count, replace=False)
 
         for loc in picked_spots:
+            properties = {"loc": tuple(loc)}
+            self.place_object(object_str, ObjectClass, properties=properties)
+
+    def random_place_chunk_in_room(
+        self, object_str, count, startPos, endPos, ObjectClass=Object
+    ):
+        """
+        Randomly place the object chunk in the map in a specific room
+
+        if there's not enough spots available, all available spots will be filled
+        """
+        all_available_spots = []
+        for i in range(self.initial_info["map_size"][0]):
+            for j in range(self.initial_info["map_size"][1]):
+                if (i > startPos[0] and i < endPos[0]) and (
+                    j > startPos[1] and j < endPos[1]
+                ):
+                    all_available_spots.append((i, j))
+        random.shuffle(all_available_spots)
+        picked_spots = []
+        if count == 2:
+            picked_spot = None
+            vec = None
+            for spot in all_available_spots:
+                obj1 = self.get_objects_at(np.add(spot, (-1, 0)))  # north
+                if len(obj1[0]) == 0:
+                    if len(obj1[1]) == 0:
+                        picked_spot = spot
+                        vec = (-1, 0)
+                obj2 = self.get_objects_at(np.add(spot, (1, 0)))  # south
+                if len(obj2[0]) == 0:
+                    if len(obj2[1]) == 0:
+                        picked_spot = spot
+                        vec = (1, 0)
+                obj3 = self.get_objects_at(np.add(spot, (0, 1)))  # east
+                if len(obj3[0]) == 0:
+                    if len(obj3[1]) == 0:
+                        picked_spot = spot
+                        vec = (0, 1)
+                obj4 = self.get_objects_at(np.add(spot, (0, -1)))  # west
+                if len(obj4[0]) == 0:
+                    if len(obj4[1]) == 0:
+                        picked_spot = spot
+                        vec = (0, -1)
+
+            picked_spots = [picked_spot, np.add(picked_spot, vec)]
+        elif count == 4:
+            picked_spot = None
+            vec = None
+            for spot in all_available_spots:
+                obj1 = self.get_objects_at(np.add(spot, (-1, 0)))  # north
+                if len(obj1[0]) == 0:
+                    if len(obj1[1]) == 0:
+                        picked_spot = spot
+                        vec = (-1, 0)
+                obj2 = self.get_objects_at(np.add(spot, (1, 0)))  # south
+                if len(obj2[0]) == 0:
+                    if len(obj2[1]) == 0:
+                        picked_spot = spot
+                        vec = (1, 0)
+                obj3 = self.get_objects_at(np.add(spot, (0, 1)))  # east
+                if len(obj3[0]) == 0:
+                    if len(obj3[1]) == 0:
+                        picked_spot = spot
+                        vec = (0, 1)
+                obj4 = self.get_objects_at(np.add(spot, (0, -1)))  # west
+                if len(obj4[0]) == 0:
+                    if len(obj4[1]) == 0:
+                        picked_spot = spot
+                        vec = (0, -1)
+
+            picked_spots = [picked_spot, np.add(picked_spot, vec)]
+
+        for loc in picked_spots:
             print(loc)
             properties = {"loc": tuple(loc)}
             self.place_object(object_str, ObjectClass, properties=properties)

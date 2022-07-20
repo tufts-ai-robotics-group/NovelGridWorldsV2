@@ -80,7 +80,7 @@
     30,
     30
   ],
-  "seed": 16,
+  "seed": 12,
   "rooms": {
     "1": {
       "start": [
@@ -114,30 +114,36 @@
     }
   },
   "objects": {
-    "tree": [
-      2,
-      5
-    ],
-    "diamond_ore": [
-      2,
-      4
-    ],
-    "block_of_platinum": [
-      2,
-      2
-    ],
-    "crafting_table": [
-      2,
-      1
-    ],
-    "safe": [
-      1,
-      1
-    ],
-    "plastic_chest": [
-      2,
-      1
-    ]
+    "tree": {
+      "quantity": 5,
+      "room": "Any",
+      "chunked": "False"
+    },
+    "diamond_ore": {
+      "quantity": 2,
+      "room": 2,
+      "chunked": "True"
+    },
+    "block_of_platinum": {
+      "quantity": 2,
+      "room": 2,
+      "chunked": "True"
+    },
+    "crafting_table": {
+      "quantity": 1,
+      "room": 2,
+      "chunked": "False"
+    },
+    "safe": {
+      "quantity": 1,
+      "room": 1,
+      "chunked": "False"
+    },
+    "plastic_chest": {
+      "quantity": 1,
+      "room": 2,
+      "chunked": "False"
+    }
   },
   "num_episodes": 10,
   "entities": {

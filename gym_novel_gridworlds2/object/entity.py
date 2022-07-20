@@ -1,4 +1,4 @@
-from scipy.fft import idct
+# from scipy.fft import idct
 from .object import Object
 
 
