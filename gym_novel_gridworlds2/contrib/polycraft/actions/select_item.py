@@ -24,6 +24,7 @@ class SelectItem(Action):
         target_type: str = None,
         target_object: Object = None,
     ):
+        self.state._step_count += 1
         if not self.check_precondition(agent_entity, self.target_type, target_object):
             self.result = "FAILED"
             self.action_metadata(agent_entity, target_type, target_object)
@@ -43,5 +44,7 @@ class SelectItem(Action):
             + "”, “result”: "
             + self.result
             + ", \
-            “message”: “”, “stepCost: 120}, “step”:1, “gameOver”:false}"
+            “message”: “”, “stepCost: 120}, “step”: "
+            + str(self.state._step_count)
+            + ", “gameOver”:false}"
         )

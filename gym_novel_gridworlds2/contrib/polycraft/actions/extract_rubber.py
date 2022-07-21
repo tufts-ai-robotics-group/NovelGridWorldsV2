@@ -66,6 +66,7 @@ class ExtractRubber(Action):
         )
 
     def do_action(self, agent_entity: Entity, target_object: Object = None):
+        self.state._step_count += 1
         """
         Checks for precondition, then extracts rubber from the object
         """

@@ -48,6 +48,7 @@ class Forward(Action):
             return False
 
     def do_action(self, agent_entity, target_type=None, target_object=None):
+        self.state._step_count += 1
         """
         Checks for precondition, then moves the object to the destination.
         """
@@ -88,5 +89,7 @@ class Forward(Action):
             “command_result”: {“command”: “smooth_move”, “argument”: “w”, “result”: "
             + self.result
             + ", \
-            “message”: “”, “stepCost: 27.906975}, “step”:1, “gameOver”:false}"
+            “message”: “”, “stepCost: 27.906975}, “step”: "
+            + str(self.state._step_count)
+            + ", “gameOver”:false}"
         )

@@ -57,6 +57,7 @@ class Craft(Action):
                     return False
 
     def do_action(self, agent_entity: Entity, target_type=None, target_object=None):
+        self.state._step_count += 1
         if not self.check_precondition(agent_entity):
             self.result = "FAILED"
             self.action_metadata(agent_entity)
@@ -90,7 +91,9 @@ class Craft(Action):
                 “command_result”: {“command”: “craft”, “argument”: “1 Minecraft:log 0 0 0”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 1200}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 1200}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )
         elif self.itemToCraft == "stick":
             print(
@@ -98,7 +101,9 @@ class Craft(Action):
                 “command_result”: {“command”: “craft”, “argument”: “1 Minecraft:planks 0 Minecraft:planks 0”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 2400}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 2400}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )
         elif self.itemToCraft == "tree_tap":
             print(
@@ -106,7 +111,9 @@ class Craft(Action):
                 “command_result”: {“command”: “craft”, “argument”: “1 Minecraft:planks Minecraft:stick Minecraft:planks Minecraft:planks 0 Minecraft:planks 0 Minecraft:planks 0”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 7200}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 7200}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )
         elif self.itemToCraft == "block_of_diamond":
             print(
@@ -114,7 +121,9 @@ class Craft(Action):
                 “command_result”: {“command”: “craft”, “argument”: “1 minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 10800}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 10800}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )
         elif self.itemToCraft == "pogo_stick":
             print(
@@ -122,5 +131,7 @@ class Craft(Action):
                 “command_result”: {“command”: “craft”, “argument”: “1 minecraft:stick polycraft:block_of_titanium minecraft:stick minecraft:diamond_block polycraft:block_of_titanium minecraft:diamond_block 0 polycraft:sack_polyisoprene_pellets 0”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 8400}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 8400}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )

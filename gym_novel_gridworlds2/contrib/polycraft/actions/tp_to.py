@@ -64,6 +64,7 @@ class TP_TO(Action):
         """
         Checks for precondition, then teleports to the location
         """
+        self.state._step_count += 1
         if not self.check_precondition(agent_entity):
             self.result = "FAILURE"
             self.action_metadata(agent_entity)
@@ -109,7 +110,9 @@ class TP_TO(Action):
                 + "”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 282.72424}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 282.72424}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )
         else:
             print(
@@ -119,5 +122,7 @@ class TP_TO(Action):
                 + "”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 282.72424}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 282.72424}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )

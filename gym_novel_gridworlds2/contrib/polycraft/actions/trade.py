@@ -60,6 +60,7 @@ class Trade(Action):
         """
         Checks for precondition, then trades for the item
         """
+        self.state._step_count += 1
         if not self.check_precondition(agent_entity):
             self.result = "FAILED"
             self.action_metadata(agent_entity)
@@ -93,7 +94,9 @@ class Trade(Action):
                 “command_result”: {“command”: “trade”, “argument”: “103 polycraft:block_of_platinum 1”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 1200}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 1200}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )
         elif self.itemToTrade == "block_of_platinum":
             print(
@@ -101,7 +104,9 @@ class Trade(Action):
                 “command_result”: {“command”: “trade”, “argument”: “103 minecraft:diamond 18”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 20400}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 20400}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )
         elif self.itemToTrade == "diamond":
             print(
@@ -109,5 +114,7 @@ class Trade(Action):
                 “command_result”: {“command”: “trade”, “argument”: “104 polycraft:block_of_platinum 2”, “result”: "
                 + self.result
                 + ", \
-                “message”: “”, “stepCost: 2400}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 2400}, “step”: "
+                + str(self.state._step_count)
+                + ", “gameOver”:false}"
             )

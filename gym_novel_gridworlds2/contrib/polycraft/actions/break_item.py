@@ -45,6 +45,7 @@ class Break(Action):
         """
         Checks for precondition, then breaks the object
         """
+        self.state._step_count += 1
         if not self.check_precondition(agent_entity, target_object):
             self.result = "FAILED"
             self.action_metadata(agent_entity, target_object)
@@ -68,5 +69,7 @@ class Break(Action):
             “command_result”: {“command”: “break_block”, “argument”: “”, “result”: "
             + self.result
             + ", \
-            “message”: “”, “stepCost: 3600}, “step”:1, “gameOver”:false}"
+            “message”: “”, “stepCost: 3600}, “step”: "
+            + str(self.state._step_count)
+            + ", “gameOver”:false}"
         )

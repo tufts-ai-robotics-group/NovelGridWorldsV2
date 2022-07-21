@@ -66,30 +66,35 @@ class PlaceItem(Action):
         target_type: str = None,
         target_object: Object = None,
     ):
+        self.state._step_count += 1
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILURE"
             self.action_metadata(agent_entity, target_type, target_object)
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.name}" cannot place item of type {agent_entity.selectedItem}.'
             )
+        if agent_entity.selectedItem == "sapling":
+            itemToPlace = "tree"
+        else:
+            itemToPlace = agent_entity.selectedItem
         # place object of type selectedItem on map in the direction the agent is facing
         if agent_entity.selectedItem in self.dynamics:
             obj_info = self.dynamics[agent_entity.selectedItem]
             self.state.place_object(
-                agent_entity.selectedItem,
+                itemToPlace,
                 obj_info["module"],
                 properties={"loc": self.temp_loc, **obj_info["params"]},
             )
         elif "default" in self.dynamics:
             obj_info = self.dynamics["default"]
             self.state.place_object(
-                agent_entity.selectedItem,
+                itemToPlace,
                 obj_info["module"],
                 properties={"loc": self.temp_loc, **obj_info["params"]},
             )
         else:
             self.state.place_object(
-                agent_entity.selectedItem,
+                itemToPlace,
                 Entity,
                 properties={"loc": self.temp_loc},
             )
@@ -102,9 +107,11 @@ class PlaceItem(Action):
         print(
             "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “place”, “argument”: “"
-            + agent_entity.selectedItem
+            + str(agent_entity.selectedItem)
             + "”, “result”: "
             + self.result
             + ", \
-            “message”: “”, “stepCost: 300}, “step”:1, “gameOver”:false}"
+            “message”: “”, “stepCost: 300}, “step”: "
+            + str(self.state._step_count)
+            + ", “gameOver”:false}"
         )

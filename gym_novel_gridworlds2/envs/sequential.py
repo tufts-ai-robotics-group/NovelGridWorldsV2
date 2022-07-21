@@ -86,6 +86,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         - agent_selection (to the next agent)
         And any internal state used by observe() or render()
         """
+        self.state.time_updates()
         if self.dones[self.agent_selection]:
             # handles stepping an agent which is already done
             # accepts a None action for the one agent, and moves the agent_selection to

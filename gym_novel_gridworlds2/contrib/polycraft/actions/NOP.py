@@ -24,8 +24,9 @@ class NOP(Action):
         """
         Checks for precondition, then does nothing
         """
+        self.state._step_count += 1
         self.result = "SUCCESS"
-        self.action_metadata()
+        self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         print(
@@ -33,5 +34,7 @@ class NOP(Action):
             “command_result”: {“command”: “NOP”, “argument”: “”, “result”: "
             + self.result
             + ", \
-            “message”: “”, “stepCost: 0}, “step”:1, “gameOver”:false}"
+            “message”: “”, “stepCost: 0}, “step”: "
+            + str(self.state._step_count)
+            + ", “gameOver”:false}"
         )

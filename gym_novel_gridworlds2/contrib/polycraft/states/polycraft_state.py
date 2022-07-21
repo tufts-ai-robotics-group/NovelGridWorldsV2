@@ -118,3 +118,6 @@ class PolycraftState(State):
                     self.place_object("bedrock", properties={"loc": (i, j)})
                 else:
                     break
+
+    def time_updates(self):
+        print(self._step_count)

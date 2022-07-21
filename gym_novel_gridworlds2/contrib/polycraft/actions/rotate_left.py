@@ -23,6 +23,7 @@ class RotateLeft(Action):
         """
         Rotates the object to the left
         """
+        self.state._step_count += 1
         if agent_entity.facing == "NORTH":
             agent_entity.facing = "WEST"
         elif agent_entity.facing == "EAST":
@@ -41,5 +42,7 @@ class RotateLeft(Action):
             “command_result”: {“command”: “smooth_turn”, “argument”: “-90”, “result”: "
             + self.result
             + ", \
-            “message”: “”, “stepCost: 24}, “step”:1, “gameOver”:false}"
+            “message”: “”, “stepCost: 24}, “step”: "
+            + str(self.state._step_count)
+            + ", “gameOver”:false}"
         )

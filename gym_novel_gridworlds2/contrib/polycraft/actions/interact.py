@@ -33,18 +33,23 @@ class Interact(Action):
         self.temp_loc = tuple(np.add(agent_entity.loc, direction))
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[1]) != 1:
+            self.entity_id = -1
             return False
 
         # validTypes = ["trader", "pogoist"]
-
-        self.entity_id = objs[1][0].id
-
-        return hasattr(objs[1][0], "id")
+        if hasattr(objs[1][0], "id"):
+            self.entity_id = objs[1][0].id
+            return True
+        else:
+            self.entity_id = -1
+            print(self.entity_id)
+            return False
 
     def do_action(self, agent_entity: Entity, target_object: Object = None):
         """
         Checks for precondition, then interacts with the entity
         """
+        self.state._step_count += 1
         if not self.check_precondition(agent_entity, target_object):
             obj_type = (
                 target_object.type
@@ -73,5 +78,7 @@ class Interact(Action):
             + "”, “result”: "
             + self.result
             + ", \
-                “message”: “”, “stepCost: 282.72424}, “step”:1, “gameOver”:false}"
+                “message”: “”, “stepCost: 282.72424}, “step”: "
+            + str(self.state._step_count)
+            + ", “gameOver”:false}"
         )
