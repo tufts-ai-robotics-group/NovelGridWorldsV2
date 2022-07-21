@@ -65,6 +65,8 @@ class TP_TO(Action):
         Checks for precondition, then teleports to the location
         """
         if not self.check_precondition(agent_entity):
+            self.result = "FAILURE"
+            self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
                 f"Agent {agent_entity.name} cannot teleport to {self.loc}."
             )
@@ -92,3 +94,30 @@ class TP_TO(Action):
                             agent_entity.inventory.update({"diamond": 9})
                     self.state.remove_object(obj.type, new_loc)
         self.state.update_object_loc(agent_entity.loc, new_loc)
+
+        self.result = "SUCCESS"
+        self.action_metadata(agent_entity)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        if self.x != None:
+            print(
+                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                “command_result”: {“command”: “tp_to”, “argument”: “"
+                + str(self.x)
+                + ",17,"
+                + str(self.y)
+                + "”, “result”: "
+                + self.result
+                + ", \
+                “message”: “”, “stepCost: 282.72424}, “step”:1, “gameOver”:false}"
+            )
+        else:
+            print(
+                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                “command_result”: {“command”: “tp_to”, “argument”: “"
+                + str(self.entity_id)
+                + "”, “result”: "
+                + self.result
+                + ", \
+                “message”: “”, “stepCost: 282.72424}, “step”:1, “gameOver”:false}"
+            )

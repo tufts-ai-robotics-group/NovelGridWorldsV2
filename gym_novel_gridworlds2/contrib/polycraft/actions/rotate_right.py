@@ -31,3 +31,15 @@ class RotateRight(Action):
             agent_entity.facing = "WEST"
         else:
             agent_entity.facing = "NORTH"
+
+        self.result = "SUCCESS"
+        self.action_metadata(agent_entity)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        print(
+            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            “command_result”: {“command”: “smooth_turn”, “argument”: “90”, “result”: "
+            + self.result
+            + ", \
+            “message”: “”, “stepCost: 24}, “step”:1, “gameOver”:false}"
+        )

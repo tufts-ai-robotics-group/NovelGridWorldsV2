@@ -279,33 +279,39 @@ class State:
                         picked_spot = spot
                         vec = (0, -1)
 
+                if picked_spot is not None:  # found the spot, terminate search
+                    break
+
             picked_spots = [picked_spot, np.add(picked_spot, vec)]
         elif count == 4:
             picked_spot = None
-            vec = None
             for spot in all_available_spots:
-                obj1 = self.get_objects_at(np.add(spot, (-1, 0)))  # north
+                count = 0
+                obj1 = self.get_objects_at(np.add(spot, (1, 0)))  # south
                 if len(obj1[0]) == 0:
                     if len(obj1[1]) == 0:
                         picked_spot = spot
-                        vec = (-1, 0)
-                obj2 = self.get_objects_at(np.add(spot, (1, 0)))  # south
+                        count += 1
+                obj2 = self.get_objects_at(np.add(spot, (0, 1)))  # east
                 if len(obj2[0]) == 0:
                     if len(obj2[1]) == 0:
                         picked_spot = spot
-                        vec = (1, 0)
-                obj3 = self.get_objects_at(np.add(spot, (0, 1)))  # east
+                        count += 1
+                obj3 = self.get_objects_at(np.add(spot, (1, 1)))  # diagonal down
                 if len(obj3[0]) == 0:
                     if len(obj3[1]) == 0:
                         picked_spot = spot
-                        vec = (0, 1)
-                obj4 = self.get_objects_at(np.add(spot, (0, -1)))  # west
-                if len(obj4[0]) == 0:
-                    if len(obj4[1]) == 0:
-                        picked_spot = spot
-                        vec = (0, -1)
+                        count += 1
 
-            picked_spots = [picked_spot, np.add(picked_spot, vec)]
+                if count == 3:  # we have a 2x2 chunk
+                    break
+
+            picked_spots = [
+                picked_spot,
+                np.add(picked_spot, (1, 0)),
+                np.add(picked_spot, (0, 1)),
+                np.add(picked_spot, (1, 1)),
+            ]
 
         for loc in picked_spots:
             print(loc)

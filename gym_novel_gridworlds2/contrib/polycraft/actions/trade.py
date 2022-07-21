@@ -61,6 +61,8 @@ class Trade(Action):
         Checks for precondition, then trades for the item
         """
         if not self.check_precondition(agent_entity):
+            self.result = "FAILED"
+            self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
                 f"Agent {agent_entity.name} cannot trade for {self.itemToTrade}."
             )
@@ -80,3 +82,32 @@ class Trade(Action):
             agent_entity.inventory[self.itemToTrade] = self.trade["output"][0][
                 self.itemToTrade
             ]
+
+        self.result = "SUCCESS"
+        self.action_metadata(agent_entity)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        if self.itemToTrade == "block_of_titanium":
+            print(
+                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                “command_result”: {“command”: “trade”, “argument”: “103 polycraft:block_of_platinum 1”, “result”: "
+                + self.result
+                + ", \
+                “message”: “”, “stepCost: 1200}, “step”:1, “gameOver”:false}"
+            )
+        elif self.itemToTrade == "block_of_platinum":
+            print(
+                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                “command_result”: {“command”: “trade”, “argument”: “103 minecraft:diamond 18”, “result”: "
+                + self.result
+                + ", \
+                “message”: “”, “stepCost: 20400}, “step”:1, “gameOver”:false}"
+            )
+        elif self.itemToTrade == "diamond":
+            print(
+                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                “command_result”: {“command”: “trade”, “argument”: “104 polycraft:block_of_platinum 2”, “result”: "
+                + self.result
+                + ", \
+                “message”: “”, “stepCost: 2400}, “step”:1, “gameOver”:false}"
+            )

@@ -76,3 +76,17 @@ class Forward(Action):
                                 agent_entity.inventory.update({"diamond": 9})
                         self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
+            self.result = "SUCCESS"
+        else:
+            self.result = "FAILED"
+
+        self.action_metadata(agent_entity, target_object)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        print(
+            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            “command_result”: {“command”: “smooth_move”, “argument”: “w”, “result”: "
+            + self.result
+            + ", \
+            “message”: “”, “stepCost: 27.906975}, “step”:1, “gameOver”:false}"
+        )

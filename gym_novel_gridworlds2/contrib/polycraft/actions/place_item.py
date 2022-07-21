@@ -67,6 +67,8 @@ class PlaceItem(Action):
         target_object: Object = None,
     ):
         if not self.check_precondition(agent_entity, target_type, target_object):
+            self.result = "FAILURE"
+            self.action_metadata(agent_entity, target_type, target_object)
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.name}" cannot place item of type {agent_entity.selectedItem}.'
             )
@@ -92,3 +94,17 @@ class PlaceItem(Action):
                 properties={"loc": self.temp_loc},
             )
         agent_entity.inventory[agent_entity.selectedItem] -= 1
+
+        self.result = "SUCCESS"
+        self.action_metadata(agent_entity, target_type, target_object)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        print(
+            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            “command_result”: {“command”: “place”, “argument”: “"
+            + agent_entity.selectedItem
+            + "”, “result”: "
+            + self.result
+            + ", \
+            “message”: “”, “stepCost: 300}, “step”:1, “gameOver”:false}"
+        )

@@ -25,7 +25,23 @@ class SelectItem(Action):
         target_object: Object = None,
     ):
         if not self.check_precondition(agent_entity, self.target_type, target_object):
+            self.result = "FAILED"
+            self.action_metadata(agent_entity, target_type, target_object)
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.name}" cannot select item of type {self.target_type}.'
             )
         agent_entity.selectedItem = self.target_type
+
+        self.result = "SUCCESS"
+        self.action_metadata(agent_entity, target_type, target_object)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        print(
+            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            “command_result”: {“command”: “select_item”, “argument”: “"
+            + self.target_type
+            + "”, “result”: "
+            + self.result
+            + ", \
+            “message”: “”, “stepCost: 120}, “step”:1, “gameOver”:false}"
+        )

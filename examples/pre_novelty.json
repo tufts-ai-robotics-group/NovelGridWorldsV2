@@ -80,7 +80,7 @@
     30,
     30
   ],
-  "seed": 12,
+  "seed": 15,
   "rooms": {
     "1": {
       "start": [
@@ -120,7 +120,7 @@
       "chunked": "False"
     },
     "diamond_ore": {
-      "quantity": 2,
+      "quantity": 4,
       "room": 2,
       "chunked": "True"
     },

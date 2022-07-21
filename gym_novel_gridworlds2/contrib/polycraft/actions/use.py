@@ -50,6 +50,8 @@ class Use(Action):
         Checks for precondition, then uses the object
         """
         if not self.check_precondition(agent_entity, target_object):
+            self.result = "FAILED"
+            self.action_metadata(agent_entity, target_object)
             obj_type = (
                 target_object.type
                 if hasattr(target_object, "type")
@@ -60,3 +62,15 @@ class Use(Action):
             )
         objs = self.state.get_objects_at(self.temp_loc)
         objs[0][0].acted_upon("use", agent_entity)
+
+        self.result = "SUCCESS"
+        self.action_metadata(agent_entity, target_object)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        print(
+            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            “command_result”: {“command”: “use”, “argument”: “”, “result”: "
+            + self.result
+            + ", \
+            “message”: “”, “stepCost: 50000}, “step”:1, “gameOver”:false}"
+        )
