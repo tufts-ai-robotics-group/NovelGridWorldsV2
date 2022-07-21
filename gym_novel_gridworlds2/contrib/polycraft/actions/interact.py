@@ -15,9 +15,9 @@ class Interact(Action):
         self, agent_entity: Entity, target_object: Object = None, **kwargs
     ):
         """
-        Checks preconditions of the Use action:
+        Checks preconditions of the Interact action:
         1) The agent is facing an entity
-        2) The entity is of a valid type
+        2) The entity has an id
         """
         # convert the entity facing direction to coords
         direction = (0, 0)
@@ -35,13 +35,15 @@ class Interact(Action):
         if len(objs[1]) != 1:
             return False
 
-        validTypes = ["trader", "pogoist"]
+        # validTypes = ["trader", "pogoist"]
 
-        return objs[1][0].type in validTypes
+        self.entity_id = objs[1][0].id
+
+        return hasattr(objs[1][0], "id")
 
     def do_action(self, agent_entity: Entity, target_object: Object = None):
         """
-        Checks for precondition, then uses the object
+        Checks for precondition, then interacts with the entity
         """
         if not self.check_precondition(agent_entity, target_object):
             obj_type = (
@@ -49,6 +51,8 @@ class Interact(Action):
                 if hasattr(target_object, "type")
                 else target_object.__class__.__name__
             )
+            self.result = "FAILED"
+            self.action_metadata(agent_entity, target_object)
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
             )
@@ -57,5 +61,17 @@ class Interact(Action):
             # get its inventory, print out trades respective to that
             for item in objs[1][0].inventory:
                 print("trade_" + item)
-        else:
-            pass
+
+        self.result = "SUCCESS"
+        self.action_metadata(agent_entity, target_object)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        print(
+            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                “command_result”: {“command”: “interact”, “argument”: “"
+            + str(self.entity_id)
+            + "”, “result”: "
+            + self.result
+            + ", \
+                “message”: “”, “stepCost: 282.72424}, “step”:1, “gameOver”:false}"
+        )
