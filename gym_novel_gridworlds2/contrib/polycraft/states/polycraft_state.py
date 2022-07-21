@@ -4,6 +4,9 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 from gym_novel_gridworlds2.state.cell import Cell
 from gym_novel_gridworlds2.state.exceptions import LocationOccupied
 
+import random
+import numpy as np
+
 
 class PolycraftState(State):
     """
@@ -119,5 +122,59 @@ class PolycraftState(State):
                 else:
                     break
 
+    def tree_was_broken(self, loc):
+        # generate a num between 4 - 7
+        # that many steps later, generate a floating sapling at loc
+        self.time_needed = random.randint(4, 7)
+        self.loc_to_place = loc
+
     def time_updates(self):
+        if self.time_needed > 0:
+            self.time_needed -= 1
+            print(self.time_needed)
+        if self.time_needed == 0:
+            if (
+                len(self.get_objects_at(self.loc_to_place)[0]) == 0
+                and len(self.get_objects_at(self.loc_to_place)[1]) == 0
+            ):
+                self.place_object(
+                    "sapling",
+                    PolycraftObject,
+                    properties={"loc": self.loc_to_place, "state": "floating"},
+                )
+            else:
+                picked_spot = None
+                vec = None
+                obj1 = self.get_objects_at(np.add(self.loc_to_place, (-1, 0)))  # north
+                if len(obj1[0]) == 0:
+                    if len(obj1[1]) == 0:
+                        picked_spot = self.loc_to_place
+                        vec = (-1, 0)
+                obj2 = self.get_objects_at(np.add(self.loc_to_place, (1, 0)))  # south
+                if len(obj2[0]) == 0:
+                    if len(obj2[1]) == 0:
+                        picked_spot = self.loc_to_place
+                        vec = (1, 0)
+                obj3 = self.get_objects_at(np.add(self.loc_to_place, (0, 1)))  # east
+                if len(obj3[0]) == 0:
+                    if len(obj3[1]) == 0:
+                        picked_spot = self.loc_to_place
+                        vec = (0, 1)
+                obj4 = self.get_objects_at(np.add(self.loc_to_place, (0, -1)))  # west
+                if len(obj4[0]) == 0:
+                    if len(obj4[1]) == 0:
+                        picked_spot = self.loc_to_place
+                        vec = (0, -1)
+
+                self.place_object(
+                    "sapling",
+                    PolycraftObject,
+                    properties={
+                        "loc": np.add(self.loc_to_place, vec),
+                        "state": "floating",
+                    },
+                )
+                # place it in an adjacent location
+
+            self.time_needed = -1
         print(self._step_count)

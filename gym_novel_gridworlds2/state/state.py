@@ -56,6 +56,7 @@ class State:
         self._map.fill(None)
         self.rng = rng
         self._step_count = 0
+        self.time_needed = -1
 
     def make_copy(self):
         return deepcopy(self)

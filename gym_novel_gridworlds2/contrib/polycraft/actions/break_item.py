@@ -58,6 +58,8 @@ class Break(Action):
                 f'Agent "{agent_entity.name}" cannot perform break on {obj_type}.'
             )
         objs = self.state.get_objects_at(self.temp_loc)
+        if objs[0][0].type == "tree":
+            self.state.tree_was_broken(self.temp_loc)
         objs[0][0].acted_upon("break", agent_entity)
 
         self.result = "SUCCESS"

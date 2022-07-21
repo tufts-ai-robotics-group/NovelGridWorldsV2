@@ -21,6 +21,7 @@ class TestRenderWithParser:
                 won = True
                 print("You won!")
             else:
+                self.state.time_updates()
                 print(self.state.mapRepresentation())
                 print("")
                 print("Agent's Inventory:")
