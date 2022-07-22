@@ -74,16 +74,6 @@ class PolycraftState(State):
             self.remove_object("bedrock", coord)
             self.place_object("door", Door, properties=properties)
 
-        # # for every wall, randomly init a door to replace a bedrock there
-        # coord = (0, 0)
-        # for wall in self.walls_list:
-        #     without_borders = wall[1 : len(wall) - 1]
-        #     # don't want to place a door where its inaccessible
-        #     coord = tuple(self.rng.choice(without_borders))
-        # properties = {"loc": coord}
-        # self.remove_object("bedrock", coord)
-        # self.place_object("door", Door, properties=properties)
-
     def remove_space(self):
         # for every row, and for every col
         # proceed linearly down the row/col and place a bedrock until another bedrock is reached, then terminate
@@ -123,59 +113,82 @@ class PolycraftState(State):
                     break
 
     def tree_was_broken(self, loc):
-        # generate a num between 4 - 7
-        # that many steps later, generate a floating sapling at loc
-        self.time_needed = random.randint(4, 7)
-        self.loc_to_place = loc
+        # in 4-7 timesteps, generate a sapling at the area where the tree was broken
+        self.time_needed.append(random.randint(4, 7))
+        self.sapling_locs.append(loc)
 
     def time_updates(self):
-        if self.time_needed > 0:
-            self.time_needed -= 1
-        if self.time_needed == 0:
-            if (  # case where the tile where the sapling should be placed is empty
-                len(self.get_objects_at(self.loc_to_place)[0]) == 0
-                and len(self.get_objects_at(self.loc_to_place)[1]) == 0
-            ):
-                self.place_object(
-                    "sapling",
-                    PolycraftObject,
-                    properties={"loc": self.loc_to_place, "state": "floating"},
-                )
-            elif (  # case where agent is on the tile where the sapling should be placed
-                len(self.get_objects_at(self.loc_to_place)[1]) == 1
-                and (
-                    self.get_objects_at(self.loc_to_place)[1][0].type == "agent"
-                    or self.get_objects_at(self.loc_to_place)[1][0].type == "pogoist"
-                )
-            ):
-                if "sapling" in self.get_objects_at(self.loc_to_place)[1][0].inventory:
-                    self.get_objects_at(self.loc_to_place)[1][0].inventory[
-                        "sapling"
-                    ] += 1
-                else:
-                    self.get_objects_at(self.loc_to_place)[1][0].inventory.update(
-                        {"sapling": 1}
+        """
+        Called after every step, updates things in the environment that elapse
+        after a certain number of timesteps
+
+        Currently used to keep track of placing sapling logic after the
+        elapsed timesteps
+        """
+        for index, time in enumerate(self.time_needed):
+            if time == -1:
+                continue
+            if time > 0:
+                self.time_needed[index] -= 1
+            if time == 0:
+                if (  # case where the tile where the sapling should be placed is empty
+                    len(self.get_objects_at(self.sapling_locs[index])[0]) == 0
+                    and len(self.get_objects_at(self.sapling_locs[index])[1]) == 0
+                ):
+                    self.place_object(
+                        "sapling",
+                        PolycraftObject,
+                        properties={
+                            "loc": self.sapling_locs[index],
+                            "state": "floating",
+                        },
                     )
-            else:  # case where the tile where the sapling should be placed is nonempty
-                vec = None
-                obj1 = self.get_objects_at(np.add(self.loc_to_place, (-1, 0)))  # north
-                if len(obj1[0]) == 0 and len(obj1[1]) == 0:
-                    vec = (-1, 0)
-                obj2 = self.get_objects_at(np.add(self.loc_to_place, (1, 0)))  # south
-                if len(obj2[0]) == 0 and len(obj2[1]) == 0:
-                    vec = (1, 0)
-                obj3 = self.get_objects_at(np.add(self.loc_to_place, (0, 1)))  # east
-                if len(obj3[0]) == 0 and len(obj3[1]) == 0:
-                    vec = (0, 1)
-                obj4 = self.get_objects_at(np.add(self.loc_to_place, (0, -1)))  # west
-                if len(obj4[0]) == 0 and len(obj4[1]) == 0:
-                    vec = (0, -1)
+                elif len(  # case where agent is on the tile where the sapling should be placed
+                    self.get_objects_at(self.sapling_locs[index])[1]
+                ) == 1 and (
+                    self.get_objects_at(self.sapling_locs[index])[1][0].type == "agent"
+                    or self.get_objects_at(self.sapling_locs[index])[1][0].type
+                    == "pogoist"
+                ):
+                    if (
+                        "sapling"
+                        in self.get_objects_at(self.sapling_locs[index])[1][0].inventory
+                    ):
+                        self.get_objects_at(self.sapling_locs[index])[1][0].inventory[
+                            "sapling"
+                        ] += 1
+                    else:
+                        self.get_objects_at(self.sapling_locs[index])[1][
+                            0
+                        ].inventory.update({"sapling": 1})
+                else:  # case where the tile where the sapling should be placed is nonempty
+                    vec = None
+                    obj1 = self.get_objects_at(
+                        np.add(self.sapling_locs[index], (-1, 0))
+                    )  # north
+                    if len(obj1[0]) == 0 and len(obj1[1]) == 0:
+                        vec = (-1, 0)
+                    obj2 = self.get_objects_at(
+                        np.add(self.sapling_locs[index], (1, 0))
+                    )  # south
+                    if len(obj2[0]) == 0 and len(obj2[1]) == 0:
+                        vec = (1, 0)
+                    obj3 = self.get_objects_at(
+                        np.add(self.sapling_locs[index], (0, 1))
+                    )  # east
+                    if len(obj3[0]) == 0 and len(obj3[1]) == 0:
+                        vec = (0, 1)
+                    obj4 = self.get_objects_at(
+                        np.add(self.sapling_locs[index], (0, -1))
+                    )  # west
+                    if len(obj4[0]) == 0 and len(obj4[1]) == 0:
+                        vec = (0, -1)
 
-                new_loc = tuple(np.add(self.loc_to_place, vec))
-                self.place_object(
-                    "sapling",
-                    PolycraftObject,
-                    properties={"loc": new_loc, "state": "floating"},
-                )
+                    new_loc = tuple(np.add(self.sapling_locs[index], vec))
+                    self.place_object(
+                        "sapling",
+                        PolycraftObject,
+                        properties={"loc": new_loc, "state": "floating"},
+                    )
 
-            self.time_needed = -1
+                self.time_needed[index] = -1

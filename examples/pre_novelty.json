@@ -79,10 +79,10 @@
     "sapling": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
   "map_size": [
-    45,
+    33,
     45
   ],
-  "seed": 14,
+  "seed": 23,
   "rooms": {
     "1": {
       "start": [
@@ -100,7 +100,7 @@
         14
       ],
       "end": [
-        44,
+        32,
         44
       ]
     },
@@ -118,7 +118,7 @@
   "objects": {
     "tree": {
       "quantity": 5,
-      "room": "Any",
+      "room": 2,
       "chunked": "False"
     },
     "diamond_ore": {

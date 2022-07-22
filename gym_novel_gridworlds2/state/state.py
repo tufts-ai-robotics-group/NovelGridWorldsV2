@@ -56,7 +56,8 @@ class State:
         self._map.fill(None)
         self.rng = rng
         self._step_count = 0
-        self.time_needed = -1
+        self.time_needed = []
+        self.sapling_locs = []
 
         self.goalAchieved = False
 
@@ -254,66 +255,98 @@ class State:
                     j > startPos[1] and j < endPos[1]
                 ):
                     all_available_spots.append((i, j))
-        random.shuffle(all_available_spots)
+        self.rng.shuffle(all_available_spots)
         picked_spots = []
         if count == 2:
+            # need to make it so that the spots bordering the available spots are also in the available spots list
             picked_spot = None
             vec = None
             for spot in all_available_spots:
-                obj1 = self.get_objects_at(np.add(spot, (-1, 0)))  # north
-                if len(obj1[0]) == 0:
-                    if len(obj1[1]) == 0:
+                objs = self.get_objects_at(spot)
+                if len(objs[0]) == 0 and len(objs[1]) == 0:
+                    north_spot = tuple(np.add(spot, (-1, 0)))
+                    obj1 = self.get_objects_at(north_spot)  # north
+                    if (
+                        len(obj1[0]) == 0
+                        and len(obj1[1]) == 0
+                        and (north_spot in all_available_spots)
+                    ):
                         picked_spot = spot
                         vec = (-1, 0)
-                obj2 = self.get_objects_at(np.add(spot, (1, 0)))  # south
-                if len(obj2[0]) == 0:
-                    if len(obj2[1]) == 0:
+                    south_spot = tuple(np.add(spot, (1, 0)))
+                    obj2 = self.get_objects_at(south_spot)  # south
+                    if (
+                        len(obj2[0]) == 0
+                        and len(obj2[1]) == 0
+                        and (south_spot in all_available_spots)
+                    ):
                         picked_spot = spot
                         vec = (1, 0)
-                obj3 = self.get_objects_at(np.add(spot, (0, 1)))  # east
-                if len(obj3[0]) == 0:
-                    if len(obj3[1]) == 0:
+                    east_spot = tuple(np.add(spot, (0, 1)))
+                    obj3 = self.get_objects_at(east_spot)  # east
+                    if (
+                        len(obj3[0]) == 0
+                        and len(obj3[1]) == 0
+                        and (east_spot in all_available_spots)
+                    ):
                         picked_spot = spot
                         vec = (0, 1)
-                obj4 = self.get_objects_at(np.add(spot, (0, -1)))  # west
-                if len(obj4[0]) == 0:
-                    if len(obj4[1]) == 0:
+                    west_spot = tuple(np.add(spot, (0, -1)))
+                    obj4 = self.get_objects_at(west_spot)  # west
+                    if (
+                        len(obj4[0]) == 0
+                        and len(obj4[1]) == 0
+                        and (west_spot in all_available_spots)
+                    ):
                         picked_spot = spot
                         vec = (0, -1)
 
-                if picked_spot is not None:  # found the spot, terminate search
-                    break
+                    if picked_spot is not None:  # found the spot, terminate search
+                        picked_spots = [picked_spot, tuple(np.add(picked_spot, vec))]
+                        break
 
-            picked_spots = [picked_spot, np.add(picked_spot, vec)]
         elif count == 4:
             picked_spot = None
             for spot in all_available_spots:
-                count = 0
-                obj1 = self.get_objects_at(np.add(spot, (1, 0)))  # south
-                if len(obj1[0]) == 0:
-                    if len(obj1[1]) == 0:
+                objs = self.get_objects_at(spot)
+                if len(objs[0]) == 0 and len(objs[1]) == 0:
+                    count = 0
+                    south_spot = tuple(np.add(spot, (1, 0)))
+                    obj1 = self.get_objects_at(south_spot)  # south
+                    if (
+                        len(obj1[0]) == 0
+                        and len(obj1[1]) == 0
+                        and south_spot in all_available_spots
+                    ):
                         picked_spot = spot
                         count += 1
-                obj2 = self.get_objects_at(np.add(spot, (0, 1)))  # east
-                if len(obj2[0]) == 0:
-                    if len(obj2[1]) == 0:
+                    east_spot = tuple(np.add(spot, (0, 1)))
+                    obj2 = self.get_objects_at(east_spot)  # east
+                    if (
+                        len(obj2[0]) == 0
+                        and len(obj2[1]) == 0
+                        and east_spot in all_available_spots
+                    ):
                         picked_spot = spot
                         count += 1
-                obj3 = self.get_objects_at(np.add(spot, (1, 1)))  # diagonal down
-                if len(obj3[0]) == 0:
-                    if len(obj3[1]) == 0:
+                    diagonal_spot = tuple(np.add(spot, (1, 1)))
+                    obj3 = self.get_objects_at(diagonal_spot)  # diagonal down
+                    if (
+                        len(obj3[0]) == 0
+                        and len(obj3[1]) == 0
+                        and diagonal_spot in all_available_spots
+                    ):
                         picked_spot = spot
                         count += 1
 
-                if count == 3:  # we have a 2x2 chunk
-                    break
-
-            picked_spots = [
-                picked_spot,
-                np.add(picked_spot, (1, 0)),
-                np.add(picked_spot, (0, 1)),
-                np.add(picked_spot, (1, 1)),
-            ]
+                    if count == 3:  # we have a 2x2 chunk
+                        picked_spots = [
+                            picked_spot,
+                            tuple(np.add(picked_spot, (1, 0))),
+                            tuple(np.add(picked_spot, (0, 1))),
+                            tuple(np.add(picked_spot, (1, 1))),
+                        ]
+                        break
 
         for loc in picked_spots:
             properties = {"loc": tuple(loc)}
