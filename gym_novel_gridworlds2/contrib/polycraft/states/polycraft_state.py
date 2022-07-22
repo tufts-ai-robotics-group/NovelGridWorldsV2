@@ -131,9 +131,8 @@ class PolycraftState(State):
     def time_updates(self):
         if self.time_needed > 0:
             self.time_needed -= 1
-            print(self.time_needed)
         if self.time_needed == 0:
-            if (
+            if (  # case where the tile where the sapling should be placed is empty
                 len(self.get_objects_at(self.loc_to_place)[0]) == 0
                 and len(self.get_objects_at(self.loc_to_place)[1]) == 0
             ):
@@ -142,39 +141,41 @@ class PolycraftState(State):
                     PolycraftObject,
                     properties={"loc": self.loc_to_place, "state": "floating"},
                 )
-            else:
-                picked_spot = None
+            elif (  # case where agent is on the tile where the sapling should be placed
+                len(self.get_objects_at(self.loc_to_place)[1]) == 1
+                and (
+                    self.get_objects_at(self.loc_to_place)[1][0].type == "agent"
+                    or self.get_objects_at(self.loc_to_place)[1][0].type == "pogoist"
+                )
+            ):
+                if "sapling" in self.get_objects_at(self.loc_to_place)[1][0].inventory:
+                    self.get_objects_at(self.loc_to_place)[1][0].inventory[
+                        "sapling"
+                    ] += 1
+                else:
+                    self.get_objects_at(self.loc_to_place)[1][0].inventory.update(
+                        {"sapling": 1}
+                    )
+            else:  # case where the tile where the sapling should be placed is nonempty
                 vec = None
                 obj1 = self.get_objects_at(np.add(self.loc_to_place, (-1, 0)))  # north
-                if len(obj1[0]) == 0:
-                    if len(obj1[1]) == 0:
-                        picked_spot = self.loc_to_place
-                        vec = (-1, 0)
+                if len(obj1[0]) == 0 and len(obj1[1]) == 0:
+                    vec = (-1, 0)
                 obj2 = self.get_objects_at(np.add(self.loc_to_place, (1, 0)))  # south
-                if len(obj2[0]) == 0:
-                    if len(obj2[1]) == 0:
-                        picked_spot = self.loc_to_place
-                        vec = (1, 0)
+                if len(obj2[0]) == 0 and len(obj2[1]) == 0:
+                    vec = (1, 0)
                 obj3 = self.get_objects_at(np.add(self.loc_to_place, (0, 1)))  # east
-                if len(obj3[0]) == 0:
-                    if len(obj3[1]) == 0:
-                        picked_spot = self.loc_to_place
-                        vec = (0, 1)
+                if len(obj3[0]) == 0 and len(obj3[1]) == 0:
+                    vec = (0, 1)
                 obj4 = self.get_objects_at(np.add(self.loc_to_place, (0, -1)))  # west
-                if len(obj4[0]) == 0:
-                    if len(obj4[1]) == 0:
-                        picked_spot = self.loc_to_place
-                        vec = (0, -1)
+                if len(obj4[0]) == 0 and len(obj4[1]) == 0:
+                    vec = (0, -1)
 
+                new_loc = tuple(np.add(self.loc_to_place, vec))
                 self.place_object(
                     "sapling",
                     PolycraftObject,
-                    properties={
-                        "loc": np.add(self.loc_to_place, vec),
-                        "state": "floating",
-                    },
+                    properties={"loc": new_loc, "state": "floating"},
                 )
-                # place it in an adjacent location
 
             self.time_needed = -1
-        print(self._step_count)

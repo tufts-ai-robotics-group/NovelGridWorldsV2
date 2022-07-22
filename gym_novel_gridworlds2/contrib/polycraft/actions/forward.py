@@ -56,6 +56,7 @@ class Forward(Action):
             new_loc = tuple(np.add(self.vec, agent_entity.loc))
             # multiple objects handling
             objs = self.state.get_objects_at(new_loc)
+            print(objs)
             if len(objs[0]) != 0:
                 for obj in objs[0]:
                     if (
@@ -65,6 +66,7 @@ class Forward(Action):
                     ):
                         pass
                     else:
+                        print(obj.type)
                         if obj.type != "diamond_ore":
                             if obj.type in agent_entity.inventory:
                                 agent_entity.inventory[obj.type] += 1

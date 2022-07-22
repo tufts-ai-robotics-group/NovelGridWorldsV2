@@ -82,6 +82,8 @@ class Craft(Action):
             ]
 
         self.result = "SUCCESS"
+        if self.itemToCraft == "pogo_stick":
+            self.state.goalAchieved = True
         self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):

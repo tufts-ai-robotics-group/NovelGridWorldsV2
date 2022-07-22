@@ -9,9 +9,8 @@ from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
 # file_name = "automaptest.json"
 
-parser = argparse.ArgumentParser(description='Polycraft Environment')
-parser.add_argument('filename', type=str, nargs=1,
-                    help='the path of the config file')
+parser = argparse.ArgumentParser(description="Polycraft Environment")
+parser.add_argument("filename", type=str, nargs=1, help="the path of the config file")
 
 args = parser.parse_args()
 file_name = args.filename[0]
@@ -21,7 +20,6 @@ config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
 with open(config_file_path, "r") as f:
     config_content = json.load(f)
 
-# print(state)
 env = NovelGridWorldSequentialEnv(config_dict=config_content, MAX_ITER=1000)
 
 num_episodes = config_content.get("num_episodes") or 1000

@@ -58,6 +58,8 @@ class State:
         self._step_count = 0
         self.time_needed = -1
 
+        self.goalAchieved = False
+
     def make_copy(self):
         return deepcopy(self)
 
@@ -230,7 +232,6 @@ class State:
                     j > startPos[1] and j < endPos[1]
                 ):
                     all_available_spots.append((i, j))
-                    # print(i, j)
 
         picked_spots = self.rng.choice(a=all_available_spots, size=count, replace=False)
 
@@ -315,7 +316,6 @@ class State:
             ]
 
         for loc in picked_spots:
-            print(loc)
             properties = {"loc": tuple(loc)}
             self.place_object(object_str, ObjectClass, properties=properties)
 

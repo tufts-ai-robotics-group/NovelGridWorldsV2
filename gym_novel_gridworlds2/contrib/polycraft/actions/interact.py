@@ -42,7 +42,6 @@ class Interact(Action):
             return True
         else:
             self.entity_id = -1
-            print(self.entity_id)
             return False
 
     def do_action(self, agent_entity: Entity, target_object: Object = None):
