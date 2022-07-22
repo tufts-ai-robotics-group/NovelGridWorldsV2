@@ -79,8 +79,8 @@
     "sapling": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
   "map_size": [
-    30,
-    30
+    45,
+    45
   ],
   "seed": 14,
   "rooms": {
@@ -90,28 +90,28 @@
         0
       ],
       "end": [
-        9,
-        9
+        7,
+        14
       ]
     },
     "2": {
       "start": [
         0,
-        9
+        14
       ],
       "end": [
-        25,
-        25
+        44,
+        44
       ]
     },
     "3": {
       "start": [
         15,
-        4
+        7
       ],
       "end": [
-        24,
-        9
+        22,
+        14
       ]
     }
   },
@@ -155,13 +155,11 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "iron_pickaxe": 1,
-        "tree": 4,
-        "sapling": 1
+        "iron_pickaxe": 1
       },
       "loc": [
-        16,
-        16
+        25,
+        25
       ]
     },
     "trader_joe": {
@@ -175,8 +173,8 @@
       },
       "id": 103,
       "loc": [
-        10,
-        12
+        13,
+        20
       ]
     },
     "trader_bob": {
@@ -190,8 +188,8 @@
       },
       "id": 104,
       "loc": [
-        10,
-        14
+        13,
+        22
       ]
     },
     "pogoist_1": {
@@ -204,8 +202,8 @@
       },
       "id": 102,
       "loc": [
-        15,
-        15
+        2,
+        2
       ]
     }
   },

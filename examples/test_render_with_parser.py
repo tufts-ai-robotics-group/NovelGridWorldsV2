@@ -13,6 +13,7 @@ class TestRenderWithParser:
         )
 
     def mainLoop(self):
+        np.set_printoptions(threshold=np.inf)
         np.set_printoptions(linewidth=np.inf)
         won = False
         while not won:

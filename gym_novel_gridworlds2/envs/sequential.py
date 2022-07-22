@@ -31,6 +31,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.config_dict = config_dict
 
         np.set_printoptions(linewidth=np.inf)
+        np.set_printoptions(threshold=np.inf)
 
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
