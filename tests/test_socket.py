@@ -4,7 +4,7 @@
 import socket, random, time, json, os, datetime
 
 HOST = "127.0.0.1"
-PORT = 9000
+PORT = 2346
 
 movement = ['movenorth', 'movesouth', 'moveeast', 'movewest']
 

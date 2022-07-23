@@ -1,3 +1,4 @@
+import time
 from .keyboard_agent import KeyboardAgent
 import socket
 
@@ -21,23 +22,36 @@ class SocketManualAgent(KeyboardAgent):
             try:
                 self.conn, self.conn_addr = self.socket.accept()
                 print(f"agent {self.name}: socket is ready.")
+                return True
             except BlockingIOError:
-                print(f"agent {self.name}: socket not ready yet.")
-                pass
+                # print(f"agent {self.name}: socket not ready yet.")
+                return False
     
+    def _wait_for_ready(self):
+        while not self.is_ready():
+            print(f"agent {self.name}: Waiting for socket agent to be ready...")
+            time.sleep(2)
+
     def _recv_msg(self) -> str:
+        self._wait_for_ready()
+
         msg = ""
         done = False
         while not done:
-            slice_msg = self.conn.recv(1024, socket.MSG_PEEK)
-            if b'\n' in slice_msg:
-                index = slice_msg.find(b'\n')
-                msg += self.conn.recv(index).decode('unicode-escape')
-                self.conn.recv(1)
-                done = True
+            try:
+                slice_msg = self.conn.recv(1024, socket.MSG_PEEK)
+                if b'\n' in slice_msg:
+                    index = slice_msg.find(b'\n')
+                    msg += self.conn.recv(index).decode('unicode-escape')
+                    self.conn.recv(1)
+                    done = True
+            except BlockingIOError:
+                pass
         return msg
 
     def _send_msg(self, msg: str):
+        self._wait_for_ready()
+
         data = msg.encode('unicode-escape')
         while data:
             sent = self.conn.send(data)
@@ -47,7 +61,7 @@ class SocketManualAgent(KeyboardAgent):
     def policy(self, observation):
         self._send_msg(f">>>>>>>>> keyboard agent: Agent {self.name} can do these actions:")
         action_names = self.action_set.get_action_names()
-        self._send_msg(">>>>>>>>>> ", ', '.join([f"{index}: {name}" for (index, name) in enumerate(action_names)]))
+        self._send_msg(">>>>>>>>>> " + ', '.join([f"{index}: {name}" for (index, name) in enumerate(action_names)]))
         action = self._recv_msg()
         return int(action)
     
