@@ -130,11 +130,14 @@ class ConfigParser:
         self.agent_manager = AgentManager()
         if "entities" in json_content:
             for key, entity_info in json_content["entities"].items():
+                # creates and places the entity in the map
                 agent_entity = self.create_place_entity(
                     name=key, entity_info=entity_info
                 )
+                # add agent to the agent list (for action per round)
                 self.agent_manager.add_agent(**agent_entity)
 
+        # initializes the action space
         action_space = MultiAgentActionSpace(
             [
                 e.action_set.get_action_space()
@@ -269,7 +272,19 @@ class ConfigParser:
         return ActionSet(action_list)
 
     def create_place_entity(self, name: str, entity_info: dict):
-        AgentClass: Type[Agent] = import_module(entity_info["agent"])
+        # import the agent class, based on two configuration styles.
+        AgentClass: Type[Agent] = Agent
+        agent_param = {}
+
+        if isinstance(entity_info["agent"], str):
+            # no parameter, just agent
+            AgentClass = import_module(entity_info["agent"])
+        else:
+            agent_param = entity_info["agent"]
+            AgentClass = import_module(agent_param['module'])
+            del agent_param['module']
+        
+        # import entity class
         EntityClass: Type[Entity] = import_module(entity_info["entity"])
 
         # action set
@@ -288,5 +303,5 @@ class ConfigParser:
         )
 
         # agent object
-        agent_obj = AgentClass(name=name, action_set=action_set)
+        agent_obj = AgentClass(name=name, action_set=action_set, **agent_param)
         return {"action_set": action_set, "agent": agent_obj, "entity": entity_obj}
