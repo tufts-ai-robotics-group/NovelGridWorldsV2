@@ -42,7 +42,7 @@ class SocketManualAgent(KeyboardAgent):
                 slice_msg = self.conn.recv(1024, socket.MSG_PEEK)
                 if b'\n' in slice_msg:
                     index = slice_msg.find(b'\n')
-                    msg += self.conn.recv(index).decode('unicode-escape')
+                    msg += self.conn.recv(index).decode('utf-8')
                     self.conn.recv(1)
                     done = True
             except BlockingIOError:
@@ -52,17 +52,19 @@ class SocketManualAgent(KeyboardAgent):
     def _send_msg(self, msg: str):
         self._wait_for_ready()
 
-        data = msg.encode('unicode-escape')
+        data = (msg + '\n').encode('utf-8')
         while data:
             sent = self.conn.send(data)
             data = data[sent:]
         return True
     
     def policy(self, observation):
-        self._send_msg(f">>>>>>>>> keyboard agent: Agent {self.name} can do these actions:")
-        action_names = self.action_set.get_action_names()
-        self._send_msg(">>>>>>>>>> " + ', '.join([f"{index}: {name}" for (index, name) in enumerate(action_names)]))
-        action = self._recv_msg()
+        action = ""
+        while not action.isdecimal():
+            self._send_msg(f">>>>>>>>> keyboard agent: Agent {self.name} can do these actions:")
+            action_names = self.action_set.get_action_names()
+            self._send_msg(">>>>>>>>>> " + ', '.join([f"{index}: {name}" for (index, name) in enumerate(action_names)]))
+            action = self._recv_msg()
         return int(action)
     
     def __del__(self):

@@ -303,6 +303,31 @@ and the object that is acted upon.
 The `ActionSet` class represents a set of actions. Action Sets can be used to 
 specify what actions are available to a specific type of entity.
 
+### Example Agents
+The project provides some generic agent that can achieve simple
+tasks or serve as an example for more complicated agents:
+
+#### `RandomAgent`
+The agent will pick a random action (without parameters).
+
+#### `KeyboardAgent`
+The agent will print its action set and prompt for the user to 
+manually select an action from the list.
+
+#### `SocketAgent`
+The process is basically the same as the `KeyboardAgent`, but it sends
+the available actions over the socket and expects an action number to 
+be send from the remote client.
+
+To test the socket, first run the main `examples/polycraft.py` using
+configuration `pre_novelty_socket.json`.
+Then, go to `tests/test_socket.py` to directly send text over the socket.
+
+If you want to test your own configuration file with a different socket
+number,
+make sure you change the `PORT` variable in the `test_socket.py` file to reflect
+the port you're using.
+
 
 ## TODO
 - a socket client
