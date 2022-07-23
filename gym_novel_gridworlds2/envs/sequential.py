@@ -160,6 +160,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
             json_content=self.config_dict
         )
 
+        #### agent novelties
+        self.possible_agents = self.agent_manager.get_possible_agents()
+        self.agent_name_mapping = self.agent_manager.get_agent_name_mapping()
+
+        # more reset
         self.agents = self.possible_agents[:]
         self.rewards = {agent: 0 for agent in self.agents}
         self._cumulative_rewards = {agent: 0 for agent in self.agents}
