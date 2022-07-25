@@ -22,6 +22,9 @@
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
+    "sense_recipes": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes"
+    },
     "interact": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact"
     },
@@ -55,6 +58,7 @@
       "trade_diamond_1",
       "trade_block_of_titanium_2",
       "NOP",
+      "sense_recipes",
       "TP_TO_1,17,0",
       "TP_TO_3,17,3",
       "TP_TO_103"

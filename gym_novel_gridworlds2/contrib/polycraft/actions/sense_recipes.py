@@ -30,6 +30,24 @@ class SenseRecipes(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         print(
+            '"{"recipes":[{"inputs":[{"Item":"minecraft:planks","stackSize":1,"slot":0}, \
+            {"Item":"minecraft:stick","stackSize":1,"slot":1},{"Item":"minecraft:planks","stackSize":1,"slot":2},\
+            {"Item":"minecraft:planks","stackSize":1,"slot":3},{"Item":"minecraft:planks","stackSize":1,"slot":5}, \
+            {"Item":"minecraft:planks","stackSize":1,"slot":7}],"outputs":[{"Item":"polycraft:tree_tap","stackSize":1,"slot":9}]}, \
+            {"inputs":[{"Item":"minecraft:stick","stackSize":1,"slot":0},{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":1}, \
+            {"Item":"minecraft:stick","stackSize":1,"slot":2},{"Item":"minecraft:diamond_block","stackSize":1,"slot":3}, \
+            {"Item":"polycraft:block_of_titanium","stackSize":1,"slot":4},{"Item":"minecraft:diamond_block","stackSize":1,"slot":5}, \
+            {"Item":"polycraft:sack_polyisoprene_pellets","stackSize":1,"slot":7}],"outputs":[{"Item":"polycraft:wooden_pogo_stick","stackSize":1,"slot":9}]}, \
+            {"inputs":[{"Item":"minecraft:log","stackSize":1,"slot":-1}],"outputs":[{"Item":"minecraft:planks","stackSize":4,"slot":9}]}, \
+            {"inputs":[{"Item":"minecraft:planks","stackSize":1,"slot":0},{"Item":"minecraft:planks","stackSize":1,"slot":3}], \
+            "outputs":[{"Item":"minecraft:stick","stackSize":4,"slot":9}]},{"inputs":[{"Item":"minecraft:planks","stackSize":1,"slot":0}, \
+            {"Item":"minecraft:planks","stackSize":1,"slot":1},{"Item":"minecraft:planks","stackSize":1,"slot":3}, \
+            {"Item":"minecraft:planks","stackSize":1,"slot":4}],"outputs":[{"Item":"minecraft:crafting_table","stackSize":1,"slot":9}]}, \
+            {"inputs":[{"Item":"minecraft:diamond","stackSize":1,"slot":0},{"Item":"minecraft:diamond","stackSize":1,"slot":1}, \
+            {"Item":"minecraft:diamond","stackSize":1,"slot":2},{"Item":"minecraft:diamond","stackSize":1,"slot":3},{"Item":"minecraft:diamond","stackSize":1,"slot":4}, \
+            {"Item":"minecraft:diamond","stackSize":1,"slot":5},{"Item":"minecraft:diamond","stackSize":1,"slot":6},{"Item":"minecraft:diamond","stackSize":1,"slot":7}, \
+            {"Item":"minecraft:diamond","stackSize":1,"slot":8}],"outputs":[{"Item":"minecraft:diamond_block","stackSize":1,"slot":9}]}],"goal":{"goalType":"ITEM","goalAchieved":false,"Distribution":"Uninformed"}, \
+            "command_result":{"command":"sense_recipes","argument":"","result":"SUCCESS","message":"","stepCost":1200.0},"step":2,"gameOver":false}\n'
             "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “sense_recipes”, “argument”: “”, “result”: "
             + self.result
