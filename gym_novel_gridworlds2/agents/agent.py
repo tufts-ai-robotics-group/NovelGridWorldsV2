@@ -11,6 +11,10 @@ class Agent:
         self.action_set = action_set
         self.ob_space = ob_space
     
+    ### Socket related functions
+    def is_ready(self):
+        return True
+    
     def generate_observation(self, state):
         return [0]
     

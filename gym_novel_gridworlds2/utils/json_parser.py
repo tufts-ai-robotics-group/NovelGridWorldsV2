@@ -36,6 +36,7 @@ def import_module(module_path: str):
 class ConfigParser:
     def __init__(self) -> None:
         self.obj_types = {}
+        self.agent_cache = {}
 
     def parse_json(
         self, json_file_name="", json_content=None
@@ -130,11 +131,14 @@ class ConfigParser:
         self.agent_manager = AgentManager()
         if "entities" in json_content:
             for key, entity_info in json_content["entities"].items():
+                # creates and places the entity in the map
                 agent_entity = self.create_place_entity(
                     name=key, entity_info=entity_info
                 )
+                # add agent to the agent list (for action per round)
                 self.agent_manager.add_agent(**agent_entity)
 
+        # initializes the action space
         action_space = MultiAgentActionSpace(
             [
                 e.action_set.get_action_space()
@@ -268,8 +272,34 @@ class ConfigParser:
             action_list.append((action_str, self.actions[action_str]))
         return ActionSet(action_list)
 
+    def create_policy_agent(self, agent_info, name, action_set):
+        """
+        Given agent_info, 
+        either reuse the existing agent and update the action_set or
+        create the new agent.
+        """
+        if name in self.agent_cache:
+            agent: Agent = self.agent_cache[name]
+            agent.action_set = action_set
+            return agent
+
+        # import the agent class, based on two configuration styles.
+        AgentClass: Type[Agent] = Agent
+        agent_param = {}
+    
+        if isinstance(agent_info, str):
+            # no parameter, just agent
+            AgentClass = import_module(agent_info)
+        else:
+            AgentClass = import_module(agent_info['module'])
+            agent_param = deepcopy(agent_info)
+            del agent_param['module']
+        agent = AgentClass(name=name, action_set=action_set, **agent_param)
+        self.agent_cache[name] = agent
+        return agent
+
     def create_place_entity(self, name: str, entity_info: dict):
-        AgentClass: Type[Agent] = import_module(entity_info["agent"])
+        # import entity class
         EntityClass: Type[Entity] = import_module(entity_info["entity"])
 
         # action set
@@ -288,5 +318,5 @@ class ConfigParser:
         )
 
         # agent object
-        agent_obj = AgentClass(name=name, action_set=action_set)
+        agent_obj = self.create_policy_agent(entity_info["agent"], name=name, action_set=action_set)
         return {"action_set": action_set, "agent": agent_obj, "entity": entity_obj}
