@@ -50,6 +50,8 @@ class TestRenderWithParser:
                     self.dynamic.actions["collect"].do_action(agent)
                 elif choice == "sr":
                     self.dynamic.actions["sense_recipes"].do_action(agent)
+                elif choice == "sa":
+                    self.dynamic.actions["sense_all"].do_action(agent)
                 elif choice == "ss":
                     self.dynamic.actions["select_sapling"].do_action(agent)
                 elif choice == "st":

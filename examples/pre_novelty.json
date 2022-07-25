@@ -25,6 +25,9 @@
     "sense_recipes": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes"
     },
+    "sense_all": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseAll"
+    },
     "interact": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact"
     },
@@ -59,6 +62,7 @@
       "trade_block_of_titanium_2",
       "NOP",
       "sense_recipes",
+      "sense_all",
       "TP_TO_1,17,0",
       "TP_TO_3,17,3",
       "TP_TO_103"
@@ -83,39 +87,39 @@
     "sapling": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
   "map_size": [
-    33,
-    45
+    32,
+    47
   ],
   "seed": 23,
   "rooms": {
     "1": {
       "start": [
-        0,
-        0
+        7,
+        31
       ],
       "end": [
-        7,
-        14
+        14,
+        46
       ]
     },
     "2": {
       "start": [
         0,
-        14
+        0
       ],
       "end": [
-        32,
-        44
+        31,
+        31
       ]
     },
     "3": {
       "start": [
-        15,
-        7
+        24,
+        31
       ],
       "end": [
-        22,
-        14
+        31,
+        38
       ]
     }
   },
@@ -177,8 +181,8 @@
       },
       "id": 103,
       "loc": [
-        13,
-        20
+        7,
+        15
       ]
     },
     "trader_bob": {
@@ -192,8 +196,8 @@
       },
       "id": 104,
       "loc": [
-        13,
-        22
+        7,
+        17
       ]
     },
     "pogoist_1": {
@@ -206,8 +210,8 @@
       },
       "id": 102,
       "loc": [
-        2,
-        2
+        5,
+        10
       ]
     }
   },
