@@ -62,11 +62,6 @@
       "trader": [
         "rotate_left",
         "rotate_right"
-      ],
-      "hyper_tourist": [
-        "forward",
-        "rotate_left",
-        "rotate_right"
       ]
     },
     "object_types": {
@@ -343,12 +338,25 @@
     },
     "novelties": {
         "0": {
+            "actions": {
+              "jump": {
+                "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward",
+                "speed": 2
+              }
+            },
+            "action_sets": {
+              "hyper_tourist": [
+                "jump",
+                "rotate_left",
+                "rotate_right"
+              ]
+            },
             "entities": {
                 "hyper_tourist": {
                   "agent": "gym_novel_gridworlds2.agents.RandomAgent",
                   "type": "trader",
                   "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
-                  "action_set": "trader",
+                  "action_set": "hyper_tourist",
                   "inventory": {
                     "iron_pickaxe": 1
                   },
