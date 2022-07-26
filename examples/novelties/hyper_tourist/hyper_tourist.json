@@ -343,21 +343,34 @@
   },
   "novelties": {
     "0": {
-      "entities": {
-        "hyper_tourist": {
-          "agent": "gym_novel_gridworlds2.agents.RandomAgent",
-          "type": "trader",
-          "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
-          "action_set": "trader",
-          "inventory": {
-            "iron_pickaxe": 1
-          },
-          "loc": [
-            25,
-            26
+        "actions": {
+          "jump": {
+            "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward",
+            "speed": 2
+          }
+        },
+        "action_sets": {
+          "hyper_tourist": [
+            "jump",
+            "rotate_left",
+            "rotate_right"
           ]
+        },
+        "entities": {
+            "hyper_tourist": {
+              "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+              "type": "trader",
+              "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+              "action_set": "hyper_tourist",
+              "inventory": {
+                "iron_pickaxe": 1
+              },
+              "loc": [
+                25,
+                26
+              ]
+            }
         }
-      }
     }
   }
 }
