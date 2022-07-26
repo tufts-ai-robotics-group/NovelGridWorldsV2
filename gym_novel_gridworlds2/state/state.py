@@ -58,6 +58,7 @@ class State:
         self._step_count = 0
         self.time_needed = []
         self.sapling_locs = []
+        self.room_coords = []
 
         self.goalAchieved = False
 

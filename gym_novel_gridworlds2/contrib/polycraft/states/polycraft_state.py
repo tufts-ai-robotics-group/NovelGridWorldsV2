@@ -74,6 +74,7 @@ class PolycraftState(State):
         Given a start and an endpoint,
         initializes a bedrock border surrounding the edges
         """
+        coords_list = []  # need to add all the coords in the room into a list
         overlapping_wall = []
         # only one overlapping wall max, add this wall to the walls list if we place over it
         for i in range(end[0] + 1):
@@ -84,6 +85,10 @@ class PolycraftState(State):
                             self.place_object("bedrock", properties={"loc": (i, j)})
                         else:
                             overlapping_wall.append((i, j))
+                if i >= start[0] and j >= start[1]:
+                    coords_list.append((i, j))
+
+        self.room_coords.append(coords_list)
 
         if len(overlapping_wall) > 0:
             self.walls_list.append(overlapping_wall)
