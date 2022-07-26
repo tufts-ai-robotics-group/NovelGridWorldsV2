@@ -22,8 +22,17 @@
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
-    "interact": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact"
+    "INTERACT_102": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
+      "entity_id": 102
+    },
+    "INTERACT_103": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
+      "entity_id": 103
+    },
+    "INTERACT_104": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
+      "entity_id": 104
     },
     "collect": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
@@ -39,7 +48,9 @@
       "rotate_right",
       "use",
       "collect",
-      "interact",
+      "INTERACT_102",
+      "INTERACT_103",
+      "INTERACT_104",
       "break",
       "select_sapling",
       "select_tree_tap",

@@ -89,7 +89,7 @@ class Collect(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         print(
-            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “collect”, “argument”: “”, “result”: "
             + self.result
             + ", \

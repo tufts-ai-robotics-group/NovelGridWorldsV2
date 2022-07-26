@@ -90,7 +90,7 @@ class Trade(Action):
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         if self.itemToTrade == "block_of_titanium":
             print(
-                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “trade”, “argument”: “103 polycraft:block_of_platinum 1”, “result”: "
                 + self.result
                 + ", \
@@ -100,7 +100,7 @@ class Trade(Action):
             )
         elif self.itemToTrade == "block_of_platinum":
             print(
-                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “trade”, “argument”: “103 minecraft:diamond 18”, “result”: "
                 + self.result
                 + ", \
@@ -110,7 +110,7 @@ class Trade(Action):
             )
         elif self.itemToTrade == "diamond":
             print(
-                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “trade”, “argument”: “104 polycraft:block_of_platinum 2”, “result”: "
                 + self.result
                 + ", \

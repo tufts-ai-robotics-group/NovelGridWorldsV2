@@ -7,9 +7,10 @@ import numpy as np
 
 
 class Interact(Action):
-    def __init__(self, state: State, dynamics=None):
+    def __init__(self, state: State, entity_id=None, dynamics=None):
         self.dynamics = dynamics
         self.state = state
+        self.entity_id = entity_id
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs
@@ -17,7 +18,7 @@ class Interact(Action):
         """
         Checks preconditions of the Interact action:
         1) The agent is facing an entity
-        2) The entity has an id
+        2) The entity shares the id with the arg provided
         """
         # convert the entity facing direction to coords
         direction = (0, 0)
@@ -33,15 +34,12 @@ class Interact(Action):
         self.temp_loc = tuple(np.add(agent_entity.loc, direction))
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[1]) != 1:
-            self.entity_id = -1
             return False
 
-        # validTypes = ["trader", "pogoist"]
         if hasattr(objs[1][0], "id"):
-            self.entity_id = objs[1][0].id
-            return True
+            if self.entity_id == objs[1][0].id:
+                return True
         else:
-            self.entity_id = -1
             return False
 
     def do_action(self, agent_entity: Entity, target_object: Object = None):
@@ -60,18 +58,32 @@ class Interact(Action):
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
             )
-        objs = self.state.get_objects_at(self.temp_loc)
-        if objs[1][0].type == "trader":
-            # get its inventory, print out trades respective to that
-            for item in objs[1][0].inventory:
-                print("trade_" + item)
+        # objs = self.state.get_objects_at(self.temp_loc)
+        # if objs[1][0].type == "trader":
+        #     # get its inventory, print out trades respective to that
+        #     for item in objs[1][0].inventory:
+        #         print("trade_" + item)
 
         self.result = "SUCCESS"
         self.action_metadata(agent_entity, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        if self.entity_id == 103:
+            print(
+                'b\'{"trades":{"trades":[{"inputs":[{"Item":"polycraft:block_of_platinum","stackSize":1,"slot":0}],"outputs":[{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":5}]},'
+                '{"inputs":[{"Item":"minecraft:diamond","stackSize":18,"slot":0}],"outputs":[{"Item":"polycraft:block_of_platinum","stackSize":1,"slot":5}]}]},',
+                end="",
+            )
+        elif self.entity_id == 104:
+            print(
+                'b\'{"trades":{"trades":[{"inputs":[{"Item":"polycraft:block_of_platinum","stackSize":2,"slot":0}],"outputs":[{"Item":"minecraft:diamond","stackSize":9,"slot":5}]},'
+                '{"inputs":[{"Item":"minecraft:log","stackSize":10,"slot":0}],"outputs":[{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":5}]}]},',
+                end="",
+            )
+        else:
+            print("{", end="")
         print(
-            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            "“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “interact”, “argument”: “"
             + str(self.entity_id)
             + "”, “result”: "

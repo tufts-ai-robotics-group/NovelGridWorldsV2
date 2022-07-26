@@ -174,7 +174,7 @@ class SenseAll(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         print(
-            'b{"blockInFront":{"name":"'
+            'b\'{"blockInFront":{"name":"'
             + self.blockInFront
             + "},"
             + self.inventory_str

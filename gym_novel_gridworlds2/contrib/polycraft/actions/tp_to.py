@@ -102,7 +102,7 @@ class TP_TO(Action):
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         if self.x != None:
             print(
-                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “tp_to”, “argument”: “"
                 + str(self.x)
                 + ",17,"
@@ -116,7 +116,7 @@ class TP_TO(Action):
             )
         else:
             print(
-                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “tp_to”, “argument”: “"
                 + str(self.entity_id)
                 + "”, “result”: "
