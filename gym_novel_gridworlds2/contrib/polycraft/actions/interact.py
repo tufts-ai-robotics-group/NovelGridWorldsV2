@@ -46,7 +46,8 @@ class Interact(Action):
         """
         Checks for precondition, then interacts with the entity
         """
-        self.state._step_count += 1
+        # self.state._step_count += 1
+        self.state.incrementer()
         if not self.check_precondition(agent_entity, target_object):
             obj_type = (
                 target_object.type

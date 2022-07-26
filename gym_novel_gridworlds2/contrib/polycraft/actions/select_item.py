@@ -24,7 +24,8 @@ class SelectItem(Action):
         target_type: str = None,
         target_object: Object = None,
     ):
-        self.state._step_count += 1
+        # self.state._step_count += 1
+        self.state.incrementer()
         if not self.check_precondition(agent_entity, self.target_type, target_object):
             self.result = "FAILED"
             self.action_metadata(agent_entity, target_type, target_object)

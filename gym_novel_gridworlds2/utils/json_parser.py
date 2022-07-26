@@ -131,12 +131,15 @@ class ConfigParser:
         self.agent_manager = AgentManager()
         if "entities" in json_content:
             for key, entity_info in json_content["entities"].items():
+                self.state.entity_count += 1
                 # creates and places the entity in the map
                 agent_entity = self.create_place_entity(
                     name=key, entity_info=entity_info
                 )
                 # add agent to the agent list (for action per round)
                 self.agent_manager.add_agent(**agent_entity)
+
+        print(self.state.entity_count)
 
         # initializes the action space
         action_space = MultiAgentActionSpace(
@@ -274,7 +277,7 @@ class ConfigParser:
 
     def create_policy_agent(self, agent_info, name, action_set):
         """
-        Given agent_info, 
+        Given agent_info,
         either reuse the existing agent and update the action_set or
         create the new agent.
         """
@@ -286,14 +289,14 @@ class ConfigParser:
         # import the agent class, based on two configuration styles.
         AgentClass: Type[Agent] = Agent
         agent_param = {}
-    
+
         if isinstance(agent_info, str):
             # no parameter, just agent
             AgentClass = import_module(agent_info)
         else:
-            AgentClass = import_module(agent_info['module'])
+            AgentClass = import_module(agent_info["module"])
             agent_param = deepcopy(agent_info)
-            del agent_param['module']
+            del agent_param["module"]
         agent = AgentClass(name=name, action_set=action_set, **agent_param)
         self.agent_cache[name] = agent
         return agent
@@ -318,5 +321,7 @@ class ConfigParser:
         )
 
         # agent object
-        agent_obj = self.create_policy_agent(entity_info["agent"], name=name, action_set=action_set)
+        agent_obj = self.create_policy_agent(
+            entity_info["agent"], name=name, action_set=action_set
+        )
         return {"action_set": action_set, "agent": agent_obj, "entity": entity_obj}

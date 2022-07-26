@@ -59,6 +59,8 @@ class State:
         self.time_needed = []
         self.sapling_locs = []
         self.room_coords = []
+        self.entity_count = 0
+        self.curr_part = 0
 
         self.goalAchieved = False
 
@@ -71,6 +73,12 @@ class State:
     def _ensure_not_none(self, loc: tuple):
         if self._map[loc] is None:
             self._map[loc] = Cell()
+
+    def incrementer(self):
+        self.curr_part += 1
+        if self.curr_part == self.entity_count:
+            self._step_count += 1
+            self.curr_part = 0
 
     def getSymbol(self, obj, state, canWalkOver=False, facing="NORTH"):
         if obj == "oak_log":

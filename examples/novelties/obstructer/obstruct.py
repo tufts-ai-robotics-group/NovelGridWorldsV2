@@ -53,7 +53,8 @@ class Obstruct(Action):
             return False
 
     def do_action(self, agent_entity, target_type=None, target_object=None):
-        self.state._step_count += 1
+        # self.state._step_count += 1
+        self.state.incrementer()
         """
         Checks for precondition, then moves the object to the destination.
         """

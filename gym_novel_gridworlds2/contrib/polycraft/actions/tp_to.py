@@ -64,7 +64,8 @@ class TP_TO(Action):
         """
         Checks for precondition, then teleports to the location
         """
-        self.state._step_count += 1
+        # self.state._step_count += 1
+        self.state.incrementer()
         if not self.check_precondition(agent_entity):
             self.result = "FAILURE"
             self.action_metadata(agent_entity)

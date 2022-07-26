@@ -24,7 +24,8 @@ class SenseRecipes(Action):
         """
         Checks for precondition, then does nothing
         """
-        self.state._step_count += 1
+        # self.state._step_count += 1
+        self.state.incrementer()
         self.result = "SUCCESS"
         self.action_metadata(agent_entity)
 

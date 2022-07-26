@@ -23,7 +23,8 @@ class RotateRight(Action):
         """
         Rotates the object to the right
         """
-        self.state._step_count += 1
+        # self.state._step_count += 1
+        self.state.incrementer()
         if agent_entity.facing == "NORTH":
             agent_entity.facing = "EAST"
         elif agent_entity.facing == "EAST":

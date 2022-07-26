@@ -168,7 +168,8 @@ class SenseAll(Action):
 
         self.map_str = self.map_str[: len(self.map_str) - 2]
         self.map_str += "}"
-        self.state._step_count += 1
+        # self.state._step_count += 1
+        self.state.incrementer()
         self.result = "SUCCESS"
         self.action_metadata(agent_entity)
 

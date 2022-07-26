@@ -57,7 +57,8 @@ class Craft(Action):
                     return False
 
     def do_action(self, agent_entity: Entity, target_type=None, target_object=None):
-        self.state._step_count += 1
+        # self.state._step_count += 1
+        self.state.incrementer()
         if not self.check_precondition(agent_entity):
             self.result = "FAILED"
             self.action_metadata(agent_entity)
