@@ -64,7 +64,7 @@ class Forward(Action):
                     ):
                         pass
                     else:
-                        if obj.type == "tree":
+                        if obj.type == "oak_log":
                             if obj.type in agent_entity.inventory:
                                 agent_entity.inventory[obj.type] += 2
                             else:

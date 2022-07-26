@@ -72,7 +72,7 @@ class State:
             self._map[loc] = Cell()
 
     def getSymbol(self, obj, state, canWalkOver=False, facing="NORTH"):
-        if obj == "tree":
+        if obj == "oak_log":
             if state == "block":
                 return "T"
             else:

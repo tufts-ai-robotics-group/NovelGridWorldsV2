@@ -31,7 +31,7 @@ class PolycraftState(State):
     def nameConversion(self, name):
         if name == None:
             return "None"
-        elif name == "tree":
+        elif name == "oak_log":
             return "minecraft:log"
         elif name == "rubber":
             return "polycraft:sack_polyisoprene_pellets"

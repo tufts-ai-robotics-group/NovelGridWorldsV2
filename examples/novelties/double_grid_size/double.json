@@ -18,9 +18,9 @@
     "extract_rubber": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
     },
-    "select_tree": {
+    "select_oak_log": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
-      "target_type": "tree"
+      "target_type": "oak_log"
     },
     "select_tree_tap": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
@@ -42,7 +42,7 @@
       "use",
       "extract_rubber",
       "break",
-      "select_tree",
+      "select_oak_log",
       "select_tree_tap",
       "select_iron_pickaxe",
       "place_item",
@@ -61,7 +61,7 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "chest": "gym_novel_gridworlds2.contrib.polycraft.objects.Chest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
-    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "oak_log": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre"
   },
@@ -93,7 +93,7 @@
     }
   },
   "objects": {
-    "tree": 4,
+    "oak_log": 4,
     "diamond_ore": 2
   },
   "num_episodes": 10,
@@ -104,7 +104,6 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "tree": 100,
         "rubber": 1,
         "iron_pickaxe": 1
       },
@@ -141,7 +140,7 @@
     "plank": {
       "input": [
         {
-          "tree": 1
+          "oak_log": 1
         }
       ],
       "output": [

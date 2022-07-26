@@ -74,7 +74,7 @@ class PlaceItem(Action):
                 f'Agent "{agent_entity.name}" cannot place item of type {agent_entity.selectedItem}.'
             )
         if agent_entity.selectedItem == "sapling":
-            itemToPlace = "tree"
+            itemToPlace = "oak_log"
         else:
             itemToPlace = agent_entity.selectedItem
         # place object of type selectedItem on map in the direction the agent is facing

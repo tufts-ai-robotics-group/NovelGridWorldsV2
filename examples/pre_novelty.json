@@ -78,7 +78,7 @@
     "safe": "gym_novel_gridworlds2.contrib.polycraft.objects.Safe",
     "plastic_chest": "gym_novel_gridworlds2.contrib.polycraft.objects.PlasticChest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
-    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "oak_log": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre",
     "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe",
     "crafting_table": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
@@ -124,7 +124,7 @@
     }
   },
   "objects": {
-    "tree": {
+    "oak_log": {
       "quantity": 5,
       "room": 2,
       "chunked": "False"
@@ -232,7 +232,7 @@
     "plank": {
       "input": [
         {
-          "tree": 1
+          "oak_log": 1
         }
       ],
       "output": [
@@ -334,7 +334,7 @@
     "block_of_titanium_2": {
       "input": [
         {
-          "tree": 10
+          "oak_log": 10
         }
       ],
       "output": [
