@@ -14,6 +14,8 @@ from ..object import Object, Entity
 from ..utils.item_encoder import SimpleItemEncoder
 from .cell import Cell
 
+import pygame
+
 AIR_STR = "air"
 
 from .exceptions import LocationOccupied, LocationOutOfBound
@@ -147,6 +149,73 @@ class State:
             else:
                 return obj[0].upper()
 
+    def getColor(self, obj, state, canWalkOver=False, facing="NORTH"):
+        if obj == "oak_log":
+            if state == "block":
+                return (139, 69, 19)
+            else:
+                return (245, 222, 179)
+        elif obj == "air":
+            return (255, 255, 255)
+        elif obj == "bedrock":
+            return (0, 0, 0)
+        elif obj == "door":
+            if canWalkOver == False:
+                if state == "block":
+                    return (244, 164, 96)
+                else:
+                    return (222, 184, 135)
+            else:
+                return " "
+        elif obj == "tree_tap":
+            if state == "block":
+                return (128, 0, 0)
+            else:
+                return (165, 42, 42)
+        elif obj == "safe":
+            if state == "block":
+                return (128, 128, 128)
+            else:
+                return (128, 128, 128)
+        elif obj == "plastic_chest":
+            if state == "block":
+                return (255, 222, 173)
+            else:
+                return (255, 222, 173)
+        elif obj == "crafting_table":
+            if state == "block":
+                return (0, 102, 0)
+            else:
+                return (0, 50, 0)
+        elif obj == "diamond_ore":
+            if state == "block":
+                return (0, 0, 200)
+            else:
+                return (0, 0, 100)
+        elif obj == "trader":
+            if facing == "NORTH":
+                return (51, 0, 102)
+            elif facing == "SOUTH":
+                return (51, 0, 102)
+            elif facing == "EAST":
+                return (51, 0, 102)
+            else:
+                return (51, 0, 102)
+        elif obj == "agent" or obj == "pogoist":
+            if facing == "NORTH":
+                return (51, 0, 102)
+            elif facing == "SOUTH":
+                return (51, 0, 102)
+            elif facing == "EAST":
+                return (51, 0, 102)
+            else:
+                return (51, 0, 102)
+        else:
+            if state == "floating":
+                return (255, 50, 150)
+            else:
+                return (255, 50, 150)
+
     def mapRepresentation(self):
         res: np.ndarray = np.empty(self.initial_info["map_size"], dtype="object")
         for i in range(self.initial_info["map_size"][0]):
@@ -162,7 +231,7 @@ class State:
                     else:
                         res[i][j] = self.getSymbol(obj[0][0].type, obj[0][0].state)
                 else:
-                    res[i][j] = " "
+                    res[i][j] = (255, 255, 255)
                 if len(obj[1]) != 0:
                     if hasattr(obj[1][0], "facing"):
                         res[i][j] = self.getSymbol(
@@ -171,6 +240,71 @@ class State:
                     else:
                         res[i][j] = self.getSymbol(obj[1][0].type, obj[1][0].state)
         return res
+
+    # def drawMap(self):
+    #     res: np.ndarray = np.empty(self.initial_info["map_size"], dtype="object")
+    #     for i in range(self.initial_info["map_size"][0]):
+    #         for j in range(self.initial_info["map_size"][1]):
+    #             obj = self.get_objects_at((i, j))
+    #             if len(obj[0]) != 0:
+    #                 if hasattr(obj[0][0], "canWalkOver"):
+    #                     color = self.getColor(
+    #                         obj[0][0].type,
+    #                         obj[0][0].state,
+    #                         canWalkOver=obj[0][0].canWalkOver,
+    #                     )
+    #                     pygame.draw.rect(
+    #                         SCREEN,
+    #                         color,
+    #                         [
+    #                             (MARGIN + WIDTH) * j + MARGIN,
+    #                             (MARGIN + HEIGHT) * i + MARGIN,
+    #                             WIDTH,
+    #                             HEIGHT,
+    #                         ],
+    #                     )
+    #                 else:
+    #                     color = self.getColor(obj[0][0].type, obj[0][0].state)
+    #                     pygame.draw.rect(
+    #                         SCREEN,
+    #                         color,
+    #                         [
+    #                             (MARGIN + WIDTH) * j + MARGIN,
+    #                             (MARGIN + HEIGHT) * i + MARGIN,
+    #                             WIDTH,
+    #                             HEIGHT,
+    #                         ],
+    #                     )
+    #             else:
+    #                 res[i][j] = " "
+    #             if len(obj[1]) != 0:
+    #                 if hasattr(obj[1][0], "facing"):
+    #                     color = self.getColor(
+    #                         obj[1][0].type, obj[1][0].state, facing=obj[1][0].facing
+    #                     )
+    #                     pygame.draw.rect(
+    #                         SCREEN,
+    #                         color,
+    #                         [
+    #                             (MARGIN + WIDTH) * j + MARGIN,
+    #                             (MARGIN + HEIGHT) * i + MARGIN,
+    #                             WIDTH,
+    #                             HEIGHT,
+    #                         ],
+    #                     )
+    #                 else:
+    #                     color = self.getColor(obj[1][0].type, obj[1][0].state)
+    #                     pygame.draw.rect(
+    #                         SCREEN,
+    #                         color,
+    #                         [
+    #                             (MARGIN + WIDTH) * j + MARGIN,
+    #                             (MARGIN + HEIGHT) * i + MARGIN,
+    #                             WIDTH,
+    #                             HEIGHT,
+    #                         ],
+    #                     )
+    #     return res
 
     ############################# ALL BLOCKS #############################
     def place_object(self, object_type: str, ObjectClass=Object, properties: dict = {}):
