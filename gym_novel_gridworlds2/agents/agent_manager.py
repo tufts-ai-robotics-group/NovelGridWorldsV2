@@ -32,10 +32,6 @@ class AgentManager:
     def get_agent(self, id: str):
         return self.agents[id]
 
-    def update_agent(self, id: str, state):
-        self.agents[id].state = state
-        print(self.agents[id].state._step_count)
-
     def get_possible_agents(self):
         return list(self.agents.keys())
 

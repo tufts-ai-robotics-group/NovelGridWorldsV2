@@ -102,10 +102,10 @@ class PlaceItem(Action):
         agent_entity.inventory[agent_entity.selectedItem] -= 1
 
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity, target_type, target_object)
+        return self.action_metadata(agent_entity, target_type, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
+        return "".join(
             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “place”, “argument”: “"
             + str(agent_entity.selectedItem)

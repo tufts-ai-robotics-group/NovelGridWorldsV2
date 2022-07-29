@@ -66,7 +66,7 @@ class Interact(Action):
         #         print("trade_" + item)
 
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity, target_object)
+        return self.action_metadata(agent_entity, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         if self.entity_id == 103:
@@ -94,3 +94,4 @@ class Interact(Action):
             + str(self.state._step_count)
             + ", “gameOver”:false}"
         )
+        return {} # TODO UPDATE

@@ -12,22 +12,23 @@ class TP_TO(Action):
         self.entity_id = entity_id
         self.x = x
         self.y = y
+        self.cmd_format = "tp_to (?P<x>\d+),(\d+),(?P<y>\d+)"
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs
     ):
         if self.x != None:
-            self.loc = (int(self.x), int(self.y))
+            loc = (int(self.x), int(self.y))
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
-            self.loc = ent.loc
+            loc = ent.loc
         """
         Checks preconditions of the TP_TO action:
         1) The spots around the location are unoccupied in the order north, south, east, west
         """
 
         self.vec = (-1, 0)
-        obj1 = self.state.get_objects_at(np.add(self.loc, (-1, 0)))  # north
+        obj1 = self.state.get_objects_at(np.add(loc, (-1, 0)))  # north
         if len(obj1[0]) != 0:
             if obj1[0][0].state == "floating":
                 return True
@@ -35,7 +36,7 @@ class TP_TO(Action):
             if len(obj1[1]) == 0:
                 return True
         self.vec = (1, 0)
-        obj2 = self.state.get_objects_at(np.add(self.loc, (1, 0)))  # south
+        obj2 = self.state.get_objects_at(np.add(loc, (1, 0)))  # south
         if len(obj2[0]) != 0:
             if obj2[0][0].state == "floating":
                 return True
@@ -43,7 +44,7 @@ class TP_TO(Action):
             if len(obj2[1]) == 0:
                 return True
         self.vec = (0, 1)
-        obj3 = self.state.get_objects_at(np.add(self.loc, (0, 1)))  # east
+        obj3 = self.state.get_objects_at(np.add(loc, (0, 1)))  # east
         if len(obj3[0]) != 0:
             if obj3[0][0].state == "floating":
                 return True
@@ -51,7 +52,7 @@ class TP_TO(Action):
             if len(obj3[1]) == 0:
                 return True
         self.vec = (0, -1)
-        obj4 = self.state.get_objects_at(np.add(self.loc, (0, -1)))  # west
+        obj4 = self.state.get_objects_at(np.add(loc, (0, -1)))  # west
         if len(obj4[0]) != 0:
             if obj4[0][0].state == "floating":
                 return True
@@ -60,19 +61,27 @@ class TP_TO(Action):
                 return True
         return False
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, x=None, y=None):
         """
         Checks for precondition, then teleports to the location
         """
+        x = x if x is not None else self.x
+        y = y if y is not None else self.y
+        if x != None:
+            loc = ((int(x), int(y)))
+        else:
+            ent = self.state.get_entity_by_id(self.entity_id)
+            loc = ent.loc
+        
         # self.state._step_count += 1
         self.state.incrementer()
         if not self.check_precondition(agent_entity):
             self.result = "FAILURE"
             self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
-                f"Agent {agent_entity.name} cannot teleport to {self.loc}."
+                f"Agent {agent_entity.name} cannot teleport to {loc}."
             )
-        new_loc = tuple(np.add(self.vec, self.loc))
+        new_loc = tuple(np.add(self.vec, loc))
         # multiple objects handling
         objs = self.state.get_objects_at(new_loc)
         if len(objs[0]) != 0:
@@ -98,11 +107,12 @@ class TP_TO(Action):
         self.state.update_object_loc(agent_entity.loc, new_loc)
 
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity)
+        return self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        # TODO Update self.x, y, z to actual coord
         if self.x != None:
-            print(
+            return "".join(
                 "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “tp_to”, “argument”: “"
                 + str(self.x)
@@ -116,7 +126,7 @@ class TP_TO(Action):
                 + ", “gameOver”:false}"
             )
         else:
-            print(
+            return "".join(
                 "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “tp_to”, “argument”: “"
                 + str(self.entity_id)

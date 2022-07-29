@@ -1,10 +1,10 @@
 from copy import deepcopy
 import json
 import importlib
-from re import L
 from typing import Mapping, Tuple, Type
 
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
+from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
 from gym_novel_gridworlds2.contrib.polycraft.states import PolycraftState
 
 from .MultiAgentActionSpace import MultiAgentActionSpace
@@ -284,6 +284,7 @@ class ConfigParser:
         if name in self.agent_cache:
             agent: Agent = self.agent_cache[name]
             agent.action_set = action_set
+            agent.state = self.state
             return agent
 
         # import the agent class, based on two configuration styles.

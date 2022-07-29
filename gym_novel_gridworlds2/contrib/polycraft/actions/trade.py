@@ -86,11 +86,11 @@ class Trade(Action):
             ]
 
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity)
+        return self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         if self.itemToTrade == "block_of_titanium":
-            print(
+            return "".join(
                 "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “trade”, “argument”: “103 polycraft:block_of_platinum 1”, “result”: "
                 + self.result
@@ -100,7 +100,7 @@ class Trade(Action):
                 + ", “gameOver”:false}"
             )
         elif self.itemToTrade == "block_of_platinum":
-            print(
+            return "".join(
                 "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “trade”, “argument”: “103 minecraft:diamond 18”, “result”: "
                 + self.result
@@ -110,7 +110,7 @@ class Trade(Action):
                 + ", “gameOver”:false}"
             )
         elif self.itemToTrade == "diamond":
-            print(
+            return "".join(
                 "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “trade”, “argument”: “104 polycraft:block_of_platinum 2”, “result”: "
                 + self.result
