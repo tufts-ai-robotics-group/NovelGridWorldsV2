@@ -158,6 +158,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             )
         )
         # print(agent_entity.inventory)
+        command_result = None
         try:
             command_result = action_set.actions[action][1].do_action(agent_entity)
         except PreconditionNotMetError:
