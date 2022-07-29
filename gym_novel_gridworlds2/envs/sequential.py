@@ -58,10 +58,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         }
 
         # rendering
-        self.window = None
 
     def observe(self, agent_name):
-        return self.agent_manager.get_agent(agent_name).agent.get_observation()
+        return self.agent_manager.get_agent(agent_name).agent.get_observation(self.state, self.dynamic)
 
     @functools.lru_cache(maxsize=None)
     def observation_space(self, agent):
@@ -105,11 +104,25 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 agent, agent_entity.name, action_set.actions[action][0]
             )
         )
-        print(agent_entity.inventory)
+        # print(agent_entity.inventory)
         try:
-            action_set.actions[action][1].do_action(agent_entity)
+            command_result = action_set.actions[action][1].do_action(agent_entity)
         except PreconditionNotMetError:
             pass
+        
+        # send the metadata of the command execution result
+        # to the agent (mostly for use in the socket connection)
+        metadata = {
+            "goal": {
+                "goalType": "ITEM",
+                "goalAchieved": False,
+                "Distribution": "Uninformed"
+            },
+            "command_result": command_result,
+            "step": 0,
+            "gameOver": False
+        }
+        self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this

@@ -73,7 +73,6 @@ class Approach(Action):
                     and not visited[new_loc]
                     and not self.state.is_full(new_loc)[1]
                 ):
-                    print(new_loc)
                     q.put(new_loc)
 
         # Not found, return None
@@ -122,10 +121,10 @@ class Approach(Action):
         distance=1,
         **kwargs
     ):
-        print(self.target_type)
         precondition_met, direction, nearest_loc = self._check_prepare_action(
             agent_entity, self.target_type, target_object, distance=distance
         )
         if precondition_met:
             agent_entity.facing = direction
             self.state.update_object_loc(agent_entity.loc, nearest_loc)
+        return {} # TODO return metadata

@@ -41,7 +41,7 @@ class Break(Action):
 
         return correctDirection and (objs[0][0].state == "block")
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None) -> str:
         """
         Checks for precondition, then breaks the object
         """
@@ -64,15 +64,22 @@ class Break(Action):
         objs[0][0].acted_upon("break", agent_entity)
 
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity, target_object)
+        return self.action_metadata(agent_entity, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “break_block”, “argument”: “”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 3600}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {
+            "goal": {
+                "goalType": "ITEM",
+                "goalAchieved": False,
+                "Distribution": "Uninformed"
+            },
+            "command_result": {
+                "command": "break_block",
+                "argument": "", # TODO change
+                "result": self.result,
+                "message": "",
+                "setapCost": 3600,
+            },
+            "step": 0,
+            "gameOver": False
+        }

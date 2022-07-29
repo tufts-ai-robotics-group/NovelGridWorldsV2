@@ -171,10 +171,10 @@ class SenseAll(Action):
         # self.state._step_count += 1
         self.state.incrementer()
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity)
+        return self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
+        return "".join(
             'b\'{"blockInFront":{"name":"'
             + self.blockInFront
             + "},"
