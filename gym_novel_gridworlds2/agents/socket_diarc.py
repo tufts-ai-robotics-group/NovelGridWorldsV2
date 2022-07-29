@@ -27,18 +27,18 @@ class SocketDiarcAgent(SocketManualAgent):
     
     def policy(self, observation):
         # process the sense_all commands
-        action = ""
-        while not action.isdecimal():
-            if action == "SENSE_ALL":
-                self._send_msg(f">>>>>>>>> keyboard agent: Agent {self.name} can do these actions:")
-            action_names = self.action_set.get_action_names()
-            self._send_msg(">>>>>>>>>> " + ', '.join([f"{index}: {name}" for (index, name) in enumerate(action_names)]))
+        action_done = False
+        while not action_done:
             action = self._recv_msg()
-        return int(action)
+            if action.startswith("SENSE"):
+                self.action_set.parse_exec_command(action)
+            else:
+                self.action_set.parse_exec_command(action)
+        return 0
     
     def update_metadata(self, metadata: dict):
         if type(metadata) == dict:
-            msg = json.dumps(metadata)
+            msg = json.dumps(metadata + "\n")
         else:
             msg = metadata
         self._send_msg(json.dumps(msg))
