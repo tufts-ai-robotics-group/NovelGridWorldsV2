@@ -157,13 +157,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 agent, agent_entity.name, action_set.actions[action][0]
             )
         )
-        # print(agent_entity.inventory)
+        print(agent_entity.inventory)
         command_result = None
         try:
             command_result = action_set.actions[action][1].do_action(agent_entity)
         except PreconditionNotMetError:
             pass
-        
+
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
         # TODO: rn accomodating the string
