@@ -15,15 +15,15 @@ class SocketDiarcAgent(SocketManualAgent):
     def __init__(self, **kwargs):
         self.state_cache = None
         self.dynamics_cache: Optional[Dynamic] = None
-        super.__init__(**kwargs)
+        super().__init__(**kwargs)
 
-    def get_observation_space(self, map_size: tuple, num_items: int, other_size: int):
+    def get_observation_space(self, map_size: tuple, other_size: int):
         return Discrete(1) # dummy observation space to bypass sanity check
     
     def get_observation(self, state, dynamics):
         self.state_cache = state
         self.dynamics_cache = dynamics
-        return super().get_observation()
+        return super().get_observation(state, dynamics)
     
     def policy(self, observation):
         # process the sense_all commands

@@ -167,7 +167,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # to the agent (mostly for use in the socket connection)
         # TODO: rn accomodating the string
         if type(command_result) == str:
-            self.agent_manager.agents[agent].agent.update_metadata(metadata)
+            self.agent_manager.agents[agent].agent.update_metadata(command_result)
         else:
             metadata = {
                 "goal": {
