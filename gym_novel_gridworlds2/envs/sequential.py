@@ -60,6 +60,58 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # rendering
         self.window = None
 
+        WIDTH = 20
+        HEIGHT = 20
+        MARGIN = 3
+
+        black = (0, 0, 0)
+        white = (255, 255, 255)
+        red = (255, 0, 0)
+
+        CHEST_IMAGE = pygame.image.load("chest.png")
+        CHEST = pygame.transform.scale(CHEST_IMAGE, (20, 20))
+
+        CRAFTING_TABLE_IMAGE = pygame.image.load("craftingtable.png")
+        CRAFTING_TABLE = pygame.transform.scale(CRAFTING_TABLE_IMAGE, (20, 20))
+
+        OAK_LOG_IMAGE = pygame.image.load("oaklog.png")
+        OAK_LOG = pygame.transform.scale(OAK_LOG_IMAGE, (20, 20))
+
+        DOOR_IMAGE = pygame.image.load("door.png")
+        DOOR = pygame.transform.scale(DOOR_IMAGE, (20, 20))
+
+        DIAMOND_ORE_IMAGE = pygame.image.load("diamond_ore.png")
+        DIAMOND_ORE = pygame.transform.scale(DIAMOND_ORE_IMAGE, (20, 20))
+
+        SAPLING_IMAGE = pygame.image.load("sapling.png")
+        SAPLING = pygame.transform.scale(SAPLING_IMAGE, (20, 20))
+
+        SAFE_IMAGE = pygame.image.load("safe.png")
+        SAFE = pygame.transform.scale(SAFE_IMAGE, (20, 20))
+
+        PLATINUM_IMAGE = pygame.image.load("platinum.png")
+        PLATINUM = pygame.transform.scale(PLATINUM_IMAGE, (20, 20))
+
+        AGENT_IMAGE = pygame.image.load("agent.png")
+        AGENT = pygame.transform.rotate(
+            pygame.transform.scale(AGENT_IMAGE, (20, 20)), 90
+        )
+
+        POGOIST_IMAGE = pygame.image.load("pogoist.png")
+        POGOIST = pygame.transform.rotate(
+            pygame.transform.scale(POGOIST_IMAGE, (20, 20)), 90
+        )
+
+        TRADER_IMAGE = pygame.image.load("trader.png")
+        TRADER = pygame.transform.scale(TRADER_IMAGE, (20, 20))
+
+        global SCREEN, CLOCK
+        pygame.init()
+        SCREEN = pygame.display.set_mode((1090, 745))
+        pygame.display.set_caption("NovelGridWorlds")
+        CLOCK = pygame.time.Clock()
+        SCREEN.fill(black)
+
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation()
 

@@ -7,6 +7,8 @@ import json
 from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
+import pygame
+
 # file_name = "automaptest.json"
 
 parser = argparse.ArgumentParser(description="Polycraft Environment")
@@ -26,6 +28,7 @@ num_episodes = config_content.get("num_episodes") or 1000
 novelties = config_content.get("novelties")
 
 last_agent = env.possible_agents[-1]
+
 
 for episode in range(num_episodes):
     print()
