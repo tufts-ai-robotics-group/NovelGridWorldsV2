@@ -276,7 +276,7 @@ class ConfigParser:
             action_list.append((action_str, self.actions[action_str]))
         return ActionSet(action_list)
 
-    def create_policy_agent(self, agent_info, name, action_set):
+    def create_policy_agent(self, agent_info, name, entity_data, action_set):
         """
         Given agent_info,
         either reuse the existing agent and update the action_set or
@@ -298,7 +298,13 @@ class ConfigParser:
             AgentClass = import_module(agent_info["module"])
             agent_param = deepcopy(agent_info)
             del agent_param["module"]
-        agent = AgentClass(name=name, action_set=action_set, **agent_param)
+        agent = AgentClass(
+            name=name,
+            action_set=action_set,
+            state=self.state,
+            entity_data=entity_data,
+            **agent_param,
+        )
         self.agent_cache[name] = agent
         return agent
 
@@ -323,6 +329,9 @@ class ConfigParser:
 
         # agent object
         agent_obj = self.create_policy_agent(
-            entity_info["agent"], name=name, action_set=action_set
+            entity_info["agent"],
+            name=name,
+            entity_data=entity_obj,
+            action_set=action_set,
         )
         return {"action_set": action_set, "agent": agent_obj, "entity": entity_obj}

@@ -98,6 +98,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # do the action
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
+        # self.agent_manager.update_agent(agent, self.state)
         # TODO only print when verbose
         print(
             "{:<12}  {:<12} | action_picked: {:<12}".format(
