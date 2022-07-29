@@ -5,6 +5,7 @@ from re import L
 from typing import Mapping, Tuple, Type
 
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
+from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
 from gym_novel_gridworlds2.contrib.polycraft.states import PolycraftState
 
 from .MultiAgentActionSpace import MultiAgentActionSpace
