@@ -231,7 +231,7 @@ class State:
                     else:
                         res[i][j] = self.getSymbol(obj[0][0].type, obj[0][0].state)
                 else:
-                    res[i][j] = (255, 255, 255)
+                    res[i][j] = " "
                 if len(obj[1]) != 0:
                     if hasattr(obj[1][0], "facing"):
                         res[i][j] = self.getSymbol(
@@ -240,71 +240,6 @@ class State:
                     else:
                         res[i][j] = self.getSymbol(obj[1][0].type, obj[1][0].state)
         return res
-
-    # def drawMap(self):
-    #     res: np.ndarray = np.empty(self.initial_info["map_size"], dtype="object")
-    #     for i in range(self.initial_info["map_size"][0]):
-    #         for j in range(self.initial_info["map_size"][1]):
-    #             obj = self.get_objects_at((i, j))
-    #             if len(obj[0]) != 0:
-    #                 if hasattr(obj[0][0], "canWalkOver"):
-    #                     color = self.getColor(
-    #                         obj[0][0].type,
-    #                         obj[0][0].state,
-    #                         canWalkOver=obj[0][0].canWalkOver,
-    #                     )
-    #                     pygame.draw.rect(
-    #                         SCREEN,
-    #                         color,
-    #                         [
-    #                             (MARGIN + WIDTH) * j + MARGIN,
-    #                             (MARGIN + HEIGHT) * i + MARGIN,
-    #                             WIDTH,
-    #                             HEIGHT,
-    #                         ],
-    #                     )
-    #                 else:
-    #                     color = self.getColor(obj[0][0].type, obj[0][0].state)
-    #                     pygame.draw.rect(
-    #                         SCREEN,
-    #                         color,
-    #                         [
-    #                             (MARGIN + WIDTH) * j + MARGIN,
-    #                             (MARGIN + HEIGHT) * i + MARGIN,
-    #                             WIDTH,
-    #                             HEIGHT,
-    #                         ],
-    #                     )
-    #             else:
-    #                 res[i][j] = " "
-    #             if len(obj[1]) != 0:
-    #                 if hasattr(obj[1][0], "facing"):
-    #                     color = self.getColor(
-    #                         obj[1][0].type, obj[1][0].state, facing=obj[1][0].facing
-    #                     )
-    #                     pygame.draw.rect(
-    #                         SCREEN,
-    #                         color,
-    #                         [
-    #                             (MARGIN + WIDTH) * j + MARGIN,
-    #                             (MARGIN + HEIGHT) * i + MARGIN,
-    #                             WIDTH,
-    #                             HEIGHT,
-    #                         ],
-    #                     )
-    #                 else:
-    #                     color = self.getColor(obj[1][0].type, obj[1][0].state)
-    #                     pygame.draw.rect(
-    #                         SCREEN,
-    #                         color,
-    #                         [
-    #                             (MARGIN + WIDTH) * j + MARGIN,
-    #                             (MARGIN + HEIGHT) * i + MARGIN,
-    #                             WIDTH,
-    #                             HEIGHT,
-    #                         ],
-    #                     )
-    #     return res
 
     ############################# ALL BLOCKS #############################
     def place_object(self, object_type: str, ObjectClass=Object, properties: dict = {}):

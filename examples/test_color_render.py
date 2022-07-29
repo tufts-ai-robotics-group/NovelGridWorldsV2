@@ -8,7 +8,7 @@ from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
 WIDTH = 20
 HEIGHT = 20
-MARGIN = 3
+MARGIN = 2
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -35,79 +35,91 @@ SAPLING = pygame.transform.scale(SAPLING_IMAGE, (20, 20))
 SAFE_IMAGE = pygame.image.load("safe.png")
 SAFE = pygame.transform.scale(SAFE_IMAGE, (20, 20))
 
+HOPPER_IMAGE = pygame.image.load("hopper.png")
+HOPPER = pygame.transform.scale(HOPPER_IMAGE, (20, 20))
+
+PLATINUM_IMAGE = pygame.image.load("platinum.png")
+PLATINUM = pygame.transform.scale(PLATINUM_IMAGE, (20, 20))
+
 AGENT_IMAGE = pygame.image.load("agent.png")
 AGENT = pygame.transform.rotate(pygame.transform.scale(AGENT_IMAGE, (20, 20)), 90)
 
+POGOIST_IMAGE = pygame.image.load("pogoist.png")
+POGOIST = pygame.transform.rotate(pygame.transform.scale(POGOIST_IMAGE, (20, 20)), 90)
+
+TRADER_IMAGE = pygame.image.load("trader.png")
+TRADER = pygame.transform.scale(TRADER_IMAGE, (20, 20))
+
 
 class TestColorRender:
-    def getColor(self, obj, state, canWalkOver=False, facing="NORTH"):
-        if obj == "oak_log":
-            if state == "block":
-                return (139, 69, 19)
-            else:
-                return (245, 222, 179)
-        elif obj == "air":
-            return (255, 255, 255)
-        elif obj == "bedrock":
-            return (0, 0, 0)
-        elif obj == "door":
-            if canWalkOver == False:
-                if state == "block":
-                    return (244, 164, 96)
-                else:
-                    return (222, 184, 135)
-            else:
-                return " "
-        elif obj == "tree_tap":
-            if state == "block":
-                return (128, 0, 0)
-            else:
-                return (165, 42, 42)
-        elif obj == "safe":
-            if state == "block":
-                return (128, 128, 128)
-            else:
-                return (128, 128, 128)
-        elif obj == "plastic_chest":
-            if state == "block":
-                return (255, 222, 173)
-            else:
-                return (255, 222, 173)
-        elif obj == "crafting_table":
-            if state == "block":
-                return (0, 102, 0)
-            else:
-                return (0, 50, 0)
-        elif obj == "diamond_ore":
-            if state == "block":
-                return (0, 0, 200)
-            else:
-                return (0, 0, 100)
-        elif obj == "block_of_platinum":
-            return (192, 192, 192)
-        elif obj == "trader":
-            if facing == "NORTH":
-                return (51, 0, 102)
-            elif facing == "SOUTH":
-                return (51, 0, 102)
-            elif facing == "EAST":
-                return (51, 0, 102)
-            else:
-                return (51, 0, 102)
-        elif obj == "agent" or obj == "pogoist":
-            if facing == "NORTH":
-                return (51, 0, 102)
-            elif facing == "SOUTH":
-                return (51, 0, 102)
-            elif facing == "EAST":
-                return (51, 0, 102)
-            else:
-                return (51, 0, 102)
-        else:
-            if state == "floating":
-                return (255, 50, 150)
-            else:
-                return (255, 50, 150)
+    # def getColor(self, obj, state, canWalkOver=False, facing="NORTH"):
+    #     if obj == "oak_log":
+    #         if state == "block":
+    #             return (139, 69, 19)
+    #         else:
+    #             return (245, 222, 179)
+    #     elif obj == "air":
+    #         return (255, 255, 255)
+    #     elif obj == "bedrock":
+    #         return (0, 0, 0)
+    #     elif obj == "door":
+    #         if canWalkOver == False:
+    #             if state == "block":
+    #                 return (244, 164, 96)
+    #             else:
+    #                 return (222, 184, 135)
+    #         else:
+    #             return " "
+    #     elif obj == "tree_tap":
+    #         if state == "block":
+    #             return (128, 0, 0)
+    #         else:
+    #             return (165, 42, 42)
+    #     elif obj == "safe":
+    #         if state == "block":
+    #             return (128, 128, 128)
+    #         else:
+    #             return (128, 128, 128)
+    #     elif obj == "plastic_chest":
+    #         if state == "block":
+    #             return (255, 222, 173)
+    #         else:
+    #             return (255, 222, 173)
+    #     elif obj == "crafting_table":
+    #         if state == "block":
+    #             return (0, 102, 0)
+    #         else:
+    #             return (0, 50, 0)
+    #     elif obj == "diamond_ore":
+    #         if state == "block":
+    #             return (0, 0, 200)
+    #         else:
+    #             return (0, 0, 100)
+    #     elif obj == "block_of_platinum":
+    #         return (192, 192, 192)
+    #     elif obj == "trader":
+    #         if facing == "NORTH":
+    #             return (51, 0, 102)
+    #         elif facing == "SOUTH":
+    #             return (51, 0, 102)
+    #         elif facing == "EAST":
+    #             return (51, 0, 102)
+    #         else:
+    #             return (51, 0, 102)
+    #     elif obj == "agent" or obj == "pogoist":
+    #         if facing == "NORTH":
+    #             return (51, 0, 102)
+    #         elif facing == "SOUTH":
+    #             return (51, 0, 102)
+    #         elif facing == "EAST":
+    #             return (51, 0, 102)
+    #         else:
+    #             return (51, 0, 102)
+    #     else:
+    #         if state == "floating":
+    #             return (255, 50, 150)
+    #         else:
+    #             return (255, 50, 150)
 
     def drawMap(self):
         for i in range(self.state.initial_info["map_size"][0]):
@@ -170,11 +182,26 @@ class TestColorRender:
                                 (MARGIN + HEIGHT) * i + MARGIN,
                             ),
                         )
+                    elif obj[0][0].type == "tree_tap":
+                        SCREEN.blit(
+                            HOPPER,
+                            (
+                                (MARGIN + WIDTH) * j + MARGIN,
+                                (MARGIN + HEIGHT) * i + MARGIN,
+                            ),
+                        )
+                    elif obj[0][0].type == "block_of_platinum":
+                        SCREEN.blit(
+                            PLATINUM,
+                            (
+                                (MARGIN + WIDTH) * j + MARGIN,
+                                (MARGIN + HEIGHT) * i + MARGIN,
+                            ),
+                        )
                     else:
-                        color = self.getColor(obj[0][0].type, obj[0][0].state)
                         pygame.draw.rect(
                             SCREEN,
-                            color,
+                            (91, 83, 83),
                             [
                                 (MARGIN + WIDTH) * j + MARGIN,
                                 (MARGIN + HEIGHT) * i + MARGIN,
@@ -182,7 +209,7 @@ class TestColorRender:
                                 HEIGHT,
                             ],
                         )
-                else:
+                else:  # air
                     pygame.draw.rect(
                         SCREEN,
                         (255, 255, 255),
@@ -227,25 +254,51 @@ class TestColorRender:
                                     (MARGIN + HEIGHT) * i + MARGIN,
                                 ),
                             )
-                    elif hasattr(obj[1][0], "facing"):
-                        color = self.getColor(
-                            obj[1][0].type, obj[1][0].state, facing=obj[1][0].facing
-                        )
-                        pygame.draw.rect(
-                            SCREEN,
-                            color,
-                            [
+                    elif obj[1][0].type == "pogoist":
+                        if obj[1][0].facing == "NORTH":
+                            SCREEN.blit(
+                                POGOIST,
+                                (
+                                    (MARGIN + WIDTH) * j + MARGIN,
+                                    (MARGIN + HEIGHT) * i + MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "SOUTH":
+                            SCREEN.blit(
+                                pygame.transform.rotate(POGOIST, 180),
+                                (
+                                    (MARGIN + WIDTH) * j + MARGIN,
+                                    (MARGIN + HEIGHT) * i + MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "EAST":
+                            SCREEN.blit(
+                                pygame.transform.rotate(POGOIST, 270),
+                                (
+                                    (MARGIN + WIDTH) * j + MARGIN,
+                                    (MARGIN + HEIGHT) * i + MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "WEST":
+                            SCREEN.blit(
+                                pygame.transform.rotate(POGOIST, 90),
+                                (
+                                    (MARGIN + WIDTH) * j + MARGIN,
+                                    (MARGIN + HEIGHT) * i + MARGIN,
+                                ),
+                            )
+                    elif obj[1][0].type == "trader":
+                        SCREEN.blit(
+                            TRADER,
+                            (
                                 (MARGIN + WIDTH) * j + MARGIN,
                                 (MARGIN + HEIGHT) * i + MARGIN,
-                                WIDTH,
-                                HEIGHT,
-                            ],
+                            ),
                         )
                     else:
-                        color = self.getColor(obj[1][0].type, obj[1][0].state)
                         pygame.draw.rect(
                             SCREEN,
-                            color,
+                            (51, 0, 102),
                             [
                                 (MARGIN + WIDTH) * j + MARGIN,
                                 (MARGIN + HEIGHT) * i + MARGIN,
@@ -264,7 +317,7 @@ class TestColorRender:
         SCREEN = pygame.display.set_mode((1090, 745))
         pygame.display.set_caption("NovelGridWorlds")
         CLOCK = pygame.time.Clock()
-        SCREEN.fill(black)
+        SCREEN.fill((91, 83, 83))
 
     def mainLoop(self):
         np.set_printoptions(threshold=np.inf)
