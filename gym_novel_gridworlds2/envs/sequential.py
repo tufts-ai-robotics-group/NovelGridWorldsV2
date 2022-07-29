@@ -104,15 +104,17 @@ class NovelGridWorldSequentialEnv(AECEnv):
         TRADER_IMAGE = pygame.image.load("trader.png")
         TRADER = pygame.transform.scale(TRADER_IMAGE, (20, 20))
 
-        global SCREEN, CLOCK
-        pygame.init()
-        SCREEN = pygame.display.set_mode((1090, 745))
-        pygame.display.set_caption("NovelGridWorlds")
-        CLOCK = pygame.time.Clock()
-        SCREEN.fill(black)
+        # global SCREEN, CLOCK
+        # pygame.init()
+        # SCREEN = pygame.display.set_mode((1090, 745))
+        # pygame.display.set_caption("NovelGridWorlds")
+        # CLOCK = pygame.time.Clock()
+        # SCREEN.fill(black)
 
     def observe(self, agent_name):
-        return self.agent_manager.get_agent(agent_name).agent.get_observation(self.state, self.dynamic)
+        return self.agent_manager.get_agent(agent_name).agent.get_observation(
+            self.state, self.dynamic
+        )
 
     @functools.lru_cache(maxsize=None)
     def observation_space(self, agent):
@@ -162,7 +164,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             command_result = action_set.actions[action][1].do_action(agent_entity)
         except PreconditionNotMetError:
             pass
-        
+
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
         # TODO: rn accomodating the string
@@ -173,11 +175,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 "goal": {
                     "goalType": "ITEM",
                     "goalAchieved": False,
-                    "Distribution": "Uninformed"
+                    "Distribution": "Uninformed",
                 },
                 "command_result": command_result,
                 "step": 0,
-                "gameOver": False
+                "gameOver": False,
             }
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
@@ -248,8 +250,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
         return self.state._map, None
 
     def render(self, mode="human"):
-        print(self.state.mapRepresentation())
-        print("-----------------------------")
+        # print(self.state.mapRepresentation())
+        # print("-----------------------------")
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        self.state.drawMap()
+        pygame.display.update()
 
     def close(self):
         if self.window is not None:
