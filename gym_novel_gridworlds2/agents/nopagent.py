@@ -9,5 +9,3 @@ class NOPAgent(Agent):
         action_sets = self.action_set.get_action_names()
         return action_sets.index("NOP")
 
-    def get_observation(self):
-        return []
