@@ -285,6 +285,7 @@ class ConfigParser:
         if name in self.agent_cache:
             agent: Agent = self.agent_cache[name]
             agent.action_set = action_set
+            agent.state = self.state
             return agent
 
         # import the agent class, based on two configuration styles.
