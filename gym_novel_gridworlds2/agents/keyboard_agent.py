@@ -16,6 +16,3 @@ class KeyboardAgent(Agent):
         )
         action = input(">>>>>>>>>> Enter your action (in number): ")
         return int(action)
-
-    def get_observation(self):
-        return []

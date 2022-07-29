@@ -32,7 +32,8 @@ class Agent:
         return Discrete(1)
     
     def get_observation(self, state, dynamic):
-        raise NotImplementedError("Get observation for " + self.name + " is not implemented.")
+        # raise NotImplementedError("Get observation for " + self.name + " is not implemented.")
+        return []
     
     def get_action_space(self):
         return self.action_set.get_action_space()

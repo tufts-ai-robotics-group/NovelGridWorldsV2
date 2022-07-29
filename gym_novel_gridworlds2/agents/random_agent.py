@@ -6,6 +6,3 @@ class RandomAgent(Agent):
     
     def policy(self, observation):
         return self.get_action_space().sample()
-
-    def get_observation(self):
-        return []
