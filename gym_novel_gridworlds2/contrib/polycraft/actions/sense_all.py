@@ -190,13 +190,13 @@ class SenseAll(Action):
             + self.entities_str
             + self.map_str
             + ', "size":[32,1,32],"origin":[72,17,64]},'
-            "“goal”: {“goalType”: “ITEM”, “goalAchieved”: "
+            "\"goal\": {\"goalType\": \"ITEM\", \"goalAchieved\": "
             + str(self.state.goalAchieved)
-            + ", “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “sense_all”, “argument”: “NONAV”, “result”: "
+            + ", \"Distribution\": \"Uninformed\"}, \
+            \"command_result\": {\"command\": \"sense_all\", \"argument\": \"NONAV\", \"result\": "
             + self.result
             + ", \
-            “message”: “”, “stepCost: 114}, “step”: "
+            \"message\": \"\", \"stepCost: 114}, \"step\": "
             + str(self.state._step_count)
-            + ", “gameOver”:false}"
+            + ", \"gameOver\":false}"
         )

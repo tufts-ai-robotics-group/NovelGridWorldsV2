@@ -113,17 +113,21 @@ class NovelGridWorldSequentialEnv(AECEnv):
         
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
-        metadata = {
-            "goal": {
-                "goalType": "ITEM",
-                "goalAchieved": False,
-                "Distribution": "Uninformed"
-            },
-            "command_result": command_result,
-            "step": 0,
-            "gameOver": False
-        }
-        self.agent_manager.agents[agent].agent.update_metadata(metadata)
+        # TODO: rn accomodating the string
+        if type(command_result) == str:
+            self.agent_manager.agents[agent].agent.update_metadata(metadata)
+        else:
+            metadata = {
+                "goal": {
+                    "goalType": "ITEM",
+                    "goalAchieved": False,
+                    "Distribution": "Uninformed"
+                },
+                "command_result": command_result,
+                "step": 0,
+                "gameOver": False
+            }
+            self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this

@@ -1,7 +1,6 @@
 from copy import deepcopy
 import json
 import importlib
-from re import L
 from typing import Mapping, Tuple, Type
 
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager

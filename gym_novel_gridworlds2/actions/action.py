@@ -7,12 +7,13 @@ class PreconditionNotMetError(Exception):
 
 
 class Action:
-    def __init__(self, state: State, dynamics=None, **kwargs):
+    def __init__(self, state: State, dynamics=None, cmd_format=None, **kwargs):
         """
         Initialize action with a reference to the state, the dynamics, and respective actions.
         """
         self.dynamics = dynamics
         self.state = state
+        self.cmd_format = cmd_format
         pass
 
     def check_precondition(

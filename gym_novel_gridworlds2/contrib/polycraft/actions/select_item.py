@@ -35,10 +35,10 @@ class SelectItem(Action):
         agent_entity.selectedItem = self.target_type
 
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity, target_type, target_object)
+        return self.action_metadata(agent_entity, target_type, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
+        return "".join(
             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “select_item”, “argument”: “"
             + self.target_type

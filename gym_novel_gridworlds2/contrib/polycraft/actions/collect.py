@@ -86,10 +86,10 @@ class Collect(Action):
         objs[0][0].acted_upon("collect", agent_entity)
 
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity, target_object)
+        return self.action_metadata(agent_entity, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
+        return "".join(
             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “collect”, “argument”: “”, “result”: "
             + self.result

@@ -27,10 +27,10 @@ class SenseRecipes(Action):
         # self.state._step_count += 1
         self.state.incrementer()
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity)
+        return self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
+        return "".join(
             'b\'"{"recipes":[{"inputs":[{"Item":"minecraft:planks","stackSize":1,"slot":0}, \
             {"Item":"minecraft:stick","stackSize":1,"slot":1},{"Item":"minecraft:planks","stackSize":1,"slot":2},\
             {"Item":"minecraft:planks","stackSize":1,"slot":3},{"Item":"minecraft:planks","stackSize":1,"slot":5}, \
