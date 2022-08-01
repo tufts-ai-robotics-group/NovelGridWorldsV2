@@ -30,9 +30,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ### custom variables environment
         self.config_dict = config_dict
 
-        np.set_printoptions(linewidth=np.inf)
-        np.set_printoptions(threshold=np.inf)
-
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
             json_content=config_dict
@@ -57,62 +54,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
             for key, a in self.agent_manager.agents.items()
         }
 
-        # rendering
-
-        WIDTH = 20
-        HEIGHT = 20
-        MARGIN = 3
-
-        black = (0, 0, 0)
-        white = (255, 255, 255)
-        red = (255, 0, 0)
-
-        CHEST_IMAGE = pygame.image.load("chest.png")
-        CHEST = pygame.transform.scale(CHEST_IMAGE, (20, 20))
-
-        CRAFTING_TABLE_IMAGE = pygame.image.load("craftingtable.png")
-        CRAFTING_TABLE = pygame.transform.scale(CRAFTING_TABLE_IMAGE, (20, 20))
-
-        OAK_LOG_IMAGE = pygame.image.load("oaklog.png")
-        OAK_LOG = pygame.transform.scale(OAK_LOG_IMAGE, (20, 20))
-
-        DOOR_IMAGE = pygame.image.load("door.png")
-        DOOR = pygame.transform.scale(DOOR_IMAGE, (20, 20))
-
-        DIAMOND_ORE_IMAGE = pygame.image.load("diamond_ore.png")
-        DIAMOND_ORE = pygame.transform.scale(DIAMOND_ORE_IMAGE, (20, 20))
-
-        SAPLING_IMAGE = pygame.image.load("sapling.png")
-        SAPLING = pygame.transform.scale(SAPLING_IMAGE, (20, 20))
-
-        SAFE_IMAGE = pygame.image.load("safe.png")
-        SAFE = pygame.transform.scale(SAFE_IMAGE, (20, 20))
-
-        PLATINUM_IMAGE = pygame.image.load("platinum.png")
-        PLATINUM = pygame.transform.scale(PLATINUM_IMAGE, (20, 20))
-
-        AGENT_IMAGE = pygame.image.load("agent.png")
-        AGENT = pygame.transform.rotate(
-            pygame.transform.scale(AGENT_IMAGE, (20, 20)), 90
-        )
-
-        POGOIST_IMAGE = pygame.image.load("pogoist.png")
-        POGOIST = pygame.transform.rotate(
-            pygame.transform.scale(POGOIST_IMAGE, (20, 20)), 90
-        )
-
-        TRADER_IMAGE = pygame.image.load("trader.png")
-        TRADER = pygame.transform.scale(TRADER_IMAGE, (20, 20))
-
-        global SCREEN, CLOCK
-        pygame.init()
-        SCREEN = pygame.display.set_mode((1090, 745))
-        pygame.display.set_caption("NovelGridWorlds")
-        CLOCK = pygame.time.Clock()
-        SCREEN.fill(black)
-
     def observe(self, agent_name):
-        return self.agent_manager.get_agent(agent_name).agent.get_observation(self.state, self.dynamic)
+        return self.agent_manager.get_agent(agent_name).agent.get_observation(
+            self.state, self.dynamic
+        )
 
     @functools.lru_cache(maxsize=None)
     def observation_space(self, agent):
@@ -159,6 +104,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         )
         # print(agent_entity.inventory)
         metadata = None
+        print(agent_entity.inventory)
         try:
             metadata = action_set.actions[action][1].do_action(
                 agent_entity,
@@ -167,7 +113,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         except PreconditionNotMetError:
             # TODO set an error message
             pass
-        
+
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
         # TODO: rn accomodating the string
@@ -255,9 +201,77 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.agent_selection = self._agent_selector.next()
         return self.state._map, None
 
+    def renderTextCenteredAt(self, text, font, colour, x, y, screen, allowed_width):
+        # first, split the text into words
+        words = text.split()
+
+        # now, construct lines out of these words
+        lines = []
+        while len(words) > 0:
+            # get as many words as will fit within allowed_width
+            line_words = []
+            while len(words) > 0:
+                line_words.append(words.pop(0))
+                fw, fh = font.size(" ".join(line_words + words[:1]))
+                if fw > allowed_width:
+                    break
+
+            # add a line consisting of those words
+            line = " ".join(line_words)
+            lines.append(line)
+
+        # now we've split our text into lines that fit into the width, actually
+        # render them
+
+        # we'll render each line below the last, so we need to keep track of
+        # the culmative height of the lines we've rendered so far
+        y_offset = 0
+        for line in lines:
+            fw, fh = font.size(line)
+
+            # (tx, ty) is the top-left of the font surface
+            tx = x - fw / 2
+            ty = y + y_offset
+
+            font_surface = font.render(line, True, colour)
+            screen.blit(font_surface, (tx, ty))
+
+            y_offset += fh
+
     def render(self, mode="human"):
-        print(self.state.mapRepresentation())
-        print("-----------------------------")
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        self.state.SCREEN.fill((171, 164, 164))
+        self.state.drawMap()
+
+        font = pygame.font.Font("freesansbold.ttf", 18)
+
+        step_text = font.render("Step:" + str(self.state._step_count), True, (0, 0, 0))
+        step_rect = step_text.get_rect()
+        step_rect.center = (1120, 30)
+        self.state.SCREEN.blit(step_text, step_rect)
+
+        agent = self.state.get_objects_of_type("agent")[0]
+
+        facing_text = font.render("Agent Facing:" + str(agent.facing), True, (0, 0, 0))
+        facing_rect = facing_text.get_rect()
+        facing_rect.center = (1120, 60)
+        self.state.SCREEN.blit(facing_text, facing_rect)
+
+        black = (0, 0, 0)
+        inv_text = "Agent Inventory:" + str(agent.inventory)
+
+        self.state.renderTextCenteredAt(
+            inv_text,
+            font,
+            black,
+            1120,
+            90,
+            self.state.SCREEN,
+            200,
+        )
+        pygame.display.update()
 
     def close(self):
         if self.window is not None:

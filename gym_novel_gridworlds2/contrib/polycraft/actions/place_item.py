@@ -23,7 +23,10 @@ class PlaceItem(Action):
         target_object: Object = None,
         **kwargs,
     ):
-        if agent_entity.selectedItem == None:
+        if (
+            agent_entity.selectedItem == None
+            or agent_entity.selectedItem == "iron_pickaxe"
+        ):
             return False
         # convert the entity facing direction to coords
         direction = (0, 0)
@@ -65,7 +68,6 @@ class PlaceItem(Action):
         target_type: str = None,
         target_object: Object = None,
     ):
-        # self.state._step_count += 1
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILURE"
