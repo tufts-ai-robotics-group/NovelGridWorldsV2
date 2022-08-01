@@ -177,7 +177,7 @@
   "num_episodes": 10,
   "entities": {
     "main_1": {
-      "agent": "gym_novel_gridworlds2.agents.NOPAgent",
+      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
