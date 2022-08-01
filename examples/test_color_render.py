@@ -66,266 +66,13 @@ TRADER = pygame.transform.scale(TRADER_IMAGE, (20, 20))
 
 
 class TestColorRender:
-    def drawMap(self):
-        for i in range(self.state.initial_info["map_size"][0]):
-            for j in range(self.state.initial_info["map_size"][1]):
-                obj = self.state.get_objects_at((i, j))
-                if len(obj[0]) != 0:
-                    if hasattr(obj[0][0], "canWalkOver"):
-                        if (
-                            obj[0][0].state == "block"
-                            and obj[0][0].canWalkOver == False
-                        ):
-                            SCREEN.blit(
-                                DOOR,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        elif (
-                            obj[0][0].state == "block" and obj[0][0].canWalkOver == True
-                        ):
-                            SCREEN.blit(
-                                DOOR_OPEN,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        else:
-                            SCREEN.blit(
-                                DOOR_PICKUP,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                    elif obj[0][0].type == "plastic_chest":
-                        SCREEN.blit(
-                            CHEST,
-                            (
-                                (MARGIN + WIDTH) * j + MARGIN,
-                                (MARGIN + HEIGHT) * i + MARGIN,
-                            ),
-                        )
-                    elif obj[0][0].type == "crafting_table":
-                        if obj[0][0].state == "block":
-                            SCREEN.blit(
-                                CRAFTING_TABLE,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        else:
-                            SCREEN.blit(
-                                CRAFTING_TABLE_PICKUP,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                    elif obj[0][0].type == "oak_log":
-                        if obj[0][0].state == "block":
-                            SCREEN.blit(
-                                OAK_LOG,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        else:
-                            SCREEN.blit(
-                                OAK_LOG_PICKUP,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                    elif obj[0][0].type == "diamond_ore":
-                        if obj[0][0].state == "block":
-                            SCREEN.blit(
-                                DIAMOND_ORE,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        else:
-                            SCREEN.blit(
-                                DIAMOND_PICKUP,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                    elif obj[0][0].type == "sapling":
-                        SCREEN.blit(
-                            SAPLING,
-                            (
-                                (MARGIN + WIDTH) * j + MARGIN,
-                                (MARGIN + HEIGHT) * i + MARGIN,
-                            ),
-                        )
-                    elif obj[0][0].type == "safe":
-                        SCREEN.blit(
-                            SAFE,
-                            (
-                                (MARGIN + WIDTH) * j + MARGIN,
-                                (MARGIN + HEIGHT) * i + MARGIN,
-                            ),
-                        )
-                    elif obj[0][0].type == "tree_tap":
-                        SCREEN.blit(
-                            HOPPER,
-                            (
-                                (MARGIN + WIDTH) * j + MARGIN,
-                                (MARGIN + HEIGHT) * i + MARGIN,
-                            ),
-                        )
-                    elif obj[0][0].type == "block_of_platinum":
-                        if obj[0][0].state == "block":
-                            SCREEN.blit(
-                                PLATINUM,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        else:
-                            SCREEN.blit(
-                                PLATINUM_PICKUP,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                    else:
-                        pygame.draw.rect(
-                            SCREEN,
-                            (171, 164, 164),
-                            [
-                                (MARGIN + WIDTH) * j + MARGIN,
-                                (MARGIN + HEIGHT) * i + MARGIN,
-                                WIDTH,
-                                HEIGHT,
-                            ],
-                        )
-                else:  # air
-                    pygame.draw.rect(
-                        SCREEN,
-                        (255, 255, 255),
-                        [
-                            (MARGIN + WIDTH) * j + MARGIN,
-                            (MARGIN + HEIGHT) * i + MARGIN,
-                            WIDTH,
-                            HEIGHT,
-                        ],
-                    )
-                if len(obj[1]) != 0:
-                    if obj[1][0].type == "agent":
-                        if obj[1][0].facing == "NORTH":
-                            SCREEN.blit(
-                                AGENT,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        elif obj[1][0].facing == "SOUTH":
-                            SCREEN.blit(
-                                pygame.transform.rotate(AGENT, 180),
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        elif obj[1][0].facing == "EAST":
-                            SCREEN.blit(
-                                pygame.transform.rotate(AGENT, 270),
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        elif obj[1][0].facing == "WEST":
-                            SCREEN.blit(
-                                pygame.transform.rotate(AGENT, 90),
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                    elif obj[1][0].type == "pogoist":
-                        if obj[1][0].facing == "NORTH":
-                            SCREEN.blit(
-                                POGOIST,
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        elif obj[1][0].facing == "SOUTH":
-                            SCREEN.blit(
-                                pygame.transform.rotate(POGOIST, 180),
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        elif obj[1][0].facing == "EAST":
-                            SCREEN.blit(
-                                pygame.transform.rotate(POGOIST, 270),
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                        elif obj[1][0].facing == "WEST":
-                            SCREEN.blit(
-                                pygame.transform.rotate(POGOIST, 90),
-                                (
-                                    (MARGIN + WIDTH) * j + MARGIN,
-                                    (MARGIN + HEIGHT) * i + MARGIN,
-                                ),
-                            )
-                    elif obj[1][0].type == "trader":
-                        SCREEN.blit(
-                            TRADER,
-                            (
-                                (MARGIN + WIDTH) * j + MARGIN,
-                                (MARGIN + HEIGHT) * i + MARGIN,
-                            ),
-                        )
-                    else:
-                        pygame.draw.rect(
-                            SCREEN,
-                            (51, 0, 102),
-                            [
-                                (MARGIN + WIDTH) * j + MARGIN,
-                                (MARGIN + HEIGHT) * i + MARGIN,
-                                WIDTH,
-                                HEIGHT,
-                            ],
-                        )
-
     def setUp(self):
         self.json_parser = ConfigParser()
         self.state, self.dynamic, self.entities = self.json_parser.parse_json(
             pathlib.Path(__file__).parent.resolve() / "pre_novelty.json"
         )
-        global SCREEN, CLOCK
-        pygame.init()
-        SCREEN = pygame.display.set_mode((1090, 745))
-        pygame.display.set_caption("NovelGridWorlds")
-        CLOCK = pygame.time.Clock()
-        SCREEN.fill((171, 164, 164))
 
     def mainLoop(self):
-        np.set_printoptions(threshold=np.inf)
-        np.set_printoptions(linewidth=np.inf)
-
         won = False
         while not won:
             agent = self.state.get_objects_of_type("agent")[0]
@@ -337,15 +84,40 @@ class TestColorRender:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
-                self.drawMap()
+                self.state.SCREEN.fill((171, 164, 164))
+                self.state.drawMap()
+
+                font = pygame.font.Font("freesansbold.ttf", 18)
+
+                step_text = font.render(
+                    "Step:" + str(self.state._step_count), True, (0, 0, 0)
+                )
+                step_rect = step_text.get_rect()
+                step_rect.center = (1120, 30)
+                self.state.SCREEN.blit(step_text, step_rect)
+
+                agent = self.state.get_objects_of_type("agent")[0]
+
+                facing_text = font.render(
+                    "Agent Facing:" + str(agent.facing), True, (0, 0, 0)
+                )
+                facing_rect = facing_text.get_rect()
+                facing_rect.center = (1120, 60)
+                self.state.SCREEN.blit(facing_text, facing_rect)
+
+                black = (0, 0, 0)
+                inv_text = "Agent Inventory:" + str(agent.inventory)
+
+                self.state.renderTextCenteredAt(
+                    inv_text,
+                    font,
+                    black,
+                    1120,
+                    90,
+                    self.state.SCREEN,
+                    200,
+                )
                 pygame.display.update()
-                print("")
-                print("Agent's Inventory:")
-                print(agent.inventory)
-                print("Selected Item:")
-                print(agent.selectedItem)
-                print("Agent Facing:")
-                print(agent.facing)
                 print("")
                 print(
                     "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), collect (c), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick (cs), craft_plank (cp), craft_tree_tap (ctt), craft_block_of_diamond (cb), craft_pogo_stick (cps), trade_block_of_platinum (tp1)"
