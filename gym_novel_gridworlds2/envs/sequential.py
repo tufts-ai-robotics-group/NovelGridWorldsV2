@@ -124,7 +124,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # Gym spaces are defined and documented here: https://gym.openai.com/docs/#spaces
         return self._action_spaces[agent]
 
-    def step(self, action):
+    def step(self, action, extra_params={}):
         """
         TAKEN FROM
         https://www.pettingzoo.ml/environment_creation#example-custom-environment
@@ -158,28 +158,29 @@ class NovelGridWorldSequentialEnv(AECEnv):
             )
         )
         # print(agent_entity.inventory)
-        command_result = None
+        metadata = None
         try:
-            command_result = action_set.actions[action][1].do_action(agent_entity)
+            metadata = action_set.actions[action][1].do_action(
+                agent_entity,
+                **extra_params
+            )
         except PreconditionNotMetError:
+            # TODO set an error message
             pass
         
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
         # TODO: rn accomodating the string
-        if type(command_result) == str:
-            self.agent_manager.agents[agent].agent.update_metadata(command_result)
+        if type(metadata) == str:
+            self.agent_manager.agents[agent].agent.update_metadata(metadata)
         else:
-            metadata = {
-                "goal": {
-                    "goalType": "ITEM",
-                    "goalAchieved": False,
-                    "Distribution": "Uninformed"
-                },
-                "command_result": command_result,
-                "step": 0,
-                "gameOver": False
+            metadata["goal"] = {
+                "goalType": "ITEM",
+                "goalAchieved": False,
+                "Distribution": "Uninformed"
             }
+            metadata["step"] = self.num_moves
+            metadata["gameOver"] = self.dones[agent] # TODO this is delayed by one step
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
@@ -187,8 +188,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # agent should start again at 0
         self._cumulative_rewards[agent] = 0
 
-        # collect reward if it is the last agent to act
-        if self._agent_selector.is_last():
+        # collect reward if it is the last agent to act.
+        # if the action allows an additional action to be done immediately
+        # after it, (like SENSE_ALL in polycraft)
+        # then don't update info until the next action is done.
+        if self._agent_selector.is_last() and \
+            not action_set.actions[action][1].allow_additional_action: # if 
             # rewards for all agents are placed in the .rewards dictionary
             # self.rewards[self.agents[0]], self.rewards[self.agents[1]] = REWARD_MAP[
             #     (self.state[self.agents[0]], self.state[self.agents[1]])
@@ -198,6 +203,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
             self.num_moves += 1
             # The dones dictionary must be updated for all players.
+            # TODO a super RESET command should terminate everything
             self.dones = {
                 agent: self.num_moves >= self.MAX_ITER for agent in self.agents
             }
@@ -207,7 +213,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self._clear_rewards()
 
         # selects the next agent.
-        self.agent_selection = self._agent_selector.next()
+        if not action_set.actions[action][1].allow_additional_action:
+            self.agent_selection = self._agent_selector.next()
         # Adds .rewards to ._cumulative_rewards
         self._accumulate_rewards()
 

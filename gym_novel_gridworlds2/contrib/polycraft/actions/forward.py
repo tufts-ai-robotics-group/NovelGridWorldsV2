@@ -6,11 +6,11 @@ import numpy as np
 
 
 class Forward(Action):
-    def __init__(self, state: State, dynamics=None, speed=1):
+    def __init__(self, dynamics=None, speed=1, **kwargs):
         self.vec = (0, 0)
         self.dynamics = dynamics
-        self.state = state
         self.speed = speed
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None

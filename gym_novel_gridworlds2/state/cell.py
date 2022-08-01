@@ -18,6 +18,12 @@ class Cell:
         self._obj_limit = obj_limit
         self._entity_limit = entity_limit
         self._item_encoder = item_encoder
+    
+    def get_map_rep(self):
+        if self._contains_block():
+            return self._objects[0].type
+        else:
+            return ""
 
     def place_object(self, obj: Entity) -> bool:
         """

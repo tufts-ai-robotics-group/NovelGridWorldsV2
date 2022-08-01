@@ -8,7 +8,7 @@ DIRECTION_TO_FACING = {"UP": "NORTH", "DOWN": "SOUTH", "LEFT": "WEST", "RIGHT": 
 
 
 class Move(Action):
-    def __init__(self, state: State, dynamics=None, direction="UP"):
+    def __init__(self, direction="UP", **kwargs):
         self.direction = direction
         if direction == "UP":
             self.vec = (-1, 0)
@@ -18,9 +18,7 @@ class Move(Action):
             self.vec = (0, -1)
         else:
             self.vec = (0, 1)
-
-        self.dynamics = dynamics
-        self.state = state
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None

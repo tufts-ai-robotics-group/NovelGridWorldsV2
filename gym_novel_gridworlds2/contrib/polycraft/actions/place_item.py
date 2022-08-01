@@ -13,9 +13,8 @@ from gym_novel_gridworlds2.state.dynamic import Dynamic
 
 
 class PlaceItem(Action):
-    def __init__(self, state: State, dynamics=None, **kwargs):
-        self.state = state
-        self.dynamics = dynamics
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def check_precondition(
         self,

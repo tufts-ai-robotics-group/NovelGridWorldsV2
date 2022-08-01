@@ -1,6 +1,6 @@
 import time
 from .keyboard_agent import KeyboardAgent
-import socket
+import socket, struct # socket
 
 class SocketManualAgent(KeyboardAgent):
     """
@@ -69,5 +69,6 @@ class SocketManualAgent(KeyboardAgent):
     
     def __del__(self):
         if self.conn is not None:
+            self.conn.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, struct.pack('ii', 1, 0))
             self.conn.close()
         self.socket.close()

@@ -562,6 +562,32 @@ class State:
         if self._map[loc] is None:
             return False
         return self._map[loc]._contains_block
+    
+    def get_all_entities(self):
+        entities = []
+        for name, obj_list in self._objects.items():
+            if len(obj_list) > 0 and isinstance(obj_list[0], Entity):
+                entities += obj_list
+        return entities
+    
+    def get_map_rep_in_type(self):
+        """
+        returns a numpy array of strings, containing the object's type
+        """
+        map_rep = np.zeros_like(self._map, dtype=object)
+        for i in range(self._map.shape[0]):
+            for j in range(self._map.shape[1]):
+                cell: Cell = self._map[i][j]
+                if cell is not None:
+                    map_rep[i][j] = cell.get_map_rep()
+                else:
+                    map_rep[i][j] = "air"
+        return map_rep
+    
+    def get_map_size(self):
+        return self._map.shape
+            
+
 
     def clear(self):
         """

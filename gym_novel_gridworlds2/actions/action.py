@@ -14,6 +14,9 @@ class Action:
         self.dynamics = dynamics
         self.state = state
         self.cmd_format = cmd_format
+
+        # sets if the agent can do an additional action
+        self.allow_additional_action = False
         pass
 
     def check_precondition(

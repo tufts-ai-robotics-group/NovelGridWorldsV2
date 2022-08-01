@@ -11,18 +11,27 @@ class ActionSet:
         # symbolic functionalities: used to parse commands
         self.action_index = {}
         for i, (name, _) in enumerate(actions):
-            self.action_index[name] = i
+            print(name.lower())
+            self.action_index[name.lower()] = i
     
     def do_action(self, entity, index):
         action = self.actions[index][1]
         action.do_action(entity)
     
-    def parse_exec_command(self, command, entity):
+    # def parse_exec_command(self, command, entity):
+    #     """
+    #     Symbolic functionalities:
+    #     Parse and execute a command
+    #     """
+    #     # fallback: no cmd_format specified and or input format not matched
+    #     return action.do_action(entity)
+
+
+    def parse_command(self, command) -> int:
         """
-        Symbolic functionalities:
-        Parse and execute a command
+        Given a command, returns the id of the action and its parameters
         """
-        cmd_name = command.split(" ")[0]
+        cmd_name = command.split(" ")[0].lower()
         if cmd_name not in self.action_index:
             raise KeyError(f"Command \"{command}\" not found")
         
@@ -36,10 +45,9 @@ class ActionSet:
             if match is not None:
                 # found matching parameters, do the action using the parameters
                 params = match.groupdict()
-                return action.do_action(entity, **params)
-        
-        # fallback: no cmd_format specified and or input format not matched
-        return action.do_action(entity)
+                return action_id, params
+        return action_id, {}
+
 
     def remove_action(self, index):
         pass

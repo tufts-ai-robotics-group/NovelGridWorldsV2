@@ -11,6 +11,7 @@ class Trade(Action):
         self.dynamics = dynamics
         self.state = state
         self.trade = trade
+        self.allow_additional_action = False
         self.itemToTrade = list(trade["output"][0].keys())[0]
 
     def check_precondition(

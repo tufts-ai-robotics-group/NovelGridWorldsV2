@@ -7,10 +7,9 @@ import numpy as np
 
 
 class Interact(Action):
-    def __init__(self, state: State, entity_id=None, dynamics=None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, entity_id = None, **kwargs):
         self.entity_id = entity_id
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs

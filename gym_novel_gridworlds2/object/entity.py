@@ -26,7 +26,7 @@ class Entity(Object):
         self.id = id
 
     def __str__(self):
-        return f'<{self.__class__.__name__} "{str(self.type)}" facing {self.facing} at {str(self.loc)}>'
+        return f'<{self.__class__.__name__} "{str(self.type)}" ({self.id}) facing {self.facing} at {str(self.loc)}>'
 
     def do_action(self, **kwargs):
         pass
