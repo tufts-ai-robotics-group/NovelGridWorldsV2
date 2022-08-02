@@ -1,7 +1,6 @@
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
-from gym_novel_gridworlds2.utils.recipe import Recipe
 
 import numpy as np
 
@@ -57,7 +56,6 @@ class Craft(Action):
                     return False
 
     def do_action(self, agent_entity: Entity, target_type=None, target_object=None):
-        # self.state._step_count += 1
         self.state.incrementer()
         if not self.check_precondition(agent_entity):
             self.result = "FAILED"

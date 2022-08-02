@@ -69,7 +69,7 @@ class ConfigParser:
         # initialization of borders
         if "rooms" in json_content:
             for room_num, data in json_content["rooms"].items():
-                self.state.init_border_multi(
+                self.state.init_border(
                     json_content["rooms"][room_num]["start"],
                     json_content["rooms"][room_num]["end"],
                 )
