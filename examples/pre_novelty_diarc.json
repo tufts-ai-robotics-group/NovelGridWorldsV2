@@ -39,6 +39,9 @@
     },
     "place_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
+    },
+    "sense_all": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseAll"
     }
   },
   "action_sets": {
@@ -66,6 +69,7 @@
       "trade_diamond_1",
       "trade_block_of_titanium_2",
       "NOP",
+      "sense_all",
       "TP_TO_1,17,0",
       "TP_TO_3,17,3",
       "TP_TO_103"

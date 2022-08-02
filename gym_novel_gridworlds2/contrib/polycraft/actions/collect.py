@@ -6,9 +6,8 @@ import numpy as np
 
 
 class Collect(Action):
-    def __init__(self, state: State, dynamics=None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs

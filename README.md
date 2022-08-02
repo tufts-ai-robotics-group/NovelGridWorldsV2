@@ -42,7 +42,11 @@ python3 polycraft.py <config_file>
 
 ### `test_render_with_parser`
 This file allows you to type commands manually to test the render
-function and reproduce some errors.
+function in text and reproduce some errors.
+
+### `test_color_render`
+This file allows you to type commands manually to test the render
+function in PyGame and reproduce some errors.
 
 
 
@@ -54,6 +58,12 @@ Note that while many classes are predefined and provided in the `contrib/polycra
 you are free to create your own class file and refer to them
 in the same way as you would normally import a python file. Just make sure
 the file is included in the python import path.
+
+In a similar vein, you can create your own version of `json_parser.py` to handle support
+for initialization methods that are specific to the domain of the project you are working
+on specifically. For instance, the included parser includes support for initializing objects 
+in chunks and in rooms, and for trades specific to the polycraft traders, which may not exist
+in your project's domain.
 
 ### Actions
 To add actions to the list, add an entry to the actions dict, and put the
@@ -130,16 +140,17 @@ Defines the number of objects to be randomly placed in the environment.
 The objects will be instatiated using the defined class module
 in the `object_types` section of the json.
 
-In the json, specify the quantity of objects you want to spawn and the room in which 
-they are permitted to spawn (i.e 2 if you want room 2, "Any" if you want them to
-spawn in any room). Additionaly, if you set chunked to True, 
-this means that all of the objects will spawn next to each other. (currently only 
-supported for chunks of 2 and 4).
-
 If the object type name is not defined in the json, the parser will
 use the `default` module defined in the json. If even the `default`
 module is not defined, then the parser will default to the generic, base
 `Object` class.
+
+In polycraft, where there are rooms and ores can be chunked,
+specify the quantity of objects you want to spawn and the room in which 
+they are permitted to spawn (i.e 2 if you want room 2, "Any" if you want them to
+spawn in any room). Additionaly, if you set chunked to True, 
+this means that all of the objects will spawn next to each other. (only 
+supported for chunks of 2 and 4).
 
 ### Entities
 Entities are a little more complicated than objects. They have associated action sets.
@@ -328,6 +339,15 @@ number,
 make sure you change the `PORT` variable in the `test_socket.py` file to reflect
 the port you're using.
 
+## Rendering
+
+As rendering is entirely dependent on the images you select and how you envision your environment, we leave it up to you. For the polycraft example, rendering is available in both PyGame and as simple text in the Terminal, and provides a template as to how you can implement rendering based on the degree of complexity you need as well as the basics of how it interacts with a state and the OpenAI gym library.
+
+```
+def render(self, mode="human"):
+    #this is a part of the OpenAI gym suite, implement it in your environment definition file 
+    (which in polycraft is sequential.py)
+```
 
 ## TODO
 - a socket client

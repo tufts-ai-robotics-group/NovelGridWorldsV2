@@ -131,15 +131,12 @@ class ConfigParser:
         self.agent_manager = AgentManager()
         if "entities" in json_content:
             for key, entity_info in json_content["entities"].items():
-                self.state.entity_count += 1
                 # creates and places the entity in the map
                 agent_entity = self.create_place_entity(
                     name=key, entity_info=entity_info
                 )
                 # add agent to the agent list (for action per round)
                 self.agent_manager.add_agent(**agent_entity)
-
-        print(self.state.entity_count)
 
         # initializes the action space
         action_space = MultiAgentActionSpace(
@@ -321,6 +318,8 @@ class ConfigParser:
 
         # entity object
         entity_info["name"] = name
+        entity_info["id"] = self.state.entity_count
+        self.state.entity_count += 1
         entity_obj = self.state.place_object(
             entity_info["type"],
             EntityClass,

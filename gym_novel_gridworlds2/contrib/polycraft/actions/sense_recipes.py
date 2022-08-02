@@ -7,9 +7,9 @@ import numpy as np
 
 
 class SenseRecipes(Action):
-    def __init__(self, state: State, trade=None, dynamics=None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.allow_additional_action = True
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs

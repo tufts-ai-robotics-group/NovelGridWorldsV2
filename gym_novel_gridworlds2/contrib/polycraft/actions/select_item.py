@@ -4,10 +4,9 @@ from gym_novel_gridworlds2.state import State
 
 
 class SelectItem(Action):
-    def __init__(self, state: State, dynamics=None, target_type=None):
-        self.state = state
+    def __init__(self, target_type, **kwargs):
         self.target_type = target_type
-        self.dynamics = dynamics
+        super().__init__(**kwargs)
 
     def check_precondition(
         self,

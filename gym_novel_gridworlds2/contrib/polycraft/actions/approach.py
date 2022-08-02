@@ -16,10 +16,9 @@ search_directions = {
 
 
 class Approach(Action):
-    def __init__(self, state: State, dynamics=None, target_type: str = None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, target_type: str = None, **kwargs):
         self.target_type = target_type
+        super().__init__(**kwargs)
 
     def _in_bound(self, coord: tuple):
         shape = self.state._map.shape

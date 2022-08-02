@@ -6,10 +6,9 @@ import numpy as np
 
 
 class Craft(Action):
-    def __init__(self, state: State, recipe, dynamics=None):
-        self.state = state
-        self.recipe = recipe
+    def __init__(self, recipe, **kwargs):
         self.itemToCraft = list(recipe["output"][0].keys())[0]
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None

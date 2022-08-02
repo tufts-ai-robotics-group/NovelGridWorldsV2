@@ -15,3 +15,23 @@ from .NOP import NOP
 from .tp_to import TP_TO
 from .sense_all import SenseAll
 from .sense_recipes import SenseRecipes
+
+__all__ = [
+    "Break",
+    "Approach",
+    "Move",
+    "SelectItem",
+    "PlaceItem",
+    "Use",
+    "Collect",
+    "Trade",
+    "Craft",
+    "Forward",
+    "RotateLeft",
+    "RotateRight",
+    "Interact",
+    "NOP",
+    "TP_TO",
+    "SenseAll",
+    "SenseRecipes"
+]
