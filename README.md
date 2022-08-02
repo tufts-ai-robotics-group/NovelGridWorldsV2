@@ -59,6 +59,12 @@ you are free to create your own class file and refer to them
 in the same way as you would normally import a python file. Just make sure
 the file is included in the python import path.
 
+In a similar vein, you can create your own version of `json_parser.py` to handle support
+for initialization methods that are specific to the domain of the project you are working
+on specifically. For instance, the included parser includes support for initializing objects 
+in chunks and in rooms, and for trades specific to the polycraft traders, which may not exist
+in your project's domain.
+
 ### Actions
 To add actions to the list, add an entry to the actions dict, and put the
 name of the desired action as the key.
