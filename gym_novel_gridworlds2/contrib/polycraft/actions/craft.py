@@ -8,6 +8,7 @@ import numpy as np
 class Craft(Action):
     def __init__(self, recipe, **kwargs):
         self.itemToCraft = list(recipe["output"][0].keys())[0]
+        self.recipe = recipe
         super().__init__(**kwargs)
 
     def check_precondition(

@@ -318,7 +318,8 @@ class ConfigParser:
 
         # entity object
         entity_info["name"] = name
-        entity_info["id"] = self.state.entity_count
+        if "id" not in entity_info:
+            entity_info["id"] = self.state.entity_count
         self.state.entity_count += 1
         entity_obj = self.state.place_object(
             entity_info["type"],

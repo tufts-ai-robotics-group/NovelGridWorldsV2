@@ -103,7 +103,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             )
         )
         # print(agent_entity.inventory)
-        metadata = None
+        metadata = {}
+        action_failed = False
         print(agent_entity.inventory)
         try:
             metadata = action_set.actions[action][1].do_action(
@@ -112,6 +113,16 @@ class NovelGridWorldSequentialEnv(AECEnv):
             )
         except PreconditionNotMetError:
             # TODO set an error message
+            action_failed = True
+            metadata = {
+                "command_result": {
+                    "command": action_set.actions[action][0],
+                    "argument": ", ".join(extra_params),
+                    "result": "FAILED", # TODO
+                    "message": "",
+                    "stepCost": 27.906975 # TODO cost
+                }
+            }
             pass
 
         # send the metadata of the command execution result
