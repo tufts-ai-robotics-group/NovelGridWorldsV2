@@ -357,18 +357,19 @@ To add new items to render, first add the images you want to use to represent th
 
 ```
 self.OAK_LOG_IMAGE = pygame.image.load("oaklog.png")
-    self.OAK_LOG = pygame.transform.scale(self.OAK_LOG_IMAGE, (20, 20))
+self.OAK_LOG = pygame.transform.scale(self.OAK_LOG_IMAGE, (20, 20))
 
-    self.OAK_LOG_PICKUP_IMAGE = pygame.image.load("oaklogpickup.png")
-    self.OAK_LOG_PICKUP = pygame.transform.scale(
-        self.OAK_LOG_PICKUP_IMAGE, (20, 20)
-    )
+self.OAK_LOG_PICKUP_IMAGE = pygame.image.load("oaklogpickup.png")
+self.OAK_LOG_PICKUP = pygame.transform.scale(
+    self.OAK_LOG_PICKUP_IMAGE, (20, 20)
+)
 ```
 Then, modify the drawMap function in polycraft_state.py. Copy and paste the below code snippet and add it to the if/else chain, modifying to include the image you want to include and the possible states the object has:
 
 ```
 elif obj[0][0].type == "oak_log":
     if obj[0][0].state == "block":
+        #draws the image of the object on the tile
         self.SCREEN.blit(
             self.OAK_LOG,
             (
@@ -377,6 +378,7 @@ elif obj[0][0].type == "oak_log":
             ),
     )
     else:
+        #fill the tile with white to reset it
         pygame.draw.rect(
             self.SCREEN,
                 (255, 255, 255),
@@ -387,6 +389,7 @@ elif obj[0][0].type == "oak_log":
                     self.HEIGHT,
                 ],
             )
+            #now, draw the image of the pickup on the tile
             self.SCREEN.blit(
                 self.OAK_LOG_PICKUP,
                 (
