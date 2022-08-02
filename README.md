@@ -381,22 +381,22 @@ elif obj[0][0].type == "oak_log":
         #fill the tile with white to reset it
         pygame.draw.rect(
             self.SCREEN,
-                (255, 255, 255),
-                [
-                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
-                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
-                    self.WIDTH,
-                    self.HEIGHT,
-                ],
-            )
-            #now, draw the image of the pickup on the tile
-            self.SCREEN.blit(
-                self.OAK_LOG_PICKUP,
-                (
-                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
-                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
-                ),
-            )
+            (255, 255, 255),
+            [
+                (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                self.WIDTH,
+                self.HEIGHT,
+            ],
+        )
+        #now, draw the image of the pickup on the tile
+        self.SCREEN.blit(
+            self.OAK_LOG_PICKUP,
+            (
+                (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+            ),
+        )
 
 ```
 
