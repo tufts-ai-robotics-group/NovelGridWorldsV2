@@ -357,12 +357,12 @@ To add new items to render, first add the images you want to use to represent th
 
 ```
 self.OAK_LOG_IMAGE = pygame.image.load("oaklog.png")
-        self.OAK_LOG = pygame.transform.scale(self.OAK_LOG_IMAGE, (20, 20))
+    self.OAK_LOG = pygame.transform.scale(self.OAK_LOG_IMAGE, (20, 20))
 
-        self.OAK_LOG_PICKUP_IMAGE = pygame.image.load("oaklogpickup.png")
-        self.OAK_LOG_PICKUP = pygame.transform.scale(
-            self.OAK_LOG_PICKUP_IMAGE, (20, 20)
-        )
+    self.OAK_LOG_PICKUP_IMAGE = pygame.image.load("oaklogpickup.png")
+    self.OAK_LOG_PICKUP = pygame.transform.scale(
+        self.OAK_LOG_PICKUP_IMAGE, (20, 20)
+    )
 ```
 Then, modify the drawMap function in polycraft_state.py. Copy and paste the below code snippet and add it to the if/else chain, modifying to include the image you want to include and the possible states the object has:
 
