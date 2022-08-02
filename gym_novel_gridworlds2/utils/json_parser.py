@@ -70,8 +70,8 @@ def load_json(config_file_path):
 
         # load and extend
         with open(config_file_path, "r") as f:
-            new_content = json.load(f)
-            config = inject(config, new_content)
+            extended_content = json.load(f)
+            config = inject(extended_content, config)
     return config
 
 
