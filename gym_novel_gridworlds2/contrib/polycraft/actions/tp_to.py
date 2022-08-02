@@ -13,6 +13,7 @@ class TP_TO(Action):
         self.x = x
         self.y = y
         self.cmd_format = "tp_to (?P<x>\d+),(\d+),(?P<y>\d+)"
+        self.allow_additional_action = False
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs
