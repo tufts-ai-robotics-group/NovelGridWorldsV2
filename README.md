@@ -42,7 +42,11 @@ python3 polycraft.py <config_file>
 
 ### `test_render_with_parser`
 This file allows you to type commands manually to test the render
-function and reproduce some errors.
+function in text and reproduce some errors.
+
+### `test_color_render`
+This file allows you to type commands manually to test the render
+function in PyGame and reproduce some errors.
 
 
 
