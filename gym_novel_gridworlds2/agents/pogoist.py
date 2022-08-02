@@ -140,6 +140,10 @@ class Pogoist(Agent):
                 self.policy_step += 1
                 return action_sets.index("craft_tree_tap")
             elif self.policy_step == 21:
+                self.policy_step += 1
+                return action_sets.index(
+                    "TP_TO_" + str(ent.loc[0]) + ",17," + str(ent.loc[1])
+                )
                 vec = (0, 0)  # inverse direction so we go backwards
                 if ent.facing == "NORTH":
                     vec = (1, 0)
