@@ -9,8 +9,6 @@ from gym_novel_gridworlds2.utils.json_parser import ConfigParser
 
 import pygame
 
-# file_name = "automaptest.json"
-
 parser = argparse.ArgumentParser(description="Polycraft Environment")
 parser.add_argument("filename", type=str, nargs=1, help="the path of the config file")
 
