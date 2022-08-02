@@ -134,16 +134,17 @@ Defines the number of objects to be randomly placed in the environment.
 The objects will be instatiated using the defined class module
 in the `object_types` section of the json.
 
-In the json, specify the quantity of objects you want to spawn and the room in which 
-they are permitted to spawn (i.e 2 if you want room 2, "Any" if you want them to
-spawn in any room). Additionaly, if you set chunked to True, 
-this means that all of the objects will spawn next to each other. (currently only 
-supported for chunks of 2 and 4).
-
 If the object type name is not defined in the json, the parser will
 use the `default` module defined in the json. If even the `default`
 module is not defined, then the parser will default to the generic, base
 `Object` class.
+
+In polycraft, where there are rooms and ores can be chunked,
+specify the quantity of objects you want to spawn and the room in which 
+they are permitted to spawn (i.e 2 if you want room 2, "Any" if you want them to
+spawn in any room). Additionaly, if you set chunked to True, 
+this means that all of the objects will spawn next to each other. (only 
+supported for chunks of 2 and 4).
 
 ### Entities
 Entities are a little more complicated than objects. They have associated action sets.
