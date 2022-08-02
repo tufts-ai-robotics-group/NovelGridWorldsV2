@@ -6,7 +6,7 @@ import json
 
 from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser
-from gym_novel_gridworlds2.utils.novelty_injection import inject_novelty
+from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 class NoveltyInjectTests(unittest.TestCase):
     def setUp(self):
@@ -20,7 +20,7 @@ class NoveltyInjectTests(unittest.TestCase):
     def test_inject_config(self):
         novelty = self.config_content['novelties']['100']
         print(novelty)
-        new_config = inject_novelty(self.config_content, novelty)
+        new_config = inject(self.config_content, novelty)
 
         # new stuff in
         self.assertIn("jump", new_config['actions'])

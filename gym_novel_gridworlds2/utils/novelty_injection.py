@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-def inject_novelty(original_config, novelty) -> dict:
+def inject(original_config, novelty) -> dict:
     """
     replaces 
     """
