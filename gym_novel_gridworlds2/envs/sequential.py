@@ -84,6 +84,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
         And any internal state used by observe() or render()
         """
         self.state.time_updates()
+
+        # reset rewards for current step ("stepCost")
+        self.rewards = {agent: 0 for agent in self.possible_agents}
+
         if self.dones[self.agent_selection]:
             # handles stepping an agent which is already done
             # accepts a None action for the one agent, and moves the agent_selection to
@@ -106,6 +110,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
         metadata = {}
         action_failed = False
         print(agent_entity.inventory)
+        if hasattr(action_set.actions[action][1], "step_cost"):
+            step_cost = action_set.actions[action][1].step_cost or 0
+        else:
+            step_cost = 0
+
         try:
             metadata = action_set.actions[action][1].do_action(
                 agent_entity,
@@ -120,10 +129,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
                     "argument": ", ".join(extra_params),
                     "result": "FAILED", # TODO
                     "message": "",
-                    "stepCost": 27.906975 # TODO cost
+                    "stepCost": step_cost  # TODO cost
                 }
             }
             pass
+
+        self.rewards[agent] -= step_cost
 
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
@@ -156,7 +167,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
             #     (self.state[self.agents[0]], self.state[self.agents[1]])
             # ]
             # TODO: rewards
-            self.rewards = {agent: 0 for agent in self.possible_agents}
 
             self.num_moves += 1
             # The dones dictionary must be updated for all players.

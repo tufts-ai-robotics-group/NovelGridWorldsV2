@@ -376,4 +376,12 @@ class ConfigParser:
             entity_data=entity_obj,
             action_set=action_set,
         )
-        return {"action_set": action_set, "agent": agent_obj, "entity": entity_obj}
+        max_step_cost = entity_info.get("max_step_cost")
+        if max_step_cost is None:
+            max_step_cost = 999999999
+        return {
+            "action_set": action_set, 
+            "agent": agent_obj, 
+            "entity": entity_obj,
+            "max_step_cost": max_step_cost
+        }

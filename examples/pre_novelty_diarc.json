@@ -194,7 +194,8 @@
       "loc": [
         13,
         20
-      ]
+      ],
+      "max_step_cost": 0
     },
     "trader_bob": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
