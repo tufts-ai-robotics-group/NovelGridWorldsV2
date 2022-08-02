@@ -39,8 +39,12 @@ for episode in range(num_episodes):
     env.render()
     for agent in env.agent_iter():
         action: Optional[int] = None
-        while action is None or \
-                env.agent_manager.get_agent(agent).action_set.actions[action][1].allow_additional_action:
+        while (
+            action is None
+            or env.agent_manager.get_agent(agent)
+            .action_set.actions[action][1]
+            .allow_additional_action
+        ):
             observation, reward, done, info = env.last()
             result = env.agent_manager.agents[agent].agent.policy(observation)
 
@@ -52,7 +56,7 @@ for episode in range(num_episodes):
             else:
                 # rl agent / actions with no extra params
                 action = result
-            
+
             env.step(action, extra_params)
 
             if agent == last_agent:

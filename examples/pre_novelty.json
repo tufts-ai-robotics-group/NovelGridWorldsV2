@@ -1,4 +1,5 @@
 {
+  "sleep_time": 0.5,
   "actions": {
     "break": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break"
@@ -84,6 +85,11 @@
       "TP_TO_13,17,2",
       "TP_TO_13,17,28",
       "TP_TO_16,17,15",
+      "TP_TO_19,17,6",
+      "TP_TO_13,17,19",
+      "TP_TO_17,17,6",
+      "TP_TO_21,17,6",
+      "TP_TO_18,17,6",
       "TP_TO_103"
     ],
     "trader": [
