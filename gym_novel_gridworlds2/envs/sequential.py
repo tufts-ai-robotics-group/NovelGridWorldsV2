@@ -10,7 +10,7 @@ from pettingzoo.utils import wrappers
 from gym.spaces import MultiDiscrete
 
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
-from gym_novel_gridworlds2.utils.novelty_injection import inject_novelty
+from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from ..agents import Agent, AgentManager
 from ..state.dynamic import Dynamic
@@ -186,7 +186,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             episode = options.get("episode") or 0
 
         if str(episode) in (self.config_dict.get("novelties") or {}):
-            self.config_dict = inject_novelty(
+            self.config_dict = inject(
                 self.config_dict, self.config_dict["novelties"][str(episode)]
             )
 

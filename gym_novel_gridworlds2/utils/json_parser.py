@@ -1,11 +1,13 @@
 from copy import deepcopy
 import json
 import importlib
+import pathlib
 from typing import Mapping, Tuple, Type
 
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
 from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
 from gym_novel_gridworlds2.contrib.polycraft.states import PolycraftState
+from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from .MultiAgentActionSpace import MultiAgentActionSpace
 
@@ -31,6 +33,46 @@ def import_module(module_path: str):
     file_module = importlib.import_module(module_file_path)
     class_module = getattr(file_module, class_name)
     return class_module
+
+
+def load_json(config_file_path):
+    """
+    Loading a file. When the json file includes the "extends" field,
+    load another file and extend the current json.
+    """
+    with open(config_file_path, "r") as f:
+        print("Loading file", str(config_file_path))
+        config = json.load(f)
+
+    seen_file = [str(config_file_path)]
+
+    # loading extended config
+    while "extends" in config:
+        # relative / absolute file path
+        if config["extends"][0] != "/":
+            config_file_path = \
+                str(pathlib.Path(config_file_path).parent.resolve() / 
+                config["extends"])
+        else:
+            config_file_path = config["extends"]
+        
+        print("Loading extended file", config_file_path)
+        if config_file_path in seen_file:
+            raise RecursionError("loop detected in extended config file")
+        
+        seen_file.append(config_file_path)
+        
+        # file not found
+        if config_file_path == "":
+            raise Exception("config file not provided")
+        
+        del config["extends"]
+
+        # load and extend
+        with open(config_file_path, "r") as f:
+            new_content = json.load(f)
+            config = inject(config, new_content)
+    return config
 
 
 class ConfigParser:

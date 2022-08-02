@@ -11,7 +11,6 @@ class ActionSet:
         # symbolic functionalities: used to parse commands
         self.action_index = {}
         for i, (name, _) in enumerate(actions):
-            print(name.lower())
             self.action_index[name.lower()] = i
     
     def do_action(self, entity, index):

@@ -12,7 +12,7 @@ class TP_TO(Action):
         self.entity_id = entity_id
         self.x = x
         self.y = y
-        self.cmd_format = "tp_to (?P<x>\d+),(\d+),(?P<y>\d+)"
+        self.cmd_format = r"tp_to (?P<x>\d+),(\d+),(?P<y>\d+)"
         self.allow_additional_action = False
 
     def check_precondition(

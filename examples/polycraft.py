@@ -7,7 +7,7 @@ from typing import Optional
 from gym_novel_gridworlds2.actions.action import Action
 
 from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
-from gym_novel_gridworlds2.utils.json_parser import ConfigParser
+from gym_novel_gridworlds2.utils.json_parser import ConfigParser, load_json
 
 import pygame
 
@@ -19,8 +19,8 @@ file_name = args.filename[0]
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
-with open(config_file_path, "r") as f:
-    config_content = json.load(f)
+
+config_content = load_json(config_file_path)
 
 env = NovelGridWorldSequentialEnv(config_dict=config_content, MAX_ITER=1000)
 
