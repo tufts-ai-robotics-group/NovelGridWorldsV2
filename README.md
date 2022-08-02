@@ -328,6 +328,15 @@ number,
 make sure you change the `PORT` variable in the `test_socket.py` file to reflect
 the port you're using.
 
+### `Rendering`
+
+As rendering is entirely dependent on the images you select and how you envision your environment, we leave it up to you. For the polycraft example, rendering is available in both PyGame and as simple text in the Terminal, and provides a template as to how you can implement rendering based on the degree of complexity you need as well as the basics of how it interacts with a state and the OpenAI gym library.
+
+```
+def render(self, mode="human"):
+    #this is a part of the OpenAI gym suite, implement it in your environment definition file 
+    (which in polycraft is sequential.py)
+```
 
 ## TODO
 - a socket client
