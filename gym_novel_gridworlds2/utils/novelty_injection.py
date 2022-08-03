@@ -9,9 +9,9 @@ def inject(original_config, novelty) -> dict:
     return copied_config
 
 
-def replace_item(old_obj: dict, new_obj: dict):
+def replace_item(old_obj: dict, new_obj: dict, merge_list=True):
     """
-    rfc7386:
+    RFC7386:
     if same key exists, overwrites
     if not exist, remove.
     """
