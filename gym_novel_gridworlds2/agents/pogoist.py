@@ -60,12 +60,12 @@ class Pogoist(Agent):
         ent = self.state.get_entity_by_id(102)
 
         if self.isMoving:
+            action_sets = self.action_set.get_action_names()
             if self.doingSafeRoute == False:
                 if self.rotate_step == 4:
                     self.policy_step -= 1  # block obviously gone, must find new one
                     self.rotate_step = 0
                 self.isMoving = False
-                action_sets = self.action_set.get_action_names()
                 if (
                     self.policy_step == 0
                     or self.policy_step == 4

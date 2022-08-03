@@ -1649,11 +1649,6 @@
       "room": 2,
       "chunked": "False"
     },
-    "diamond_ore": {
-      "quantity": 4,
-      "room": 2,
-      "chunked": "True"
-    },
     "block_of_platinum": {
       "quantity": 2,
       "room": 2,
