@@ -13,6 +13,7 @@ class Pogoist(Agent):
         if self.isMoving:
             self.isMoving = False
             action_sets = self.action_set.get_action_names()
+            print(action_sets)
             to_do = self.get_action_space().sample()
             while to_do == action_sets.index("NOP"):
                 to_do = self.get_action_space().sample()
@@ -20,6 +21,7 @@ class Pogoist(Agent):
         else:  # skip every other turn
             self.isMoving = True
             action_sets = self.action_set.get_action_names()
+            print(action_sets)
             return action_sets.index("NOP")
 
         # ent = self.state.get_entity_by_id(102)
