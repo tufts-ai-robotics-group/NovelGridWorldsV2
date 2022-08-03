@@ -26,6 +26,7 @@ class PolycraftState(State):
         rng: np.random.Generator = default_rng(),
         **kwargs
     ):
+        # TODO remove hard code, make more general
         super().__init__(map_size, objects, map_json, item_list, rng, **kwargs)
 
         self.time_needed = (
