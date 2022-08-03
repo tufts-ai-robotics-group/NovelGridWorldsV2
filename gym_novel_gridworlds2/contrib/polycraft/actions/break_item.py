@@ -44,7 +44,6 @@ class Break(Action):
         """
         Checks for precondition, then breaks the object
         """
-        # self.state._step_count += 1
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_object):
             self.result = "FAILED"
@@ -58,9 +57,9 @@ class Break(Action):
                 f'Agent "{agent_entity.name}" cannot perform break on {obj_type}.'
             )
         objs = self.state.get_objects_at(self.temp_loc)
-        if objs[0][0].type == "oak_log":
-            self.state.tree_was_broken(self.temp_loc)
         objs[0][0].acted_upon("break", agent_entity)
+        if objs[0][0].type == "oak_log" and objs[0][0].state == "floating":
+            self.state.tree_was_broken(self.temp_loc)
 
         self.result = "SUCCESS"
         return self.action_metadata(agent_entity, target_object)
@@ -70,15 +69,15 @@ class Break(Action):
             "goal": {
                 "goalType": "ITEM",
                 "goalAchieved": False,
-                "Distribution": "Uninformed"
+                "Distribution": "Uninformed",
             },
             "command_result": {
                 "command": "break_block",
-                "argument": "", # TODO change
+                "argument": "",  # TODO change
                 "result": self.result,
                 "message": "",
                 "setapCost": 3600,
             },
             "step": 0,
-            "gameOver": False
+            "gameOver": False,
         }
