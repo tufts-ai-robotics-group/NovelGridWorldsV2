@@ -46,6 +46,10 @@
     },
     "place_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
+    },
+    "reset": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP",
+      "step_cost": 9999999999
     }
   },
   "action_sets": {
@@ -90,7 +94,8 @@
       "TP_TO_17,17,6",
       "TP_TO_21,17,6",
       "TP_TO_18,17,6",
-      "TP_TO_103"
+      "TP_TO_103",
+      "reset"
     ],
     "trader": [
       "rotate_left",

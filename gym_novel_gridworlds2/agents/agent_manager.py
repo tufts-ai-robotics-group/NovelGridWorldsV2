@@ -7,10 +7,11 @@ from ..utils.item_encoder import SimpleItemEncoder
 
 
 class AgentRep:
-    def __init__(self, action_set: ActionSet, agent: Agent, entity: Entity):
+    def __init__(self, action_set: ActionSet, agent: Agent, entity: Entity, max_step_cost: int):
         self.action_set = action_set
         self.agent = agent
         self.entity = entity
+        self.max_step_cost = max_step_cost
 
 
 class AgentManager:
@@ -19,8 +20,8 @@ class AgentManager:
         self.agent_count = 0
         self.agents: Mapping[str, AgentRep] = {}
 
-    def add_agent(self, action_set: ActionSet, agent: Agent, entity: Entity):
-        agent_rep = AgentRep(action_set, agent, entity)
+    def add_agent(self, action_set: ActionSet, agent: Agent, entity: Entity, max_step_cost: int):
+        agent_rep = AgentRep(action_set, agent, entity, max_step_cost)
         self.agents["agent_" + str(self.agent_id_counter)] = agent_rep
         self.agent_id_counter += 1
         self.agent_count += 1

@@ -353,13 +353,13 @@ def render(self, mode="human"):
 
 ### `Polycraft Rendering`
 
-To add new items to render, first add the images you want to use to represent the objects. Copy the below code snippet and modify it to include the .png you are using, as well as changing the names:
+To add new items to render, first add the img you want to use to represent the objects. Copy the below code snippet and modify it to include the .png you are using, as well as changing the names:
 
 ```
-self.OAK_LOG_IMAGE = pygame.image.load("oaklog.png")
+self.OAK_LOG_IMAGE = pygame.image.load("img/polycraft/oaklog.png")
 self.OAK_LOG = pygame.transform.scale(self.OAK_LOG_IMAGE, (20, 20))
 
-self.OAK_LOG_PICKUP_IMAGE = pygame.image.load("oaklogpickup.png")
+self.OAK_LOG_PICKUP_IMAGE = pygame.image.load("img/polycraft/oaklogpickup.png")
 self.OAK_LOG_PICKUP = pygame.transform.scale(
     self.OAK_LOG_PICKUP_IMAGE, (20, 20)
 )

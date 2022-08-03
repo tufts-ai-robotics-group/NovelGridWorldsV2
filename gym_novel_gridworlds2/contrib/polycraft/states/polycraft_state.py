@@ -39,75 +39,75 @@ class PolycraftState(State):
         self.WIDTH = 20
         self.HEIGHT = 20
         self.MARGIN = 1
-        self.CHEST_IMAGE = pygame.image.load("chest.png")
+        self.CHEST_IMAGE = pygame.image.load("img/polycraft/chest.png")
         self.CHEST = pygame.transform.scale(self.CHEST_IMAGE, (20, 20))
 
-        self.CRAFTING_TABLE_IMAGE = pygame.image.load("craftingtable.png")
+        self.CRAFTING_TABLE_IMAGE = pygame.image.load("img/polycraft/craftingtable.png")
         self.CRAFTING_TABLE = pygame.transform.scale(
             self.CRAFTING_TABLE_IMAGE, (20, 20)
         )
 
-        self.CRAFTING_TABLE_PICKUP_IMAGE = pygame.image.load("craftingtablepickup.png")
+        self.CRAFTING_TABLE_PICKUP_IMAGE = pygame.image.load("img/polycraft/craftingtablepickup.png")
         self.CRAFTING_TABLE_PICKUP = pygame.transform.scale(
             self.CRAFTING_TABLE_PICKUP_IMAGE, (20, 20)
         )
 
-        self.OAK_LOG_IMAGE = pygame.image.load("oaklog.png")
+        self.OAK_LOG_IMAGE = pygame.image.load("img/polycraft/oaklog.png")
         self.OAK_LOG = pygame.transform.scale(self.OAK_LOG_IMAGE, (20, 20))
 
-        self.OAK_LOG_PICKUP_IMAGE = pygame.image.load("oaklogpickup.png")
+        self.OAK_LOG_PICKUP_IMAGE = pygame.image.load("img/polycraft/oaklogpickup.png")
         self.OAK_LOG_PICKUP = pygame.transform.scale(
             self.OAK_LOG_PICKUP_IMAGE, (20, 20)
         )
 
-        self.DOOR_IMAGE = pygame.image.load("door.png")
+        self.DOOR_IMAGE = pygame.image.load("img/polycraft/door.png")
         self.DOOR = pygame.transform.scale(self.DOOR_IMAGE, (20, 20))
 
-        self.DOOR_OPEN_IMAGE = pygame.image.load("dooropen.png")
+        self.DOOR_OPEN_IMAGE = pygame.image.load("img/polycraft/dooropen.png")
         self.DOOR_OPEN = pygame.transform.scale(self.DOOR_OPEN_IMAGE, (20, 20))
 
-        self.DOOR_PICKUP_IMAGE = pygame.image.load("doorpickup.png")
+        self.DOOR_PICKUP_IMAGE = pygame.image.load("img/polycraft/doorpickup.png")
         self.DOOR_PICKUP = pygame.transform.scale(self.DOOR_PICKUP_IMAGE, (20, 20))
 
-        self.DIAMOND_ORE_IMAGE = pygame.image.load("diamond_ore.png")
+        self.DIAMOND_ORE_IMAGE = pygame.image.load("img/polycraft/diamond_ore.png")
         self.DIAMOND_ORE = pygame.transform.scale(self.DIAMOND_ORE_IMAGE, (20, 20))
 
-        self.DIAMOND_PICKUP_IMAGE = pygame.image.load("diamondpickup.png")
+        self.DIAMOND_PICKUP_IMAGE = pygame.image.load("img/polycraft/diamondpickup.png")
         self.DIAMOND_PICKUP = pygame.transform.scale(
             self.DIAMOND_PICKUP_IMAGE, (20, 20)
         )
 
-        self.AXE_IMAGE = pygame.image.load("ironaxe.png")
+        self.AXE_IMAGE = pygame.image.load("img/polycraft/ironaxe.png")
         self.AXE = pygame.transform.scale(self.AXE_IMAGE, (20, 20))
 
-        self.SAPLING_IMAGE = pygame.image.load("sapling.png")
+        self.SAPLING_IMAGE = pygame.image.load("img/polycraft/sapling.png")
         self.SAPLING = pygame.transform.scale(self.SAPLING_IMAGE, (20, 20))
 
-        self.SAFE_IMAGE = pygame.image.load("safe.png")
+        self.SAFE_IMAGE = pygame.image.load("img/polycraft/safe.png")
         self.SAFE = pygame.transform.scale(self.SAFE_IMAGE, (20, 20))
 
-        self.HOPPER_IMAGE = pygame.image.load("hopper.png")
+        self.HOPPER_IMAGE = pygame.image.load("img/polycraft/hopper.png")
         self.HOPPER = pygame.transform.scale(self.HOPPER_IMAGE, (20, 20))
 
-        self.PLATINUM_IMAGE = pygame.image.load("platinum.png")
+        self.PLATINUM_IMAGE = pygame.image.load("img/polycraft/platinum.png")
         self.PLATINUM = pygame.transform.scale(self.PLATINUM_IMAGE, (20, 20))
 
-        self.PLATINUM_PICKUP_IMAGE = pygame.image.load("platinumpickup.png")
+        self.PLATINUM_PICKUP_IMAGE = pygame.image.load("img/polycraft/platinumpickup.png")
         self.PLATINUM_PICKUP = pygame.transform.scale(
             self.PLATINUM_PICKUP_IMAGE, (20, 20)
         )
 
-        self.AGENT_IMAGE = pygame.image.load("agent.png")
+        self.AGENT_IMAGE = pygame.image.load("img/polycraft/agent.png")
         self.AGENT = pygame.transform.rotate(
             pygame.transform.scale(self.AGENT_IMAGE, (20, 20)), 90
         )
 
-        self.POGOIST_IMAGE = pygame.image.load("pogoist.png")
+        self.POGOIST_IMAGE = pygame.image.load("img/polycraft/pogoist.png")
         self.POGOIST = pygame.transform.rotate(
             pygame.transform.scale(self.POGOIST_IMAGE, (20, 20)), 90
         )
 
-        self.TRADER_IMAGE = pygame.image.load("trader.png")
+        self.TRADER_IMAGE = pygame.image.load("img/polycraft/trader.png")
         self.TRADER = pygame.transform.scale(self.TRADER_IMAGE, (20, 20))
 
         pygame.init()
