@@ -195,6 +195,16 @@ class PolycraftState(State):
                             ),
                         )
                     elif obj[0][0].type == "axe":
+                        pygame.draw.rect(
+                                self.SCREEN,
+                                (255, 255, 255),
+                                [
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                    self.WIDTH,
+                                    self.HEIGHT,
+                                ],
+                            )
                         self.SCREEN.blit(
                             self.AXE,
                             (
