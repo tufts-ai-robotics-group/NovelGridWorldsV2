@@ -76,7 +76,10 @@ class Pogoist(Agent):
                     if len(objs) > 0:
                         self.policy_step += 1
                         return action_sets.index(
-                            "TP_TO_" + str(objs[0].loc[0]) + ",17," + str(objs[0].loc[1])
+                            "TP_TO_"
+                            + str(objs[0].loc[0])
+                            + ",17,"
+                            + str(objs[0].loc[1])
                         )
                     else:
                         self.policy_step += 1
@@ -141,7 +144,10 @@ class Pogoist(Agent):
                     if len(objs) > 0:
                         self.policy_step += 1
                         return action_sets.index(
-                            "TP_TO_" + str(objs[0].loc[0]) + ",17," + str(objs[0].loc[1])
+                            "TP_TO_"
+                            + str(objs[0].loc[0])
+                            + ",17,"
+                            + str(objs[0].loc[1])
                         )
                     else:
                         # will have to wait until crafting table is available
@@ -208,7 +214,10 @@ class Pogoist(Agent):
                     if len(objs) > 0:
                         self.policy_step += 1
                         return action_sets.index(
-                            "TP_TO_" + str(objs[0].loc[0]) + ",17," + str(objs[0].loc[1])
+                            "TP_TO_"
+                            + str(objs[0].loc[0])
+                            + ",17,"
+                            + str(objs[0].loc[1])
                         )
                     else:
                         self.doingSafeRoute = True
@@ -257,7 +266,10 @@ class Pogoist(Agent):
                     if len(objs) > 0:
                         self.policy_step += 1
                         return action_sets.index(
-                            "TP_TO_" + str(objs[0].loc[0]) + ",17," + str(objs[0].loc[1])
+                            "TP_TO_"
+                            + str(objs[0].loc[0])
+                            + ",17,"
+                            + str(objs[0].loc[1])
                         )
                     else:
                         self.policy_step += 1
@@ -329,12 +341,77 @@ class Pogoist(Agent):
                     self.policy_step = 0
                     return action_sets.index("NOP")
             else:
-                #doing the safe route - now, we collect key, tp to safe, use key, and collect diamonds
+                # doing the safe route - now, we collect key, tp to safe, use key, and collect diamonds
+                if self.policy_step == self.starting_step_safe:
+                    vec = (0, 0)
+                    if ent.facing == "NORTH":
+                        vec = (-1, 0)
+                    elif ent.facing == "SOUTH":
+                        vec = (1, 0)
+                    elif ent.facing == "WEST":
+                        vec = (0, -1)
+                    else:
+                        vec = (0, 1)
+
+                    new_loc = np.add(vec, ent.loc)
+                    objs = self.state.get_objects_at(tuple(new_loc))
+                    if len(objs[0]) > 0:
+                        if objs[0][0].type != "plastic_chest":
+                            return action_sets.index("rotate_right")
+                        else:
+                            self.policy_step += 1
+                            return action_sets.index("NOP")
+                    else:
+                        return action_sets.index("rotate_right")
+                elif self.policy_step == self.starting_step_safe + 1:
+                    self.policy_step += 1
+                    return action_sets.index("collect")
+                elif self.policy_step == self.starting_step_safe + 2:
+                    objs = self.state.get_objects_of_type("safe")
+                    if len(objs) > 0:
+                        self.policy_step += 1
+                        return action_sets.index(
+                            "TP_TO_"
+                            + str(objs[0].loc[0])
+                            + ",17,"
+                            + str(objs[0].loc[1])
+                        )
+                    else:
+                        self.policy_step += 1
+                        return action_sets.index("NOP")
+                elif self.policy_step == self.starting_step_safe + 3:
+                    vec = (0, 0)
+                    if ent.facing == "NORTH":
+                        vec = (-1, 0)
+                    elif ent.facing == "SOUTH":
+                        vec = (1, 0)
+                    elif ent.facing == "WEST":
+                        vec = (0, -1)
+                    else:
+                        vec = (0, 1)
+
+                    new_loc = np.add(vec, ent.loc)
+                    objs = self.state.get_objects_at(tuple(new_loc))
+                    if len(objs[0]) > 0:
+                        if objs[0][0].type != "safe":
+                            return action_sets.index("rotate_right")
+                        else:
+                            self.policy_step += 1
+                            return action_sets.index("NOP")
+                    else:
+                        return action_sets.index("rotate_right")
+                elif self.policy_step == self.starting_step_safe + 4:
+                    self.policy_step += 1
+                    return action_sets.index("use")
+                elif self.policy_step == self.starting_step_safe + 5:
+                    # this is where the platinum stuff starts again, done with safe route
+                    self.policy_step = 34
+                    self.doingSafeRoute = False
+                    return action_sets.index("collect")
 
             # in case we don't return an action for some reason
             print("policy step: ", self.policy_step)
             return action_sets.index("NOP")
-
         else:  # skip every other turn
             self.isMoving = True
             action_sets = self.action_set.get_action_names()
