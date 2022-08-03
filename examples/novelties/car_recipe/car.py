@@ -6,11 +6,11 @@ import numpy as np
 
 
 class Forward(Action):
-    def __init__(self, state: State, dynamics=None, speed=1):
+    def __init__(self, dynamics=None, speed=1, **kwargs):
         self.vec = (0, 0)
         self.dynamics = dynamics
-        self.state = state
         self.speed = speed
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None
@@ -21,12 +21,12 @@ class Forward(Action):
         2) The new location must not be occupied by another non-floating object
         3) If the new location is occupied by a door, it must be open
         """
-
+        
         if agent_entity.selectedItem == "car":
             self.speed = 2 # double agent's speed if car selected
         else:
             self.speed = 1
-
+        
         if agent_entity.facing == "NORTH":
             self.vec = (-self.speed, 0)
         elif agent_entity.facing == "SOUTH":
@@ -54,6 +54,8 @@ class Forward(Action):
             return False
 
     def do_action(self, agent_entity, target_type=None, target_object=None):
+        # self.state._step_count += 1
+        self.state.incrementer()
         """
         Checks for precondition, then moves the object to the destination.
         """
@@ -70,9 +72,31 @@ class Forward(Action):
                     ):
                         pass
                     else:
-                        if obj.type in agent_entity.inventory:
-                            agent_entity.inventory[obj.type] += 1
+                        if obj.type != "diamond_ore":
+                            if obj.type in agent_entity.inventory:
+                                agent_entity.inventory[obj.type] += 1
+                            else:
+                                agent_entity.inventory[obj.type] = 1
                         else:
-                            agent_entity.inventory[obj.type] = 1
+                            if "diamond" in agent_entity.inventory:
+                                agent_entity.inventory["diamond"] += 9
+                            else:
+                                agent_entity.inventory.update({"diamond": 9})
                         self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
+            self.result = "SUCCESS"
+        else:
+            self.result = "FAILED"
+
+        return self.action_metadata(agent_entity, target_object)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        return "".join(
+            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            “command_result”: {“command”: “smooth_move”, “argument”: “w”, “result”: "
+            + self.result
+            + ", \
+            “message”: “”, “stepCost: 27.906975}, “step”: "
+            + str(self.state._step_count)
+            + ", “gameOver”:false}"
+        )
