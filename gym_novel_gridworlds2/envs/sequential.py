@@ -108,6 +108,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 agent, agent_entity.name, action_set.actions[action][0], extra_params
             )
         )
+        if agent_entity.name == "main_1":
+            self.state.selected_action = action_set.actions[action][0]
         # print(agent_entity.inventory)
         metadata = {}
         action_failed = False
@@ -119,8 +121,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         try:
             metadata = action_set.actions[action][1].do_action(
-                agent_entity,
-                **extra_params
+                agent_entity, **extra_params
             )
         except PreconditionNotMetError:
             # TODO set an error message
@@ -129,9 +130,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 "command_result": {
                     "command": action_set.actions[action][0],
                     "argument": ", ".join(extra_params),
-                    "result": "FAILED", # TODO
+                    "result": "FAILED",  # TODO
                     "message": "",
-                    "stepCost": step_cost  # TODO cost
+                    "stepCost": step_cost,  # TODO cost
                 }
             }
             pass
@@ -147,10 +148,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
             metadata["goal"] = {
                 "goalType": "ITEM",
                 "goalAchieved": False,
-                "Distribution": "Uninformed"
+                "Distribution": "Uninformed",
             }
             metadata["step"] = self.num_moves
-            metadata["gameOver"] = self.dones[agent] # TODO this is delayed by one step
+            metadata["gameOver"] = self.dones[agent]  # TODO this is delayed by one step
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
@@ -162,8 +163,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # if the action allows an additional action to be done immediately
         # after it, (like SENSE_ALL in polycraft)
         # then don't update info until the next action is done.
-        if self._agent_selector.is_last() and \
-            not action_set.actions[action][1].allow_additional_action: # if 
+        if (
+            self._agent_selector.is_last()
+            and not action_set.actions[action][1].allow_additional_action
+        ):  # if
             # rewards for all agents are placed in the .rewards dictionary
             # self.rewards[self.agents[0]], self.rewards[self.agents[1]] = REWARD_MAP[
             #     (self.state[self.agents[0]], self.state[self.agents[1]])
@@ -282,6 +285,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
         facing_rect.center = (1120, 60)
         self.state.SCREEN.blit(facing_text, facing_rect)
 
+        action_text = font.render(
+            "Selected Action:" + str(self.state.selected_action), True, (0, 0, 0)
+        )
+        action_rect = action_text.get_rect()
+        action_rect.center = (1120, 90)
+        self.state.SCREEN.blit(action_text, action_rect)
+
         black = (0, 0, 0)
         inv_text = "Agent Inventory:" + str(agent.inventory)
 
@@ -290,7 +300,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             font,
             black,
             1120,
-            90,
+            120,
             self.state.SCREEN,
             200,
         )
