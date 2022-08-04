@@ -16,10 +16,12 @@ class TP_TO(Action):
         self.allow_additional_action = False
 
     def check_precondition(
-        self, agent_entity: Entity, target_object: Object = None, **kwargs
+        self, agent_entity: Entity, target_object: Object = None, x=None, y=None, **kwargs
     ):
-        if self.x != None:
-            loc = (int(self.x), int(self.y))
+        x = x if x is not None else self.x
+        y = y if y is not None else self.y
+        if x != None:
+            loc = (int(x), int(y))
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
             loc = ent.loc
@@ -85,7 +87,7 @@ class TP_TO(Action):
             loc = ent.loc
 
         self.state.incrementer()
-        if not self.check_precondition(agent_entity):
+        if not self.check_precondition(agent_entity, x=x, y=y, target_object=target_object):
             self.result = "FAILURE"
             self.action_metadata(agent_entity)
             raise PreconditionNotMetError(

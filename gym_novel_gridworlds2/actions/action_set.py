@@ -40,7 +40,8 @@ class ActionSet:
 
         # try to parse parameters
         if hasattr(action, "cmd_format") and action.cmd_format is not None:
-            match = re.match(self.action_index[cmd_name].cmd_format, command)
+            action_index = self.action_index[cmd_name]
+            match = re.match(self.actions[action_index][1].cmd_format, command)
             if match is not None:
                 # found matching parameters, do the action using the parameters
                 params = match.groupdict()
