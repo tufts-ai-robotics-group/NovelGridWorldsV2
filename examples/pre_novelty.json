@@ -1,5 +1,6 @@
 {
-  "sleep_time": 0.3,
+  "sleep_time": 0.05,
+  "time_limit": 180,
   "actions": {
     "break": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break"
