@@ -18,6 +18,9 @@
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
       "entity_id": 103
     },
+    "TP_TO": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO"
+    },
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
     },
@@ -1586,6 +1589,7 @@
       "TP_TO_30,17,46",
       "TP_TO_31,17,46",
       "TP_TO_103",
+      "TP_TO",
       "reset"
     ],
     "trader": [
