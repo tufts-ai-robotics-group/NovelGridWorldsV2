@@ -69,28 +69,24 @@ class Interact(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         if self.entity_id == 103:
-            print(
-                'b\'{"trades":{"trades":[{"inputs":[{"Item":"polycraft:block_of_platinum","stackSize":1,"slot":0}],"outputs":[{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":5}]},'
-                '{"inputs":[{"Item":"minecraft:diamond","stackSize":18,"slot":0}],"outputs":[{"Item":"polycraft:block_of_platinum","stackSize":1,"slot":5}]}]},',
-                end="",
-            )
+            return {"trades":{"trades":[{"inputs":[{"Item":"polycraft:block_of_platinum","stackSize":1,"slot":0}],"outputs":[{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":5}]},
+                {"inputs":[{"Item":"minecraft:diamond","stackSize":18,"slot":0}],"outputs":[{"Item":"polycraft:block_of_platinum","stackSize":1,"slot":5}]}]},
+            }
         elif self.entity_id == 104:
-            print(
-                'b\'{"trades":{"trades":[{"inputs":[{"Item":"polycraft:block_of_platinum","stackSize":2,"slot":0}],"outputs":[{"Item":"minecraft:diamond","stackSize":9,"slot":5}]},'
-                '{"inputs":[{"Item":"minecraft:log","stackSize":10,"slot":0}],"outputs":[{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":5}]}]},',
-                end="",
-            )
+            return {"trades":{"trades":[{"inputs":[{"Item":"polycraft:block_of_platinum","stackSize":2,"slot":0}],"outputs":[{"Item":"minecraft:diamond","stackSize":9,"slot":5}]},
+                {"inputs":[{"Item":"minecraft:log","stackSize":10,"slot":0}],"outputs":[{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":5}]}]},
+            }
         else:
-            print("{", end="")
-        print(
-            "“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-                “command_result”: {“command”: “interact”, “argument”: “"
-            + str(self.entity_id)
-            + "”, “result”: "
-            + self.result
-            + ", \
-                “message”: “”, “stepCost: 282.72424}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
-        return {} # TODO UPDATE
+            return {}
+        # print(
+        #     "“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+        #         “command_result”: {“command”: “interact”, “argument”: “"
+        #     + str(self.entity_id)
+        #     + "”, “result”: "
+        #     + self.result
+        #     + ", \
+        #         “message”: “”, “stepCost: 282.72424}, “step”: "
+        #     + str(self.state._step_count)
+        #     + ", “gameOver”:false}"
+        # )
+        # return {} # TODO UPDATE
