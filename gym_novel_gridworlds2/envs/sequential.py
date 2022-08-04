@@ -83,6 +83,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         - agent_selection (to the next agent)
         And any internal state used by observe() or render()
         """
+        if self.agent_selection == self.agents[0]:
+            print(f"--------------------- step {self.num_moves} ---------------------")
         self.state.time_updates()
 
         # reset rewards for current step ("stepCost")
@@ -102,14 +104,14 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # self.agent_manager.update_agent(agent, self.state)
         # TODO only print when verbose
         print(
-            "{:<12}  {:<12} | action_picked: {:<12}".format(
-                agent, agent_entity.name, action_set.actions[action][0]
+            "------- {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
+                agent, agent_entity.name, action_set.actions[action][0], extra_params
             )
         )
         # print(agent_entity.inventory)
         metadata = {}
         action_failed = False
-        print(agent_entity.inventory)
+        print("inventory:", agent_entity.inventory)
         if hasattr(action_set.actions[action][1], "step_cost"):
             step_cost = action_set.actions[action][1].step_cost or 0
         else:

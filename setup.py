@@ -4,7 +4,6 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 if os.path.isfile("requirements.txt"):
-    print("hi")
     with open("requirements.txt") as f:
         install_requires = f.read().splitlines()
 else:

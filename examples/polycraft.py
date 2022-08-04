@@ -66,8 +66,6 @@ for episode in range(num_episodes):
             if agent == last_agent:
                 env.render()
                 time.sleep(sleep_time)
-
-            print(env.agent_manager.get_agent(agent).max_step_cost)
         if (
             env._cumulative_rewards[agent]
             >= env.agent_manager.get_agent(agent).max_step_cost
