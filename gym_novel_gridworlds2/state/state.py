@@ -52,6 +52,7 @@ class State:
         self.room_coords = []
         self.entity_count = 0
         self.curr_part = 0
+        self.selected_action = ""
 
         self.goalAchieved = False
 
@@ -288,14 +289,14 @@ class State:
         if self._map[loc] is None:
             return False
         return self._map[loc]._contains_block
-    
+
     def get_all_entities(self):
         entities = []
         for name, obj_list in self._objects.items():
             if len(obj_list) > 0 and isinstance(obj_list[0], Entity):
                 entities += obj_list
         return entities
-    
+
     def get_map_rep_in_type(self):
         """
         returns a numpy array of strings, containing the object's type
@@ -309,11 +310,9 @@ class State:
                 else:
                     map_rep[i][j] = "air"
         return map_rep
-    
+
     def get_map_size(self):
         return self._map.shape
-            
-
 
     def time_updates(self):
         """
