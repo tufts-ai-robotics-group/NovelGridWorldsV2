@@ -26,7 +26,9 @@ env = NovelGridWorldSequentialEnv(config_dict=config_content, MAX_ITER=1000)
 
 num_episodes = config_content.get("num_episodes") or 1000
 sleep_time = config_content.get("sleep_time") or 0.05
+time_limit = config_content.get("time_limit") or 200
 novelties = config_content.get("novelties")
+
 
 last_agent = env.possible_agents[-1]
 
@@ -37,6 +39,7 @@ for episode in range(num_episodes):
     print()
     env.reset(return_info=True, options={"episode": episode})
     env.render()
+    initial_time = time.time()
     for agent in env.agent_iter():
         action: Optional[int] = None
         while (
@@ -45,6 +48,7 @@ for episode in range(num_episodes):
             .action_set.actions[action][1]
             .allow_additional_action
         ):
+
             observation, reward, done, info = env.last()
             result = env.agent_manager.agents[agent].agent.policy(observation)
 
@@ -64,8 +68,13 @@ for episode in range(num_episodes):
                 time.sleep(sleep_time)
 
             print(env.agent_manager.get_agent(agent).max_step_cost)
-        if env._cumulative_rewards[agent] >= env.agent_manager.get_agent(agent).max_step_cost:
+        if (
+            env._cumulative_rewards[agent]
+            >= env.agent_manager.get_agent(agent).max_step_cost
+        ):
             print(f"Max step cost reached for agent {agent}. Starting new episode.")
+            break
+        if (time.time() - initial_time) > time_limit:
             break
 
 
