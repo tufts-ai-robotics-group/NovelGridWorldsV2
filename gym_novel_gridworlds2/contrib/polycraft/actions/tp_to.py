@@ -12,7 +12,7 @@ class TP_TO(Action):
         self.entity_id = entity_id
         self.x = x
         self.y = y
-        self.cmd_format = r"tp_to (?P<x>\d+),(\d+),(?P<y>\d+)"
+        self.cmd_format = r"tp_to (?P<x>\d+),(?P<y>\d+),(?P<z>\d+)"
         self.allow_additional_action = False
 
     def check_precondition(
@@ -24,7 +24,10 @@ class TP_TO(Action):
             loc = (int(x), int(y))
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
-            loc = ent.loc
+            if ent is not None:
+                loc = ent.loc
+            else:
+                loc = (0, 0)
         """
         Checks preconditions of the TP_TO action:
         1) The spots around the location are unoccupied in the order north, south, east, west
@@ -73,7 +76,7 @@ class TP_TO(Action):
         return False
 
     def do_action(
-        self, agent_entity: Entity, target_object: Object = None, x=None, y=None
+        self, agent_entity: Entity, target_object: Object = None, x=None, y=None, z=None
     ):
         """
         Checks for precondition, then teleports to the location
@@ -84,7 +87,10 @@ class TP_TO(Action):
             loc = (int(x), int(y))
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
-            loc = ent.loc
+            if ent is not None:
+                loc = ent.loc
+            else:
+                loc = (0, 0)
 
         self.state.incrementer()
         if not self.check_precondition(agent_entity, x=x, y=y, target_object=target_object):
@@ -118,34 +124,33 @@ class TP_TO(Action):
                     self.state.remove_object(obj.type, new_loc)
         self.state.update_object_loc(agent_entity.loc, new_loc)
 
-        self.result = "SUCCESS"
-        return self.action_metadata(agent_entity)
+        return {}
 
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        # TODO Update self.x, y, z to actual coord
-        if self.x != None:
-            return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-                “command_result”: {“command”: “tp_to”, “argument”: “"
-                + str(self.x)
-                + ",17,"
-                + str(self.y)
-                + "”, “result”: "
-                + self.result
-                + ", \
-                “message”: “”, “stepCost: 282.72424}, “step”: "
-                + str(self.state._step_count)
-                + ", “gameOver”:false}"
-            )
-        else:
-            return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-                “command_result”: {“command”: “tp_to”, “argument”: “"
-                + str(self.entity_id)
-                + "”, “result”: "
-                + self.result
-                + ", \
-                “message”: “”, “stepCost: 282.72424}, “step”: "
-                + str(self.state._step_count)
-                + ", “gameOver”:false}"
-            )
+    # def action_metadata(self, agent_entity, target_type=None, target_object=None):
+    #     # TODO Update self.x, y, z to actual coord
+    #     if self.x != None:
+    #         return "".join(
+    #             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+    #             “command_result”: {“command”: “tp_to”, “argument”: “"
+    #             + str(self.x)
+    #             + ",17,"
+    #             + str(self.y)
+    #             + "”, “result”: "
+    #             + self.result
+    #             + ", \
+    #             “message”: “”, “stepCost: 282.72424}, “step”: "
+    #             + str(self.state._step_count)
+    #             + ", “gameOver”:false}"
+    #         )
+    #     else:
+    #         return "".join(
+    #             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+    #             “command_result”: {“command”: “tp_to”, “argument”: “"
+    #             + str(self.entity_id)
+    #             + "”, “result”: "
+    #             + self.result
+    #             + ", \
+    #             “message”: “”, “stepCost: 282.72424}, “step”: "
+    #             + str(self.state._step_count)
+    #             + ", “gameOver”:false}"
+    #         )

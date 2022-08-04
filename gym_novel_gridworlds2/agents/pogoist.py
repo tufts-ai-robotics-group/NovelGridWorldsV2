@@ -75,12 +75,9 @@ class Pogoist(Agent):
                     objs = self.state.get_objects_of_type("oak_log")
                     if len(objs) > 0:
                         self.policy_step += 1
-                        return action_sets.index(
-                            "TP_TO_"
-                            + str(objs[0].loc[0])
-                            + ",17,"
-                            + str(objs[0].loc[1])
-                        )
+                        print(objs[0])
+                        return action_sets.index("TP_TO"), \
+                        {"x": objs[0].loc[0], "z": 17, "y": objs[0].loc[1]}
                     else:
                         self.policy_step += 1
                         return action_sets.index("NOP")
@@ -143,12 +140,9 @@ class Pogoist(Agent):
                     objs = self.state.get_objects_of_type("crafting_table")
                     if len(objs) > 0:
                         self.policy_step += 1
-                        return action_sets.index(
-                            "TP_TO_"
-                            + str(objs[0].loc[0])
-                            + ",17,"
-                            + str(objs[0].loc[1])
-                        )
+                        print(objs[0])
+                        return action_sets.index("TP_TO"), \
+                        {"x": objs[0].loc[0], "z": 17, "y": objs[0].loc[1]}
                     else:
                         # will have to wait until crafting table is available
                         return action_sets.index("NOP")
@@ -194,9 +188,8 @@ class Pogoist(Agent):
                     return action_sets.index("craft_tree_tap")
                 elif self.policy_step == 21:
                     self.policy_step += 1
-                    return action_sets.index(
-                        "TP_TO_" + str(ent.loc[0]) + ",17," + str(ent.loc[1])
-                    )
+                    return action_sets.index("TP_TO"), \
+                        {"x": ent.loc[0], "z": 17, "y": ent.loc[1]}
                 elif self.policy_step == 22:
                     self.policy_step += 1
                     return action_sets.index("select_tree_tap")
@@ -213,24 +206,17 @@ class Pogoist(Agent):
                     objs = self.state.get_objects_of_type("diamond_ore")
                     if len(objs) > 0:
                         self.policy_step += 1
-                        return action_sets.index(
-                            "TP_TO_"
-                            + str(objs[0].loc[0])
-                            + ",17,"
-                            + str(objs[0].loc[1])
-                        )
+                        print(objs[0])
+                        return action_sets.index("TP_TO"), \
+                        {"x": objs[0].loc[0], "z": 17, "y": objs[0].loc[1]}
                     else:
                         self.doingSafeRoute = True
                         objs = self.state.get_objects_of_type("plastic_chest")
                         if len(objs) > 0:
                             self.policy_step += 1
                             self.starting_step_safe = self.policy_step
-                            return action_sets.index(
-                                "TP_TO_"
-                                + str(objs[0].loc[0])
-                                + ",17,"
-                                + str(objs[0].loc[1])
-                            )
+                            return action_sets.index("TP_TO"), \
+                                {"x": objs[0].loc[0], "z": 17, "y": objs[0].loc[1]}
                         else:
                             self.policy_step += 1
                             return action_sets.index("NOP")
@@ -265,12 +251,8 @@ class Pogoist(Agent):
                     objs = self.state.get_objects_of_type("block_of_platinum")
                     if len(objs) > 0:
                         self.policy_step += 1
-                        return action_sets.index(
-                            "TP_TO_"
-                            + str(objs[0].loc[0])
-                            + ",17,"
-                            + str(objs[0].loc[1])
-                        )
+                        return action_sets.index("TP_TO"), \
+                            {"x": objs[0].loc[0], "z": 17, "y": objs[0].loc[1]}
                     else:
                         self.policy_step += 1
                         return action_sets.index("NOP")
@@ -370,12 +352,8 @@ class Pogoist(Agent):
                     objs = self.state.get_objects_of_type("safe")
                     if len(objs) > 0:
                         self.policy_step += 1
-                        return action_sets.index(
-                            "TP_TO_"
-                            + str(objs[0].loc[0])
-                            + ",17,"
-                            + str(objs[0].loc[1])
-                        )
+                        return action_sets.index("TP_TO"), \
+                        {"x": objs[0].loc[0], "z": 17, "y": objs[0].loc[1]}
                     else:
                         self.policy_step += 1
                         return action_sets.index("NOP")
