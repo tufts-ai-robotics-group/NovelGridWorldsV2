@@ -90,7 +90,9 @@ class Craft(Action):
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         if self.itemToCraft == "plank":
             return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+                + str(self.state.goalAchieved)
+                + ", “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “craft”, “argument”: “1 Minecraft:log 0 0 0”, “result”: "
                 + self.result
                 + ", \
@@ -100,7 +102,9 @@ class Craft(Action):
             )
         elif self.itemToCraft == "stick":
             return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+                + str(self.state.goalAchieved)
+                + ", “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “craft”, “argument”: “1 Minecraft:planks 0 Minecraft:planks 0”, “result”: "
                 + self.result
                 + ", \
@@ -110,7 +114,9 @@ class Craft(Action):
             )
         elif self.itemToCraft == "tree_tap":
             return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+                + str(self.state.goalAchieved)
+                + ", “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “craft”, “argument”: “1 Minecraft:planks Minecraft:stick Minecraft:planks Minecraft:planks 0 Minecraft:planks 0 Minecraft:planks 0”, “result”: "
                 + self.result
                 + ", \
@@ -120,7 +126,9 @@ class Craft(Action):
             )
         elif self.itemToCraft == "block_of_diamond":
             return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+                + str(self.state.goalAchieved)
+                + ", “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “craft”, “argument”: “1 minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond minecraft:diamond”, “result”: "
                 + self.result
                 + ", \
@@ -130,7 +138,9 @@ class Craft(Action):
             )
         elif self.itemToCraft == "pogo_stick":
             return "".join(
-                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: true, “Distribution”: “Uninformed”}, \
+                "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+                + str(self.state.goalAchieved)
+                + ", “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “craft”, “argument”: “1 minecraft:stick polycraft:block_of_titanium minecraft:stick minecraft:diamond_block polycraft:block_of_titanium minecraft:diamond_block 0 polycraft:sack_polyisoprene_pellets 0”, “result”: "
                 + self.result
                 + ", \

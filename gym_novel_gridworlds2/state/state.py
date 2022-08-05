@@ -10,7 +10,6 @@ from gym_novel_gridworlds2.object import entity
 from ..object import Object, Entity
 from ..utils.item_encoder import SimpleItemEncoder
 from .cell import Cell
-import pygame
 
 from .exceptions import LocationOccupied, LocationOutOfBound
 
