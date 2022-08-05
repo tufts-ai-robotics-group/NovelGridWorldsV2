@@ -49,7 +49,9 @@ class SenseRecipes(Action):
             {"Item":"minecraft:diamond","stackSize":1,"slot":5},{"Item":"minecraft:diamond","stackSize":1,"slot":6},{"Item":"minecraft:diamond","stackSize":1,"slot":7}, \
             {"Item":"minecraft:diamond","stackSize":1,"slot":8}],"outputs":[{"Item":"minecraft:diamond_block","stackSize":1,"slot":9}]}],"goal":{"goalType":"ITEM","goalAchieved":false,"Distribution":"Uninformed"}, \
             "command_result":{"command":"sense_recipes","argument":"","result":"SUCCESS","message":"","stepCost":1200.0},"step":2,"gameOver":false}\n'
-            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+            + str(self.state.goalAchieved)
+            + ", “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “sense_recipes”, “argument”: “”, “result”: "
             + self.result
             + ", \

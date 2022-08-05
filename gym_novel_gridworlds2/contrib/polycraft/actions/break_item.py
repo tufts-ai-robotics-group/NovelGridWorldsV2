@@ -68,7 +68,7 @@ class Break(Action):
         return {
             "goal": {
                 "goalType": "ITEM",
-                "goalAchieved": False,
+                "goalAchieved": str(self.state.goalAchieved),
                 "Distribution": "Uninformed",
             },
             "command_result": {
@@ -76,7 +76,7 @@ class Break(Action):
                 "argument": "",  # TODO change
                 "result": self.result,
                 "message": "",
-                "setapCost": 3600,
+                "stepCost": 3600,
             },
             "step": 0,
             "gameOver": False,
