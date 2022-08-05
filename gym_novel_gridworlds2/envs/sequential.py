@@ -152,6 +152,14 @@ class NovelGridWorldSequentialEnv(AECEnv):
             }
             metadata["step"] = self.num_moves
             metadata["gameOver"] = self.dones[agent]  # TODO this is delayed by one step
+            if "command_result" not in metadata:
+                metadata["command_result"] = {
+                    "command": action_set.actions[action][0],
+                    "argument": ", ".join(extra_params),
+                    "result": "SUCCESS",  # TODO
+                    "message": "",
+                    "stepCost": step_cost,  # TODO cost
+                }
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
