@@ -11,7 +11,7 @@
           ],
           "output": [
             {
-              "car": 4
+              "car": 1
             }
           ],
           "needs_table": "False"
@@ -40,12 +40,14 @@
           "select_tree_tap",
           "select_iron_pickaxe",
           "select_crafting_table",
+          "select_car",
           "place_item",
           "craft_stick",
           "craft_plank",
           "craft_block_of_diamond",
           "craft_tree_tap",
           "craft_pogo_stick",
+          "craft_car",
           "trade_block_of_platinum_1",
           "trade_block_of_titanium_1",
           "trade_diamond_1",
@@ -53,24 +55,9 @@
           "NOP",
           "sense_recipes",
           "sense_all",
-          "TP_TO_4,17,26",
-          "TP_TO_8,17,27",
-          "TP_TO_20,17,6",
-          "TP_TO_3,17,3",
-          "TP_TO_1,17,3",
-          "TP_TO_5,17,26",
-          "TP_TO_13,17,2",
-          "TP_TO_13,17,28",
-          "TP_TO_16,17,15",
-          "TP_TO_19,17,6",
-          "TP_TO_13,17,19",
-          "TP_TO_17,17,6",
-          "TP_TO_21,17,6",
-          "TP_TO_18,17,6",
           "TP_TO_103",
-          "reset",
-          "select_car",
-          "craft_car"
+          "TP_TO",
+          "reset"
         ]
       }
     }
