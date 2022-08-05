@@ -13,10 +13,6 @@ from gym_novel_gridworlds2.state.dynamic import Dynamic
 
 
 class PlaceDiamondOre(Action):
-    def __init__(self, state: State, dynamics=None, **kwargs):
-        self.state = state
-        self.dynamics = dynamics
-
     def check_precondition(
         self,
         agent_entity: Entity,
