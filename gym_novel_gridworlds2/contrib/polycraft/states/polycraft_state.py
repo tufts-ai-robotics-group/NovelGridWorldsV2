@@ -4,7 +4,7 @@ from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 from gym_novel_gridworlds2.state.cell import Cell
 from gym_novel_gridworlds2.state.exceptions import LocationOccupied
-from typing import List, Optional, Tuple, Mapping
+from typing import Iterable, List, Optional, Tuple, Mapping
 from numpy.random import default_rng
 
 import random
@@ -116,6 +116,26 @@ class PolycraftState(State):
         pygame.display.set_caption("NovelGridWorlds v2")
         self.CLOCK = pygame.time.Clock()
         self.SCREEN.fill((171, 164, 164))
+    
+    def get_map_rep_in_range(self, map_range: Iterable[tuple]):
+        """
+        returns a nonav description of the surrounding
+        """
+        map_dict = {}
+        for coord in map_range:
+            cell: Cell = self._map[coord]
+            if cell is not None:
+                map_dict[f"{coord[0]},17,{coord[1]}"] = {
+                    "name": cell.get_map_rep(),
+                    "isAccessible": True
+                }
+            else:
+                map_dict[f"{coord[0]},17,{coord[1]}"] = {
+                    "name": "air",
+                    "isAccessible": True
+                }
+        return map_dict
+
 
     def drawMap(self):
         """

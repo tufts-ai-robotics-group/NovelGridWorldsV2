@@ -49,5 +49,6 @@ class SocketDiarcAgent(SocketManualAgent):
         if type(metadata) == str:
             msg = json.dumps(metadata + "\n")
         else:
-            msg = metadata
-        self._send_msg(json.dumps(msg))
+            msg = json.dumps(msg)
+        
+        self._send_msg(msg)
