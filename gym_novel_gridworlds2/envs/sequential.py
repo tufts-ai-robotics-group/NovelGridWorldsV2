@@ -129,7 +129,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             metadata = {
                 "command_result": {
                     "command": action_set.actions[action][0],
-                    "argument": ", ".join(extra_params),
+                    "argument": ", ".join(extra_params.values()),
                     "result": "FAILED",  # TODO
                     "message": "",
                     "stepCost": step_cost,  # TODO cost
