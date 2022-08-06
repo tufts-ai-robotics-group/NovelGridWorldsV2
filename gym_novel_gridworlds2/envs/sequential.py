@@ -129,7 +129,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             metadata = {
                 "command_result": {
                     "command": action_set.actions[action][0],
-                    "argument": ", ".join(extra_params),
+                    "argument": ", ".join(extra_params.values()),
                     "result": "FAILED",  # TODO
                     "message": "",
                     "stepCost": step_cost,  # TODO cost
@@ -142,6 +142,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
         # TODO: rn accomodating the string
+        if metadata is None:
+            metadata = {}
         if type(metadata) == str:
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
         else:

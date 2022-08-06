@@ -36,14 +36,11 @@ class SocketDiarcAgent(SocketManualAgent):
         # process the sense_all commands
         while True:
             action = self._recv_msg()
-            if action.startswith("SENSE"):
-                self.action_set.parse_command(action)
-            else:
-                try:
-                    command = self.action_set.parse_command(action)
-                    return command
-                except KeyError:
-                    self._send_msg(json.dumps({"error": "command not found"}))
+            try:
+                command = self.action_set.parse_command(action)
+                return command
+            except KeyError:
+                self._send_msg(json.dumps({"error": "command not found"}))
     
     def update_metadata(self, metadata: dict):
         if type(metadata) == str:
