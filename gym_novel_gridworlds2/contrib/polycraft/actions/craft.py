@@ -9,6 +9,8 @@ class Craft(Action):
     def __init__(self, recipe, **kwargs):
         self.itemToCraft = list(recipe["output"][0].keys())[0]
         self.recipe = recipe
+        self.cmd_format = \
+            r"CRAFT 1 ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+)(?: ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+))?"
         super().__init__(**kwargs)
 
     def check_precondition(

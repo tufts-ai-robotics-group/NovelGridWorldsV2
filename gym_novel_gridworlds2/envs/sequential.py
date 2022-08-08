@@ -129,8 +129,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             metadata = {
                 "command_result": {
                     "command": action_set.actions[action][0],
-                    "argument": ", ".join(extra_params),
-                    "result": "FAILED",  # TODO
+                    "argument": ", ".join(extra_params.values()),
+                    "result": "FAILED",
                     "message": "",
                     "stepCost": step_cost,  # TODO cost
                 }
@@ -142,6 +142,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
         # TODO: rn accomodating the string
+        if metadata is None:
+            metadata = {}
         if type(metadata) == str:
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
         else:
@@ -152,6 +154,14 @@ class NovelGridWorldSequentialEnv(AECEnv):
             }
             metadata["step"] = self.num_moves
             metadata["gameOver"] = self.dones[agent]  # TODO this is delayed by one step
+            if "command_result" not in metadata:
+                metadata["command_result"] = {
+                    "command": action_set.actions[action][0],
+                    "argument": ", ".join([str(v) for v in extra_params.values()]),
+                    "result": "SUCCESS",
+                    "message": "",
+                    "stepCost": step_cost,  # TODO cost
+                }
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
         # the agent which stepped last had its _cumulative_rewards accounted for

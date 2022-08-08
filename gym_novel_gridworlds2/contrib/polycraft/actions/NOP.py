@@ -26,17 +26,4 @@ class NOP(Action):
         # self.state._step_count += 1
         self.state.incrementer()
         self.result = "SUCCESS"
-        return self.action_metadata(agent_entity)
-
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-            + str(self.state.goalAchieved)
-            + ", “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “NOP”, “argument”: “”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 0}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}

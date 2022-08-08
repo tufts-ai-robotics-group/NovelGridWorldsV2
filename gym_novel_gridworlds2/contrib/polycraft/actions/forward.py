@@ -82,17 +82,4 @@ class Forward(Action):
         else:
             self.result = "FAILED"
 
-        return self.action_metadata(agent_entity, target_object)
-
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-            + str(self.state.goalAchieved)
-            + ", “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “smooth_move”, “argument”: “w”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 27.906975}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}

@@ -14,6 +14,7 @@ class SenseAll(Action):
         self.dynamics = dynamics
         self.state = state
         self.allow_additional_action = True
+        self.cmd_format = r"sense_all ?(?P<mode>\w+)?"
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs
@@ -24,25 +25,36 @@ class SenseAll(Action):
         """
         return True
     
-    def do_action(self, agent_entity: Entity):
+    def do_action(self, agent_entity: Entity, mode: str=""):
+        currRoom = 0
+        for index, room in enumerate(self.state.room_coords):
+            if tuple(agent_entity.loc) in room:
+                currRoom = index + 1
+
+        if mode is not None and mode.upper() == "NONAV":
+            map_dict = self.state.get_map_rep_in_range(self.state.room_coords[currRoom])
+        else:
+            map_size = self.state.get_map_size()
+            map_dict = {
+                "blocks": list(self.state.get_map_rep_in_type().reshape(-1)),
+                "size": [map_size[0], 17, map_size[1]],
+                "origin": [0, 0, 0]
+            }
+
         return {
             "blockInFront": {
                 "name": self.getBlockInFront(agent_entity, self.state)
             },
             "inventory": self.getInventory(agent_entity),
             "player": {
-                "pos": agent_entity.loc,
+                "pos": [int(agent_entity.loc[0]), 17, int(agent_entity.loc[1])],
                 "facing": agent_entity.facing,
                 "yaw": 90.0,  # dummy
                 "pitch": 0.0  # dummy
             },
             "destinationPos": [0, 0, 0],
-            "entities": self.getEntities(self.state),
-            "map": {
-                "blocks": list(self.state.get_map_rep_in_type().reshape(-1)),
-                "size": self.state.get_map_size(),
-                "origin": [0, 0, 0]
-            },
+            "entities": self.getEntities(self.state, currRoom),
+            "map": map_dict
         }
 
     def getBlockInFront(self, agent_entity, state: PolycraftState):
@@ -96,15 +108,17 @@ class SenseAll(Action):
         return inventory
 
 
-    def getEntities(self, state: PolycraftState):
+    def getEntities(self, state: PolycraftState, room_no: int):
         all_entities: List[Entity] = state.get_all_entities()
-        return {
-            str(obj.id): {
+        entities_dict = {}
+        for obj in all_entities:
+            if obj.loc in state.room_coords[room_no]: # TODO make more efficient
+                entities_dict[str(obj.id)] = {
                 "type": obj.__class__.__name__,
                 "name": obj.name,
                 "id": obj.id,
                 "pos": obj.loc,
                 "color": "black",
                 "equipment": []
-            } for obj in all_entities
-        }
+            }
+        return entities_dict

@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Mapping
+from typing import Iterable, List, Optional, Tuple, Mapping
 from copy import deepcopy
 import numpy as np
 import random
