@@ -11,10 +11,18 @@
     "rotate_right": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateRight"
     },
-    "forward": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward"
+    "smooth_move W": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
     },
-    "TP_TO_103": {
+    "smooth_move A": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove",
+      "direction": "A"
+    },
+    "smooth_move D": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove",
+      "direction": "D"
+    },
+    "TP_TO 103": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
       "entity_id": 103
     },
@@ -33,15 +41,15 @@
     "sense_all": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseAll"
     },
-    "INTERACT_102": {
+    "INTERACT 102": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
       "entity_id": 102
     },
-    "INTERACT_103": {
+    "INTERACT 103": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
       "entity_id": 103
     },
-    "INTERACT_104": {
+    "INTERACT 104": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
       "entity_id": 104
     },
@@ -58,14 +66,16 @@
   },
   "action_sets": {
     "main": [
-      "forward",
+      "smooth_move W",
+      "smooth_move A",
+      "smooth_move D",
       "rotate_left",
       "rotate_right",
       "use",
       "collect",
-      "INTERACT_102",
-      "INTERACT_103",
-      "INTERACT_104",
+      "INTERACT 102",
+      "INTERACT 103",
+      "INTERACT 104",
       "break",
       "select_sapling",
       "select_tree_tap",
@@ -84,7 +94,7 @@
       "NOP",
       "sense_recipes",
       "sense_all",
-      "TP_TO_103",
+      "TP_TO 103",
       "TP_TO",
       "reset"
     ],
