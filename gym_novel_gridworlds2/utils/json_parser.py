@@ -7,6 +7,7 @@ from typing import Mapping, Tuple, Type
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
 from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
 from gym_novel_gridworlds2.contrib.polycraft.states import PolycraftState
+from gym_novel_gridworlds2.state.recipe import RecipeSet
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from .MultiAgentActionSpace import MultiAgentActionSpace
@@ -18,7 +19,7 @@ from ..agents import Agent
 import numpy as np
 
 
-from ..contrib.polycraft.actions.craft import Craft
+from ..contrib.polycraft.actions.craft_new import Craft
 from ..contrib.polycraft.actions.select_item import SelectItem
 from ..contrib.polycraft.actions.trade import Trade
 from ..state import State
@@ -220,12 +221,17 @@ class ConfigParser:
         )
         return (self.state, dynamic, self.agent_manager)
 
-    def parse_recipe(self, recipe_dict):
-        items = list(recipe_dict.keys())
-        for i in range(len(items)):
-            craftStr = "craft_" + items[i]
+
+    def parse_recipe(self, recipe_config: dict):
+        self.recipe_set = RecipeSet()
+        for name, recipe_dict in recipe_config.items():
+            self.recipe_set.add_recipe(recipe_name=name, recipe_dict=recipe_dict)
+
+        for recipe_name in self.recipe_set.get_recipe_names():
+            craftStr = "craft_" + recipe_name
             self.actions[craftStr] = Craft(
-                state=self.state, recipe=recipe_dict[items[i]]
+                state=self.state, recipe_set=self.recipe_set,
+                recipe_name=recipe_name
             )
 
         return self.actions
