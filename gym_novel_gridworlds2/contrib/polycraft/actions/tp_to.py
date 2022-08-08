@@ -76,7 +76,7 @@ class TP_TO(Action):
         return False
 
     def do_action(
-        self, agent_entity: Entity, target_object: Object = None, x=None, y=None, z=None
+        self, agent_entity: Entity, target_object: Object = None, x=None, y=None, z=None, **kwargs
     ):
         """
         Checks for precondition, then teleports to the location

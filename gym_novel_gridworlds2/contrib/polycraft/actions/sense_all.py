@@ -25,7 +25,7 @@ class SenseAll(Action):
         """
         return True
     
-    def do_action(self, agent_entity: Entity, mode: str=""):
+    def do_action(self, agent_entity: Entity, mode: str="", **kwargs):
         currRoom = 0
         for index, room in enumerate(self.state.room_coords):
             if tuple(agent_entity.loc) in room:

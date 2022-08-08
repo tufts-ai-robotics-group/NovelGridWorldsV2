@@ -1,3 +1,4 @@
+from typing import Optional
 from ..object.entity import Entity, Object
 from ..state.state import State
 

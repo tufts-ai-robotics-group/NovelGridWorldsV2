@@ -36,7 +36,7 @@ class SelectItem(Action):
         self.result = "SUCCESS"
         return self.action_metadata(agent_entity, target_type, target_object)
 
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+    def action_metadata(self, agent_entity, target_type=None, target_object=None, **kwargs):
         return "".join(
             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
             + str(self.state.goalAchieved)
