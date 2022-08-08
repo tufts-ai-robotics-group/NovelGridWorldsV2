@@ -27,6 +27,9 @@
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
+    "report_novelty": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
+    },
     "sense_recipes": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes"
     },
@@ -53,7 +56,11 @@
     },
     "reset": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP",
-      "step_cost": 9999999999
+      "step_cost": 99999999999999
+    },
+    "give_up": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP",
+      "step_cost": 99999999999999
     }
   },
   "action_sets": {
@@ -86,7 +93,9 @@
       "sense_all",
       "TP_TO_103",
       "TP_TO",
-      "reset"
+      "reset",
+      "give_up",
+      "report_novelty"
     ],
     "trader": [
       "rotate_left",
@@ -189,7 +198,8 @@
       "loc": [
         25,
         25
-      ]
+      ],
+      "max_step_cost": 100000
     },
     "trader_joe": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",

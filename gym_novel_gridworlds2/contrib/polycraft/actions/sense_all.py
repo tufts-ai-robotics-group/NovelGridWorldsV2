@@ -32,12 +32,14 @@ class SenseAll(Action):
                 currRoom = index + 1
 
         if mode is not None and mode.upper() == "NONAV":
-            print("NONAV")
-            blocks = self.state.get_map_rep_in_range(self.state.room_coords[currRoom])
+            map_dict = self.state.get_map_rep_in_range(self.state.room_coords[currRoom])
         else:
-            blocks = list(self.state.get_map_rep_in_type().reshape(-1))
-
-        map_size = self.state.get_map_size()
+            map_size = self.state.get_map_size()
+            map_dict = {
+                "blocks": list(self.state.get_map_rep_in_type().reshape(-1)),
+                "size": [map_size[0], 17, map_size[1]],
+                "origin": [0, 0, 0]
+            }
 
         return {
             "blockInFront": {
@@ -45,18 +47,14 @@ class SenseAll(Action):
             },
             "inventory": self.getInventory(agent_entity),
             "player": {
-                "pos": [agent_entity.loc[0], 17, agent_entity.loc[1]],
+                "pos": [int(agent_entity.loc[0]), 17, int(agent_entity.loc[1])],
                 "facing": agent_entity.facing,
                 "yaw": 90.0,  # dummy
                 "pitch": 0.0  # dummy
             },
             "destinationPos": [0, 0, 0],
             "entities": self.getEntities(self.state, currRoom),
-            "map": {
-                "blocks": blocks,
-                "size": [map_size[0], 17, map_size[1]],
-                "origin": [0, 0, 0]
-            },
+            "map": map_dict
         }
 
     def getBlockInFront(self, agent_entity, state: PolycraftState):
