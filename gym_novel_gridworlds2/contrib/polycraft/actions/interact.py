@@ -7,7 +7,7 @@ import numpy as np
 
 
 class Interact(Action):
-    def __init__(self, entity_id = None, **kwargs):
+    def __init__(self, entity_id=None, **kwargs):
         self.entity_id = entity_id
         super().__init__(**kwargs)
 
@@ -45,7 +45,6 @@ class Interact(Action):
         """
         Checks for precondition, then interacts with the entity
         """
-        # self.state._step_count += 1
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_object):
             obj_type = (
@@ -69,12 +68,74 @@ class Interact(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         if self.entity_id == 103:
-            return {"trades":{"trades":[{"inputs":[{"Item":"polycraft:block_of_platinum","stackSize":1,"slot":0}],"outputs":[{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":5}]},
-                {"inputs":[{"Item":"minecraft:diamond","stackSize":18,"slot":0}],"outputs":[{"Item":"polycraft:block_of_platinum","stackSize":1,"slot":5}]}]},
+            return {
+                "trades": {
+                    "trades": [
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 1,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_titanium",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "minecraft:diamond",
+                                    "stackSize": 18,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                    ]
+                },
             }
         elif self.entity_id == 104:
-            return {"trades":{"trades":[{"inputs":[{"Item":"polycraft:block_of_platinum","stackSize":2,"slot":0}],"outputs":[{"Item":"minecraft:diamond","stackSize":9,"slot":5}]},
-                {"inputs":[{"Item":"minecraft:log","stackSize":10,"slot":0}],"outputs":[{"Item":"polycraft:block_of_titanium","stackSize":1,"slot":5}]}]},
+            return {
+                "trades": {
+                    "trades": [
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 2,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {"Item": "minecraft:diamond", "stackSize": 9, "slot": 5}
+                            ],
+                        },
+                        {
+                            "inputs": [
+                                {"Item": "minecraft:log", "stackSize": 10, "slot": 0}
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_titanium",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                    ]
+                },
             }
         else:
             return {}

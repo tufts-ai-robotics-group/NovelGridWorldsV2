@@ -62,11 +62,15 @@ class TestColorRender:
                 pygame.display.update()
                 print("")
                 print(
-                    "Actions: forward (f), rotate_r (r), rotate_l (l), break (b), use (u), collect (c), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick (cs), craft_plank (cp), craft_tree_tap (ctt), craft_block_of_diamond (cb), craft_pogo_stick (cps), trade_block_of_platinum (tp1)"
+                    "Actions: smooth_move w (sw), rotate_r (r), rotate_l (l), break (b), use (u), collect (c), select_tree_tap (st), select_iron_pickaxe (sp), place_item (pi), craft_stick (cs), craft_plank (cp), craft_tree_tap (ctt), craft_block_of_diamond (cb), craft_pogo_stick (cps), trade_block_of_platinum (tp1)"
                 )
                 choice = input("Select an action: ")
-                if choice == "f":
-                    self.dynamic.actions["forward"].do_action(agent)
+                if choice == "sw":
+                    self.dynamic.actions["smooth_move W"].do_action(agent)
+                elif choice == "sa":
+                    self.dynamic.actions["smooth_move A"].do_action(agent)
+                elif choice == "sd":
+                    self.dynamic.actions["smooth_move D"].do_action(agent)
                 elif choice == "r":
                     self.dynamic.actions["rotate_right"].do_action(agent)
                 elif choice == "l":
@@ -76,11 +80,11 @@ class TestColorRender:
                 elif choice == "u":
                     self.dynamic.actions["use"].do_action(agent)
                 elif choice == "i102":
-                    self.dynamic.actions["INTERACT_102"].do_action(agent)
+                    self.dynamic.actions["INTERACT 102"].do_action(agent)
                 elif choice == "i103":
-                    self.dynamic.actions["INTERACT_103"].do_action(agent)
+                    self.dynamic.actions["INTERACT 103"].do_action(agent)
                 elif choice == "i104":
-                    self.dynamic.actions["INTERACT_104"].do_action(agent)
+                    self.dynamic.actions["INTERACT 104"].do_action(agent)
                 elif choice == "c":
                     self.dynamic.actions["collect"].do_action(agent)
                 elif choice == "sr":
@@ -124,7 +128,7 @@ class TestColorRender:
                 elif choice == "tp10":
                     self.dynamic.actions["TP_TO_1,17,0"].do_action(agent)
                 elif choice == "tpe103":
-                    self.dynamic.actions["TP_TO_103"].do_action(agent)
+                    self.dynamic.actions["TP_TO 103"].do_action(agent)
 
 
 def main():
