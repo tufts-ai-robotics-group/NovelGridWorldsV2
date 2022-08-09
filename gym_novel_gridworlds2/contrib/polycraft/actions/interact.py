@@ -9,10 +9,11 @@ import numpy as np
 class Interact(Action):
     def __init__(self, entity_id=None, **kwargs):
         self.entity_id = entity_id
+        self.cmd_format = r"\w+ (?P<entity_id>\w+)"
         super().__init__(**kwargs)
 
     def check_precondition(
-        self, agent_entity: Entity, target_object: Object = None, **kwargs
+        self, agent_entity: Entity, target_object: Object = None, entity_id=None, **kwargs
     ):
         """
         Checks preconditions of the Interact action:
@@ -36,24 +37,24 @@ class Interact(Action):
             return False
 
         if hasattr(objs[1][0], "id"):
-            if self.entity_id == objs[1][0].id:
+            if entity_id == objs[1][0].id:
                 return True
         else:
             return False
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, entity_id=None, **kwargs):
         """
         Checks for precondition, then interacts with the entity
         """
+        if entity_id is None:
+            entity_id = self.entity_id
         self.state.incrementer()
-        if not self.check_precondition(agent_entity, target_object):
+        if not self.check_precondition(agent_entity, target_object, entity_id=entity_id):
             obj_type = (
                 target_object.type
                 if hasattr(target_object, "type")
                 else target_object.__class__.__name__
             )
-            self.result = "FAILED"
-            self.action_metadata(agent_entity, target_object)
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
             )
@@ -63,11 +64,10 @@ class Interact(Action):
         #     for item in objs[1][0].inventory:
         #         print("trade_" + item)
 
-        self.result = "SUCCESS"
-        return self.action_metadata(agent_entity, target_object)
+        return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
 
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        if self.entity_id == 103:
+    def action_metadata(self, agent_entity, target_type=None, target_object=None, entity_id=None):
+        if entity_id == 103:
             return {
                 "trades": {
                     "trades": [
@@ -106,7 +106,7 @@ class Interact(Action):
                     ]
                 },
             }
-        elif self.entity_id == 104:
+        elif entity_id == 104:
             return {
                 "trades": {
                     "trades": [

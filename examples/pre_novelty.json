@@ -33,6 +33,9 @@
     "sense_all": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseAll"
     },
+    "interact": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact"
+    },
     "INTERACT 102": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
       "entity_id": 102
@@ -266,63 +269,62 @@
     },
     "planks": {
       "input": [
-        {
-          "oak_log": 1
-        }
+        "oak_log",
+        "0",
+        "0",
+        "0"
       ],
-      "output": [
-        {
+      "output": {
           "planks": 4
         }
-      ]
     },
     "block_of_diamond": {
       "input": [
-        {
-          "diamond": 9
-        }
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond"
       ],
-      "output": [
-        {
+      "output": {
           "block_of_diamond": 1
         }
-      ]
     },
     "tree_tap": {
       "input": [
-        {
-          "planks": 5
-        },
-        {
-          "stick": 1
-        }
+        "planks",
+        "stick",
+        "planks",
+        "planks",
+        "0",
+        "planks",
+        "0",
+        "planks",
+        "0"
       ],
-      "output": [
-        {
-          "tree_tap": 1
-        }
-      ]
+      "output": {
+        "tree_tap": 1
+      }
     },
     "pogo_stick": {
       "input": [
-        {
-          "stick": 2
-        },
-        {
-          "block_of_diamond": 2
-        },
-        {
-          "block_of_titanium": 2
-        },
-        {
-          "rubber": 1
-        }
+        "stick",
+        "block_of_titanium",
+        "stick",
+        "diamond_block",
+        "block_of_titanium",
+        "diamond_block",
+        "0",
+        "rubber",
+        "0"
       ],
-      "output": [
-        {
+      "output": {
           "pogo_stick": 1
         }
-      ]
     }
   },
   "trades": {

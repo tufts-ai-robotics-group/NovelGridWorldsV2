@@ -81,8 +81,10 @@ class Craft(Action):
     def do_action(
         self, agent_entity: Entity, target_type=None, target_object=None, **kwargs
     ):
-        input_list = [o for o in kwargs["_all_params"] if o is not None]
-        target_object = [backConversion(o) for o in input_list]
+        if "_all_params" in kwargs:
+            input_list = [o for o in kwargs["_all_params"] if o is not None]
+            target_object = [backConversion(o) for o in input_list]
+
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_type, target_object):
             raise PreconditionNotMetError(

@@ -285,7 +285,7 @@ class Pogoist(Agent):
                         # need to rotate until we are facing the block_of_platinum
                 elif self.policy_step == 42:
                     self.policy_step += 1
-                    return action_sets.index("TP_TO_103")
+                    return action_sets.index("TP_TO 103")
                 elif self.policy_step == 43:
                     vec = (0, 0)
                     if ent.facing == "NORTH":

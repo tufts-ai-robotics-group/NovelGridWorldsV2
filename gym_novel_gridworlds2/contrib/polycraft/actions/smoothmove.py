@@ -82,8 +82,9 @@ class SmoothMove(Action):
         """
         self.state.incrementer()
 
-        if self.direction is None and direction is not None:
-            print("direction", direction)
+        if self.direction is None:
+            if direction is None:
+                direction = "W"
             self.direction_tmp = direction.upper()
         else:
             self.direction_tmp = self.direction

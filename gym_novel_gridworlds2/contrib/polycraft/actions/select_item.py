@@ -17,7 +17,7 @@ class SelectItem(Action):
         target_object: Object = None,
         **kwargs,
     ):
-        return self.target_type in agent_entity.inventory
+        return target_type in agent_entity.inventory
 
     def do_action(
         self,
