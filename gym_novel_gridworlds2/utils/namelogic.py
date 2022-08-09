@@ -1,4 +1,4 @@
-def nameConversion(self, name):
+def nameConversion(name):
     if name == None:
         return "None"
     elif name == "oak_log":
@@ -27,7 +27,7 @@ def nameConversion(self, name):
         return "polycraft:" + name
 
 
-def backConversion(self, name):
+def backConversion(name):
     res = name.split(":")
     if res[1] == "sack_polyisoprene_pellets":
         return "rubber"
