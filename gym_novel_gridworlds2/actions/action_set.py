@@ -49,10 +49,16 @@ class ActionSet:
                 # found matching parameters, do the action using the parameters
                 params = match.groupdict()
                 unnamed_params = match.groups()
+                params["_command"] = command.split(" ")[0]
                 params["_all_params"] = unnamed_params
                 params["_raw_args"] = " ".join(command.split(" ")[1:])
                 return action_id, params
-        return action_id, {"_all_params": [], "_raw_args": " ".join(command.split(" ")[1:])}
+        info = {
+            "_all_params": [], 
+            "_command": command.split(" ")[0], 
+            "_raw_args": " ".join(command.split(" ")[1:])
+        }
+        return action_id, info
 
 
     def remove_action(self, index):

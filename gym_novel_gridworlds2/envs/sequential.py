@@ -127,7 +127,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             action_failed = True
             metadata = {
                 "command_result": {
-                    "command": action_set.actions[action][0],
+                    "command": extra_params.get("_command") or action_set.actions[action][0],
                     "argument": extra_params.get("_raw_args") or "",
                     "result": "FAILED",
                     "message": e.message if hasattr(e, "message") else "",
@@ -155,7 +155,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             metadata["gameOver"] = self.dones[agent]  # TODO this is delayed by one step
             if "command_result" not in metadata:
                 metadata["command_result"] = {
-                    "command": action_set.actions[action][0],
+                    "command": extra_params.get("_command") or action_set.actions[action][0],
                     "argument": extra_params.get("_raw_args") or "",
                     "result": "SUCCESS",
                     "message": "",

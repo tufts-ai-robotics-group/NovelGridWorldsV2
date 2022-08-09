@@ -18,7 +18,7 @@ class Pogoist(Agent):
 
         # find tree, teleport to said tree
         # break tree
-        # move forward to get log
+        # move smooth_move to get log
         # repeat last 3 steps 2 more times
 
         # teleport to crafting table
@@ -31,12 +31,12 @@ class Pogoist(Agent):
 
         # teleport to diamond ore
         # break it
-        # move forward to get it
+        # move smooth_move to get it
         # repeat last 3 steps again
 
         # teleport to platinum
         # break it
-        # move forward to get it
+        # move smooth_move to get it
         # repeat last 3 steps again
 
         # teleport to entity 103
@@ -135,7 +135,7 @@ class Pogoist(Agent):
                     or self.policy_step == 41
                 ):
                     self.policy_step += 1
-                    return action_sets.index("forward")
+                    return action_sets.index("smooth_move")
                 elif self.policy_step == 12 or self.policy_step == 46:
                     objs = self.state.get_objects_of_type("crafting_table")
                     if len(objs) > 0:
