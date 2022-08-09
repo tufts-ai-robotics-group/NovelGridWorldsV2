@@ -179,7 +179,7 @@ class Pogoist(Agent):
                     or self.policy_step == 16
                 ):
                     self.policy_step += 1
-                    return action_sets.index("craft_plank")
+                    return action_sets.index("craft_planks")
                 elif self.policy_step == 17:
                     self.policy_step += 1
                     return action_sets.index("craft_stick")

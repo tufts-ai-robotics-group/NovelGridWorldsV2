@@ -88,7 +88,7 @@ class Craft(Action):
         return self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        if self.itemToCraft == "plank":
+        if self.itemToCraft == "planks":
             return "".join(
                 "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
                 + str(self.state.goalAchieved)

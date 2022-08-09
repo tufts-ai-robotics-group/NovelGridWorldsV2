@@ -84,7 +84,7 @@ class Craft(Action):
         self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        if self.itemToCraft == "plank":
+        if self.itemToCraft == "planks":
             print(
                 "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
                 “command_result”: {“command”: “craft”, “argument”: “1 Minecraft:log 0 0 0”, “result”: "
