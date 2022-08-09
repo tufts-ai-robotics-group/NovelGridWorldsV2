@@ -255,9 +255,10 @@
   "recipes": {
     "stick": {
       "input": [
-        {
-          "plank": 2
-        }
+        "planks",
+        "0",
+        "0",
+        "planks"
       ],
       "output": [
         {
