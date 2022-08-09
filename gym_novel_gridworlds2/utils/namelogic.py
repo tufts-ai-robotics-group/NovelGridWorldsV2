@@ -29,6 +29,9 @@ def nameConversion(name):
 
 def backConversion(name):
     res = name.split(":")
+    if (len(res) <= 1):
+        return name
+    
     if res[1] == "sack_polyisoprene_pellets":
         return "rubber"
     elif res[1] == "log":

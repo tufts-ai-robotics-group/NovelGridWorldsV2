@@ -69,7 +69,7 @@ class RecipeSet:
         return self.recipes.get(name)
 
     def list_to_recipe_index(self, input_list):
-        return "~".join(sorted(filter(lambda o: o is not None, input_list)))
+        return "~".join(filter(lambda o: o is not None, input_list))
 
     def get_recipe_by_input(self, input_list):
         if not isinstance(input_list, Iterable):

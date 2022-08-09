@@ -6,7 +6,8 @@ from gym_novel_gridworlds2.utils import nameConversion, backConversion
 
 class SelectItem(Action):
     def __init__(self, target_type, **kwargs):
-        self.target_type = backConversion(target_type)
+        self.target_type = target_type
+        self.cmd_format = r"\w+ (?P<target_type>\w+)"
         super().__init__(**kwargs)
 
     def check_precondition(
@@ -24,32 +25,15 @@ class SelectItem(Action):
         target_type: str = None,
         target_object: Object = None,
     ):
+        if target_type is None:
+            target_type = self.target_type
         # self.state._step_count += 1
         self.state.incrementer()
-        if not self.check_precondition(agent_entity, self.target_type, target_object):
+        if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILED"
-            self.action_metadata(agent_entity, target_type, target_object)
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot select item of type {self.target_type}.'
+                f'Agent "{agent_entity.name}" cannot select item of type {target_type}.'
             )
-        agent_entity.selectedItem = self.target_type
+        agent_entity.selectedItem = target_type
 
-        self.result = "SUCCESS"
-        return self.action_metadata(agent_entity, target_type, target_object)
-
-    def action_metadata(
-        self, agent_entity, target_type=None, target_object=None, **kwargs
-    ):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-            + str(self.state.goalAchieved)
-            + ", “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “select_item”, “argument”: “"
-            + nameConversion(self.target_type)
-            + "”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 120}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}
