@@ -24,7 +24,7 @@ def nameConversion(name):
     elif name == "bedrock":
         return "minecraft:bedrock"
     else:
-        return "polycraft:" + name
+        return "minecraft:" + name
 
 
 def backConversion(name):
