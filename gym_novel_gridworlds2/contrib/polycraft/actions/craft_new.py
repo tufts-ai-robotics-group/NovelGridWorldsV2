@@ -7,18 +7,20 @@ import numpy as np
 
 from gym_novel_gridworlds2.state.recipe import Recipe, RecipeSet
 
+from gym_novel_gridworlds2.utils import nameConversion, backConversion
+
 
 class Craft(Action):
-    def __init__(self, 
-        recipe_set: RecipeSet, 
-        recipe_name: Optional[str] = None, 
+    def __init__(
+        self,
+        recipe_set: RecipeSet,
+        recipe_name: Optional[str] = None,
         default_step_cost: int = 100,
-        **kwargs
+        **kwargs,
     ):
         self.recipe_set = recipe_set
         self.itemToCraft = recipe_name
-        self.cmd_format = \
-            r"\w+ 1 ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+)(?: ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+))?"
+        self.cmd_format = r"\w+ 1 ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+)(?: ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+))?"
         self.default_step_cost = default_step_cost
         super().__init__(**kwargs)
 
@@ -39,7 +41,7 @@ class Craft(Action):
         if recipe is None:
             print("available recipes:", self.recipe_set.recipe_index.keys())
             raise PreconditionNotMetError("recipe is wrong.")
-        
+
         for item, count in recipe.input_dict.items():
             if item == "0":
                 # empty slot, skip
@@ -50,12 +52,11 @@ class Craft(Action):
             else:
                 return False  # one of the inputs isnt in the agents inventory
         if len(recipe.input_list) <= 4 or recipe.input_list[4] is None:
-            # if input_list is <= 4 items long, 
+            # if input_list is <= 4 items long,
             # which means it does not require crafting table
             return True
         else:
             return self.is_near_crafting_table(agent_entity)
-
 
     def is_near_crafting_table(self, agent_entity):
         # convert the entity facing direction to coords
@@ -76,10 +77,11 @@ class Craft(Action):
                 return True
             else:
                 return False
-    
 
-    def do_action(self, agent_entity: Entity, target_type=None, target_object=None, **kwargs):
-        target_object = kwargs['_all_params']
+    def do_action(
+        self, agent_entity: Entity, target_type=None, target_object=None, **kwargs
+    ):
+        target_object = [backConversion(o) for o in kwargs["_all_params"]]
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_type, target_object):
             raise PreconditionNotMetError(
@@ -90,7 +92,7 @@ class Craft(Action):
             recipe = self.recipe_set.get_recipe(self.itemToCraft)
         else:
             recipe = self.recipe_set.get_recipe_by_input(target_object)
-        
+
         for item, count in recipe.input_dict.items():
             if item != "0":
                 agent_entity.inventory[item] -= count
@@ -98,7 +100,7 @@ class Craft(Action):
         for item in recipe.output_list:
             if item is not None:
                 if item in agent_entity.inventory:
-                      agent_entity.inventory[item] += 1
+                    agent_entity.inventory[item] += 1
                 else:
                     agent_entity.inventory[item] = 1
 
@@ -106,14 +108,14 @@ class Craft(Action):
             self.state.goalAchieved = True
         return self.action_metadata(agent_entity, recipe=recipe)
 
-    def action_metadata(self, args=[], recipe: Optional[Recipe]=None):
+    def action_metadata(self, args=[], recipe: Optional[Recipe] = None):
         if self.itemToCraft is not None:
             return {
                 "command_result": {
                     "command": "craft",
                     "argument": self.itemToCraft,
                     "message": "",
-                    "stepCost": self.recipe_set.get_recipe(self.itemToCraft).step_cost
+                    "stepCost": self.recipe_set.get_recipe(self.itemToCraft).step_cost,
                 }
             }
         else:
@@ -122,6 +124,6 @@ class Craft(Action):
                     "command": "craft",
                     "argument": str(args),
                     "message": "",
-                    "stepCost": recipe.step_cost
+                    "stepCost": recipe.step_cost,
                 }
             }

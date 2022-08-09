@@ -1,12 +1,12 @@
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object import Entity, Object
 from gym_novel_gridworlds2.state import State
-from gym_novel_gridworlds2.utils import nameConversion
+from gym_novel_gridworlds2.utils import nameConversion, backConversion
 
 
 class SelectItem(Action):
     def __init__(self, target_type, **kwargs):
-        self.target_type = target_type
+        self.target_type = backConversion(target_type)
         super().__init__(**kwargs)
 
     def check_precondition(
@@ -37,7 +37,9 @@ class SelectItem(Action):
         self.result = "SUCCESS"
         return self.action_metadata(agent_entity, target_type, target_object)
 
-    def action_metadata(self, agent_entity, target_type=None, target_object=None, **kwargs):
+    def action_metadata(
+        self, agent_entity, target_type=None, target_object=None, **kwargs
+    ):
         return "".join(
             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
             + str(self.state.goalAchieved)

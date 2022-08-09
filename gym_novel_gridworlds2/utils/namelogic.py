@@ -25,3 +25,15 @@ def nameConversion(self, name):
         return "minecraft:bedrock"
     else:
         return "polycraft:" + name
+
+
+def backConversion(self, name):
+    res = name.split(":")
+    if res[1] == "sack_polyisoprene_pellets":
+        return "rubber"
+    elif res[1] == "log":
+        return "oak_log"
+    elif res[1] == 0:
+        return 0
+    else:
+        return res[1]
