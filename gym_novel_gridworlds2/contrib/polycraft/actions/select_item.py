@@ -1,6 +1,7 @@
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object import Entity, Object
 from gym_novel_gridworlds2.state import State
+from gym_novel_gridworlds2.utils import nameConversion
 
 
 class SelectItem(Action):
@@ -42,7 +43,7 @@ class SelectItem(Action):
             + str(self.state.goalAchieved)
             + ", “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “select_item”, “argument”: “"
-            + self.target_type
+            + nameConversion(self.target_type)
             + "”, “result”: "
             + self.result
             + ", \

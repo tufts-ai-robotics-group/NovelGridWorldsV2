@@ -1,6 +1,7 @@
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object import Entity, Object
 from gym_novel_gridworlds2.state import State
+from gym_novel_gridworlds2.utils import nameConversion
 from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import (
     PolycraftObject,
 )
@@ -111,7 +112,7 @@ class PlaceItem(Action):
             + str(self.state.goalAchieved)
             + ", “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “place”, “argument”: “"
-            + str(agent_entity.selectedItem)
+            + nameConversion(str(agent_entity.selectedItem))
             + "”, “result”: "
             + self.result
             + ", \

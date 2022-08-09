@@ -16,7 +16,12 @@ class TP_TO(Action):
         self.allow_additional_action = False
 
     def check_precondition(
-        self, agent_entity: Entity, target_object: Object = None, x=None, y=None, **kwargs
+        self,
+        agent_entity: Entity,
+        target_object: Object = None,
+        x=None,
+        y=None,
+        **kwargs,
     ):
         x = x if x is not None else self.x
         y = y if y is not None else self.y
@@ -93,7 +98,9 @@ class TP_TO(Action):
                 loc = (0, 0)
 
         self.state.incrementer()
-        if not self.check_precondition(agent_entity, x=x, y=y, target_object=target_object):
+        if not self.check_precondition(
+            agent_entity, x=x, y=y, target_object=target_object
+        ):
             self.result = "FAILURE"
             self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
@@ -125,32 +132,3 @@ class TP_TO(Action):
         self.state.update_object_loc(agent_entity.loc, new_loc)
 
         return {}
-
-    # def action_metadata(self, agent_entity, target_type=None, target_object=None):
-    #     # TODO Update self.x, y, z to actual coord
-    #     if self.x != None:
-    #         return "".join(
-    #             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-    #             “command_result”: {“command”: “tp_to”, “argument”: “"
-    #             + str(self.x)
-    #             + ",17,"
-    #             + str(self.y)
-    #             + "”, “result”: "
-    #             + self.result
-    #             + ", \
-    #             “message”: “”, “stepCost: 282.72424}, “step”: "
-    #             + str(self.state._step_count)
-    #             + ", “gameOver”:false}"
-    #         )
-    #     else:
-    #         return "".join(
-    #             "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-    #             “command_result”: {“command”: “tp_to”, “argument”: “"
-    #             + str(self.entity_id)
-    #             + "”, “result”: "
-    #             + self.result
-    #             + ", \
-    #             “message”: “”, “stepCost: 282.72424}, “step”: "
-    #             + str(self.state._step_count)
-    #             + ", “gameOver”:false}"
-    #         )
