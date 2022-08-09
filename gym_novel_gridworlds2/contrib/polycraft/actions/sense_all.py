@@ -117,7 +117,7 @@ class SenseAll(Action):
                     "type": obj.__class__.__name__,
                     "name": obj.name,
                     "id": obj.id,
-                    "pos": obj.loc,
+                    "pos": [int(obj.loc[0]), 17, int(obj.loc[1])],
                     "color": "black",
                     "equipment": [],
                 }
