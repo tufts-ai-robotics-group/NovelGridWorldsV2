@@ -65,6 +65,8 @@ class RecipeSet:
         return self.recipes.get(name)
 
     def get_recipe_by_input(self, input_list):
+        if type(input_list) != list:
+            return None
         return self.recipe_index.get(str(sorted(input_list)))
     
     def get_recipe_names(self):

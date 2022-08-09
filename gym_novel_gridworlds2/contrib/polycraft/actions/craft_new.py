@@ -18,7 +18,7 @@ class Craft(Action):
         self.recipe_set = recipe_set
         self.itemToCraft = recipe_name
         self.cmd_format = \
-            r"CRAFT 1 ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+)(?: ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+))?"
+            r"\w+ 1 ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+)(?: ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+))?"
         self.default_step_cost = default_step_cost
         super().__init__(**kwargs)
 
@@ -35,6 +35,9 @@ class Craft(Action):
             recipe = self.recipe_set.get_recipe(self.itemToCraft)
         else:
             recipe = self.recipe_set.get_recipe_by_input(target_object)
+
+        if recipe is None:
+            raise PreconditionNotMetError("recipe is wrong")
         
         for item, count in recipe.input_dict.items():
             if item == "0":

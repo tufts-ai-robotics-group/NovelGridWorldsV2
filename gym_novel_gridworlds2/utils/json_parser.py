@@ -232,7 +232,11 @@ class ConfigParser:
                 state=self.state, recipe_set=self.recipe_set,
                 recipe_name=recipe_name
             )
-
+        
+        # generic craft
+        self.actions["craft"] = Craft(
+            state=self.state, recipe_set=self.recipe_set,
+        )
         return self.actions
 
     def parse_trades(self, trades_dict):

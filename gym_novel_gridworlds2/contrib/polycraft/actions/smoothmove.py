@@ -6,11 +6,12 @@ import numpy as np
 
 
 class SmoothMove(Action):
-    def __init__(self, direction="W", **kwargs):
+    def __init__(self, direction=None, **kwargs):
         self.direction = direction
         self.vec = (0, 0)
+        self.cmd_format = r"\w+ (?P<direction>\w+)"
         super().__init__(**kwargs)
-
+        
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None
     ):
@@ -22,38 +23,38 @@ class SmoothMove(Action):
         """
 
         if agent_entity.facing == "NORTH":
-            if self.direction == "W":
+            if self.direction_tmp == "W":
                 self.vec = (-1, 0)
-            elif self.direction == "S":
+            elif self.direction_tmp == "S":
                 self.vec = (1, 0)
-            elif self.direction == "A":
+            elif self.direction_tmp == "A":
                 self.vec = (0, -1)
             else:
                 self.vec = (0, 1)
         elif agent_entity.facing == "EAST":
-            if self.direction == "W":
+            if self.direction_tmp == "W":
                 self.vec = (0, 1)
-            elif self.direction == "S":
+            elif self.direction_tmp == "S":
                 self.vec = (0, -1)
-            elif self.direction == "A":
+            elif self.direction_tmp == "A":
                 self.vec = (-1, 0)
             else:
                 self.vec = (1, 0)
         elif agent_entity.facing == "WEST":
-            if self.direction == "W":
+            if self.direction_tmp == "W":
                 self.vec = (0, -1)
-            elif self.direction == "S":
+            elif self.direction_tmp == "S":
                 self.vec = (0, 1)
-            elif self.direction == "A":
+            elif self.direction_tmp == "A":
                 self.vec = (1, 0)
             else:
                 self.vec = (-1, 0)
         else:
-            if self.direction == "W":
+            if self.direction_tmp == "W":
                 self.vec = (1, 0)
-            elif self.direction == "S":
+            elif self.direction_tmp == "S":
                 self.vec = (-1, 0)
-            elif self.direction == "A":
+            elif self.direction_tmp == "A":
                 self.vec = (0, 1)
             else:
                 self.vec = (0, -1)
@@ -75,11 +76,19 @@ class SmoothMove(Action):
             # out of the bound
             return False
 
-    def do_action(self, agent_entity, target_type=None, target_object=None):
-        self.state.incrementer()
+    def do_action(self, agent_entity, target_type=None, target_object=None, direction=None, **kwargs):
         """
         Checks for precondition, then moves the object to the destination.
         """
+        self.state.incrementer()
+
+        if self.direction is None and direction is not None:
+            print("direction", direction)
+            self.direction_tmp = direction.upper()
+        else:
+            self.direction_tmp = self.direction
+        print(self.direction_tmp)
+
         if self.check_precondition(agent_entity, target_object):
             new_loc = tuple(np.add(self.vec, agent_entity.loc))
             # multiple objects handling
@@ -105,23 +114,7 @@ class SmoothMove(Action):
                                 agent_entity.inventory.update({"diamond": 9})
                         self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
-            self.result = "SUCCESS"
         else:
-            self.result = "FAILED"
+            raise PreconditionNotMetError()
 
-        return self.action_metadata(agent_entity, target_object)
-
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-            + str(self.state.goalAchieved)
-            + ", “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “smooth_move”, “argument”: “"
-            + self.direction
-            + "”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 27.906975}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}

@@ -123,15 +123,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
             metadata = action_set.actions[action][1].do_action(
                 agent_entity, **extra_params
             )
-        except PreconditionNotMetError:
+        except PreconditionNotMetError as e:
             # TODO set an error message
             action_failed = True
             metadata = {
                 "command_result": {
                     "command": action_set.actions[action][0],
-                    "argument": ", ".join(extra_params.values()),
+                    "argument": extra_params.get("_raw_args") or "",
                     "result": "FAILED",
-                    "message": "",
+                    "message": e.message if hasattr(e, "message") else "",
                     "stepCost": step_cost,  # TODO cost
                 }
             }
@@ -157,7 +157,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             if "command_result" not in metadata:
                 metadata["command_result"] = {
                     "command": action_set.actions[action][0],
-                    "argument": ", ".join([str(v) for v in extra_params.values()]),
+                    "argument": extra_params.get("_raw_args") or "",
                     "result": "SUCCESS",
                     "message": "",
                     "stepCost": step_cost,  # TODO cost
