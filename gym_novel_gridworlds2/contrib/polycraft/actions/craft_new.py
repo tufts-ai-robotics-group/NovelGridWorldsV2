@@ -37,7 +37,8 @@ class Craft(Action):
             recipe = self.recipe_set.get_recipe_by_input(target_object)
 
         if recipe is None:
-            raise PreconditionNotMetError("recipe is wrong")
+            print("available recipes:", self.recipe_set.recipe_index.keys())
+            raise PreconditionNotMetError("recipe is wrong.")
         
         for item, count in recipe.input_dict.items():
             if item == "0":
@@ -48,7 +49,7 @@ class Craft(Action):
                     return False  # not enough of the item
             else:
                 return False  # one of the inputs isnt in the agents inventory
-        if recipe.input_list[4] is None:
+        if len(recipe.input_list) <= 4 or recipe.input_list[4] is None:
             # if input_list is <= 4 items long, 
             # which means it does not require crafting table
             return True
@@ -78,6 +79,7 @@ class Craft(Action):
     
 
     def do_action(self, agent_entity: Entity, target_type=None, target_object=None, **kwargs):
+        target_object = kwargs['_all_params']
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_type, target_object):
             raise PreconditionNotMetError(
@@ -90,19 +92,19 @@ class Craft(Action):
             recipe = self.recipe_set.get_recipe_by_input(target_object)
         
         for item, count in recipe.input_dict.items():
-            agent_entity.inventory[item] -= count
+            if item != "0":
+                agent_entity.inventory[item] -= count
 
         for item in recipe.output_list:
             if item is not None:
-                print(self.itemToCraft, "crafting", item)
                 if item in agent_entity.inventory:
-                    agent_entity.inventory[item] += 1
+                      agent_entity.inventory[item] += 1
                 else:
                     agent_entity.inventory[item] = 1
 
         if self.itemToCraft == "pogo_stick" or recipe.output_list[0] == "pogo_stick":
             self.state.goalAchieved = True
-        return self.action_metadata(agent_entity)
+        return self.action_metadata(agent_entity, recipe=recipe)
 
     def action_metadata(self, args=[], recipe: Optional[Recipe]=None):
         if self.itemToCraft is not None:
@@ -118,7 +120,7 @@ class Craft(Action):
             return {
                 "command_result": {
                     "command": "craft",
-                    "argument": " ".join(args),
+                    "argument": str(args),
                     "message": "",
                     "stepCost": recipe.step_cost
                 }

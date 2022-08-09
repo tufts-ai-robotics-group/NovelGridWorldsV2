@@ -1,4 +1,4 @@
-from typing import List, Mapping, Optional
+from typing import Iterable, List, Mapping, Optional
 import warnings
 
 
@@ -39,7 +39,7 @@ class RecipeSet:
             step_cost = self.default_step_cost
         recipe = Recipe(input_list, output_list, step_cost)        
         self.recipes[recipe_name] = recipe
-        self.recipe_index[str(input_list)] = recipe
+        self.recipe_index[self.list_to_recipe_index(input_list)] = recipe
     
     def legacy_list_convert(self, recipe_list: List[Mapping[str, int]]):
         new_format_list = []
@@ -55,19 +55,27 @@ class RecipeSet:
             for i in range(count):
                 new_format_list.append(item)
         
-        # fill up all spots so the list is 9 elements long
-        for i in range(9 - len(new_format_list)):
-            new_format_list.append(None)
+        # fill up all spots so the list is either 4 or 9 elements long
+        if len(new_format_list) <= 4:
+            recipe_len = 4
+        else:
+            recipe_len = 9
+        for i in range(recipe_len - len(new_format_list)):
+            new_format_list.append("0")
         return new_format_list
 
 
     def get_recipe(self, name) -> Optional[Recipe]:
         return self.recipes.get(name)
 
+    def list_to_recipe_index(self, input_list):
+        return "~".join(sorted(filter(lambda o: o is not None, input_list)))
+
     def get_recipe_by_input(self, input_list):
-        if type(input_list) != list:
+        if not isinstance(input_list, Iterable):
             return None
-        return self.recipe_index.get(str(sorted(input_list)))
+        index_key = self.list_to_recipe_index(list(input_list))
+        return self.recipe_index.get(index_key)
     
     def get_recipe_names(self):
         return self.recipes.keys()

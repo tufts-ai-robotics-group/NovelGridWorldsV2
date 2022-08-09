@@ -112,8 +112,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.state.selected_action = action_set.actions[action][0]
         # print(agent_entity.inventory)
         metadata = {}
-        action_failed = False
-        print("inventory:", agent_entity.inventory)
+
         if hasattr(action_set.actions[action][1], "step_cost"):
             step_cost = action_set.actions[action][1].step_cost or 0
         else:
@@ -163,6 +162,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
                     "stepCost": step_cost,  # TODO cost
                 }
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
+        
+        # print inventory info
+        print("inventory:", agent_entity.inventory)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this
