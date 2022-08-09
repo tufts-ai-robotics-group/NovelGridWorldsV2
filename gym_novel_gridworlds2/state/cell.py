@@ -26,7 +26,7 @@ class Cell:
             else:
                 return conversion_func(self._objects[0].type)
         else:
-            return ""
+            return conversion_func("air")
 
     def place_object(self, obj: Entity) -> bool:
         """

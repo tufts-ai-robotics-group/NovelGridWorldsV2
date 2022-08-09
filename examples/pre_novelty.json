@@ -213,7 +213,7 @@
     "trader_joe": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
       "type": "trader",
-      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader",
       "action_set": "trader",
       "inventory": {
         "block_of_titanium": 1,
@@ -228,7 +228,7 @@
     "trader_bob": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
       "type": "trader",
-      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader",
       "action_set": "trader",
       "inventory": {
         "diamond": 9,
@@ -243,7 +243,7 @@
     "pogoist_1": {
       "agent": "gym_novel_gridworlds2.agents.Pogoist",
       "type": "pogoist",
-      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
       "action_set": "main",
       "inventory": {
         "iron_pickaxe": 1

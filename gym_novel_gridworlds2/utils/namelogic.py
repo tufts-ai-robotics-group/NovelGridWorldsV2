@@ -1,6 +1,6 @@
 def nameConversion(name):
     if name == None:
-        return "None"
+        return "minecraft:air"
     elif name == "oak_log":
         return "minecraft:log"
     elif name == "rubber":
@@ -19,10 +19,14 @@ def nameConversion(name):
         return "polycraft:tree_tap"
     elif name == "plastic_chest":
         return "polycraft:plastic_chest"
+    elif name == "pogo_stick":
+        return "polycraft:wooden_pogo_stick"
     elif name == "safe":
         return "polycraft:safe"
     elif name == "bedrock":
         return "minecraft:bedrock"
+    elif name == "door":
+        return "minecraft:wooden_door"
     else:
         return "minecraft:" + name
 
@@ -36,6 +40,10 @@ def backConversion(name):
         return "rubber"
     elif res[1] == "log":
         return "oak_log"
+    elif res[1] == "minecraft:wooden_door":
+        return "door"
+    elif res[1] == "polycraft:wooden_pogo_stick":
+        return "pogo_stick"
     elif res[1] == 0:
         return 0
     else:

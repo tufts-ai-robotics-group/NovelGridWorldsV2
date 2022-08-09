@@ -112,7 +112,7 @@ class SenseAll(Action):
         all_entities: List[Entity] = state.get_all_entities()
         entities_dict = {}
         for obj in all_entities:
-            if obj.loc in state.room_coords[room_no]: # TODO make more efficient
+            if tuple(obj.loc) in state.room_coords[room_no]: # TODO make more efficient
                 entities_dict[str(obj.id)] = {
                     "type": obj.__class__.__name__,
                     "name": obj.name,
