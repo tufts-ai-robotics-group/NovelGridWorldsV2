@@ -14,7 +14,7 @@ def nameConversion(name):
     elif name == "iron_pickaxe":
         return "minecraft:iron_pickaxe"
     elif name == "block_of_diamond":
-        return "minecraft:block_of_diamond"
+        return "minecraft:diamond_block"
     elif name == "tree_tap":
         return "polycraft:tree_tap"
     elif name == "plastic_chest":
