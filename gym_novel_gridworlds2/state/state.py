@@ -308,7 +308,7 @@ class State:
                     cell_name = cell.get_map_rep(conversion_func)
                 else:
                     cell_name = "minecraft:air"
-            self._map[i][j] = cell_name
+            map_rep[i][j] = cell_name
         return map_rep
 
     def get_map_size(self):
