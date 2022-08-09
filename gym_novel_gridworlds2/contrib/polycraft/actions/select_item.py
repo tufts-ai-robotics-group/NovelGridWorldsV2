@@ -5,7 +5,7 @@ from gym_novel_gridworlds2.utils import nameConversion, backConversion
 
 
 class SelectItem(Action):
-    def __init__(self, target_type, **kwargs):
+    def __init__(self, target_type=None, **kwargs):
         self.target_type = target_type
         self.cmd_format = r"\w+ (?P<target_type>\w+)"
         super().__init__(**kwargs)

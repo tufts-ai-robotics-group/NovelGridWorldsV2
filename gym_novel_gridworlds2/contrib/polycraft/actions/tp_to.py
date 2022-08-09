@@ -6,14 +6,14 @@ import numpy as np
 
 
 class TP_TO(Action):
-    def __init__(self, state: State, x=None, y=None, entity_id=None, dynamics=None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, state: State, x=None, y=None, entity_id=None, dynamics=None, **kwargs):
+        super().__init__(state, dynamics, **kwargs)
         self.entity_id = entity_id
         self.x = x
         self.y = y
         self.cmd_format = r"tp_to (?P<x>\d+),(?P<y>\d+),(?P<z>\d+)"
         self.allow_additional_action = False
+        
 
     def check_precondition(
         self,

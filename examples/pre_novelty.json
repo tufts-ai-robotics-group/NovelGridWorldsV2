@@ -3,7 +3,8 @@
   "time_limit": 180,
   "actions": {
     "break": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break",
+      "step_cost": 3600
     },
     "rotate_left": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateLeft"
@@ -19,19 +20,26 @@
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO"
     },
     "use": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use",
+      "action_cost": 300
     },
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
+    },
+    "select": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+      "step_cost": 120
     },
     "report_novelty": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
     "sense_recipes": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes",
+      "step_cost": 1200
     },
     "sense_all": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseAll"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseAll",
+      "step_cost": 114
     },
     "interact": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact"
@@ -49,10 +57,12 @@
       "entity_id": 104
     },
     "collect": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect",
+      "step_cost": 50000.0
     },
-    "place_item": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem"
+    "place": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem",
+      "step_cost": 300
     },
     "reset": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP",
@@ -63,13 +73,15 @@
       "step_cost": 99999999999999
     },
     "smooth_move": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove",
+      "step_cost": 27.906975
     },
     "move": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
     },
     "smooth_turn": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothTurn"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothTurn",
+      "step_cost": 24
     }
   },
   "action_sets": {
@@ -82,11 +94,12 @@
       "INTERACT 103",
       "INTERACT 104",
       "break",
+      "select",
       "select_sapling",
       "select_tree_tap",
       "select_iron_pickaxe",
       "select_crafting_table",
-      "place_item",
+      "place",
       "craft_stick",
       "craft_planks",
       "craft_block_of_diamond",
