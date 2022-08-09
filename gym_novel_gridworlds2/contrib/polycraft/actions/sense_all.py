@@ -54,7 +54,7 @@ class SenseAll(Action):
                 "pitch": 0.0,  # dummy
             },
             "destinationPos": [0, 0, 0],
-            "entities": self.getEntities(self.state, currRoom),
+            "entities": self.getEntities(self.state, currRoom, [agent_entity]),
             "map": map_dict,
         }
 
@@ -108,11 +108,12 @@ class SenseAll(Action):
             }
         return inventory
 
-    def getEntities(self, state: PolycraftState, room_no: int):
+    def getEntities(self, state: PolycraftState, room_no: int, exclude_entities=[]):
         all_entities: List[Entity] = state.get_all_entities()
         entities_dict = {}
         for obj in all_entities:
-            if tuple(obj.loc) in state.room_coords[room_no]: # TODO make more efficient
+            if tuple(obj.loc) in state.room_coords[room_no] and \
+                    obj not in exclude_entities: # TODO make more efficient
                 entities_dict[str(obj.id)] = {
                     "type": obj.__class__.__name__,
                     "name": obj.name,
