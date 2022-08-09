@@ -7,6 +7,7 @@ from typing import Mapping, Tuple, Type
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
 from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
 from gym_novel_gridworlds2.contrib.polycraft.states import PolycraftState
+from gym_novel_gridworlds2.state.recipe import RecipeSet
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from .MultiAgentActionSpace import MultiAgentActionSpace
@@ -18,7 +19,7 @@ from ..agents import Agent
 import numpy as np
 
 
-from ..contrib.polycraft.actions.craft import Craft
+from ..contrib.polycraft.actions.craft_new import Craft
 from ..contrib.polycraft.actions.select_item import SelectItem
 from ..contrib.polycraft.actions.trade import Trade
 from ..state import State
@@ -123,7 +124,10 @@ class ConfigParser:
         # filling in space to prevent other objects from spawning there
         self.state.remove_space()
 
-        # actions
+        # initialize dynamics
+        self.dynamics = Dynamic(None, None, None, self.obj_types, None)
+
+        ############################# actions ##################################
         self.actions = {}
         # automatically add select_<item_name> for all items available
         select_actions = []
@@ -153,10 +157,12 @@ class ConfigParser:
         if "actions" in json_content:
             for key, action_info in json_content["actions"].items():
                 self.actions[key] = self.create_action(action_info)
+        self.dynamics.actions = self.actions
 
         # recipe
         if "recipes" in json_content:
             self.parse_recipe(json_content["recipes"])
+        self.dynamics.recipe_set = self.recipe_set
 
         # trade
         if "trades" in json_content:
@@ -167,6 +173,7 @@ class ConfigParser:
         if "action_sets" in json_content:
             for key, action_list in json_content["action_sets"].items():
                 self.action_sets[key] = self.create_action_set(action_list)
+        self.dynamics.action_sets = self.action_sets
 
         # entities
         # self.entities: Mapping[str, dict] = {}
@@ -187,6 +194,7 @@ class ConfigParser:
                 for name, e in self.agent_manager.agents.items()
             ]
         )
+        self.dynamics.action_space = action_space
 
         # placement of objects on the map
         if "objects" in json_content:
@@ -210,24 +218,25 @@ class ConfigParser:
                         )
                 else:
                     self.create_random_obj(self.state, obj_name, info["quantity"])
+        return (self.state, self.dynamics, self.agent_manager)
 
-        # TODO: separate out recipes?
-        dynamic = Dynamic(
-            actions=self.actions,
-            action_sets=self.action_sets,
-            action_space=action_space,
-            obj_types=self.obj_types,
-        )
-        return (self.state, dynamic, self.agent_manager)
 
-    def parse_recipe(self, recipe_dict):
-        items = list(recipe_dict.keys())
-        for i in range(len(items)):
-            craftStr = "craft_" + items[i]
+    def parse_recipe(self, recipe_config: dict):
+        self.recipe_set = RecipeSet()
+        for name, recipe_dict in recipe_config.items():
+            self.recipe_set.add_recipe(recipe_name=name, recipe_dict=recipe_dict)
+
+        for recipe_name in self.recipe_set.get_recipe_names():
+            craftStr = "craft_" + recipe_name
             self.actions[craftStr] = Craft(
-                state=self.state, recipe=recipe_dict[items[i]]
+                state=self.state, recipe_set=self.recipe_set,
+                recipe_name=recipe_name
             )
-
+        
+        # generic craft
+        self.actions["craft"] = Craft(
+            state=self.state, recipe_set=self.recipe_set,
+        )
         return self.actions
 
     def parse_trades(self, trades_dict):
@@ -300,7 +309,7 @@ class ConfigParser:
         del action_info["module"]
         try:
             action = ActionModule(
-                state=self.state, dynamics=self.obj_types, **action_info
+                state=self.state, dynamics=self.dynamics, **action_info
             )
         except TypeError as e:
             raise ParseError(

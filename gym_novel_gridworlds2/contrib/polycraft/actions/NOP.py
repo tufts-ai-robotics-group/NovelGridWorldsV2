@@ -19,7 +19,7 @@ class NOP(Action):
         """
         return True
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs):
         """
         Checks for precondition, then does nothing
         """

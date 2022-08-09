@@ -57,7 +57,7 @@ class Trade(Action):
 
         return correctDirection
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs):
         """
         Checks for precondition, then trades for the item
         """

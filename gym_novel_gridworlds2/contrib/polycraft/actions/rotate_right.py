@@ -18,7 +18,7 @@ class RotateRight(Action):
         """
         return True
 
-    def do_action(self, agent_entity, target_type=None, target_object=None):
+    def do_action(self, agent_entity, target_type=None, target_object=None, **kwargs):
         """
         Rotates the object to the right
         """

@@ -57,7 +57,7 @@ class Craft(Action):
                 else:
                     return False
 
-    def do_action(self, agent_entity: Entity, target_type=None, target_object=None):
+    def do_action(self, agent_entity: Entity, target_type=None, target_object=None, **kwargs):
         self.state.incrementer()
         if not self.check_precondition(agent_entity):
             self.result = "FAILED"

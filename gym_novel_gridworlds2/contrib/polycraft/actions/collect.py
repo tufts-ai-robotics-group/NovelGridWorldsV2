@@ -64,7 +64,7 @@ class Collect(Action):
         else:
             return objs[0][0].state == "block"
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs):
         """
         Checks for precondition, then collects from the object
         """

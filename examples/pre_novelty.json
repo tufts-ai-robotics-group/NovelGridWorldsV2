@@ -11,17 +11,6 @@
     "rotate_right": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateRight"
     },
-    "smooth_move W": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
-    },
-    "smooth_move A": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove",
-      "direction": "A"
-    },
-    "smooth_move D": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove",
-      "direction": "D"
-    },
     "TP_TO 103": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
       "entity_id": 103
@@ -69,13 +58,16 @@
     "give_up": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP",
       "step_cost": 99999999999999
+    },
+    "smooth_move": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
+    },
+    "move": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
     }
   },
   "action_sets": {
     "main": [
-      "smooth_move W",
-      "smooth_move A",
-      "smooth_move D",
       "rotate_left",
       "rotate_right",
       "use",
@@ -94,6 +86,7 @@
       "craft_block_of_diamond",
       "craft_tree_tap",
       "craft_pogo_stick",
+      "craft",
       "trade_block_of_platinum_1",
       "trade_block_of_titanium_1",
       "trade_diamond_1",
@@ -105,7 +98,9 @@
       "TP_TO",
       "reset",
       "give_up",
-      "report_novelty"
+      "report_novelty",
+      "smooth_move",
+      "move"
     ],
     "trader": [
       "rotate_left",
@@ -203,7 +198,8 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "iron_pickaxe": 1
+        "iron_pickaxe": 1,
+        "plank": 2
       },
       "loc": [
         25,

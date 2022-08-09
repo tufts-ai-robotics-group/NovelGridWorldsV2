@@ -40,7 +40,7 @@ class Break(Action):
 
         return correctDirection and (objs[0][0].state == "block")
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None) -> str:
+    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs) -> str:
         """
         Checks for precondition, then breaks the object
         """

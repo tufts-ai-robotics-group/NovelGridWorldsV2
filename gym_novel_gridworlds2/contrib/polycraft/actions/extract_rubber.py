@@ -64,7 +64,7 @@ class ExtractRubber(Action):
             and (objs[0][0].state == "block")
         )
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs):
         self.state._step_count += 1
         """
         Checks for precondition, then extracts rubber from the object
