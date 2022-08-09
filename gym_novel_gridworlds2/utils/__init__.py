@@ -1,1 +1,1 @@
-from nameConversion import nameConversion
+from .namelogic import nameConversion, backConversion

@@ -264,8 +264,7 @@
         {
           "stick": 4
         }
-      ],
-      "needs_table": "False"
+      ]
     },
     "plank": {
       "input": [
@@ -277,8 +276,7 @@
         {
           "plank": 4
         }
-      ],
-      "needs_table": "False"
+      ]
     },
     "block_of_diamond": {
       "input": [
@@ -290,8 +288,7 @@
         {
           "block_of_diamond": 1
         }
-      ],
-      "needs_table": "True"
+      ]
     },
     "tree_tap": {
       "input": [
@@ -306,8 +303,7 @@
         {
           "tree_tap": 1
         }
-      ],
-      "needs_table": "True"
+      ]
     },
     "pogo_stick": {
       "input": [
@@ -328,8 +324,7 @@
         {
           "pogo_stick": 1
         }
-      ],
-      "needs_table": "True"
+      ]
     }
   },
   "trades": {
