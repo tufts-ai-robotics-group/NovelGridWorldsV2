@@ -98,14 +98,14 @@ class Craft(Action):
             if item != "0":
                 agent_entity.inventory[item] -= count
 
-        for item in recipe.output_list:
+        for item, quantity in recipe.output_dict.items():
             if item is not None:
                 if item in agent_entity.inventory:
-                    agent_entity.inventory[item] += 1
+                    agent_entity.inventory[item] += quantity
                 else:
-                    agent_entity.inventory[item] = 1
+                    agent_entity.inventory[item] = quantity
 
-        if self.itemToCraft == "pogo_stick" or recipe.output_list[0] == "pogo_stick":
+        if self.itemToCraft == "pogo_stick" or "pogo_stick" in recipe.output_dict:
             self.state.goalAchieved = True
         return self.action_metadata(agent_entity, recipe=recipe)
 

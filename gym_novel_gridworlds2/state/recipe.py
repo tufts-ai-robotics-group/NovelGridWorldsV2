@@ -3,9 +3,9 @@ import warnings
 
 
 class Recipe:
-    def __init__(self, input_list, output_list, step_cost=None):
+    def __init__(self, input_list, output_dict, step_cost=None):
         self.input_list = input_list
-        self.output_list = output_list
+        self.output_dict = output_dict
         self.step_cost = step_cost
 
         # compute an input dict
@@ -26,18 +26,18 @@ class RecipeSet:
     def add_recipe(self, recipe_name, recipe_dict):
         if isinstance(recipe_dict['input'][0], dict):
             input_list = self.legacy_list_convert(recipe_dict['input'])
-            output_list = self.legacy_list_convert(recipe_dict['output'])
+            output_dict = self.legacy_list_convert_output(recipe_dict['output'])
             warnings.warn(
                 "The Old recipe config is depreciated and will be removed at a future version.",
                 DeprecationWarning)
         else:
             input_list = recipe_dict['input']
-            output_list = recipe_dict['output']
+            output_dict = recipe_dict['output']
         
         step_cost = recipe_dict.get('step_cost')
         if step_cost is None:
             step_cost = self.default_step_cost
-        recipe = Recipe(input_list, output_list, step_cost)        
+        recipe = Recipe(input_list, output_dict, step_cost)        
         self.recipes[recipe_name] = recipe
         self.recipe_index[self.list_to_recipe_index(input_list)] = recipe
     
@@ -63,7 +63,9 @@ class RecipeSet:
         for i in range(recipe_len - len(new_format_list)):
             new_format_list.append("0")
         return new_format_list
-
+    
+    def legacy_list_convert_output(self, recipe_list: List[Mapping[str, int]]):
+        return recipe_list[0]
 
     def get_recipe(self, name) -> Optional[Recipe]:
         return self.recipes.get(name)

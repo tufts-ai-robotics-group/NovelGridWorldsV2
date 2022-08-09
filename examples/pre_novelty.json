@@ -260,11 +260,9 @@
         "0",
         "planks"
       ],
-      "output": [
-        {
-          "stick": 4
-        }
-      ]
+      "output": {
+        "stick": 4
+      }
     },
     "planks": {
       "input": [

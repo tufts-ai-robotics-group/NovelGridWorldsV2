@@ -43,8 +43,8 @@ class SenseRecipes(Action):
                         if item is not None and item != "0"
                     ],
                     "outputs": [
-                        {"Item": nameConversion(item), "stackSize": 1, "slot": 9 - i}
-                        for i, item in enumerate(recipe.output_list)
+                        {"Item": nameConversion(item), "stackSize": quantity, "slot": 9 - i}
+                        for i, (item, quantity) in enumerate(recipe.output_dict.items())
                         if item is not None and item != "0"
                     ],
                 }
