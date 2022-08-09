@@ -117,7 +117,7 @@ class PolycraftState(State):
         self.CLOCK = pygame.time.Clock()
         self.SCREEN.fill((171, 164, 164))
     
-    def get_map_rep_in_range(self, map_range: Iterable[tuple]):
+    def get_map_rep_in_range(self, map_range: Iterable[tuple], conversion_func=None):
         """
         returns a nonav description of the surrounding
         """
@@ -126,12 +126,12 @@ class PolycraftState(State):
             cell: Cell = self._map[coord]
             if cell is not None:
                 map_dict[f"{coord[0]},17,{coord[1]}"] = {
-                    "name": cell.get_map_rep(),
+                    "name": cell.get_map_rep(conversion_func),
                     "isAccessible": True
                 }
             else:
                 map_dict[f"{coord[0]},17,{coord[1]}"] = {
-                    "name": "air",
+                    "name": "minecraft:air",
                     "isAccessible": True
                 }
         return map_dict

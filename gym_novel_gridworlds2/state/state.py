@@ -296,7 +296,7 @@ class State:
                 entities += obj_list
         return entities
 
-    def get_map_rep_in_type(self):
+    def get_map_rep_in_type(self, conversion_func=None):
         """
         returns a numpy array of strings, containing the object's type
         """
@@ -305,9 +305,10 @@ class State:
             for j in range(self._map.shape[1]):
                 cell: Cell = self._map[i][j]
                 if cell is not None:
-                    map_rep[i][j] = cell.get_map_rep()
+                    cell_name = cell.get_map_rep(conversion_func)
                 else:
-                    map_rep[i][j] = "air"
+                    cell_name = "minecraft:air"
+            self._map[i][j] = cell_name
         return map_rep
 
     def get_map_size(self):

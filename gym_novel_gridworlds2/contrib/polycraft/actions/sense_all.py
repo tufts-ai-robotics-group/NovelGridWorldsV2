@@ -35,11 +35,11 @@ class SenseAll(Action):
                 currRoom = index
 
         if mode is not None and mode.upper() == "NONAV":
-            map_dict = self.state.get_map_rep_in_range(self.state.room_coords[currRoom])
+            map_dict = self.state.get_map_rep_in_range(self.state.room_coords[currRoom], nameConversion)
         else:
             map_size = self.state.get_map_size()
             map_dict = {
-                "blocks": list(self.state.get_map_rep_in_type().reshape(-1)),
+                "blocks": list(self.state.get_map_rep_in_type(nameConversion).reshape(-1)),
                 "size": [map_size[0], 17, map_size[1]],
                 "origin": [0, 0, 0],
             }
@@ -90,7 +90,7 @@ class SenseAll(Action):
         if agent_entity.selectedItem is None:
             inventory["selectedItem"] = {
                 "slot": 0,    # not used, dummy slot info
-                "item": "air", # TODO
+                "item": "minecraft:air", # TODO
                 "count": 0,
                 "damage": 0,
                 "maxdamage": 0,
