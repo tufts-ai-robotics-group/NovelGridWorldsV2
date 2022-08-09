@@ -1,8 +1,11 @@
 import enum
 from typing import List
-from gym_novel_gridworlds2.contrib.polycraft.states.polycraft_state import PolycraftState
+from gym_novel_gridworlds2.contrib.polycraft.states.polycraft_state import (
+    PolycraftState,
+)
 
 from gym_novel_gridworlds2.state import State
+from gym_novel_gridworlds2.utils import nameConversion
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
 
@@ -24,8 +27,8 @@ class SenseAll(Action):
         1) Does nothing, so return true
         """
         return True
-    
-    def do_action(self, agent_entity: Entity, mode: str="", **kwargs):
+
+    def do_action(self, agent_entity: Entity, mode: str = "", **kwargs):
         currRoom = 0
         for index, room in enumerate(self.state.room_coords):
             if tuple(agent_entity.loc) in room:
@@ -38,23 +41,21 @@ class SenseAll(Action):
             map_dict = {
                 "blocks": list(self.state.get_map_rep_in_type().reshape(-1)),
                 "size": [map_size[0], 17, map_size[1]],
-                "origin": [0, 0, 0]
+                "origin": [0, 0, 0],
             }
 
         return {
-            "blockInFront": {
-                "name": self.getBlockInFront(agent_entity, self.state)
-            },
+            "blockInFront": {"name": self.getBlockInFront(agent_entity, self.state)},
             "inventory": self.getInventory(agent_entity),
             "player": {
                 "pos": [int(agent_entity.loc[0]), 17, int(agent_entity.loc[1])],
                 "facing": agent_entity.facing,
                 "yaw": 90.0,  # dummy
-                "pitch": 0.0  # dummy
+                "pitch": 0.0,  # dummy
             },
             "destinationPos": [0, 0, 0],
             "entities": self.getEntities(self.state, currRoom),
-            "map": map_dict
+            "map": map_dict,
         }
 
     def getBlockInFront(self, agent_entity, state: PolycraftState):
@@ -74,15 +75,15 @@ class SenseAll(Action):
             blockInFront = "minecraft:air"
         return blockInFront
 
-
     def getInventory(self, agent_entity: Entity):
         inventory = {
             str(slot_id): {
-                "item": item_name,
+                "item": nameConversion(item_name),
                 "count": count,
                 "damage": 0,
-                "maxdamage": 0
-            } for slot_id, (item_name, count) in enumerate(agent_entity.inventory.items())
+                "maxdamage": 0,
+            }
+            for slot_id, (item_name, count) in enumerate(agent_entity.inventory.items())
         }
 
         # todo check if correct
@@ -92,33 +93,32 @@ class SenseAll(Action):
                 "item": "air", # TODO
                 "count": 0,
                 "damage": 0,
-                "maxdamage": 0
+                "maxdamage": 0,
             }
         else:
-            selected_item_name = agent_entity.selectedItem
+            selected_item_name = nameConversion(agent_entity.selectedItem)
             selected_item_count = agent_entity.inventory[agent_entity.selectedItem]
 
             inventory["selectedItem"] = {
-                "slot": 0,    # not used, dummy slot info
+                "slot": 0,  # not used, dummy slot info
                 "item": selected_item_name,
                 "count": selected_item_count,
                 "damage": 0,
-                "maxdamage": 0
+                "maxdamage": 0,
             }
         return inventory
-
 
     def getEntities(self, state: PolycraftState, room_no: int):
         all_entities: List[Entity] = state.get_all_entities()
         entities_dict = {}
         for obj in all_entities:
-            if tuple(obj.loc) in state.room_coords[room_no]: # TODO make more efficient
+            if obj.loc in state.room_coords[room_no]: # TODO make more efficient
                 entities_dict[str(obj.id)] = {
-                "type": obj.__class__.__name__,
-                "name": obj.name,
-                "id": obj.id,
-                "pos": obj.loc,
-                "color": "black",
-                "equipment": []
-            }
+                    "type": obj.__class__.__name__,
+                    "name": obj.name,
+                    "id": obj.id,
+                    "pos": obj.loc,
+                    "color": "black",
+                    "equipment": [],
+                }
         return entities_dict
