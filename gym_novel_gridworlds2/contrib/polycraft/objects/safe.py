@@ -20,6 +20,7 @@ class Safe(PolycraftObject):
         if action_name == "use":
             if "blue_key" in agent.inventory:
                 self.isLocked = False
+                self.type == "unlocked_safe"
         if action_name == "collect":
             agent.inventory.update(self.inventory)
             self.inventory = {}
