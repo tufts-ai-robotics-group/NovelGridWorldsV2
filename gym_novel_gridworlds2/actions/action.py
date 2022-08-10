@@ -10,7 +10,7 @@ class PreconditionNotMetError(Exception):
 
 
 class Action:
-    def __init__(self, state: State, dynamics=None, cmd_format=None, **kwargs):
+    def __init__(self, state: State, dynamics=None, cmd_format=None, step_cost=None, **kwargs):
         """
         Initialize action with a reference to the state, the dynamics, and respective actions.
         """
@@ -21,6 +21,8 @@ class Action:
 
         # sets if the agent can do an additional action
         self.allow_additional_action = False
+        if step_cost is not None:
+            self.step_cost = step_cost
         pass
 
     def check_precondition(

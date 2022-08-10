@@ -7,9 +7,8 @@ import numpy as np
 
 
 class Trade(Action):
-    def __init__(self, state: State, trade=None, dynamics=None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, state: State, trade=None, dynamics=None, **kwargs):
+        super().__init__(state, dynamics, **kwargs)
         self.trade = trade
         self.allow_additional_action = False
         self.itemToTrade = list(trade["output"][0].keys())[0]

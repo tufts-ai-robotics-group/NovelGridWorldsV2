@@ -13,7 +13,8 @@ import numpy as np
 
 
 class SenseAll(Action):
-    def __init__(self, state: PolycraftState, trade=None, dynamics=None):
+    def __init__(self, state: PolycraftState, dynamics=None, **kwargs):
+        super().__init__(state, dynamics, **kwargs)
         self.dynamics = dynamics
         self.state = state
         self.allow_additional_action = True
