@@ -19,8 +19,9 @@
         }
       },
       "actions": {
-        "interact": {
-          "module": "novelties.supplier.interact.Interact"
+        "INTERACT_106": {
+          "module": "novelties.supplier.interact.Interact",
+          "entity_id": 106
         }
       },
       "recipes": {
@@ -35,6 +36,45 @@
             "pogo_stick": 1
           }
         }
+      },
+      "action_sets": {
+        "main": [
+          "rotate_left",
+          "rotate_right",
+          "use",
+          "collect",
+          "INTERACT_102",
+          "INTERACT_103",
+          "INTERACT_104",
+          "INTERACT_106",
+          "break",
+          "select_sapling",
+          "select_tree_tap",
+          "select_iron_pickaxe",
+          "select_crafting_table",
+          "place_item",
+          "craft_stick",
+          "craft_planks",
+          "craft_block_of_diamond",
+          "craft_tree_tap",
+          "craft_pogo_stick",
+          "craft",
+          "trade_block_of_platinum_1",
+          "trade_block_of_titanium_1",
+          "trade_diamond_1",
+          "trade_block_of_titanium_2",
+          "NOP",
+          "sense_recipes",
+          "sense_all",
+          "TP_TO_103",
+          "TP_TO",
+          "reset",
+          "give_up",
+          "report_novelty",
+          "smooth_move",
+          "move",
+          "smooth_turn"
+        ]
       }
     }
   }
