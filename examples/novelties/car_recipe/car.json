@@ -57,7 +57,13 @@
           "sense_all",
           "TP_TO_103",
           "TP_TO",
+<<<<<<< HEAD
+          "reset",
+          "select_car",
+          "craft_car"
+=======
           "reset"
+>>>>>>> da44f38b38f64c200a56e810700fef9f0f3ea173
         ]
       }
     }
