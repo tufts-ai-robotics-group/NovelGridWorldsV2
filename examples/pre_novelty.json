@@ -76,9 +76,6 @@
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove",
       "step_cost": 27.906975
     },
-    "move": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
-    },
     "smooth_turn": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothTurn",
       "step_cost": 24
@@ -119,7 +116,6 @@
       "give_up",
       "report_novelty",
       "smooth_move",
-      "move",
       "smooth_turn"
     ],
     "trader": [
@@ -213,7 +209,7 @@
   "num_episodes": 10,
   "entities": {
     "main_1": {
-      "agent": "gym_novel_gridworlds2.agents.KeyboardAgent",
+      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
