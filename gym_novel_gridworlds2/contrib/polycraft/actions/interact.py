@@ -24,111 +24,163 @@ class Interact(Action):
         1) The agent is facing an entity
         2) The entity shares the id with the arg provided
         """
-        # convert the entity facing direction to coords
-        direction = (0, 0)
-        # try it 1 block away
-        if agent_entity.facing == "NORTH":
-            direction = (-1, 0)
-            if agent_entity.loc[0] - 1 < 0:
-                return False
-        elif agent_entity.facing == "SOUTH":
-            direction = (1, 0)
-            if agent_entity.loc[0] + 1 >= self.state.initial_info["map_size"][0]:
-                return False
-        elif agent_entity.facing == "EAST":
-            direction = (0, 1)
-            if agent_entity.loc[1] + 1 >= self.state.initial_info["map_size"][1]:
-                return False
-        else:
-            direction = (0, -1)
-            if agent_entity.loc[1] - 1 < 0:
-                return False
-        self.temp_loc = tuple(np.add(agent_entity.loc, direction))
-        objs = self.state.get_objects_at(self.temp_loc)
-        if len(objs[1]) != 1:
-            return False
-        else:
-            if hasattr(objs[1][0], "id"):
+
+        # make a 3x3 radius around the agent, determine if the wanted entity is there
+
+        if agent_entity.loc[0] - 1 >= 0:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (-1, 0)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[0] - 2 >= 0:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (-2, 0)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[0] - 3 >= 0:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (-3, 0)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
                 if entity_id == objs[1][0].id:
                     return True
 
-        # try it 2 blocks away
-        if agent_entity.facing == "NORTH":
-            direction = (-2, 0)
-            if agent_entity.loc[0] - 2 < 0:
-                return False
-        elif agent_entity.facing == "SOUTH":
-            direction = (2, 0)
-            if agent_entity.loc[0] + 2 >= self.state.initial_info["map_size"][0]:
-                return False
-        elif agent_entity.facing == "EAST":
-            direction = (0, 2)
-            if agent_entity.loc[1] + 2 >= self.state.initial_info["map_size"][1]:
-                return False
-        else:
-            direction = (0, -2)
-            if agent_entity.loc[1] - 2 < 0:
-                return False
-        self.temp_loc = tuple(np.add(agent_entity.loc, direction))
-        objs = self.state.get_objects_at(self.temp_loc)
-        if len(objs[1]) != 1:
-            return False
-        else:
-            if hasattr(objs[1][0], "id"):
+        if agent_entity.loc[0] + 1 < self.state.initial_info["map_size"][0]:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (1, 0)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[0] + 2 < self.state.initial_info["map_size"][0]:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (2, 0)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[0] + 3 < self.state.initial_info["map_size"][0]:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (3, 0)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
                 if entity_id == objs[1][0].id:
                     return True
 
-        # try it 3 blocks away
-        if agent_entity.facing == "NORTH":
-            direction = (-3, 0)
-            if agent_entity.loc[0] - 3 < 0:
-                return False
-        elif agent_entity.facing == "SOUTH":
-            direction = (3, 0)
-            if agent_entity.loc[0] + 3 >= self.state.initial_info["map_size"][0]:
-                return False
-        elif agent_entity.facing == "EAST":
-            direction = (0, 3)
-            if agent_entity.loc[1] + 3 >= self.state.initial_info["map_size"][1]:
-                return False
-        else:
-            direction = (0, -3)
-            if agent_entity.loc[1] - 3 < 0:
-                return False
-        self.temp_loc = tuple(np.add(agent_entity.loc, direction))
-        objs = self.state.get_objects_at(self.temp_loc)
-        if len(objs[1]) != 1:
-            return False
-        else:
-            if hasattr(objs[1][0], "id"):
+        if agent_entity.loc[1] + 1 < self.state.initial_info["map_size"][1]:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (0, 1)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[1] + 2 < self.state.initial_info["map_size"][1]:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (0, 2)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[1] + 3 < self.state.initial_info["map_size"][1]:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (0, 3)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[1] - 1 > 0:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (0, -1)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[1] - 2 > 0:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (0, -2)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+                if entity_id == objs[1][0].id:
+                    return True
+        if agent_entity.loc[1] - 3 > 0:
+            self.temp_loc = tuple(np.add(agent_entity.loc, (0, -3)))
+            objs = self.state.get_objects_at(self.temp_loc)
+            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
                 if entity_id == objs[1][0].id:
                     return True
 
-        # try it 4 blocks away
-        if agent_entity.facing == "NORTH":
-            direction = (-4, 0)
-            if agent_entity.loc[0] - 4 < 0:
-                return False
-        elif agent_entity.facing == "SOUTH":
-            direction = (4, 0)
-            if agent_entity.loc[0] + 4 >= self.state.initial_info["map_size"][0]:
-                return False
-        elif agent_entity.facing == "EAST":
-            direction = (0, 4)
-            if agent_entity.loc[1] + 4 >= self.state.initial_info["map_size"][1]:
-                return False
-        else:
-            direction = (0, -4)
-            if agent_entity.loc[1] - 4 < 0:
-                return False
-        self.temp_loc = tuple(np.add(agent_entity.loc, direction))
-        objs = self.state.get_objects_at(self.temp_loc)
-        if len(objs[1]) != 1:
-            return False
-        else:
-            if hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
+        # # convert the entity facing direction to coords
+        # direction = (0, 0)
+        # # try it 1 block away
+        # if agent_entity.facing == "NORTH":
+        #     direction = (-1, 0)
+        #     if agent_entity.loc[0] - 1 < 0:
+        #         return False
+        # elif agent_entity.facing == "SOUTH":
+        #     direction = (1, 0)
+        #     if agent_entity.loc[0] + 1 >= self.state.initial_info["map_size"][0]:
+        #         return False
+        # elif agent_entity.facing == "EAST":
+        #     direction = (0, 1)
+        #     if agent_entity.loc[1] + 1 >= self.state.initial_info["map_size"][1]:
+        #         return False
+        # else:
+        #     direction = (0, -1)
+        #     if agent_entity.loc[1] - 1 < 0:
+        #         return False
+        # self.temp_loc = tuple(np.add(agent_entity.loc, direction))
+        # objs = self.state.get_objects_at(self.temp_loc)
+        # if len(objs[1]) != 1:
+        #     return False
+        # else:
+        #     if hasattr(objs[1][0], "id"):
+        #         if entity_id == objs[1][0].id:
+        #             return True
+
+        # # try it 2 blocks away
+        # if agent_entity.facing == "NORTH":
+        #     direction = (-2, 0)
+        #     if agent_entity.loc[0] - 2 < 0:
+        #         return False
+        # elif agent_entity.facing == "SOUTH":
+        #     direction = (2, 0)
+        #     if agent_entity.loc[0] + 2 >= self.state.initial_info["map_size"][0]:
+        #         return False
+        # elif agent_entity.facing == "EAST":
+        #     direction = (0, 2)
+        #     if agent_entity.loc[1] + 2 >= self.state.initial_info["map_size"][1]:
+        #         return False
+        # else:
+        #     direction = (0, -2)
+        #     if agent_entity.loc[1] - 2 < 0:
+        #         return False
+        # self.temp_loc = tuple(np.add(agent_entity.loc, direction))
+        # objs = self.state.get_objects_at(self.temp_loc)
+        # if len(objs[1]) != 1:
+        #     return False
+        # else:
+        #     if hasattr(objs[1][0], "id"):
+        #         if entity_id == objs[1][0].id:
+        #             return True
+
+        # # try it 3 blocks away
+        # if agent_entity.facing == "NORTH":
+        #     direction = (-3, 0)
+        #     if agent_entity.loc[0] - 3 < 0:
+        #         return False
+        # elif agent_entity.facing == "SOUTH":
+        #     direction = (3, 0)
+        #     if agent_entity.loc[0] + 3 >= self.state.initial_info["map_size"][0]:
+        #         return False
+        # elif agent_entity.facing == "EAST":
+        #     direction = (0, 3)
+        #     if agent_entity.loc[1] + 3 >= self.state.initial_info["map_size"][1]:
+        #         return False
+        # else:
+        #     direction = (0, -3)
+        #     if agent_entity.loc[1] - 3 < 0:
+        #         return False
+        # self.temp_loc = tuple(np.add(agent_entity.loc, direction))
+        # objs = self.state.get_objects_at(self.temp_loc)
+        # if len(objs[1]) != 1:
+        #     return False
+        # else:
+        #     if hasattr(objs[1][0], "id"):
+        #         if entity_id == objs[1][0].id:
+        #             return True
 
         return False
 
