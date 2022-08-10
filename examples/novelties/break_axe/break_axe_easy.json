@@ -23,7 +23,6 @@
       },
       "action_sets": {
         "main": [
-          "forward",
           "rotate_left",
           "rotate_right",
           "use",
@@ -43,6 +42,7 @@
           "craft_block_of_diamond",
           "craft_tree_tap",
           "craft_pogo_stick",
+          "craft",
           "trade_block_of_platinum_1",
           "trade_block_of_titanium_1",
           "trade_diamond_1",
@@ -52,7 +52,12 @@
           "sense_all",
           "TP_TO_103",
           "TP_TO",
-          "reset"
+          "reset",
+          "give_up",
+          "report_novelty",
+          "smooth_move",
+          "move",
+          "smooth_turn"
         ]
       }
     }
