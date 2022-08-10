@@ -3,6 +3,7 @@ from typing import Optional
 import numpy as np
 from gym import spaces
 import json
+from gym_novel_gridworlds2.actions.action_set import CommandParseError
 
 from gym_novel_gridworlds2.state.dynamic import Dynamic
 
@@ -39,8 +40,23 @@ class SocketDiarcAgent(SocketManualAgent):
             try:
                 command = self.action_set.parse_command(action)
                 return command
-            except KeyError:
-                self._send_msg(json.dumps({"error": "command not found"}))
+            except CommandParseError:
+                self._send_msg(json.dumps({
+                    "goal":{
+                        "goalType":"ITEM",
+                        "goalAchieved":False,
+                        "Distribution":"Uninformed"
+                    }, 
+                    "command_result":{
+                        "command":"WRONG_CMD",
+                        "argument":"",
+                        "result":"FAIL",
+                        "message":"Invalid Command",
+                        "stepCost":0.0
+                    },
+                    "step":0,
+                    "gameOver":False
+                }))
     
     def update_metadata(self, metadata: dict):
         if type(metadata) == str:
