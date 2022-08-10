@@ -4,23 +4,23 @@ from gym_novel_gridworlds2.object.entity import Entity, Object
 
 import numpy as np
 
+
 class Turn180(Action):
-    def __init__(self, state: State, dynamics=None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None
     ):
         """
-        Checks preconditions of the rotate_right action:
+        Checks preconditions of the rotate_left action:
         1) None! You can always rotate
         """
         return True
 
-    def do_action(self, agent_entity, target_type=None, target_object=None):
+    def do_action(self, agent_entity, target_type=None, target_object=None, **kwargs):
         """
-        Rotates the object to the right
+        Rotates the object to the left
         """
         # self.state._step_count += 1
         self.state.incrementer()
@@ -34,12 +34,14 @@ class Turn180(Action):
             agent_entity.facing = "EAST"
 
         self.result = "SUCCESS"
-        self.action_metadata(agent_entity)
+        return self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “smooth_turn”, “argument”: “90”, “result”: "
+        return "".join(
+            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+            + str(self.state.goalAchieved)
+            + ", “Distribution”: “Uninformed”}, \
+            “command_result”: {“command”: “smooth_turn”, “argument”: “-90”, “result”: "
             + self.result
             + ", \
             “message”: “”, “stepCost: 24}, “step”: "
