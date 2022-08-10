@@ -182,7 +182,7 @@ class ConfigParser:
             for key, entity_info in json_content["entities"].items():
                 # creates and places the entity in the map
                 agent_entity = self.create_place_entity(
-                    name=key, entity_info=entity_info
+                    nickname=key, entity_info=entity_info
                 )
                 # add agent to the agent list (for action per round)
                 self.agent_manager.add_agent(**agent_entity)
@@ -323,14 +323,14 @@ class ConfigParser:
             action_list.append((action_str, self.actions[action_str]))
         return ActionSet(action_list)
 
-    def create_policy_agent(self, agent_info, name, entity_data, action_set):
+    def create_policy_agent(self, agent_info, id, entity_data, action_set):
         """
         Given agent_info,
         either reuse the existing agent and update the action_set or
         create the new agent.
         """
-        if name in self.agent_cache:
-            agent: Agent = self.agent_cache[name]
+        if id in self.agent_cache:
+            agent: Agent = self.agent_cache[id]
             agent.action_set = action_set
             agent.state = self.state
             return agent
@@ -347,16 +347,16 @@ class ConfigParser:
             agent_param = deepcopy(agent_info)
             del agent_param["module"]
         agent = AgentClass(
-            name=name,
+            id=id,
             action_set=action_set,
             state=self.state,
             entity_data=entity_data,
             **agent_param,
         )
-        self.agent_cache[name] = agent
+        self.agent_cache[id] = agent
         return agent
 
-    def create_place_entity(self, name: str, entity_info: dict):
+    def create_place_entity(self, nickname: str, entity_info: dict):
         # import entity class
         EntityClass: Type[Entity] = import_module(entity_info["entity"])
 
@@ -368,7 +368,7 @@ class ConfigParser:
             raise ParseError(f"Action Set {action_set_name} not found in config") from e
 
         # entity object
-        entity_info["name"] = name
+        entity_info["nickname"] = nickname
         if "id" not in entity_info:
             entity_info["id"] = self.state.entity_count
         self.state.entity_count += 1
@@ -380,10 +380,10 @@ class ConfigParser:
 
         # agent object
         agent_obj = self.create_policy_agent(
-            entity_info["agent"],
-            name=name,
+            agent_info=entity_info["agent"],
+            id=entity_info["id"],
             entity_data=entity_obj,
-            action_set=action_set,
+            action_set=action_set
         )
         max_step_cost = entity_info.get("max_step_cost")
         if max_step_cost is None:

@@ -21,7 +21,7 @@ class SocketManualAgent(KeyboardAgent):
         else:
             try:
                 self.conn, self.conn_addr = self.socket.accept()
-                print(f"agent {self.name}: socket is ready.")
+                print(f"agent {self.id}: socket is ready.")
                 return True
             except BlockingIOError:
                 # print(f"agent {self.name}: socket not ready yet.")
@@ -29,7 +29,7 @@ class SocketManualAgent(KeyboardAgent):
     
     def _wait_for_ready(self):
         while not self.is_ready():
-            print(f"agent {self.name}: Waiting for socket agent to be ready...")
+            print(f"agent {self.id}: Waiting for socket agent to be ready...")
             time.sleep(2)
 
     def _recv_msg(self) -> str:
@@ -61,7 +61,7 @@ class SocketManualAgent(KeyboardAgent):
     def policy(self, observation):
         action = ""
         while not action.isdecimal():
-            self._send_msg(f">>>>>>>>> keyboard agent: Agent {self.name} can do these actions:")
+            self._send_msg(f">>>>>>>>> keyboard agent: Agent {self.id} can do these actions:")
             action_names = self.action_set.get_action_names()
             self._send_msg(">>>>>>>>>> " + ', '.join([f"{index}: {name}" for (index, name) in enumerate(action_names)]))
             action = self._recv_msg()

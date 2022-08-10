@@ -119,8 +119,7 @@
       "smooth_turn"
     ],
     "trader": [
-      "rotate_left",
-      "rotate_right"
+      "NOP"
     ]
   },
   "object_types": {
@@ -210,6 +209,7 @@
   "entities": {
     "main_1": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "name": "entity.polycraft.Player.name",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
@@ -225,6 +225,7 @@
     },
     "trader_joe": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "name": "entity.polycraft.Trader.name",
       "type": "trader",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader",
       "action_set": "trader",
@@ -240,6 +241,7 @@
     },
     "trader_bob": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "name": "entity.polycraft.Trader.name",
       "type": "trader",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader",
       "action_set": "trader",
@@ -255,6 +257,7 @@
     },
     "pogoist_1": {
       "agent": "gym_novel_gridworlds2.agents.Pogoist",
+      "name": "entity.polycraft.Gogoist.name",
       "type": "pogoist",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
       "action_set": "main",
