@@ -109,13 +109,13 @@ class Craft(Action):
 
         if self.itemToCraft == "pogo_stick" or "pogo_stick" in recipe.output_dict:
             self.state.goalAchieved = True
-        return self.action_metadata(agent_entity, recipe=recipe)
+        return self.action_metadata(kwargs, recipe=recipe)
 
     def action_metadata(self, args=[], recipe: Optional[Recipe] = None):
         if self.itemToCraft is not None:
             return {
                 "command_result": {
-                    "command": "craft",
+                    "command": args.get('_command') or "craft",
                     "argument": self.itemToCraft,
                     "message": "",
                     "result": "SUCCESS",
@@ -125,8 +125,8 @@ class Craft(Action):
         else:
             return {
                 "command_result": {
-                    "command": "craft",
-                    "argument": str(args),
+                    "command": args['_command'],
+                    "argument": args['_raw_args'],
                     "message": "",
                     "result": "SUCCESS",
                     "stepCost": recipe.step_cost,
