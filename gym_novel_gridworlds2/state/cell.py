@@ -19,11 +19,14 @@ class Cell:
         self._entity_limit = entity_limit
         self._item_encoder = item_encoder
     
-    def get_map_rep(self):
+    def get_map_rep(self,  conversion_func=None):
         if self._contains_block():
-            return self._objects[0].type
+            if conversion_func is None:
+                return self._objects[0].type
+            else:
+                return conversion_func(self._objects[0].type)
         else:
-            return ""
+            return conversion_func("air")
 
     def place_object(self, obj: Entity) -> bool:
         """

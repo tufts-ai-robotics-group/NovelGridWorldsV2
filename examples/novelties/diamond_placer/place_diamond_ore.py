@@ -13,10 +13,6 @@ from gym_novel_gridworlds2.state.dynamic import Dynamic
 
 
 class PlaceDiamondOre(Action):
-    def __init__(self, state: State, dynamics=None, **kwargs):
-        self.state = state
-        self.dynamics = dynamics
-
     def check_precondition(
         self,
         agent_entity: Entity,
@@ -43,14 +39,14 @@ class PlaceDiamondOre(Action):
         if len(objs[0]) == 1 or len(objs[1]) == 1:  # contains objs, not clear
             return False
         canPlace = False
-        if agent_entity.selectedItem in self.dynamics:
-            self.dynamics[agent_entity.selectedItem]
+        if agent_entity.selectedItem in self.dynamics.obj_types:
+            self.dynamics.obj_types[agent_entity.selectedItem]
             self.state.place_object(
                 agent_entity.selectedItem,
-                self.dynamics[agent_entity.selectedItem]["module"],
+                self.dynamics.obj_types[agent_entity.selectedItem]["module"],
                 properties={
                     "loc": self.temp_loc,
-                    **self.dynamics[agent_entity.selectedItem]["params"],
+                    **self.dynamics.obj_types[agent_entity.selectedItem]["params"],
                 },
             )
             objs = self.state.get_objects_at(self.temp_loc)
@@ -81,15 +77,15 @@ class PlaceDiamondOre(Action):
         else:
             itemToPlace = agent_entity.selectedItem
         # place object of type selectedItem on map in the direction the agent is facing
-        if agent_entity.selectedItem in self.dynamics:
-            obj_info = self.dynamics[agent_entity.selectedItem]
+        if agent_entity.selectedItem in self.dynamics.obj_types:
+            obj_info = self.dynamics.obj_types[agent_entity.selectedItem]
             self.state.place_object(
                 itemToPlace,
                 obj_info["module"],
                 properties={"loc": self.temp_loc, **obj_info["params"]},
             )
-        elif "default" in self.dynamics:
-            obj_info = self.dynamics["default"]
+        elif "default" in self.dynamics.obj_types:
+            obj_info = self.dynamics.obj_types["default"]
             self.state.place_object(
                 itemToPlace,
                 obj_info["module"],

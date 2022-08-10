@@ -18,7 +18,7 @@ class RotateLeft(Action):
         """
         return True
 
-    def do_action(self, agent_entity, target_type=None, target_object=None):
+    def do_action(self, agent_entity, target_type=None, target_object=None, **kwargs):
         """
         Rotates the object to the left
         """
@@ -38,7 +38,9 @@ class RotateLeft(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+            + str(self.state.goalAchieved)
+            + ", “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “smooth_turn”, “argument”: “-90”, “result”: "
             + self.result
             + ", \

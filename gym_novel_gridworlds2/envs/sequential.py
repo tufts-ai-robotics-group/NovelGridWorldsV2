@@ -112,8 +112,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.state.selected_action = action_set.actions[action][0]
         # print(agent_entity.inventory)
         metadata = {}
-        action_failed = False
-        print("inventory:", agent_entity.inventory)
+
         if hasattr(action_set.actions[action][1], "step_cost"):
             step_cost = action_set.actions[action][1].step_cost or 0
         else:
@@ -123,15 +122,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
             metadata = action_set.actions[action][1].do_action(
                 agent_entity, **extra_params
             )
-        except PreconditionNotMetError:
+        except PreconditionNotMetError as e:
             # TODO set an error message
             action_failed = True
             metadata = {
                 "command_result": {
-                    "command": action_set.actions[action][0],
-                    "argument": ", ".join(extra_params),
-                    "result": "FAILED",  # TODO
-                    "message": "",
+                    "command": extra_params.get("_command") or action_set.actions[action][0],
+                    "argument": extra_params.get("_raw_args") or "",
+                    "result": "FAILED",
+                    "message": e.message if hasattr(e, "message") else "",
                     "stepCost": step_cost,  # TODO cost
                 }
             }
@@ -142,6 +141,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
         # TODO: rn accomodating the string
+        if metadata is None:
+            metadata = {}
         if type(metadata) == str:
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
         else:
@@ -152,7 +153,18 @@ class NovelGridWorldSequentialEnv(AECEnv):
             }
             metadata["step"] = self.num_moves
             metadata["gameOver"] = self.dones[agent]  # TODO this is delayed by one step
+            if "command_result" not in metadata:
+                metadata["command_result"] = {
+                    "command": extra_params.get("_command") or action_set.actions[action][0],
+                    "argument": extra_params.get("_raw_args") or "",
+                    "result": "SUCCESS",
+                    "message": "",
+                    "stepCost": step_cost,  # TODO cost
+                }
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
+        
+        # print inventory info
+        print("inventory:", agent_entity.inventory)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this

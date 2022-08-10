@@ -40,12 +40,14 @@
           "select_tree_tap",
           "select_iron_pickaxe",
           "select_crafting_table",
+          "select_car",
           "place_item",
           "craft_stick",
-          "craft_plank",
+          "craft_planks",
           "craft_block_of_diamond",
           "craft_tree_tap",
           "craft_pogo_stick",
+          "craft_car",
           "trade_block_of_platinum_1",
           "trade_block_of_titanium_1",
           "trade_diamond_1",
@@ -55,9 +57,13 @@
           "sense_all",
           "TP_TO_103",
           "TP_TO",
+<<<<<<< HEAD
           "reset",
           "select_car",
           "craft_car"
+=======
+          "reset"
+>>>>>>> da44f38b38f64c200a56e810700fef9f0f3ea173
         ]
       }
     }

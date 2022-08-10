@@ -184,7 +184,7 @@ Example:
 "stick": {
     "input": [
         {
-            "plank": 2
+            "planks": 2
         }
     ],
     "output": [

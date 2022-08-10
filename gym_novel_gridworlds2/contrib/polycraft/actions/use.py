@@ -44,7 +44,7 @@ class Use(Action):
             and (objs[0][0].state == "block")
         )
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs):
         """
         Checks for precondition, then uses the object
         """
@@ -69,7 +69,9 @@ class Use(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+            + str(self.state.goalAchieved)
+            + ",“Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “use”, “argument”: “”, “result”: "
             + self.result
             + ", \

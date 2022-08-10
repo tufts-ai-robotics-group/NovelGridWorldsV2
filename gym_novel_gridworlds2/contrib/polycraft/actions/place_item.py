@@ -1,6 +1,7 @@
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object import Entity, Object
 from gym_novel_gridworlds2.state import State
+from gym_novel_gridworlds2.utils import nameConversion
 from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import (
     PolycraftObject,
 )
@@ -44,14 +45,14 @@ class PlaceItem(Action):
         if len(objs[0]) == 1 or len(objs[1]) == 1:  # contains objs, not clear
             return False
         canPlace = False
-        if agent_entity.selectedItem in self.dynamics:
-            self.dynamics[agent_entity.selectedItem]
+        if agent_entity.selectedItem in self.dynamics.obj_types:
+            self.dynamics.obj_types[agent_entity.selectedItem]
             self.state.place_object(
                 agent_entity.selectedItem,
-                self.dynamics[agent_entity.selectedItem]["module"],
+                self.dynamics.obj_types[agent_entity.selectedItem]["module"],
                 properties={
                     "loc": self.temp_loc,
-                    **self.dynamics[agent_entity.selectedItem]["params"],
+                    **self.dynamics.obj_types[agent_entity.selectedItem]["params"],
                 },
             )
             objs = self.state.get_objects_at(self.temp_loc)
@@ -80,15 +81,15 @@ class PlaceItem(Action):
         else:
             itemToPlace = agent_entity.selectedItem
         # place object of type selectedItem on map in the direction the agent is facing
-        if agent_entity.selectedItem in self.dynamics:
-            obj_info = self.dynamics[agent_entity.selectedItem]
+        if agent_entity.selectedItem in self.dynamics.obj_types:
+            obj_info = self.dynamics.obj_types[agent_entity.selectedItem]
             self.state.place_object(
                 itemToPlace,
                 obj_info["module"],
                 properties={"loc": self.temp_loc, **obj_info["params"]},
             )
-        elif "default" in self.dynamics:
-            obj_info = self.dynamics["default"]
+        elif "default" in self.dynamics.obj_types:
+            obj_info = self.dynamics.obj_types["default"]
             self.state.place_object(
                 itemToPlace,
                 obj_info["module"],
@@ -107,9 +108,11 @@ class PlaceItem(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+            + str(self.state.goalAchieved)
+            + ", “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “place”, “argument”: “"
-            + str(agent_entity.selectedItem)
+            + nameConversion(str(agent_entity.selectedItem))
             + "”, “result”: "
             + self.result
             + ", \

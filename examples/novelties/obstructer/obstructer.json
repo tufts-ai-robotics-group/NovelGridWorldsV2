@@ -52,7 +52,7 @@
         "select_crafting_table",
         "place_item",
         "craft_stick",
-        "craft_plank",
+        "craft_planks",
         "craft_block_of_diamond",
         "craft_tree_tap",
         "craft_pogo_stick",
@@ -219,7 +219,7 @@
       "stick": {
         "input": [
           {
-            "plank": 2
+            "planks": 2
           }
         ],
         "output": [
@@ -229,7 +229,7 @@
         ],
         "needs_table": "False"
       },
-      "plank": {
+      "planks": {
         "input": [
           {
             "oak_log": 1
@@ -237,7 +237,7 @@
         ],
         "output": [
           {
-            "plank": 4
+            "planks": 4
           }
         ],
         "needs_table": "False"
@@ -258,7 +258,7 @@
       "tree_tap": {
         "input": [
           {
-            "plank": 5
+            "planks": 5
           },
           {
             "stick": 1

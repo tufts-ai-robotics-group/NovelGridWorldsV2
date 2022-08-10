@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Mapping, Tuple, Union
 from ..object.entity import Entity
 from .action import Action 
 import re
@@ -26,9 +26,12 @@ class ActionSet:
     #     return action.do_action(entity)
 
 
-    def parse_command(self, command) -> int:
+    def parse_command(self, command: str) -> Tuple[int, Mapping[str, Union[List[str], str]]]:
         """
         Given a command, returns the id of the action and its parameters
+        
+        named parameters will be returned with their keys, while unnamed parameters (groups) will
+        be returned as a list under the key "_all_params"
         """
         cmd_name = command.split(" ")[0].lower()
         if cmd_name not in self.action_index:
@@ -41,12 +44,21 @@ class ActionSet:
         # try to parse parameters
         if hasattr(action, "cmd_format") and action.cmd_format is not None:
             action_index = self.action_index[cmd_name]
-            match = re.match(self.actions[action_index][1].cmd_format, command)
+            match = re.match(self.actions[action_index][1].cmd_format, command, flags=re.IGNORECASE)
             if match is not None:
                 # found matching parameters, do the action using the parameters
                 params = match.groupdict()
+                unnamed_params = match.groups()
+                params["_command"] = command.split(" ")[0]
+                params["_all_params"] = unnamed_params
+                params["_raw_args"] = " ".join(command.split(" ")[1:])
                 return action_id, params
-        return action_id, {}
+        info = {
+            "_all_params": [], 
+            "_command": command.split(" ")[0], 
+            "_raw_args": " ".join(command.split(" ")[1:])
+        }
+        return action_id, info
 
 
     def remove_action(self, index):

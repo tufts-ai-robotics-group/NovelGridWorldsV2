@@ -59,12 +59,12 @@ class Collect(Action):
                     adjacentToTree = True
 
             return adjacentToTree and (objs[0][0].state == "block")
-        elif objs[0][0].type == "safe":
+        elif objs[0][0].type == "unlocked_safe":
             return (objs[0][0].isLocked == False) and (objs[0][0].state == "block")
         else:
             return objs[0][0].state == "block"
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs):
         """
         Checks for precondition, then collects from the object
         """
@@ -89,7 +89,9 @@ class Collect(Action):
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
         return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
+            + str(self.state.goalAchieved)
+            + ", “Distribution”: “Uninformed”}, \
             “command_result”: {“command”: “collect”, “argument”: “”, “result”: "
             + self.result
             + ", \

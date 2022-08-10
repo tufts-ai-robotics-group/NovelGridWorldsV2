@@ -18,7 +18,7 @@ class Pogoist(Agent):
 
         # find tree, teleport to said tree
         # break tree
-        # move forward to get log
+        # move smooth_move to get log
         # repeat last 3 steps 2 more times
 
         # teleport to crafting table
@@ -31,12 +31,12 @@ class Pogoist(Agent):
 
         # teleport to diamond ore
         # break it
-        # move forward to get it
+        # move smooth_move to get it
         # repeat last 3 steps again
 
         # teleport to platinum
         # break it
-        # move forward to get it
+        # move smooth_move to get it
         # repeat last 3 steps again
 
         # teleport to entity 103
@@ -135,7 +135,7 @@ class Pogoist(Agent):
                     or self.policy_step == 41
                 ):
                     self.policy_step += 1
-                    return action_sets.index("forward")
+                    return action_sets.index("smooth_move")
                 elif self.policy_step == 12 or self.policy_step == 46:
                     objs = self.state.get_objects_of_type("crafting_table")
                     if len(objs) > 0:
@@ -179,7 +179,7 @@ class Pogoist(Agent):
                     or self.policy_step == 16
                 ):
                     self.policy_step += 1
-                    return action_sets.index("craft_plank")
+                    return action_sets.index("craft_planks")
                 elif self.policy_step == 17:
                     self.policy_step += 1
                     return action_sets.index("craft_stick")
@@ -285,7 +285,7 @@ class Pogoist(Agent):
                         # need to rotate until we are facing the block_of_platinum
                 elif self.policy_step == 42:
                     self.policy_step += 1
-                    return action_sets.index("TP_TO_103")
+                    return action_sets.index("TP_TO 103")
                 elif self.policy_step == 43:
                     vec = (0, 0)
                     if ent.facing == "NORTH":

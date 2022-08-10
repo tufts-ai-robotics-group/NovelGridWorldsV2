@@ -1,8 +1,11 @@
+from typing import Optional
 from ..object.entity import Entity, Object
 from ..state.state import State
 
 
 class PreconditionNotMetError(Exception):
+    def __init__(self, message=""):
+        self.message = message
     pass
 
 
@@ -13,7 +16,8 @@ class Action:
         """
         self.dynamics = dynamics
         self.state = state
-        self.cmd_format = cmd_format
+        if cmd_format is not None:
+            self.cmd_format = cmd_format
 
         # sets if the agent can do an additional action
         self.allow_additional_action = False

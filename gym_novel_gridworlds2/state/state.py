@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Mapping
+from typing import Iterable, List, Optional, Tuple, Mapping
 from copy import deepcopy
 import numpy as np
 import random
@@ -10,7 +10,6 @@ from gym_novel_gridworlds2.object import entity
 from ..object import Object, Entity
 from ..utils.item_encoder import SimpleItemEncoder
 from .cell import Cell
-import pygame
 
 from .exceptions import LocationOccupied, LocationOutOfBound
 
@@ -297,7 +296,7 @@ class State:
                 entities += obj_list
         return entities
 
-    def get_map_rep_in_type(self):
+    def get_map_rep_in_type(self, conversion_func=None):
         """
         returns a numpy array of strings, containing the object's type
         """
@@ -306,9 +305,10 @@ class State:
             for j in range(self._map.shape[1]):
                 cell: Cell = self._map[i][j]
                 if cell is not None:
-                    map_rep[i][j] = cell.get_map_rep()
+                    cell_name = cell.get_map_rep(conversion_func)
                 else:
-                    map_rep[i][j] = "air"
+                    cell_name = "minecraft:air"
+            map_rep[i][j] = cell_name
         return map_rep
 
     def get_map_size(self):
