@@ -7,17 +7,18 @@ import numpy as np
 
 
 class Interact(Action):
-    def __init__(self, state: State, dynamics=None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, entity_id=None, **kwargs):
+        self.entity_id = entity_id
+        self.cmd_format = r"\w+ (?P<entity_id>\w+)"
+        super().__init__(**kwargs)
 
     def check_precondition(
-        self, agent_entity: Entity, target_object: Object = None, **kwargs
+        self, agent_entity: Entity, target_object: Object = None, entity_id=None, **kwargs
     ):
         """
         Checks preconditions of the Interact action:
         1) The agent is facing an entity
-        2) The entity has an id
+        2) The entity shares the id with the arg provided
         """
         # convert the entity facing direction to coords
         direction = (0, 0)
@@ -35,34 +36,41 @@ class Interact(Action):
         if len(objs[1]) != 1:
             return False
 
-        # validTypes = ["trader", "pogoist"]
+        if hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+        else:
+            return False
 
-        self.entity_id = objs[1][0].id
-
-        return hasattr(objs[1][0], "id")
-
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(self, agent_entity: Entity, target_object: Object = None, entity_id=None, **kwargs):
         """
         Checks for precondition, then interacts with the entity
         """
-        if not self.check_precondition(agent_entity, target_object):
+        if entity_id is None:
+            entity_id = self.entity_id
+        self.state.incrementer()
+        if not self.check_precondition(agent_entity, target_object, entity_id=entity_id):
             obj_type = (
                 target_object.type
                 if hasattr(target_object, "type")
                 else target_object.__class__.__name__
             )
-            self.result = "FAILED"
-            self.action_metadata(agent_entity, target_object)
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
             )
+        # objs = self.state.get_objects_at(self.temp_loc)
+        # if objs[1][0].type == "trader":
+        #     # get its inventory, print out trades respective to that
+        #     for item in objs[1][0].inventory:
+        #         print("trade_" + item)
+
         objs = self.state.get_objects_at(self.temp_loc)
         if objs[1][0].type == "trader":
             # get its inventory, print out trades respective to that
             for item in objs[1][0].inventory:
                 print("trade_" + item)
         if objs[1][0].id == 106:
-            print("Interacting with supplier.")
+            # print("Interacting with supplier.")
             for item in objs[1][0].inventory:
                 if item in agent_entity.inventory:
                     agent_entity.inventory[item] += objs[1][0].inventory[item]
@@ -70,16 +78,90 @@ class Interact(Action):
                     agent_entity.inventory[item] = objs[1][0].inventory[item]
                 objs[1][0].inventory[item] = 0
 
-        self.result = "SUCCESS"
-        self.action_metadata(agent_entity, target_object)
+        return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
 
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
-            "{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-                “command_result”: {“command”: “interact”, “argument”: “"
-            + str(self.entity_id)
-            + "”, “result”: "
-            + self.result
-            + ", \
-                “message”: “”, “stepCost: 282.72424}, “step”:1, “gameOver”:false}"
-        )
+    def action_metadata(self, agent_entity, target_type=None, target_object=None, entity_id=None):
+        if entity_id == 103:
+            return {
+                "trades": {
+                    "trades": [
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 1,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_titanium",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "minecraft:diamond",
+                                    "stackSize": 18,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                    ]
+                },
+            }
+        elif entity_id == 104:
+            return {
+                "trades": {
+                    "trades": [
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 2,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {"Item": "minecraft:diamond", "stackSize": 9, "slot": 5}
+                            ],
+                        },
+                        {
+                            "inputs": [
+                                {"Item": "minecraft:log", "stackSize": 10, "slot": 0}
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_titanium",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                    ]
+                },
+            }
+        else:
+            return {}
+        # print(
+        #     "“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
+        #         “command_result”: {“command”: “interact”, “argument”: “"
+        #     + str(self.entity_id)
+        #     + "”, “result”: "
+        #     + self.result
+        #     + ", \
+        #         “message”: “”, “stepCost: 282.72424}, “step”: "
+        #     + str(self.state._step_count)
+        #     + ", “gameOver”:false}"
+        # )
+        # return {} # TODO UPDATE
