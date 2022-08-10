@@ -13,7 +13,11 @@ class Interact(Action):
         super().__init__(**kwargs)
 
     def check_precondition(
-        self, agent_entity: Entity, target_object: Object = None, entity_id=None, **kwargs
+        self,
+        agent_entity: Entity,
+        target_object: Object = None,
+        entity_id=None,
+        **kwargs,
     ):
         """
         Checks preconditions of the Interact action:
@@ -42,14 +46,22 @@ class Interact(Action):
         else:
             return False
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None, entity_id=None, **kwargs):
+    def do_action(
+        self,
+        agent_entity: Entity,
+        target_object: Object = None,
+        entity_id=None,
+        **kwargs,
+    ):
         """
         Checks for precondition, then interacts with the entity
         """
         if entity_id is None:
             entity_id = self.entity_id
         self.state.incrementer()
-        if not self.check_precondition(agent_entity, target_object, entity_id=entity_id):
+        if not self.check_precondition(
+            agent_entity, target_object, entity_id=entity_id
+        ):
             obj_type = (
                 target_object.type
                 if hasattr(target_object, "type")
@@ -58,15 +70,12 @@ class Interact(Action):
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
             )
-        # objs = self.state.get_objects_at(self.temp_loc)
-        # if objs[1][0].type == "trader":
-        #     # get its inventory, print out trades respective to that
-        #     for item in objs[1][0].inventory:
-        #         print("trade_" + item)
 
         return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
 
-    def action_metadata(self, agent_entity, target_type=None, target_object=None, entity_id=None):
+    def action_metadata(
+        self, agent_entity, target_type=None, target_object=None, entity_id=None
+    ):
         if entity_id == 103:
             return {
                 "trades": {
