@@ -59,7 +59,7 @@ class Collect(Action):
                     adjacentToTree = True
 
             return adjacentToTree and (objs[0][0].state == "block")
-        elif objs[0][0].type == "safe":
+        elif objs[0][0].type == "unlocked_safe":
             return (objs[0][0].isLocked == False) and (objs[0][0].state == "block")
         else:
             return objs[0][0].state == "block"

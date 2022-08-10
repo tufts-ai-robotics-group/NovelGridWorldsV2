@@ -6,6 +6,8 @@ from gym_novel_gridworlds2.state.cell import Cell
 from gym_novel_gridworlds2.state.exceptions import LocationOccupied
 from typing import Iterable, List, Optional, Tuple, Mapping
 from numpy.random import default_rng
+from gym_novel_gridworlds2.utils import nameConversion, backConversion
+
 
 import random
 import numpy as np
@@ -24,7 +26,7 @@ class PolycraftState(State):
         map_json: dict = None,
         item_list: Mapping[str, int] = {"air": 0},
         rng: np.random.Generator = default_rng(),
-        **kwargs
+        **kwargs,
     ):
         # TODO remove hard code, make more general
         super().__init__(map_size, objects, map_json, item_list, rng, **kwargs)
@@ -48,7 +50,9 @@ class PolycraftState(State):
             self.CRAFTING_TABLE_IMAGE, (20, 20)
         )
 
-        self.CRAFTING_TABLE_PICKUP_IMAGE = pygame.image.load("img/polycraft/craftingtablepickup.png")
+        self.CRAFTING_TABLE_PICKUP_IMAGE = pygame.image.load(
+            "img/polycraft/craftingtablepickup.png"
+        )
         self.CRAFTING_TABLE_PICKUP = pygame.transform.scale(
             self.CRAFTING_TABLE_PICKUP_IMAGE, (20, 20)
         )
@@ -93,7 +97,9 @@ class PolycraftState(State):
         self.PLATINUM_IMAGE = pygame.image.load("img/polycraft/platinum.png")
         self.PLATINUM = pygame.transform.scale(self.PLATINUM_IMAGE, (20, 20))
 
-        self.PLATINUM_PICKUP_IMAGE = pygame.image.load("img/polycraft/platinumpickup.png")
+        self.PLATINUM_PICKUP_IMAGE = pygame.image.load(
+            "img/polycraft/platinumpickup.png"
+        )
         self.PLATINUM_PICKUP = pygame.transform.scale(
             self.PLATINUM_PICKUP_IMAGE, (20, 20)
         )
@@ -116,7 +122,7 @@ class PolycraftState(State):
         pygame.display.set_caption("NovelGridWorlds v2")
         self.CLOCK = pygame.time.Clock()
         self.SCREEN.fill((171, 164, 164))
-    
+
     def get_map_rep_in_range(self, map_range: Iterable[tuple], conversion_func=None):
         """
         returns a nonav description of the surrounding
@@ -127,15 +133,14 @@ class PolycraftState(State):
             if cell is not None:
                 map_dict[f"{coord[0]},17,{coord[1]}"] = {
                     "name": cell.get_map_rep(conversion_func),
-                    "isAccessible": True
+                    "isAccessible": True,
                 }
             else:
                 map_dict[f"{coord[0]},17,{coord[1]}"] = {
                     "name": "minecraft:air",
-                    "isAccessible": True
+                    "isAccessible": True,
                 }
         return map_dict
-
 
     def drawMap(self):
         """
@@ -217,15 +222,15 @@ class PolycraftState(State):
                         )
                     elif obj[0][0].type == "axe":
                         pygame.draw.rect(
-                                self.SCREEN,
-                                (255, 255, 255),
-                                [
-                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
-                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
-                                    self.WIDTH,
-                                    self.HEIGHT,
-                                ],
-                            )
+                            self.SCREEN,
+                            (255, 255, 255),
+                            [
+                                (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                self.WIDTH,
+                                self.HEIGHT,
+                            ],
+                        )
                         self.SCREEN.blit(
                             self.AXE,
                             (
@@ -332,7 +337,7 @@ class PolycraftState(State):
                                 (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
                             ),
                         )
-                    elif obj[0][0].type == "safe":
+                    elif obj[0][0].type == "safe" or obj[0][0].type == "unlocked_safe":
                         self.SCREEN.blit(
                             self.SAFE,
                             (
@@ -614,7 +619,7 @@ class PolycraftState(State):
         """
         Randomly place the object chunk in the map in a specific room
         if there's not enough spots available, all available spots will be filled
-        NOTE: currently only works for chunks of 2 and 4
+        NOTE: only works for chunks of 2 and 4, as these are the only available chunks in polycraft
         """
         all_available_spots = []
         for i in range(self.initial_info["map_size"][0]):
@@ -719,34 +724,6 @@ class PolycraftState(State):
         for loc in picked_spots:
             properties = {"loc": tuple(loc)}
             self.place_object(object_str, ObjectClass, properties=properties)
-
-    def nameConversion(self, name):
-        if name == None:
-            return "None"
-        elif name == "oak_log":
-            return "minecraft:log"
-        elif name == "rubber":
-            return "polycraft:sack_polyisoprene_pellets"
-        elif name == "block_of_titanium":
-            return "polycraft:block_of_titanium"
-        elif name == "block_of_platinum":
-            return "polycraft:block_of_platinum"
-        elif name == "diamond_ore":
-            return "minecraft:diamond_ore"
-        elif name == "iron_pickaxe":
-            return "minecraft:iron_pickaxe"
-        elif name == "block_of_diamond":
-            return "minecraft:block_of_diamond"
-        elif name == "tree_tap":
-            return "polycraft:tree_tap"
-        elif name == "plastic_chest":
-            return "polycraft:plastic_chest"
-        elif name == "safe":
-            return "polycraft:safe"
-        elif name == "bedrock":
-            return "minecraft:bedrock"
-        else:
-            return "polycraft:" + name
 
     def renderTextCenteredAt(self, text, font, colour, x, y, screen, allowed_width):
         """

@@ -12,7 +12,7 @@
     "rotate_right": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateRight"
     },
-    "TP_TO 103": {
+    "TP_TO_103": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
       "entity_id": 103
     },
@@ -44,15 +44,15 @@
     "interact": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact"
     },
-    "INTERACT 102": {
+    "INTERACT_102": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
       "entity_id": 102
     },
-    "INTERACT 103": {
+    "INTERACT_103": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
       "entity_id": 103
     },
-    "INTERACT 104": {
+    "INTERACT_104": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
       "entity_id": 104
     },
@@ -90,9 +90,9 @@
       "rotate_right",
       "use",
       "collect",
-      "INTERACT 102",
-      "INTERACT 103",
-      "INTERACT 104",
+      "INTERACT_102",
+      "INTERACT_103",
+      "INTERACT_104",
       "break",
       "select",
       "select_sapling",
@@ -113,7 +113,7 @@
       "NOP",
       "sense_recipes",
       "sense_all",
-      "TP_TO 103",
+      "TP_TO_103",
       "TP_TO",
       "reset",
       "give_up",
@@ -213,7 +213,7 @@
   "num_episodes": 10,
   "entities": {
     "main_1": {
-      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "agent": "gym_novel_gridworlds2.agents.KeyboardAgent",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
@@ -292,8 +292,8 @@
         "0"
       ],
       "output": {
-          "planks": 4
-        }
+        "planks": 4
+      }
     },
     "block_of_diamond": {
       "input": [
@@ -308,8 +308,8 @@
         "diamond"
       ],
       "output": {
-          "block_of_diamond": 1
-        }
+        "block_of_diamond": 1
+      }
     },
     "tree_tap": {
       "input": [
@@ -340,8 +340,8 @@
         "0"
       ],
       "output": {
-          "pogo_stick": 1
-        }
+        "pogo_stick": 1
+      }
     }
   },
   "trades": {

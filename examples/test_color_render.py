@@ -66,11 +66,11 @@ class TestColorRender:
                 )
                 choice = input("Select an action: ")
                 if choice == "sw":
-                    self.dynamic.actions["smooth_move W"].do_action(agent)
+                    self.dynamic.actions["smooth_move_W"].do_action(agent)
                 elif choice == "sa":
-                    self.dynamic.actions["smooth_move A"].do_action(agent)
+                    self.dynamic.actions["smooth_move_A"].do_action(agent)
                 elif choice == "sd":
-                    self.dynamic.actions["smooth_move D"].do_action(agent)
+                    self.dynamic.actions["smooth_move_D"].do_action(agent)
                 elif choice == "r":
                     self.dynamic.actions["rotate_right"].do_action(agent)
                 elif choice == "l":
@@ -80,11 +80,11 @@ class TestColorRender:
                 elif choice == "u":
                     self.dynamic.actions["use"].do_action(agent)
                 elif choice == "i102":
-                    self.dynamic.actions["INTERACT 102"].do_action(agent)
+                    self.dynamic.actions["INTERACT_102"].do_action(agent)
                 elif choice == "i103":
-                    self.dynamic.actions["INTERACT 103"].do_action(agent)
+                    self.dynamic.actions["INTERACT_103"].do_action(agent)
                 elif choice == "i104":
-                    self.dynamic.actions["INTERACT 104"].do_action(agent)
+                    self.dynamic.actions["INTERACT_104"].do_action(agent)
                 elif choice == "c":
                     self.dynamic.actions["collect"].do_action(agent)
                 elif choice == "sr":

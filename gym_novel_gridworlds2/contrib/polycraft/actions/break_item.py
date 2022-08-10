@@ -34,13 +34,15 @@ class Break(Action):
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[0]) == 1:
             correctDirection = True
-            unbreakableObjects = ["bedrock", "plastic_chest", "safe"]
+            unbreakableObjects = ["bedrock", "plastic_chest", "safe", "unlocked_safe"]
             if objs[0][0].type in unbreakableObjects:
                 return False
 
         return correctDirection and (objs[0][0].state == "block")
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs) -> str:
+    def do_action(
+        self, agent_entity: Entity, target_object: Object = None, **kwargs
+    ) -> str:
         """
         Checks for precondition, then breaks the object
         """

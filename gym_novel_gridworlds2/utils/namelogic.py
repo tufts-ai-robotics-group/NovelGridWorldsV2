@@ -23,6 +23,8 @@ def nameConversion(name):
         return "polycraft:wooden_pogo_stick"
     elif name == "safe":
         return "polycraft:safe"
+    elif name == "unlocked_safe":
+        return "polycraft:unlocked_safe"
     elif name == "bedrock":
         return "minecraft:bedrock"
     elif name == "door":
@@ -33,9 +35,9 @@ def nameConversion(name):
 
 def backConversion(name):
     res = name.split(":")
-    if (len(res) <= 1):
+    if len(res) <= 1:
         return name
-    
+
     if res[1] == "sack_polyisoprene_pellets":
         return "rubber"
     elif res[1] == "log":
