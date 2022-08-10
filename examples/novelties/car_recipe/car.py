@@ -21,12 +21,12 @@ class Forward(Action):
         2) The new location must not be occupied by another non-floating object
         3) If the new location is occupied by a door, it must be open
         """
-        
+
         if agent_entity.selectedItem == "car":
             self.speed = 2 # double agent's speed if car selected
         else:
             self.speed = 1
-        
+
         if agent_entity.facing == "NORTH":
             self.vec = (-self.speed, 0)
         elif agent_entity.facing == "SOUTH":
@@ -86,17 +86,6 @@ class Forward(Action):
             self.state.update_object_loc(agent_entity.loc, new_loc)
             self.result = "SUCCESS"
         else:
-            self.result = "FAILED"
+            raise PreconditionNotMetError
 
-        return self.action_metadata(agent_entity, target_object)
-
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “smooth_move”, “argument”: “w”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 27.906975}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}
