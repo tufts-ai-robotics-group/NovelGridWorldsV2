@@ -131,9 +131,11 @@ class PolycraftState(State):
         for coord in map_range:
             cell: Cell = self._map[coord]
             if cell is not None:
+                name = cell.get_map_rep(conversion_func)
                 map_dict[f"{coord[0]},17,{coord[1]}"] = {
                     "name": cell.get_map_rep(conversion_func),
                     "isAccessible": True,
+                    "variant": "oak" if name == "minecraft:log" else None # TODO generalize
                 }
             else:
                 map_dict[f"{coord[0]},17,{coord[1]}"] = {
@@ -141,6 +143,21 @@ class PolycraftState(State):
                     "isAccessible": True,
                 }
         return map_dict
+    
+    def get_map_rep_in_type(self, conversion_func=None):
+        """
+        returns a numpy array of strings, containing the object's type
+        """
+        map_rep = np.zeros_like(self._map, dtype=object)
+        for i in range(self._map.shape[0]):
+            for j in range(self._map.shape[1]):
+                cell: Cell = self._map[i][j]
+                if cell is not None:
+                    cell_name = cell.get_map_rep(conversion_func)
+                else:
+                    cell_name = "minecraft:air"
+            map_rep[i][j] = cell_name
+        return map_rep
 
     def drawMap(self):
         """
