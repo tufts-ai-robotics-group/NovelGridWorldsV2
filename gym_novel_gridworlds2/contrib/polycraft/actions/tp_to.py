@@ -12,7 +12,7 @@ class TP_TO(Action):
         self.x = x
         self.y = y
         self.offset = offset
-        self.cmd_format = r"tp_to (?P<x>\d+),(?P<z>\d+),(?P<y>\d+) (?P<offset>\d+)"
+        self.cmd_format = r"tp_to (?P<x>\d+),(?P<z>\d+),(?P<y>\d+)( (?P<offset>\d+))?"
         self.allow_additional_action = False
         
 
@@ -120,8 +120,6 @@ class TP_TO(Action):
         if not self.check_precondition(
             agent_entity, x=x, y=y, offset=offset, target_object=target_object
         ):
-            self.result = "FAILURE"
-            self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
                 f"Agent {agent_entity.nickname} cannot teleport to {loc}."
             )

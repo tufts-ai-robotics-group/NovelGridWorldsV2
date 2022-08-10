@@ -118,6 +118,7 @@ class Craft(Action):
                     "command": "craft",
                     "argument": self.itemToCraft,
                     "message": "",
+                    "result": "SUCCESS",
                     "stepCost": self.recipe_set.get_recipe(self.itemToCraft).step_cost,
                 }
             }
@@ -127,6 +128,7 @@ class Craft(Action):
                     "command": "craft",
                     "argument": str(args),
                     "message": "",
+                    "result": "SUCCESS",
                     "stepCost": recipe.step_cost,
                 }
             }

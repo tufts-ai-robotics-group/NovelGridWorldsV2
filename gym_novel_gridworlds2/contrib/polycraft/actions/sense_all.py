@@ -71,7 +71,7 @@ class SenseAll(Action):
         locInFront = tuple(np.add(agent_entity.loc, vec))
         objs = state.get_objects_at(locInFront)
         if len(objs[0]) > 0:
-            blockInFront = state.nameConversion(objs[0][0].type)
+            blockInFront = nameConversion(objs[0][0].type)
         else:
             blockInFront = "minecraft:air"
         return blockInFront
@@ -117,7 +117,7 @@ class SenseAll(Action):
                     obj not in exclude_entities: # TODO make more efficient
                 entities_dict[str(obj.id)] = {
                     "type": obj.__class__.__name__,
-                    "name": obj.nickname,
+                    "name": obj.name,
                     "id": obj.id,
                     "pos": [int(obj.loc[0]), 17, int(obj.loc[1])],
                     "color": "black",
