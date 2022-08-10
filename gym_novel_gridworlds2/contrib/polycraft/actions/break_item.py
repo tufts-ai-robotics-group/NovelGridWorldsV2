@@ -56,7 +56,7 @@ class Break(Action):
                 else target_object.__class__.__name__
             )
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot perform break on {obj_type}.'
+                f'Agent "{agent_entity.nickname}" cannot perform break on {obj_type}.'
             )
         objs = self.state.get_objects_at(self.temp_loc)
         objs[0][0].acted_upon("break", agent_entity)

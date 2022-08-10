@@ -32,7 +32,7 @@ class SelectItem(Action):
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILED"
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot select item of type {target_type}.'
+                f'Agent "{agent_entity.nickname}" cannot select item of type {target_type}.'
             )
         agent_entity.selectedItem = target_type
 

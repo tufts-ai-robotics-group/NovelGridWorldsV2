@@ -59,7 +59,7 @@ class Craft(Action):
     def do_action(self, agent_entity: Entity, target_type=None, target_object=None):
         if not self.check_precondition(agent_entity):
             raise PreconditionNotMetError(
-                f"Agent {agent_entity.name} cannot craft {self.itemToCraft}."
+                f"Agent {agent_entity.nickname} cannot craft {self.itemToCraft}."
             )
 
         count = 0

@@ -66,7 +66,7 @@ class Trade(Action):
             self.result = "FAILED"
             self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
-                f"Agent {agent_entity.name} cannot trade for {self.itemToTrade}."
+                f"Agent {agent_entity.nickname} cannot trade for {self.itemToTrade}."
             )
 
         count = 0

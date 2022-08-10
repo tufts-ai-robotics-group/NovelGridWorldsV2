@@ -10,13 +10,13 @@ class Entity(Object):
         state="block",
         inventory={},
         id=1,
-        name="",
+        nickname="",
         facing="NORTH",
         **kwargs,
     ):
 
         # populate
-        self.name = name
+        self.nickname = nickname
         self.loc = loc
         self.inventory = inventory
         self.selectedItem: str = None

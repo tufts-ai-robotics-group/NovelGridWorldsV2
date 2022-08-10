@@ -79,7 +79,7 @@ class Collect(Action):
                 else target_object.__class__.__name__
             )
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
+                f'Agent "{agent_entity.nickname}" cannot perform use on {obj_type}.'
             )
         objs = self.state.get_objects_at(self.temp_loc)
         objs[0][0].acted_upon("collect", agent_entity)

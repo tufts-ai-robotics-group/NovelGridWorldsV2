@@ -123,7 +123,7 @@ class TP_TO(Action):
             self.result = "FAILURE"
             self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
-                f"Agent {agent_entity.name} cannot teleport to {loc}."
+                f"Agent {agent_entity.nickname} cannot teleport to {loc}."
             )
         new_loc = tuple(np.add(self.vec, loc))
         # multiple objects handling

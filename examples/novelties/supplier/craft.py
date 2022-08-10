@@ -61,7 +61,7 @@ class Craft(Action):
             self.result = "FAILED"
             self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
-                f"Agent {agent_entity.name} cannot craft {self.itemToCraft}."
+                f"Agent {agent_entity.nickname} cannot craft {self.itemToCraft}."
             )
 
         count = 0

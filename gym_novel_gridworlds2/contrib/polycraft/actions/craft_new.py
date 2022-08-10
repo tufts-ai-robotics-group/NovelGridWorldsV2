@@ -88,7 +88,7 @@ class Craft(Action):
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_type, target_object):
             raise PreconditionNotMetError(
-                f"Agent {agent_entity.name} cannot craft {self.itemToCraft}."
+                f"Agent {agent_entity.nickname} cannot craft {self.itemToCraft}."
             )
 
         if self.itemToCraft is not None:
