@@ -11,9 +11,6 @@
     "rotate_right": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateRight"
     },
-    "forward": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward"
-    },
     "TP_TO_103": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
       "entity_id": 103
@@ -27,11 +24,17 @@
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
+    "report_novelty": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
+    },
     "sense_recipes": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes"
     },
     "sense_all": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseAll"
+    },
+    "interact": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact"
     },
     "INTERACT_102": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Interact",
@@ -53,12 +56,24 @@
     },
     "reset": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP",
-      "step_cost": 9999999999
+      "step_cost": 99999999999999
+    },
+    "give_up": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP",
+      "step_cost": 99999999999999
+    },
+    "smooth_move": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
+    },
+    "move": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove"
+    },
+    "smooth_turn": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SmoothTurn"
     }
   },
   "action_sets": {
     "main": [
-      "forward",
       "rotate_left",
       "rotate_right",
       "use",
@@ -77,6 +92,7 @@
       "craft_block_of_diamond",
       "craft_tree_tap",
       "craft_pogo_stick",
+      "craft",
       "trade_block_of_platinum_1",
       "trade_block_of_titanium_1",
       "trade_diamond_1",
@@ -86,7 +102,12 @@
       "sense_all",
       "TP_TO_103",
       "TP_TO",
-      "reset"
+      "reset",
+      "give_up",
+      "report_novelty",
+      "smooth_move",
+      "move",
+      "smooth_turn"
     ],
     "trader": [
       "rotate_left",
@@ -184,17 +205,19 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "iron_pickaxe": 1
+        "iron_pickaxe": 1,
+        "planks": 2
       },
       "loc": [
         25,
         25
-      ]
+      ],
+      "max_step_cost": 100000
     },
     "trader_joe": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
       "type": "trader",
-      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader",
       "action_set": "trader",
       "inventory": {
         "block_of_titanium": 1,
@@ -209,7 +232,7 @@
     "trader_bob": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
       "type": "trader",
-      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader",
       "action_set": "trader",
       "inventory": {
         "diamond": 9,
@@ -224,7 +247,7 @@
     "pogoist_1": {
       "agent": "gym_novel_gridworlds2.agents.Pogoist",
       "type": "pogoist",
-      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
       "action_set": "main",
       "inventory": {
         "iron_pickaxe": 1
@@ -239,80 +262,73 @@
   "recipes": {
     "stick": {
       "input": [
-        {
-          "planks": 2
-        }
+        "planks",
+        "0",
+        "0",
+        "planks"
       ],
-      "output": [
-        {
-          "stick": 4
-        }
-      ],
-      "needs_table": "False"
+      "output": {
+        "stick": 4
+      }
     },
     "planks": {
       "input": [
-        {
-          "oak_log": 1
-        }
+        "oak_log",
+        "0",
+        "0",
+        "0"
       ],
-      "output": [
-        {
-          "planks": 4
-        }
-      ],
-      "needs_table": "False"
+      "output": {
+        "planks": 4
+      }
     },
     "block_of_diamond": {
       "input": [
-        {
-          "diamond": 9
-        }
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond",
+        "diamond"
       ],
-      "output": [
-        {
-          "block_of_diamond": 1
-        }
-      ],
-      "needs_table": "True"
+      "output": {
+        "block_of_diamond": 1
+      }
     },
     "tree_tap": {
       "input": [
-        {
-          "planks": 5
-        },
-        {
-          "stick": 1
-        }
+        "planks",
+        "stick",
+        "planks",
+        "planks",
+        "0",
+        "planks",
+        "0",
+        "planks",
+        "0"
       ],
-      "output": [
-        {
-          "tree_tap": 1
-        }
-      ],
-      "needs_table": "True"
+      "output": {
+        "tree_tap": 1
+      }
     },
     "pogo_stick": {
       "input": [
-        {
-          "stick": 2
-        },
-        {
-          "block_of_diamond": 2
-        },
-        {
-          "block_of_titanium": 2
-        },
-        {
-          "rubber": 1
-        }
+        "stick",
+        "block_of_titanium",
+        "stick",
+        "diamond_block",
+        "block_of_titanium",
+        "diamond_block",
+        "0",
+        "rubber",
+        "0"
       ],
-      "output": [
-        {
-          "pogo_stick": 1
-        }
-      ],
-      "needs_table": "True"
+      "output": {
+        "pogo_stick": 1
+      }
     }
   },
   "trades": {
