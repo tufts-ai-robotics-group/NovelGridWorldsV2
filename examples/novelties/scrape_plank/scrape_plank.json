@@ -4,7 +4,7 @@
     "0": {
       "actions": {
         "scrape": {
-          "module": "novelties.scrape_planks.scrape.Scrape"
+          "module": "novelties.scrape_plank.scrape.Scrape"
         }
       },
       "action_sets": {
@@ -47,7 +47,7 @@
         ]
       },
       "object_types": {
-        "oak_log": "novelties.scrape_planks.scrape_tree.ScrapeTree"
+        "oak_log": "novelties.scrape_plank.scrape_tree.ScrapeTree"
       }
     }
   }
