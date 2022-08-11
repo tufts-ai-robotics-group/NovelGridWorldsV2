@@ -25,7 +25,7 @@ class SmoothMove(Action):
         if agent_entity.facing == "NORTH":
             if self.direction_tmp == "W":
                 self.vec = (-1, 0)
-            elif self.direction_tmp == "S":
+            elif self.direction_tmp == "X":
                 self.vec = (1, 0)
             elif self.direction_tmp == "A":
                 self.vec = (0, -1)
@@ -34,7 +34,7 @@ class SmoothMove(Action):
         elif agent_entity.facing == "EAST":
             if self.direction_tmp == "W":
                 self.vec = (0, 1)
-            elif self.direction_tmp == "S":
+            elif self.direction_tmp == "X":
                 self.vec = (0, -1)
             elif self.direction_tmp == "A":
                 self.vec = (-1, 0)
@@ -43,7 +43,7 @@ class SmoothMove(Action):
         elif agent_entity.facing == "WEST":
             if self.direction_tmp == "W":
                 self.vec = (0, -1)
-            elif self.direction_tmp == "S":
+            elif self.direction_tmp == "X":
                 self.vec = (0, 1)
             elif self.direction_tmp == "A":
                 self.vec = (1, 0)
@@ -52,7 +52,7 @@ class SmoothMove(Action):
         else:
             if self.direction_tmp == "W":
                 self.vec = (1, 0)
-            elif self.direction_tmp == "S":
+            elif self.direction_tmp == "X":
                 self.vec = (-1, 0)
             elif self.direction_tmp == "A":
                 self.vec = (0, 1)

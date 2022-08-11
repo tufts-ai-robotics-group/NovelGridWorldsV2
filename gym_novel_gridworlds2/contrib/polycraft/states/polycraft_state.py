@@ -125,10 +125,10 @@ class PolycraftState(State):
             self.IRON_ORE_PICKUP_IMAGE, (20, 20)
         )
         self.ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
-        pygame.init()
         self.SCREEN = pygame.display.set_mode((1300, 750))
         pygame.display.set_caption("NovelGridWorlds v2")
         pygame.display.set_icon(self.ICON)
+        pygame.init()
         self.CLOCK = pygame.time.Clock()
         self.SCREEN.fill((171, 164, 164))
 

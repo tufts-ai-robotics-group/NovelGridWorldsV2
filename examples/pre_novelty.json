@@ -122,7 +122,6 @@
       "give_up",
       "report_novelty",
       "smooth_move",
-      "move_backwards",
       "smooth_turn"
     ],
     "trader": [

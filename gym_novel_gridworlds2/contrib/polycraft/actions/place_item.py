@@ -68,6 +68,7 @@ class PlaceItem(Action):
         agent_entity: Entity,
         target_type: str = None,
         target_object: Object = None,
+        **kwargs
     ):
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_type, target_object):
