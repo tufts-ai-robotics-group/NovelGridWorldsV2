@@ -3,18 +3,22 @@ import warnings
 
 
 class Recipe:
-    def __init__(self, input_list, output_dict, step_cost=None):
+    def __init__(self, input_list, output_dict, step_cost=None, input_dict=None, entity=None):
         self.input_list = input_list
         self.output_dict = output_dict
         self.step_cost = step_cost
+        self.entity = None
 
         # compute an input dict
-        self.input_dict = {}
-        for item in input_list:
-            if item not in self.input_dict:
-                self.input_dict[item] = 1
-            else:
-                self.input_dict[item] += 1
+        if input_dict is None:
+            self.input_dict = {}
+            for item in input_list:
+                if item not in self.input_dict:
+                    self.input_dict[item] = 1
+                else:
+                    self.input_dict[item] += 1
+        else:
+            self.input_dict = input_dict
 
 
 class RecipeSet:
@@ -22,7 +26,28 @@ class RecipeSet:
         self.recipes: Mapping[str, Recipe] = {}
         self.recipe_index: Mapping[str, Recipe] = {}
         self.default_step_cost = default_step_cost
+    
+    ################## TRADEs ##################
+    def convert_trade_input_list(self, input_dict):
+        input_list = []
+        for item, quantity in input_dict.items():
+            input_list.append(f"{str(item)} {str(quantity)}")
+        return input_list
 
+    def add_trade(self, recipe_name, recipe_dict):
+        step_cost = recipe_dict.get('step_cost')
+        if step_cost is None:
+            step_cost = self.default_step_cost
+        
+        input_list = self.convert_trade_input_list(recipe_dict['input'])
+        output_dict = recipe_dict['output']
+
+        recipe = Recipe(input_list, output_dict, step_cost, input_dict=recipe_dict['input'])
+        self.recipes[recipe_name] = recipe
+        self.recipe_index[self.list_to_recipe_index(input_list)] = recipe
+
+
+    ################## CRAFTS ##################
     def add_recipe(self, recipe_name, recipe_dict):
         if isinstance(recipe_dict['input'][0], dict):
             input_list = self.legacy_list_convert(recipe_dict['input'])

@@ -5,7 +5,7 @@ from gym_novel_gridworlds2.object.entity import Entity, Object
 
 import numpy as np
 
-from gym_novel_gridworlds2.state.recipe import Recipe, RecipeSet
+from gym_novel_gridworlds2.state.recipe_set import Recipe, RecipeSet
 
 from gym_novel_gridworlds2.utils import nameConversion, backConversion
 

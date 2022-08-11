@@ -19,7 +19,7 @@ from ..agents import Agent
 import numpy as np
 
 
-from ..contrib.polycraft.actions.craft_new import Craft
+from ..contrib.polycraft.actions.craft import Craft
 from ..contrib.polycraft.actions.select_item import SelectItem
 from ..contrib.polycraft.actions.trade import Trade
 from ..state import State
