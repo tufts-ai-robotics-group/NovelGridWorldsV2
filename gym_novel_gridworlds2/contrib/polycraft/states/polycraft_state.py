@@ -117,6 +117,14 @@ class PolycraftState(State):
         self.TRADER_IMAGE = pygame.image.load("img/polycraft/trader.png")
         self.TRADER = pygame.transform.scale(self.TRADER_IMAGE, (20, 20))
 
+        self.IRON_ORE_IMAGE = pygame.image.load("img/polycraft/iron_ore.png")
+        self.IRON_ORE = pygame.transform.scale(self.IRON_ORE_IMAGE, (20, 20))
+
+        self.IRON_ORE_PICKUP_IMAGE = pygame.image.load("img/polycraft/iron_ingot.png")
+        self.IRON_ORE_PICKUP = pygame.transform.scale(
+            self.IRON_ORE_PICKUP_IMAGE, (20, 20)
+        )
+
         pygame.init()
         self.SCREEN = pygame.display.set_mode((1300, 750))
         pygame.display.set_caption("NovelGridWorlds v2")
@@ -143,7 +151,7 @@ class PolycraftState(State):
                     "isAccessible": True,
                 }
         return map_dict
-    
+
     def get_map_rep_in_type(self, conversion_func=None):
         """
         returns a numpy array of strings, containing the object's type
@@ -402,6 +410,33 @@ class PolycraftState(State):
                             )
                             self.SCREEN.blit(
                                 self.PLATINUM_PICKUP,
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                    elif obj[0][0].type == "iron_ore":
+                        if obj[0][0].state == "block":
+                            self.SCREEN.blit(
+                                self.IRON_ORE,
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        else:
+                            pygame.draw.rect(
+                                self.SCREEN,
+                                (255, 255, 255),
+                                [
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                    self.WIDTH,
+                                    self.HEIGHT,
+                                ],
+                            )
+                            self.SCREEN.blit(
+                                self.IRON_ORE_PICKUP,
                                 (
                                     (self.MARGIN + self.WIDTH) * j + self.MARGIN,
                                     (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
