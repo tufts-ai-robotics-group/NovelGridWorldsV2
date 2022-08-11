@@ -1,6 +1,6 @@
 from typing import List, Mapping
 
-from gym_novel_gridworlds2.state.recipe import RecipeSet
+from gym_novel_gridworlds2.state.recipe_set import RecipeSet
 
 from ..actions import Action, ActionSet
 

@@ -7,7 +7,7 @@ from typing import Mapping, Tuple, Type
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
 from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
 from gym_novel_gridworlds2.contrib.polycraft.states import PolycraftState
-from gym_novel_gridworlds2.state.recipe import RecipeSet
+from gym_novel_gridworlds2.state.recipe_set import RecipeSet
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from .MultiAgentActionSpace import MultiAgentActionSpace
