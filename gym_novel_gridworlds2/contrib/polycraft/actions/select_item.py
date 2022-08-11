@@ -7,7 +7,7 @@ from gym_novel_gridworlds2.utils import nameConversion, backConversion
 class SelectItem(Action):
     def __init__(self, target_type=None, **kwargs):
         self.target_type = target_type
-        self.cmd_format = r"\w+ (?P<target_type>\w+)"
+        self.cmd_format = r"[^\s]+ (?P<target_type>[^\s]+)"
         super().__init__(**kwargs)
 
     def check_precondition(
@@ -17,18 +17,27 @@ class SelectItem(Action):
         target_object: Object = None,
         **kwargs,
     ):
-        return target_type in agent_entity.inventory
+        return target_type in agent_entity.inventory or target_type is None
 
     def do_action(
         self,
         agent_entity: Entity,
         target_type: str = None,
         target_object: Object = None,
+        **kwargs
     ):
         if target_type is None:
-            target_type = self.target_type
+            target_type = backConversion(self.target_type)
+        else:
+            target_type = backConversion(target_type)
         # self.state._step_count += 1
         self.state.incrementer()
+
+        if "_command" in kwargs is not None and kwargs["_command"].startswith("deselect"):
+            # deselect action
+            agent_entity.selectedItem = None
+            return {}
+        
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILED"
             raise PreconditionNotMetError(

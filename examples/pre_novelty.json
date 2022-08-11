@@ -2,7 +2,7 @@
   "sleep_time": 0.05,
   "time_limit": 180,
   "actions": {
-    "break": {
+    "break_block": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break",
       "step_cost": 3600
     },
@@ -26,7 +26,11 @@
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
-    "select": {
+    "select_item": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+      "step_cost": 120
+    },
+    "deselect_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
       "step_cost": 120
     },
@@ -91,8 +95,9 @@
       "INTERACT_103",
       "INTERACT_104",
       "interact",
-      "break",
-      "select",
+      "break_block",
+      "select_item",
+      "deselect_item",
       "select_sapling",
       "select_tree_tap",
       "select_iron_pickaxe",
@@ -257,7 +262,7 @@
       ]
     },
     "pogoist_1": {
-      "agent": "gym_novel_gridworlds2.agents.Pogoist",
+      "agent": "gym_novel_gridworlds2.agents.NOPAgent",
       "name": "entity.polycraft.Pogoist.name",
       "type": "pogoist",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",

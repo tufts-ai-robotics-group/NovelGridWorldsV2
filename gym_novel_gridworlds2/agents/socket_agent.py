@@ -13,6 +13,7 @@ class SocketManualAgent(KeyboardAgent):
         self.socket.bind((socket_host, socket_port))
         self.socket.listen(5)
         self.socket.setblocking(False)
+        self.printed_await_message = False
         super().__init__(**kwargs)
     
     def is_ready(self):
@@ -29,7 +30,9 @@ class SocketManualAgent(KeyboardAgent):
     
     def _wait_for_ready(self):
         while not self.is_ready():
-            print(f"agent {self.id}: Waiting for socket agent to be ready...")
+            if not self.printed_await_message:
+                print(f"agent {self.id}: Waiting for socket agent to be ready...")
+                self.printed_await_message = True
             time.sleep(2)
 
     def _recv_msg(self) -> str:

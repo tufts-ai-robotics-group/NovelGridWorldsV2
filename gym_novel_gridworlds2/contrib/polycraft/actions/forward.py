@@ -23,6 +23,8 @@ class Forward(Action):
         """
         if agent_entity.facing == "NORTH":
             self.vec = (-self.speed, 0)
+        elif agent_entity.facing == "EAST":
+            self.vec = (0, self.speed)
         elif agent_entity.facing == "SOUTH":
             self.vec = (self.speed, 0)
         elif agent_entity.facing == "WEST":
