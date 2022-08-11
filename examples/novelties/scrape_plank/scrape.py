@@ -59,7 +59,7 @@ class Scrape(Action):
                 f'Agent "{agent_entity.nickname}" cannot perform break on {obj_type}.'
             )
         objs = self.state.get_objects_at(self.temp_loc)
-        objs[0][0].acted_upon("break", agent_entity)
+        objs[0][0].acted_upon("scrape", agent_entity)
         if objs[0][0].type == "oak_log" and objs[0][0].state == "floating":
             self.state.tree_was_broken(self.temp_loc)
 
