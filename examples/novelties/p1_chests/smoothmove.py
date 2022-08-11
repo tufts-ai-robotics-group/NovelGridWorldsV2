@@ -25,7 +25,7 @@ class SmoothMove(Action):
         if agent_entity.facing == "NORTH":
             if self.direction_tmp == "W":
                 self.vec = (-1, 0)
-            elif self.direction_tmp == "S":
+            elif self.direction_tmp == "X":
                 self.vec = (1, 0)
             elif self.direction_tmp == "A":
                 self.vec = (0, -1)
@@ -34,7 +34,7 @@ class SmoothMove(Action):
         elif agent_entity.facing == "EAST":
             if self.direction_tmp == "W":
                 self.vec = (0, 1)
-            elif self.direction_tmp == "S":
+            elif self.direction_tmp == "X":
                 self.vec = (0, -1)
             elif self.direction_tmp == "A":
                 self.vec = (-1, 0)
@@ -43,7 +43,7 @@ class SmoothMove(Action):
         elif agent_entity.facing == "WEST":
             if self.direction_tmp == "W":
                 self.vec = (0, -1)
-            elif self.direction_tmp == "S":
+            elif self.direction_tmp == "X":
                 self.vec = (0, 1)
             elif self.direction_tmp == "A":
                 self.vec = (1, 0)
@@ -52,7 +52,7 @@ class SmoothMove(Action):
         else:
             if self.direction_tmp == "W":
                 self.vec = (1, 0)
-            elif self.direction_tmp == "S":
+            elif self.direction_tmp == "X":
                 self.vec = (-1, 0)
             elif self.direction_tmp == "A":
                 self.vec = (0, 1)
@@ -76,7 +76,14 @@ class SmoothMove(Action):
             # out of the bound
             return False
 
-    def do_action(self, agent_entity, target_type=None, target_object=None, direction=None, **kwargs):
+    def do_action(
+        self,
+        agent_entity,
+        target_type=None,
+        target_object=None,
+        direction=None,
+        **kwargs
+    ):
         """
         Checks for precondition, then moves the object to the destination.
         """
@@ -106,10 +113,14 @@ class SmoothMove(Action):
                         if obj.type == "plastic_chest":
                             for item_key in obj.inventory:
                                 if item_key in agent_entity.inventory:
-                                    agent_entity.inventory[item_key] = obj.inventory[item_key]
+                                    agent_entity.inventory[item_key] = obj.inventory[
+                                        item_key
+                                    ]
                                     obj.inventory[item_key] = 0
                                 else:
-                                    agent_entity.inventory[item_key] += obj.inventory[item_key]
+                                    agent_entity.inventory[item_key] += obj.inventory[
+                                        item_key
+                                    ]
                                     obj.inventory[item_key] = 0
                         elif obj.type != "diamond_ore":
                             if obj.type in agent_entity.inventory:
