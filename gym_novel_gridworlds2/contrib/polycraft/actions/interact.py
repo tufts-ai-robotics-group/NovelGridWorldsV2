@@ -206,7 +206,7 @@ class Interact(Action):
                 else target_object.__class__.__name__
             )
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
+                f'Agent "{agent_entity.name}" cannot perform interact on {obj_type}.'
             )
 
         return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
