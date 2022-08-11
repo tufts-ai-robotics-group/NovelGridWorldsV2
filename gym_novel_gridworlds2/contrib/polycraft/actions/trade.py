@@ -1,127 +1,61 @@
-from xmlrpc.client import Boolean
+from typing import Optional
+from gym_novel_gridworlds2.contrib.polycraft.actions.interact import can_interact
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
+from gym_novel_gridworlds2.state.recipe_set import Recipe
+from gym_novel_gridworlds2.utils.namelogic import backConversion
+from .craft import Craft
 
 import numpy as np
 
 
-class Trade(Action):
-    def __init__(self, state: State, trade=None, dynamics=None, **kwargs):
-        super().__init__(state, dynamics, **kwargs)
-        self.trade = trade
-        self.allow_additional_action = False
-        self.itemToTrade = list(trade["output"][0].keys())[0]
-
+class Trade(Craft):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.cmd_format = r"\w+ (\d+) *(?: +([\w:]+) (\d+))+"
+        self.is_trade = True
+    
     def check_precondition(
-        self, agent_entity: Entity, target_object: Object = None, **kwargs
+        self,
+        agent_entity: Entity,
+        target_object: Object = None,
+        recipe: Optional[Recipe]=None,
+        **kwargs,
     ):
         """
-        Checks preconditions of the trade action:
-        1) The agent is facing an entity of type trader
-        2) The trader has the item to trade
-        3) The agent must have all of the necessary inputs
+        Checks preconditions of the Interact action:
+        1) The agent is facing an entity
+        2) The entity shares the id with the arg provided
         """
-        count = 0
-        for item in self.trade["input"]:
-            temp = list(item.keys())
-            if temp[0] in agent_entity.inventory:
-                if (
-                    self.trade["input"][count][temp[0]]
-                    > agent_entity.inventory[temp[0]]
-                ):
-                    return False  # not enough of the item
-            else:
-                return False  # one of the inputs isnt in the agents inventory
-            count += 1
-        # convert the entity facing direction to coords
-        direction = (0, 0)
-        if agent_entity.facing == "NORTH":
-            direction = (-1, 0)
-        elif agent_entity.facing == "SOUTH":
-            direction = (1, 0)
-        elif agent_entity.facing == "EAST":
-            direction = (0, 1)
+
+        # make a 3x3 radius around the agent, determine if the wanted entity is there
+        near_trader = False
+        entity_id = int(kwargs["_all_params"][0])
+        if can_interact(agent_entity, self.state, entity_id) and entity_id in recipe.entities:
+            near_trader = True
+
+        return near_trader and \
+            super().check_precondition(agent_entity, recipe=recipe)
+
+    def do_action(
+        self, agent_entity: Entity, target_type=None, target_object=None, **kwargs
+    ):
+        if self.itemToCraft is not None:
+            recipe = self.recipe_set.get_recipe(self.itemToCraft)
         else:
-            direction = (0, -1)
-
-        correctDirection = False
-
-        self.temp_loc = tuple(np.add(agent_entity.loc, direction))
-        objs = self.state.get_objects_at(self.temp_loc)
-        if len(objs[1]) == 1:
-            if objs[1][0].type == "trader":
-                if self.itemToTrade in objs[1][0].inventory:
-                    correctDirection = True
-
-        return correctDirection
-
-    def do_action(self, agent_entity: Entity, target_object: Object = None, **kwargs):
-        """
-        Checks for precondition, then trades for the item
-        """
-        # self.state._step_count += 1
-        self.state.incrementer()
-        if not self.check_precondition(agent_entity):
-            self.result = "FAILED"
-            self.action_metadata(agent_entity)
-            raise PreconditionNotMetError(
-                f"Agent {agent_entity.nickname} cannot trade for {self.itemToTrade}."
-            )
-
-        count = 0
-        for item in self.trade["input"]:
-            temp = list(item.keys())
-            agent_entity.inventory[temp[0]] = (
-                agent_entity.inventory[temp[0]] - self.trade["input"][count][temp[0]]
-            )
-            count += 1
-        if self.itemToTrade in agent_entity.inventory:
-            agent_entity.inventory[self.itemToTrade] += self.trade["output"][0][
-                self.itemToTrade
-            ]
-        else:
-            agent_entity.inventory[self.itemToTrade] = self.trade["output"][0][
-                self.itemToTrade
-            ]
-
-        self.result = "SUCCESS"
-        return self.action_metadata(agent_entity)
-
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        if self.itemToTrade == "block_of_titanium":
-            return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-                + str(self.state.goalAchieved)
-                + ", “Distribution”: “Uninformed”}, \
-                “command_result”: {“command”: “trade”, “argument”: “103 polycraft:block_of_platinum 1”, “result”: "
-                + self.result
-                + ", \
-                “message”: “”, “stepCost: 1200}, “step”: "
-                + str(self.state._step_count)
-                + ", “gameOver”:false}"
-            )
-        elif self.itemToTrade == "block_of_platinum":
-            return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-                + str(self.state.goalAchieved)
-                + ", “Distribution”: “Uninformed”}, \
-                “command_result”: {“command”: “trade”, “argument”: “103 minecraft:diamond 18”, “result”: "
-                + self.result
-                + ", \
-                “message”: “”, “stepCost: 20400}, “step”: "
-                + str(self.state._step_count)
-                + ", “gameOver”:false}"
-            )
-        elif self.itemToTrade == "diamond":
-            return "".join(
-                "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-                + str(self.state.goalAchieved)
-                + ", “Distribution”: “Uninformed”}, \
-                “command_result”: {“command”: “trade”, “argument”: “104 polycraft:block_of_platinum 2”, “result”: "
-                + self.result
-                + ", \
-                “message”: “”, “stepCost: 2400}, “step”: "
-                + str(self.state._step_count)
-                + ", “gameOver”:false}"
-            )
+            if "_all_params" in kwargs:
+                input_list = [o for o in kwargs["_all_params"] if o is not None][1:]
+                target_object = []
+                for i, item in enumerate(input_list):
+                    if i % 2 == 0:
+                        # backconvert the names
+                        target_object.append(backConversion(item))
+                    else:
+                        # backconvert the quantity
+                        target_object.append(item)
+            recipe = self.recipe_set.get_recipe_by_input(target_object)
+        if recipe is None:
+            raise PreconditionNotMetError("wrong recipe")
+        
+        return super().do_action(agent_entity, target_type, target_object, recipe, **kwargs)

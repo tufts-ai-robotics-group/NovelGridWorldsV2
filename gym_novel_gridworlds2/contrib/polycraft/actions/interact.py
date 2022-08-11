@@ -6,6 +6,84 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 import numpy as np
 
 
+def can_interact(agent_entity, state, entity_id):
+    if agent_entity.loc[0] - 1 >= 0:
+        temp_loc = tuple(np.add(agent_entity.loc, (-1, 0)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[0] - 2 >= 0:
+        temp_loc = tuple(np.add(agent_entity.loc, (-2, 0)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[0] - 3 >= 0:
+        temp_loc = tuple(np.add(agent_entity.loc, (-3, 0)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+
+    if agent_entity.loc[0] + 1 < state.initial_info["map_size"][0]:
+        temp_loc = tuple(np.add(agent_entity.loc, (1, 0)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[0] + 2 < state.initial_info["map_size"][0]:
+        temp_loc = tuple(np.add(agent_entity.loc, (2, 0)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[0] + 3 < state.initial_info["map_size"][0]:
+        temp_loc = tuple(np.add(agent_entity.loc, (3, 0)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+
+    if agent_entity.loc[1] + 1 < state.initial_info["map_size"][1]:
+        temp_loc = tuple(np.add(agent_entity.loc, (0, 1)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[1] + 2 < state.initial_info["map_size"][1]:
+        temp_loc = tuple(np.add(agent_entity.loc, (0, 2)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[1] + 3 < state.initial_info["map_size"][1]:
+        temp_loc = tuple(np.add(agent_entity.loc, (0, 3)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[1] - 1 > 0:
+        temp_loc = tuple(np.add(agent_entity.loc, (0, -1)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[1] - 2 > 0:
+        temp_loc = tuple(np.add(agent_entity.loc, (0, -2)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    if agent_entity.loc[1] - 3 > 0:
+        temp_loc = tuple(np.add(agent_entity.loc, (0, -3)))
+        objs = state.get_objects_at(temp_loc)
+        if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
+            if entity_id == objs[1][0].id:
+                return True
+    return False
+
+
 class Interact(Action):
     def __init__(self, entity_id=None, **kwargs):
         self.entity_id = entity_id
@@ -26,83 +104,11 @@ class Interact(Action):
         """
 
         # make a 3x3 radius around the agent, determine if the wanted entity is there
+        if entity_id is None:
+            return False
         entity_id = int(entity_id)
 
-        if agent_entity.loc[0] - 1 >= 0:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (-1, 0)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[0] - 2 >= 0:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (-2, 0)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[0] - 3 >= 0:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (-3, 0)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-
-        if agent_entity.loc[0] + 1 < self.state.initial_info["map_size"][0]:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (1, 0)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[0] + 2 < self.state.initial_info["map_size"][0]:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (2, 0)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[0] + 3 < self.state.initial_info["map_size"][0]:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (3, 0)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-
-        if agent_entity.loc[1] + 1 < self.state.initial_info["map_size"][1]:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (0, 1)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[1] + 2 < self.state.initial_info["map_size"][1]:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (0, 2)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[1] + 3 < self.state.initial_info["map_size"][1]:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (0, 3)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[1] - 1 > 0:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (0, -1)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[1] - 2 > 0:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (0, -2)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        if agent_entity.loc[1] - 3 > 0:
-            self.temp_loc = tuple(np.add(agent_entity.loc, (0, -3)))
-            objs = self.state.get_objects_at(self.temp_loc)
-            if len(objs[1]) == 1 and hasattr(objs[1][0], "id"):
-                if entity_id == objs[1][0].id:
-                    return True
-        return False
+        return can_interact(agent_entity, self.state, entity_id)
 
     def do_action(
         self,

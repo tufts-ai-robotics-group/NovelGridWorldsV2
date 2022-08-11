@@ -42,6 +42,8 @@ def backConversion(name):
 
     if res[1] == "sack_polyisoprene_pellets":
         return "rubber"
+    elif res[1] == "diamond_block":
+        return "block_of_diamond"
     elif res[1] == "log":
         return "oak_log"
     elif res[1] == "minecraft:wooden_door":

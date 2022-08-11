@@ -240,12 +240,21 @@ class ConfigParser:
         return self.actions
 
     def parse_trades(self, trades_dict):
+        self.trade_recipe_set = RecipeSet()
+        for name, recipe_dict in trades_dict.items():
+            self.trade_recipe_set.add_trade(name, recipe_dict)
+        
         items = list(trades_dict.keys())
         for i in range(len(items)):
             tradeStr = "trade_" + items[i]
             self.actions[tradeStr] = Trade(
-                state=self.state, trade=trades_dict[items[i]]
+                state=self.state, 
+                recipe_set=self.trade_recipe_set,
+                recipe_name=items[i]
             )
+        self.actions["trade"] = Trade(
+            state=self.state, recipe_set=self.trade_recipe_set,
+        )
 
         return self.actions
 

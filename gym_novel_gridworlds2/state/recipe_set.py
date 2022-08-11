@@ -3,11 +3,11 @@ import warnings
 
 
 class Recipe:
-    def __init__(self, input_list, output_dict, step_cost=None, input_dict=None, entity=None):
+    def __init__(self, input_list, output_dict, step_cost=None, input_dict=None, entities=None):
         self.input_list = input_list
         self.output_dict = output_dict
         self.step_cost = step_cost
-        self.entity = None
+        self.entities = entities
 
         # compute an input dict
         if input_dict is None:
@@ -31,7 +31,7 @@ class RecipeSet:
     def convert_trade_input_list(self, input_dict):
         input_list = []
         for item, quantity in input_dict.items():
-            input_list.append(f"{str(item)} {str(quantity)}")
+            input_list.append(f"{str(item)}~{str(quantity)}")
         return input_list
 
     def add_trade(self, recipe_name, recipe_dict):
@@ -42,7 +42,12 @@ class RecipeSet:
         input_list = self.convert_trade_input_list(recipe_dict['input'])
         output_dict = recipe_dict['output']
 
-        recipe = Recipe(input_list, output_dict, step_cost, input_dict=recipe_dict['input'])
+        recipe = Recipe(
+            input_list, 
+            output_dict, 
+            step_cost, 
+            input_dict=recipe_dict['input'],
+            entities=recipe_dict['trader'])
         self.recipes[recipe_name] = recipe
         self.recipe_index[self.list_to_recipe_index(input_list)] = recipe
 

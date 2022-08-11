@@ -122,7 +122,8 @@
       "give_up",
       "report_novelty",
       "smooth_move",
-      "smooth_turn"
+      "smooth_turn",
+      "trade"
     ],
     "trader": [
       "NOP"
@@ -220,8 +221,7 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "iron_pickaxe": 1,
-        "planks": 2
+        "iron_pickaxe": 1
       },
       "loc": [
         25,
@@ -341,9 +341,9 @@
         "stick",
         "block_of_titanium",
         "stick",
-        "diamond_block",
+        "block_of_diamond",
         "block_of_titanium",
-        "diamond_block",
+        "block_of_diamond",
         "0",
         "rubber",
         "0"
@@ -356,52 +356,40 @@
   },
   "trades": {
     "block_of_titanium_1": {
-      "input": [
-        {
-          "block_of_platinum": 1
-        }
-      ],
-      "output": [
-        {
-          "block_of_titanium": 1
-        }
-      ]
+      "input": {
+        "block_of_platinum": 1
+      },
+      "output": {
+        "block_of_titanium": 1
+      },
+      "trader": [103]
     },
     "block_of_platinum_1": {
-      "input": [
-        {
-          "diamond": 18
-        }
-      ],
-      "output": [
-        {
-          "block_of_platinum": 1
-        }
-      ]
+      "input": {
+        "diamond": 18
+      },
+      "output": {
+        "block_of_platinum": 1
+      },
+      "trader": [103]
     },
     "diamond_1": {
-      "input": [
-        {
-          "block_of_platinum": 2
-        }
-      ],
-      "output": [
-        {
-          "diamond": 9
-        }
-      ]
+      "input": {
+        "block_of_platinum": 2
+      },
+      "output": {
+        "diamond": 9
+      },
+      "trader": [104]
     },
     "block_of_titanium_2": {
-      "input": [
-        {
-          "oak_log": 10
-        }
-      ],
-      "output": [
-        {
-          "block_of_titanium": 2
-        }
-      ]
+      "input": {
+        "oak_log": 10
+      },
+      "output": {
+        "block_of_titanium": 2
+      },
+      "trader": [104]
     }
   }
 }

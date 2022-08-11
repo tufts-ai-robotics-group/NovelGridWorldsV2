@@ -22,10 +22,12 @@ class Craft(Action):
         self.itemToCraft = recipe_name
         self.cmd_format = r"\w+ 1 ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+)(?: ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+) ([:\w]+))?"
         self.default_step_cost = default_step_cost
+        self.is_trade = False
         super().__init__(**kwargs)
 
     def check_precondition(
-        self, agent_entity: Entity, target_type=None, target_object=None
+        self, agent_entity: Entity, target_type=None, target_object=None, recipe=None,
+        **kwargs
     ):
         """
         Checks preconditions of the craft action:
@@ -33,10 +35,11 @@ class Craft(Action):
         2) The agent must be adjacent to a crafting table if the recipe needs a crafting table
         """
         # legacy support
-        if self.itemToCraft is not None:
-            recipe = self.recipe_set.get_recipe(self.itemToCraft)
-        else:
-            recipe = self.recipe_set.get_recipe_by_input(target_object)
+        if recipe is None:
+            if self.itemToCraft is not None:
+                recipe = self.recipe_set.get_recipe(self.itemToCraft)
+            else:
+                recipe = self.recipe_set.get_recipe_by_input(target_object)
 
         if recipe is None:
             print("available recipes:", self.recipe_set.recipe_index.keys())
@@ -50,15 +53,21 @@ class Craft(Action):
                 if count > agent_entity.inventory[item]:
                     return False  # not enough of the item
             else:
-                return False  # one of the inputs isnt in the agents inventory
-        if len(recipe.input_list) <= 4 or recipe.input_list[4] is None:
+                raise PreconditionNotMetError("Not sufficient materials")  # one of the inputs isnt in the agents inventory
+        if self.is_trade:
+            # not craft, skip crafting table check
+            return True
+        elif len(recipe.input_list) <= 4 or recipe.input_list[4] is None:
             # if input_list is <= 4 items long,
             # which means it does not require crafting table
             return True
         else:
-            return self.is_near_crafting_table(agent_entity)
+            if self.is_near_target(agent_entity):
+                return True
+            else:
+                raise PreconditionNotMetError("Agent is not near a crafting table.")
 
-    def is_near_crafting_table(self, agent_entity):
+    def is_near_target(self, agent_entity):
         # convert the entity facing direction to coords
         direction = (0, 0)
         if agent_entity.facing == "NORTH":
@@ -79,22 +88,28 @@ class Craft(Action):
                 return False
 
     def do_action(
-        self, agent_entity: Entity, target_type=None, target_object=None, **kwargs
+        self, agent_entity: Entity, target_type=None, target_object=None, recipe=None, **kwargs
     ):
-        if "_all_params" in kwargs:
-            input_list = [o for o in kwargs["_all_params"] if o is not None]
-            target_object = [backConversion(o) for o in input_list]
+        
+        if recipe is None:
+            if self.itemToCraft is not None:
+                recipe = self.recipe_set.get_recipe(self.itemToCraft)
+            else:
+                if "_all_params" in kwargs:
+                    input_list = [o for o in kwargs["_all_params"] if o is not None]
+                    target_object = [backConversion(o) for o in input_list]
+                recipe = self.recipe_set.get_recipe_by_input(target_object)
 
         self.state.incrementer()
-        if not self.check_precondition(agent_entity, target_type, target_object):
+        if not self.check_precondition(agent_entity, 
+            target_type=target_type, 
+            target_object=target_object, 
+            recipe=recipe, 
+            **kwargs
+        ):
             raise PreconditionNotMetError(
                 f"Agent {agent_entity.nickname} cannot craft {self.itemToCraft}."
             )
-
-        if self.itemToCraft is not None:
-            recipe = self.recipe_set.get_recipe(self.itemToCraft)
-        else:
-            recipe = self.recipe_set.get_recipe_by_input(target_object)
 
         for item, count in recipe.input_dict.items():
             if item != "0":
