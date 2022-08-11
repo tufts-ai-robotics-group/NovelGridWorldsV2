@@ -11,10 +11,12 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.chest import Chest
 import numpy as np
 
 from gym_novel_gridworlds2.state.dynamic import Dynamic
+from gym_novel_gridworlds2.utils.namelogic import backConversion
 
 
 class PlaceItem(Action):
     def __init__(self, **kwargs):
+        self.cmd_format = r"[^\s]+ (?P<target_type>[^\s]+)"
         super().__init__(**kwargs)
 
     def check_precondition(
@@ -25,8 +27,8 @@ class PlaceItem(Action):
         **kwargs,
     ):
         if (
-            agent_entity.selectedItem == None
-            or agent_entity.selectedItem == "iron_pickaxe"
+            target_type == None
+            or target_type == "iron_pickaxe"
         ):
             return False
         # convert the entity facing direction to coords
@@ -45,14 +47,14 @@ class PlaceItem(Action):
         if len(objs[0]) == 1 or len(objs[1]) == 1:  # contains objs, not clear
             return False
         canPlace = False
-        if agent_entity.selectedItem in self.dynamics.obj_types:
-            self.dynamics.obj_types[agent_entity.selectedItem]
+        if target_type in self.dynamics.obj_types:
+            self.dynamics.obj_types[target_type]
             self.state.place_object(
-                agent_entity.selectedItem,
-                self.dynamics.obj_types[agent_entity.selectedItem]["module"],
+                target_type,
+                self.dynamics.obj_types[target_type]["module"],
                 properties={
                     "loc": self.temp_loc,
-                    **self.dynamics.obj_types[agent_entity.selectedItem]["params"],
+                    **self.dynamics.obj_types[target_type]["params"],
                 },
             )
             objs = self.state.get_objects_at(self.temp_loc)
@@ -61,7 +63,7 @@ class PlaceItem(Action):
             self.state.remove_object(objs[0][0].type, self.temp_loc)
             # find a way to get the placement requirements out
 
-        return agent_entity.inventory[agent_entity.selectedItem] > 0 and canPlace
+        return agent_entity.inventory[target_type] > 0 and canPlace
 
     def do_action(
         self,
@@ -71,19 +73,24 @@ class PlaceItem(Action):
         **kwargs
     ):
         self.state.incrementer()
+        if target_type is None:
+            target_type = backConversion(agent_entity.selectedItem)
+        else:
+            target_type = backConversion(target_type)
+
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILURE"
             self.action_metadata(agent_entity, target_type, target_object)
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.nickname}" cannot place item of type {agent_entity.selectedItem}.'
+                f'Agent "{agent_entity.nickname}" cannot place item of type {target_type}.'
             )
-        if agent_entity.selectedItem == "sapling":
+        if target_type == "sapling":
             itemToPlace = "oak_log"
         else:
-            itemToPlace = agent_entity.selectedItem
+            itemToPlace = target_type
         # place object of type selectedItem on map in the direction the agent is facing
-        if agent_entity.selectedItem in self.dynamics.obj_types:
-            obj_info = self.dynamics.obj_types[agent_entity.selectedItem]
+        if target_type in self.dynamics.obj_types:
+            obj_info = self.dynamics.obj_types[target_type]
             self.state.place_object(
                 itemToPlace,
                 obj_info["module"],
@@ -102,22 +109,7 @@ class PlaceItem(Action):
                 Entity,
                 properties={"loc": self.temp_loc},
             )
-        agent_entity.inventory[agent_entity.selectedItem] -= 1
+        agent_entity.inventory[target_type] -= 1
 
         self.result = "SUCCESS"
-        return self.action_metadata(agent_entity, target_type, target_object)
-
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-            + str(self.state.goalAchieved)
-            + ", “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “place”, “argument”: “"
-            + nameConversion(str(agent_entity.selectedItem))
-            + "”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 300}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}

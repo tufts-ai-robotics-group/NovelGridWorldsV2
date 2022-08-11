@@ -71,8 +71,6 @@ class Collect(Action):
         # self.state._step_count += 1
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_object):
-            self.result = "FAILED"
-            self.action_metadata(agent_entity, target_object)
             obj_type = (
                 target_object.type
                 if hasattr(target_object, "type")
@@ -85,17 +83,4 @@ class Collect(Action):
         objs[0][0].acted_upon("collect", agent_entity)
 
         self.result = "SUCCESS"
-        return self.action_metadata(agent_entity, target_object)
-
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-            + str(self.state.goalAchieved)
-            + ", “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “collect”, “argument”: “”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 50000}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}
