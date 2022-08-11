@@ -26,6 +26,7 @@ class Interact(Action):
         """
 
         # make a 3x3 radius around the agent, determine if the wanted entity is there
+        entity_id = int(entity_id)
 
         if agent_entity.loc[0] - 1 >= 0:
             self.temp_loc = tuple(np.add(agent_entity.loc, (-1, 0)))
@@ -206,7 +207,7 @@ class Interact(Action):
                 else target_object.__class__.__name__
             )
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot perform interact on {obj_type}.'
+                f'Agent "{agent_entity.nickname}" cannot perform use on {obj_type}.'
             )
 
         return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
@@ -214,6 +215,7 @@ class Interact(Action):
     def action_metadata(
         self, agent_entity, target_type=None, target_object=None, entity_id=None
     ):
+        entity_id = int(entity_id)
         if entity_id == 103:
             return {
                 "trades": {

@@ -6,17 +6,16 @@ import numpy as np
 
 
 class Scrape(Action):
-    def __init__(self, state: State, dynamics=None):
-        self.dynamics = dynamics
-        self.state = state
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_object: Object = None, **kwargs
     ):
         """
-        Checks preconditions of the scrape action:
+        Checks preconditions of the break action:
         1) The agent is facing an object
-        2) The object is scrapeable
+        2) The object is breakable
         """
         # convert the entity facing direction to coords
         direction = (0, 0)
@@ -35,24 +34,52 @@ class Scrape(Action):
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[0]) == 1:
             correctDirection = True
-            unbreakableObjects = ["bedrock", "plastic_chest", "safe"]
+            unbreakableObjects = ["bedrock", "plastic_chest", "safe", "unlocked_safe"]
             if objs[0][0].type in unbreakableObjects:
                 return False
 
         return correctDirection and (objs[0][0].state == "block")
 
-    def do_action(self, agent_entity: Entity, target_object: Object = None):
+    def do_action(
+        self, agent_entity: Entity, target_object: Object = None, **kwargs
+    ) -> str:
         """
-        Checks for precondition, then scrapes the object
+        Checks for precondition, then breaks the object
         """
+        self.state.incrementer()
         if not self.check_precondition(agent_entity, target_object):
+            self.result = "FAILED"
+            self.action_metadata(agent_entity, target_object)
             obj_type = (
                 target_object.type
                 if hasattr(target_object, "type")
                 else target_object.__class__.__name__
             )
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot perform scrape on {obj_type}.'
+                f'Agent "{agent_entity.nickname}" cannot perform break on {obj_type}.'
             )
         objs = self.state.get_objects_at(self.temp_loc)
         objs[0][0].acted_upon("scrape", agent_entity)
+        if objs[0][0].type == "oak_log" and objs[0][0].state == "floating":
+            self.state.tree_was_broken(self.temp_loc)
+
+        self.result = "SUCCESS"
+        return self.action_metadata(agent_entity, target_object)
+
+    def action_metadata(self, agent_entity, target_type=None, target_object=None):
+        return {
+            "goal": {
+                "goalType": "ITEM",
+                "goalAchieved": str(self.state.goalAchieved),
+                "Distribution": "Uninformed",
+            },
+            "command_result": {
+                "command": "break_block",
+                "argument": "",  # TODO change
+                "result": self.result,
+                "message": "",
+                "stepCost": 3600,
+            },
+            "step": 0,
+            "gameOver": False,
+        }

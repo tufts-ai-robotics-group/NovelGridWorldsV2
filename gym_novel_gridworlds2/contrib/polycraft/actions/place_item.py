@@ -74,7 +74,7 @@ class PlaceItem(Action):
             self.result = "FAILURE"
             self.action_metadata(agent_entity, target_type, target_object)
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot place item of type {agent_entity.selectedItem}.'
+                f'Agent "{agent_entity.nickname}" cannot place item of type {agent_entity.selectedItem}.'
             )
         if agent_entity.selectedItem == "sapling":
             itemToPlace = "oak_log"

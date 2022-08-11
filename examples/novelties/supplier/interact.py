@@ -56,7 +56,7 @@ class Interact(Action):
                 else target_object.__class__.__name__
             )
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot perform use on {obj_type}.'
+                f'Agent "{agent_entity.nickname}" cannot perform use on {obj_type}.'
             )
         # objs = self.state.get_objects_at(self.temp_loc)
         # if objs[1][0].type == "trader":

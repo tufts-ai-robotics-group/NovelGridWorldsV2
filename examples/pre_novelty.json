@@ -2,7 +2,7 @@
   "sleep_time": 0.05,
   "time_limit": 180,
   "actions": {
-    "break": {
+    "break_block": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break",
       "step_cost": 3600
     },
@@ -26,7 +26,11 @@
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
-    "select": {
+    "select_item": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+      "step_cost": 120
+    },
+    "deselect_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
       "step_cost": 120
     },
@@ -90,8 +94,10 @@
       "INTERACT_102",
       "INTERACT_103",
       "INTERACT_104",
-      "break",
-      "select",
+      "interact",
+      "break_block",
+      "select_item",
+      "deselect_item",
       "select_sapling",
       "select_tree_tap",
       "select_iron_pickaxe",
@@ -119,8 +125,7 @@
       "smooth_turn"
     ],
     "trader": [
-      "rotate_left",
-      "rotate_right"
+      "NOP"
     ]
   },
   "object_types": {
@@ -210,6 +215,7 @@
   "entities": {
     "main_1": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "name": "entity.polycraft.Player.name",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
@@ -225,6 +231,7 @@
     },
     "trader_joe": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "name": "entity.polycraft.Trader.name",
       "type": "trader",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader",
       "action_set": "trader",
@@ -240,6 +247,7 @@
     },
     "trader_bob": {
       "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "name": "entity.polycraft.Trader.name",
       "type": "trader",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader",
       "action_set": "trader",
@@ -254,7 +262,8 @@
       ]
     },
     "pogoist_1": {
-      "agent": "gym_novel_gridworlds2.agents.Pogoist",
+      "agent": "gym_novel_gridworlds2.agents.NOPAgent",
+      "name": "entity.polycraft.Pogoist.name",
       "type": "pogoist",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
       "action_set": "main",
@@ -273,12 +282,13 @@
       "input": [
         "planks",
         "0",
-        "0",
-        "planks"
+        "planks",
+        "0"
       ],
       "output": {
         "stick": 4
-      }
+      },
+      "step_cost": 2400
     },
     "planks": {
       "input": [
@@ -289,7 +299,8 @@
       ],
       "output": {
         "planks": 4
-      }
+      },
+      "step_cost": 1200
     },
     "block_of_diamond": {
       "input": [
@@ -305,7 +316,8 @@
       ],
       "output": {
         "block_of_diamond": 1
-      }
+      },
+      "step_cost": 10800
     },
     "tree_tap": {
       "input": [
@@ -321,7 +333,8 @@
       ],
       "output": {
         "tree_tap": 1
-      }
+      },
+      "step_cost": 7200
     },
     "pogo_stick": {
       "input": [
@@ -337,7 +350,8 @@
       ],
       "output": {
         "pogo_stick": 1
-      }
+      },
+      "step_cost": 8400
     }
   },
   "trades": {

@@ -11,6 +11,17 @@ from gym_novel_gridworlds2.object.entity import Entity, Object
 
 import numpy as np
 
+########### TODO Temporary fix, to convert coordinates
+FACING_DICT = {
+    "NORTH": "WEST",
+    "EAST": "NORTH",
+    "SOUTH": "EAST",
+    "EAST": "NORTH"
+}
+
+def convert_facing(original_facing):
+    return FACING_DICT.get(original_facing) or "NORTH"
+
 
 class SenseAll(Action):
     def __init__(self, state: PolycraftState, dynamics=None, **kwargs):
@@ -46,11 +57,11 @@ class SenseAll(Action):
             }
 
         return {
-            "blockInFront": {"name": self.getBlockInFront(agent_entity, self.state)},
+            "blockInFront": self.getBlockInFront(agent_entity, self.state),
             "inventory": self.getInventory(agent_entity),
             "player": {
                 "pos": [int(agent_entity.loc[0]), 17, int(agent_entity.loc[1])],
-                "facing": agent_entity.facing,
+                "facing": convert_facing(agent_entity.facing), #TODO generalize
                 "yaw": 90.0,  # dummy
                 "pitch": 0.0,  # dummy
             },
@@ -71,9 +82,15 @@ class SenseAll(Action):
         locInFront = tuple(np.add(agent_entity.loc, vec))
         objs = state.get_objects_at(locInFront)
         if len(objs[0]) > 0:
-            blockInFront = state.nameConversion(objs[0][0].type)
+            obj: Object = objs[0][0]
+            name = nameConversion(obj.type)
+            blockInFront = {
+                "name": name,
+                # TODO generalize; also see polycraft_state
+                "variant": "oak" if name == "minecraft:log" else None 
+            }
         else:
-            blockInFront = "minecraft:air"
+            blockInFront = {"name": "minecraft:air"}
         return blockInFront
 
     def getInventory(self, agent_entity: Entity):

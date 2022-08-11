@@ -9,13 +9,13 @@ from ..actions.action_set import ActionSet
 class Agent:
     def __init__(
         self,
-        name: str,
+        id: str,
         action_set: ActionSet,
         state,
         entity_data,
         ob_space: Space = None,
     ):
-        self.name = name
+        self.id = id
         self.action_set = action_set
         self.state = state
         self.entity_data = entity_data
@@ -46,5 +46,5 @@ class Agent:
         Main policy for the agent
         """
         raise NotImplementedError(
-            "Get action for " + self.name + " is not implemented."
+            "Get action for " + self.id + " is not implemented."
         )

@@ -12,7 +12,7 @@ class TP_TO(Action):
         self.x = x
         self.y = y
         self.offset = offset
-        self.cmd_format = r"tp_to (?P<x>\d+),(?P<z>\d+),(?P<y>\d+) (?P<offset>\d+)"
+        self.cmd_format = r"tp_to (?P<x>\d+),(?P<z>\d+),(?P<y>\d+)( (?P<offset>\d+))?"
         self.allow_additional_action = False
         
 
@@ -46,11 +46,11 @@ class TP_TO(Action):
             obj1 = self.state.get_objects_at(np.add(loc, self.vec))  # north
             if len(obj1[0]) != 0:
                 if obj1[0][0].state == "floating":
-                    agent_entity.facing = "SOUTH"
+                    # agent_entity.facing = "SOUTH"
                     return True
             else:
                 if len(obj1[1]) == 0:
-                    agent_entity.facing = "SOUTH"
+                    # agent_entity.facing = "SOUTH"
                     return True
         if (
             loc[0] + offset < self.state.initial_info["map_size"][0]
@@ -59,11 +59,11 @@ class TP_TO(Action):
             obj2 = self.state.get_objects_at(np.add(loc, self.vec))  # south
             if len(obj2[0]) != 0:
                 if obj2[0][0].state == "floating":
-                    agent_entity.facing = "NORTH"
+                    # agent_entity.facing = "NORTH"
                     return True
             else:
                 if len(obj2[1]) == 0:
-                    agent_entity.facing = "NORTH"
+                    # agent_entity.facing = "NORTH"
                     return True
         if (
             loc[1] + offset < self.state.initial_info["map_size"][1]
@@ -72,22 +72,22 @@ class TP_TO(Action):
             obj3 = self.state.get_objects_at(np.add(loc, self.vec))  # east
             if len(obj3[0]) != 0:
                 if obj3[0][0].state == "floating":
-                    agent_entity.facing = "WEST"
+                    # agent_entity.facing = "WEST"
                     return True
             else:
                 if len(obj3[1]) == 0:
-                    agent_entity.facing = "WEST"
+                    # agent_entity.facing = "WEST"
                     return True
         if loc[1] - offset >= 0:  # ensure not out of bounds
             self.vec = (0, -offset)
             obj4 = self.state.get_objects_at(np.add(loc, self.vec))  # west
             if len(obj4[0]) != 0:
                 if obj4[0][0].state == "floating":
-                    agent_entity.facing = "EAST"
+                    # agent_entity.facing = "EAST"
                     return True
             else:
                 if len(obj4[1]) == 0:
-                    agent_entity.facing = "EAST"
+                    # agent_entity.facing = "EAST"
                     return True
         return False
 
@@ -120,10 +120,8 @@ class TP_TO(Action):
         if not self.check_precondition(
             agent_entity, x=x, y=y, offset=offset, target_object=target_object
         ):
-            self.result = "FAILURE"
-            self.action_metadata(agent_entity)
             raise PreconditionNotMetError(
-                f"Agent {agent_entity.name} cannot teleport to {loc}."
+                f"Agent {agent_entity.nickname} cannot teleport to {loc}."
             )
         new_loc = tuple(np.add(self.vec, loc))
         # multiple objects handling

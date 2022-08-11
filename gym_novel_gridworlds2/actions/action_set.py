@@ -4,6 +4,9 @@ from .action import Action
 import re
 from gym.spaces import Discrete
 
+class CommandParseError(Exception):
+    pass
+
 class ActionSet:
     def __init__(self, actions: List[Tuple[str, Action]]):
         self.actions = actions
@@ -35,7 +38,7 @@ class ActionSet:
         """
         cmd_name = command.split(" ")[0].lower()
         if cmd_name not in self.action_index:
-            raise KeyError(f"Command \"{command}\" not found")
+            raise CommandParseError(f"Command \"{command}\" not found")
         
         # get action
         action_id = self.action_index[cmd_name]

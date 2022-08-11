@@ -34,7 +34,7 @@ class Break(Action):
         objs = self.state.get_objects_at(self.temp_loc)
         if len(objs[0]) == 1:
             correctDirection = True
-            unbreakableObjects = ["bedrock", "plastic_chest", "safe", "unlocked_safe"]
+            unbreakableObjects = ["bedrock", "plastic_chest", "safe", "unlocked_safe"] # TODO generalize
             if objs[0][0].type in unbreakableObjects:
                 return False
 
@@ -56,7 +56,7 @@ class Break(Action):
                 else target_object.__class__.__name__
             )
             raise PreconditionNotMetError(
-                f'Agent "{agent_entity.name}" cannot perform break on {obj_type}.'
+                f'Agent "{agent_entity.nickname}" cannot perform break on {obj_type}.'
             )
         objs = self.state.get_objects_at(self.temp_loc)
         objs[0][0].acted_upon("break", agent_entity)
@@ -67,19 +67,4 @@ class Break(Action):
         return self.action_metadata(agent_entity, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return {
-            "goal": {
-                "goalType": "ITEM",
-                "goalAchieved": str(self.state.goalAchieved),
-                "Distribution": "Uninformed",
-            },
-            "command_result": {
-                "command": "break_block",
-                "argument": "",  # TODO change
-                "result": self.result,
-                "message": "",
-                "stepCost": 3600,
-            },
-            "step": 0,
-            "gameOver": False,
-        }
+        return {}

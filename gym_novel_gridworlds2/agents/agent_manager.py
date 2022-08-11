@@ -39,7 +39,7 @@ class AgentManager:
     def get_agent_name_mapping(self):
         possible_agents = self.get_possible_agents()
         return dict(
-            zip(possible_agents, [a.agent.name for _, a in self.agents.items()])
+            zip(possible_agents, [a.agent.id for _, a in self.agents.items()])
         )
 
     def do_action(self, agent_id: int, action_id: int):

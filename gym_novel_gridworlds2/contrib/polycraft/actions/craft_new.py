@@ -88,7 +88,7 @@ class Craft(Action):
         self.state.incrementer()
         if not self.check_precondition(agent_entity, target_type, target_object):
             raise PreconditionNotMetError(
-                f"Agent {agent_entity.name} cannot craft {self.itemToCraft}."
+                f"Agent {agent_entity.nickname} cannot craft {self.itemToCraft}."
             )
 
         if self.itemToCraft is not None:
@@ -109,24 +109,26 @@ class Craft(Action):
 
         if self.itemToCraft == "pogo_stick" or "pogo_stick" in recipe.output_dict:
             self.state.goalAchieved = True
-        return self.action_metadata(agent_entity, recipe=recipe)
+        return self.action_metadata(kwargs, recipe=recipe)
 
     def action_metadata(self, args=[], recipe: Optional[Recipe] = None):
         if self.itemToCraft is not None:
             return {
                 "command_result": {
-                    "command": "craft",
+                    "command": args.get('_command') or "craft",
                     "argument": self.itemToCraft,
                     "message": "",
+                    "result": "SUCCESS",
                     "stepCost": self.recipe_set.get_recipe(self.itemToCraft).step_cost,
                 }
             }
         else:
             return {
                 "command_result": {
-                    "command": "craft",
-                    "argument": str(args),
+                    "command": args['_command'],
+                    "argument": args['_raw_args'],
                     "message": "",
+                    "result": "SUCCESS",
                     "stepCost": recipe.step_cost,
                 }
             }

@@ -34,6 +34,8 @@ def nameConversion(name):
 
 
 def backConversion(name):
+    if name is None:
+        return None
     res = name.split(":")
     if len(res) <= 1:
         return name

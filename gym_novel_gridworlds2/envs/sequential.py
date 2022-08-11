@@ -105,10 +105,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # TODO only print when verbose
         print(
             "------- {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
-                agent, agent_entity.name, action_set.actions[action][0], extra_params
+                agent, agent_entity.nickname, action_set.actions[action][0], extra_params
             )
         )
-        if agent_entity.name == "main_1":
+        if agent_entity.nickname == "main_1":
             self.state.selected_action = action_set.actions[action][0]
         # print(agent_entity.inventory)
         metadata = {}

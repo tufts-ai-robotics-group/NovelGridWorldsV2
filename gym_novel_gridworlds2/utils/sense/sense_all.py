@@ -52,7 +52,7 @@ def getEntities(state: PolycraftState):
     return {
         str(obj.id): {
             "type": obj.__class__.__name__,
-            "name": obj.name,
+            "name": obj.nickname,
             "id": obj.id,
             "pos": obj.loc,
             "color": "black",

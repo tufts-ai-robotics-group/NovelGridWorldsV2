@@ -124,7 +124,7 @@ class Pogoist(Agent):
                     or self.policy_step == 40
                 ):
                     self.policy_step += 1
-                    return action_sets.index("break")
+                    return action_sets.index("break_block")
                 elif (
                     self.policy_step == 3
                     or self.policy_step == 7
