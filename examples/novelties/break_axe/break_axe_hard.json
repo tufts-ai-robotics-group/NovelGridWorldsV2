@@ -28,13 +28,16 @@
           "INTERACT_102",
           "INTERACT_103",
           "INTERACT_104",
-          "break",
+          "interact",
+          "break_block",
+          "select_item",
+          "deselect_item",
           "select_sapling",
           "select_tree_tap",
           "select_iron_pickaxe",
           "select_crafting_table",
           "select_axe",
-          "place_item",
+          "place",
           "craft_stick",
           "craft_planks",
           "craft_block_of_diamond",
@@ -54,8 +57,8 @@
           "give_up",
           "report_novelty",
           "smooth_move",
-          "move",
-          "smooth_turn"
+          "smooth_turn",
+          "trade"
         ]
       }
     }
