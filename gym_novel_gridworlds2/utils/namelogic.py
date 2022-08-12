@@ -1,39 +1,46 @@
 def nameConversion(name):
+    variant = None
     if name == None:
-        return "minecraft:air"
+        converted_name = "minecraft:air"
     elif name == "oak_log":
-        return "minecraft:log"
+        converted_name = "minecraft:log"
+        variant = "oak"
     elif name == "rubber":
-        return "polycraft:sack_polyisoprene_pellets"
+        converted_name = "polycraft:sack_polyisoprene_pellets"
     elif name == "block_of_titanium":
-        return "polycraft:block_of_titanium"
+        converted_name = "polycraft:block_of_titanium"
     elif name == "block_of_platinum":
-        return "polycraft:block_of_platinum"
+        converted_name = "polycraft:block_of_platinum"
     elif name == "diamond_ore":
-        return "minecraft:diamond_ore"
+        converted_name = "minecraft:diamond_ore"
     elif name == "iron_pickaxe":
-        return "minecraft:iron_pickaxe"
+        converted_name = "minecraft:iron_pickaxe"
     elif name == "block_of_diamond":
-        return "minecraft:diamond_block"
+        converted_name = "minecraft:diamond_block"
     elif name == "tree_tap":
-        return "polycraft:tree_tap"
+        converted_name = "polycraft:tree_tap"
     elif name == "plastic_chest":
-        return "polycraft:plastic_chest"
+        converted_name = "polycraft:plastic_chest"
     elif name == "pogo_stick":
-        return "polycraft:wooden_pogo_stick"
+        converted_name = "polycraft:wooden_pogo_stick"
     elif name == "safe":
-        return "polycraft:safe"
+        converted_name = "polycraft:safe"
     elif name == "unlocked_safe":
-        return "polycraft:unlocked_safe"
+        converted_name = "polycraft:unlocked_safe"
     elif name == "bedrock":
-        return "minecraft:bedrock"
+        converted_name = "minecraft:bedrock"
     elif name == "door":
-        return "minecraft:wooden_door"
+        converted_name = "minecraft:wooden_door"
+    elif name == "planks":
+        converted_name = "minecraft:planks"
+        variant = "oak"
     else:
-        return "minecraft:" + name
+        converted_name = "minecraft:" + name
+    
+    return converted_name, variant
 
 
-def backConversion(name):
+def backConversion(name, variant=None):
     if name is None:
         return None
     res = name.split(":")

@@ -38,12 +38,12 @@ class SenseRecipes(Action):
             output.append(
                 {
                     "inputs": [
-                        {"Item": nameConversion(item), "stackSize": 1, "slot": i}
+                        {"Item": nameConversion(item)[0], "stackSize": 1, "slot": i}
                         for i, item in enumerate(recipe.input_list)
                         if item is not None and item != "0"
                     ],
                     "outputs": [
-                        {"Item": nameConversion(item), "stackSize": quantity, "slot": 9 - i}
+                        {"Item": nameConversion(item)[0], "stackSize": quantity, "slot": 9 - i}
                         for i, (item, quantity) in enumerate(recipe.output_dict.items())
                         if item is not None and item != "0"
                     ],

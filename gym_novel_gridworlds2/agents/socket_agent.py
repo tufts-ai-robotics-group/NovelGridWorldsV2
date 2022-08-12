@@ -48,6 +48,8 @@ class SocketManualAgent(KeyboardAgent):
                     msg += self.conn.recv(index).decode('utf-8')
                     self.conn.recv(1)
                     done = True
+                else:
+                    msg += self.conn.recv(1024).decode('utf-8')
             except BlockingIOError:
                 pass
         return msg
