@@ -126,8 +126,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
             # handles stepping an agent which is already done
             # accepts a None action for the one agent, and moves the agent_selection to
             # the next done agent,  or if there are no more done agents, to the next live agent
-            self.was_done_metadata(extra_params, agent)
             return self._was_done_step(None)
+        
+        # set to be done if the agent is done
+        # DELAYED one round
+        self.dones[agent] = self.internal_state.given_up or self.internal_state.goalAchieved
 
         # do the action
         action_set = self.agent_manager.get_agent(agent).action_set
@@ -202,9 +205,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # (because it was returned by last()), so the _cumulative_rewards for this
         # agent should start again at 0
         self._cumulative_rewards[agent] = 0
-
-        # set to be done if the agent is done
-        self.dones[agent] = self.internal_state.given_up or self.internal_state.goalAchieved
 
         # collect reward if it is the last agent to act.
         # if the action allows an additional action to be done immediately
