@@ -2,9 +2,7 @@ from .polycraft_entity import PolycraftEntity
 from .polycraft_obj import PolycraftObject
 from .door import Door
 from .chest import Chest
-from .diamond_ore import DiamondOre
 from .metal import Metal
-from .block_of_platinum import BlockOfPlatinum
 from .iron_pickaxe import IronPickaxe
 from .tree_tap import TreeTap
 from .plastic_chest import PlasticChest
@@ -17,8 +15,7 @@ __all__ = [
     "PolycraftObject",
     "Door",
     "Chest",
-    "DiamondOre",
-    "BlockOfPlatinum",
+    "Metal",
     "IronPickaxe",
     "TreeTap",
     "PlasticChest",

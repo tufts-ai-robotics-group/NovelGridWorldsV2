@@ -63,7 +63,7 @@
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
     "oak_log": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
-    "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre"
+    "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal"
   },
   "map_size": [
     10,

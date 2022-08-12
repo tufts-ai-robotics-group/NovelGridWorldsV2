@@ -1,38 +1,36 @@
 {
-    "extends": "../../pre_novelty_keyboard_template.json",
-    "novelties": {
-      "0": {
-        "object_types": {
-          "iron_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.DiamondOre"
-        },
-        "entities": {
-          "main_1": {
-            "inventory": {
-              "iron_ore": 5
-            }
+  "extends": "../../pre_novelty_keyboard_template.json",
+  "novelties": {
+    "0": {
+      "object_types": {
+        "iron_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal"
+      },
+      "entities": {
+        "main_1": {
+          "inventory": {
+            "iron_ore": 5
           }
-        },
-        "recipes": {
-          "pogo_stick": {
-            "input": [
-              "stick",
-              "block_of_titanium",
-              "stick",
-              "diamond_block",
-              "block_of_titanium",
-              "diamond_block",
-              "iron_ore",
-              "0",
-              "rubber",
-              "0"
-            ],
-            "output": {
-              "pogo_stick": 1
-            }
+        }
+      },
+      "recipes": {
+        "pogo_stick": {
+          "input": [
+            "stick",
+            "block_of_titanium",
+            "stick",
+            "diamond_block",
+            "block_of_titanium",
+            "diamond_block",
+            "iron_ore",
+            "0",
+            "rubber",
+            "0"
+          ],
+          "output": {
+            "pogo_stick": 1
           }
         }
       }
-
     }
-
   }
+}
