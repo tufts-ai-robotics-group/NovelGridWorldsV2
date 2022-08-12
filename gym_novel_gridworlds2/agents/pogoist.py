@@ -60,7 +60,7 @@ class Pogoist(Agent):
 
         action_sets = self.action_set.get_action_names()
 
-        if self.before_start > 0:
+        if self.before_start > 0:  # a way to balance the pogoist
             self.before_start -= 1
             return action_sets.index("NOP")
 

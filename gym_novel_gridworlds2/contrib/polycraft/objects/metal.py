@@ -1,7 +1,7 @@
 from .polycraft_obj import PolycraftObject
 
 
-class DiamondOre(PolycraftObject):
+class Metal(PolycraftObject):
     def __init__(self, typee, loc=(0, 0), state="block", **kwargs):
         self.type = typee
         self.loc = loc  # update such that we update the 3D arr and add the item to it
