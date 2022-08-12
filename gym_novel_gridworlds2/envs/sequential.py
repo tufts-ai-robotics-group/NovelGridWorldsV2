@@ -31,7 +31,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.config_dict = config_dict
 
         self.json_parser = ConfigParser()
-        self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
+        self.internal_state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
             json_content=config_dict
         )
         self.goal_item_to_craft = ""  # TODO add to config
@@ -50,13 +50,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
             for key, a in self.agent_manager.agents.items()
         }
         self._observation_spaces = {
-            key: a.agent.get_observation_space(self.state._map.shape, 10)
+            key: a.agent.get_observation_space(self.internal_state._map.shape, 10)
             for key, a in self.agent_manager.agents.items()
         }
 
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation(
-            self.state, self.dynamic
+            self.internal_state, self.dynamic
         )
 
     @functools.lru_cache(maxsize=None)
@@ -85,7 +85,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         """
         if self.agent_selection == self.agents[0]:
             print(f"--------------------- step {self.num_moves} ---------------------")
-        self.state.time_updates()
+        self.internal_state.time_updates()
 
         # reset rewards for current step ("stepCost")
         self.rewards = {agent: 0 for agent in self.possible_agents}
@@ -101,7 +101,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # do the action
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
-        # self.agent_manager.update_agent(agent, self.state)
+        # self.agent_manager.update_agent(agent, self.internal_state)
         # TODO only print when verbose
         print(
             "------- {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
@@ -109,7 +109,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             )
         )
         if agent_entity.nickname == "main_1":
-            self.state.selected_action = action_set.actions[action][0]
+            self.internal_state.selected_action = action_set.actions[action][0]
         # print(agent_entity.inventory)
         metadata = {}
 
@@ -148,7 +148,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         else:
             metadata["goal"] = {
                 "goalType": "ITEM",
-                "goalAchieved": False,
+                "goalAchieved": self.,
                 "Distribution": "Uninformed",
             }
             metadata["step"] = self.num_moves
@@ -181,7 +181,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ):  # if
             # rewards for all agents are placed in the .rewards dictionary
             # self.rewards[self.agents[0]], self.rewards[self.agents[1]] = REWARD_MAP[
-            #     (self.state[self.agents[0]], self.state[self.agents[1]])
+            #     (self.internal_state[self.agents[0]], self.internal_state[self.agents[1]])
             # ]
             # TODO: rewards
 
@@ -218,7 +218,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             )
 
         # initialization
-        self.state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
+        self.internal_state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
             json_content=self.config_dict
         )
 
@@ -237,7 +237,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # Agent
         self._agent_selector = agent_selector(self.agents)
         self.agent_selection = self._agent_selector.next()
-        return self.state._map, None
+        return self.internal_state._map, None
 
     def renderTextCenteredAt(self, text, font, colour, x, y, screen, allowed_width):
         # first, split the text into words
@@ -280,40 +280,40 @@ class NovelGridWorldSequentialEnv(AECEnv):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-        self.state.SCREEN.fill((171, 164, 164))
-        self.state.drawMap()
+        self.internal_state.SCREEN.fill((171, 164, 164))
+        self.internal_state.drawMap()
 
         font = pygame.font.Font("freesansbold.ttf", 18)
 
-        step_text = font.render("Step:" + str(self.state._step_count), True, (0, 0, 0))
+        step_text = font.render("Step:" + str(self.internal_state._step_count), True, (0, 0, 0))
         step_rect = step_text.get_rect()
         step_rect.center = (1120, 30)
-        self.state.SCREEN.blit(step_text, step_rect)
+        self.internal_state.SCREEN.blit(step_text, step_rect)
 
-        agent = self.state.get_objects_of_type("agent")[0]
+        agent = self.internal_state.get_objects_of_type("agent")[0]
 
         facing_text = font.render("Agent Facing:" + str(agent.facing), True, (0, 0, 0))
         facing_rect = facing_text.get_rect()
         facing_rect.center = (1120, 60)
-        self.state.SCREEN.blit(facing_text, facing_rect)
+        self.internal_state.SCREEN.blit(facing_text, facing_rect)
 
         action_text = font.render(
-            "Selected Action:" + str(self.state.selected_action), True, (0, 0, 0)
+            "Selected Action:" + str(self.internal_state.selected_action), True, (0, 0, 0)
         )
         action_rect = action_text.get_rect()
         action_rect.center = (1120, 90)
-        self.state.SCREEN.blit(action_text, action_rect)
+        self.internal_state.SCREEN.blit(action_text, action_rect)
 
         black = (0, 0, 0)
         inv_text = "Agent Inventory:" + str(agent.inventory)
 
-        self.state.renderTextCenteredAt(
+        self.internal_state.renderTextCenteredAt(
             inv_text,
             font,
             black,
             1120,
             120,
-            self.state.SCREEN,
+            self.internal_state.SCREEN,
             200,
         )
         pygame.display.update()
