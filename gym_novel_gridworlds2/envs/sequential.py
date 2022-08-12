@@ -148,7 +148,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         else:
             metadata["goal"] = {
                 "goalType": "ITEM",
-                "goalAchieved": self.,
+                "goalAchieved": self.internal_state.goalAchieved,
                 "Distribution": "Uninformed",
             }
             metadata["step"] = self.num_moves
