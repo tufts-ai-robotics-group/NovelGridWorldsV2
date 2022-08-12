@@ -1,6 +1,7 @@
 import time
 from .keyboard_agent import KeyboardAgent
 import socket, struct # socket
+import errno
 
 class SocketManualAgent(KeyboardAgent):
     """
@@ -22,10 +23,17 @@ class SocketManualAgent(KeyboardAgent):
         else:
             try:
                 self.conn, self.conn_addr = self.socket.accept()
+                self.conn.setblocking(False)
                 print(f"agent {self.id}: socket is ready.")
                 return True
-            except BlockingIOError:
+            except BlockingIOError as e:
                 # print(f"agent {self.name}: socket not ready yet.")
+                err = e.args[0]
+                if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
+                    time.sleep(1)
+                else:
+                    # a "real" error occurred
+                    raise Exception from e
                 return False
     
     def _wait_for_ready(self):
@@ -42,16 +50,25 @@ class SocketManualAgent(KeyboardAgent):
         done = False
         while not done:
             try:
-                slice_msg = self.conn.recv(1024, socket.MSG_PEEK)
+                if self.conn.timeout != 0:
+                    print(self.conn.timeout)
+                slice_msg = self.conn.recv(4096, socket.MSG_PEEK)
+                print(slice_msg)
                 if b'\n' in slice_msg:
                     index = slice_msg.find(b'\n')
                     msg += self.conn.recv(index).decode('utf-8')
                     self.conn.recv(1)
                     done = True
                 else:
-                    msg += self.conn.recv(1024).decode('utf-8')
-            except BlockingIOError:
-                pass
+                    msg += self.conn.recv(4096).decode('utf-8')
+            except BlockingIOError as e:
+                # print(f"agent {self.name}: socket not ready yet.")
+                err = e.args[0]
+                if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
+                    time.sleep(0.05)
+                else:
+                    # a "real" error occurred
+                    raise Exception from e
         return msg
 
     def _send_msg(self, msg: str):

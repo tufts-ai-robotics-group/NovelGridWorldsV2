@@ -73,7 +73,7 @@
       "step_cost": 99999999999999
     },
     "give_up": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP",
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.GiveUp",
       "step_cost": 99999999999999
     },
     "smooth_move": {

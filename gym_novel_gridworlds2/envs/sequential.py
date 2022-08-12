@@ -3,6 +3,7 @@ import functools
 import pygame
 from copy import deepcopy
 from typing import List
+import time
 
 from pettingzoo import AECEnv
 from pettingzoo.utils import agent_selector
@@ -22,7 +23,7 @@ from ..utils.json_parser import ConfigParser
 class NovelGridWorldSequentialEnv(AECEnv):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
-    def __init__(self, config_dict: str, MAX_ITER: int = 2000):
+    def __init__(self, config_dict: str, MAX_ITER: int = 2000, time_limit=5000):
         """
         Init
         TODO more docs
@@ -43,6 +44,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # The agent is done when it's killed or when the goal is reached.
         self.dones = {key: False for key, a in self.agent_manager.agents.items()}
+
+        # the episode will stop when it exceeds time limit.
+        self.initial_time = time.time()
+        self.time_limit = time_limit
 
         # spaces: we get from the agent
         self._action_spaces = {
@@ -98,6 +103,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         agent = self.agent_selection
 
+        ######### Delayed DONE ##########
+        # executed in the next round after game is over
+        self.dones[agent] = self.internal_state.given_up or self.internal_state.goalAchieved
+        ################################
+
         # do the action
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
@@ -152,7 +162,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 "Distribution": "Uninformed",
             }
             metadata["step"] = self.num_moves
-            metadata["gameOver"] = self.dones[agent]  # TODO this is delayed by one step
+            # TODO below is delayed by one step
+            metadata["gameOver"] = self.internal_state.goalAchieved or self.internal_state.given_up
             if "command_result" not in metadata:
                 metadata["command_result"] = {
                     "command": extra_params.get("_command") or action_set.actions[action][0],
@@ -189,8 +200,16 @@ class NovelGridWorldSequentialEnv(AECEnv):
             # The dones dictionary must be updated for all players.
             # TODO a super RESET command should terminate everything
             self.dones = {
-                agent: self.num_moves >= self.MAX_ITER for agent in self.agents
+                agent: self.dones[agent] or self.num_moves >= self.MAX_ITER for agent in self.agents
             }
+
+            # delayed update of done, by setting game_over
+            # to test: stepCost and max_step_cost
+            self.internal_state.given_up = self.internal_state.given_up or \
+                time.time() - self.initial_time > self.time_limit
+            self.internal_state.given_up = self.internal_state.given_up or \
+                self._cumulative_rewards[agent] > self.agent_manager.get_agent(agent).max_step_cost
+            
         else:
             # necessary so that observe() returns a reasonable observation at all times.
             # no rewards are allocated until both players give an action
@@ -237,6 +256,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # Agent
         self._agent_selector = agent_selector(self.agents)
         self.agent_selection = self._agent_selector.next()
+
+        # reset timer
+        self.initial_time = time.time()
         return self.internal_state._map, None
 
     def renderTextCenteredAt(self, text, font, colour, x, y, screen, allowed_width):

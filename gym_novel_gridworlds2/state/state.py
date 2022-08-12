@@ -54,6 +54,7 @@ class State:
         self.selected_action = ""
 
         self.goalAchieved = False
+        self.given_up = False
 
     def make_copy(self):
         return deepcopy(self)

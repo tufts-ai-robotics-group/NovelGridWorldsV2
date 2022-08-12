@@ -16,6 +16,7 @@ from .tp_to import TP_TO
 from .sense_all import SenseAll
 from .sense_recipes import SenseRecipes
 from .smooth_turn import SmoothTurn
+from .give_up import GiveUp
 
 __all__ = [
     "Break",
@@ -35,5 +36,6 @@ __all__ = [
     "TP_TO",
     "SenseAll",
     "SenseRecipes",
-    "SmoothTurn"
+    "SmoothTurn",
+    "GiveUp"
 ]
