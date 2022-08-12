@@ -27,13 +27,7 @@ class SocketManualAgent(KeyboardAgent):
                 print(f"agent {self.id}: socket is ready.")
                 return True
             except BlockingIOError as e:
-                # print(f"agent {self.name}: socket not ready yet.")
-                err = e.args[0]
-                if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
-                    time.sleep(1)
-                else:
-                    # a "real" error occurred
-                    raise Exception from e
+                time.sleep(0.05)
                 return False
     
     def _wait_for_ready(self):
@@ -53,7 +47,6 @@ class SocketManualAgent(KeyboardAgent):
                 if self.conn.timeout != 0:
                     print(self.conn.timeout)
                 slice_msg = self.conn.recv(4096, socket.MSG_PEEK)
-                print(slice_msg)
                 if b'\n' in slice_msg:
                     index = slice_msg.find(b'\n')
                     msg += self.conn.recv(index).decode('utf-8')
@@ -63,12 +56,7 @@ class SocketManualAgent(KeyboardAgent):
                     msg += self.conn.recv(4096).decode('utf-8')
             except BlockingIOError as e:
                 # print(f"agent {self.name}: socket not ready yet.")
-                err = e.args[0]
-                if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
-                    time.sleep(0.05)
-                else:
-                    # a "real" error occurred
-                    raise Exception from e
+                time.sleep(0.05)
         return msg
 
     def _send_msg(self, msg: str):
