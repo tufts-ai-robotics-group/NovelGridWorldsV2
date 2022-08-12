@@ -400,12 +400,19 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.internal_state.SCREEN,
             200,
         )
-        if self.internal_state.goalAchieved:
-            win_text = font.render("GAME OVER", True, (255, 0, 0))
+        if self.internal_state.goalAchieved or self.internal_state.given_up:
+            timer = 4
+            if self.internal_state.given_up:
+                game_over_str = f"Given Up. Restarting soon..."
+            else:
+                game_over_str = f"You Won. Restarting soon..."
+            win_text = font.render(game_over_str, True, (255, 0, 0))
             win_rect = win_text.get_rect()
             win_rect.center = (1120, 500)
             self.internal_state.SCREEN.blit(win_text, win_rect)
-            time.sleep(4)
+            for i in range(timer * 2):
+                pygame.display.update()
+                time.sleep(0.5)
 
         pygame.display.update()
 
