@@ -73,7 +73,32 @@ class NovelGridWorldSequentialEnv(AECEnv):
     def action_space(self, agent):
         # Gym spaces are defined and documented here: https://gym.openai.com/docs/#spaces
         return self._action_spaces[agent]
-
+    
+    def was_done_metadata(self, extra_params, agent):
+        """
+        Sends a dummy metadata to the agent.
+        """
+        # The reason is that agent selects an action before
+        # the check_done action is called so it will still get a second 
+        # extra action (after the delay) and we will need to send a message back
+        # to the agent.
+        metadata = {}
+        metadata["goal"] = {
+            "goalType": "ITEM",
+            "goalAchieved": self.internal_state.goalAchieved,
+            "Distribution": "Uninformed",
+        }
+        metadata["step"] = self.num_moves
+        metadata["gameOver"] = True
+        metadata["command_result"] = {
+            "command": extra_params.get("_command"),
+            "argument": extra_params.get("_raw_args") or "",
+            "result": "SUCCESS",
+            "message": "",
+            "stepCost": 0,  # TODO cost
+        }
+        self.agent_manager.agents[agent].agent.update_metadata(metadata)
+    
     def step(self, action, extra_params={}):
         """
         TAKEN FROM
@@ -94,14 +119,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # reset rewards for current step ("stepCost")
         self.rewards = {agent: 0 for agent in self.possible_agents}
+        
+        agent = self.agent_selection
 
         if self.dones[self.agent_selection]:
             # handles stepping an agent which is already done
             # accepts a None action for the one agent, and moves the agent_selection to
             # the next done agent,  or if there are no more done agents, to the next live agent
+            self.was_done_metadata(extra_params, agent)
             return self._was_done_step(None)
-
-        agent = self.agent_selection
 
         ######### Delayed DONE ##########
         # executed in the next round after game is over
