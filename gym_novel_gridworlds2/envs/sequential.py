@@ -352,14 +352,27 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.internal_state.SCREEN.blit(action_text, action_rect)
 
         black = (0, 0, 0)
-        inv_text = "Agent Inventory:" + str(agent.inventory)
 
         self.internal_state.renderTextCenteredAt(
+            "Agent Inventory:",
+            font,
+            black,
+            1130,
+            120,
+            self.internal_state.SCREEN,
+            200,
+        )
+
+        inv_text = "\n".join(
+            ["{}: {:>4}".format(item, quantity) for item, quantity in agent.inventory.items()]
+        )
+
+        self.internal_state.renderMultiLineTextRightJustifiedAt(
             inv_text,
             font,
             black,
-            1120,
-            120,
+            1200,
+            140,
             self.internal_state.SCREEN,
             200,
         )

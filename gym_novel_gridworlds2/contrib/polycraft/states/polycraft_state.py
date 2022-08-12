@@ -777,6 +777,25 @@ class PolycraftState(State):
         for loc in picked_spots:
             properties = {"loc": tuple(loc)}
             self.place_object(object_str, ObjectClass, properties=properties)
+    
+    def renderMultiLineTextRightJustifiedAt(self, text, font, colour, x, y, screen, allowed_width):
+        """
+        Resource: https://stackoverflow.com/questions/49432109/how-to-wrap-text-in-pygame-using-pygame-font-font
+        """
+        lines = text.split('\n')
+        
+        y_offset = 0
+        for line in lines:
+            fw, fh = font.size(line)
+
+            # (tx, ty) is the top-left of the font surface
+            tx = x - fw
+            ty = y + y_offset
+
+            font_surface = font.render(line, True, colour)
+            screen.blit(font_surface, (tx, ty))
+
+            y_offset += fh
 
     def renderTextCenteredAt(self, text, font, colour, x, y, screen, allowed_width):
         """

@@ -45,10 +45,13 @@ for episode in range(num_episodes):
     for agent in env.agent_iter():
         action: Optional[int] = None
         while (action is None
-                or env.agent_manager.get_agent(agent).action_set.actions[action][1].allow_additional_action) \
-            and agent in env.dones and not env.dones[agent]:
-            ## while action is valid, and agent is not done, do action.
-
+                or env.agent_manager.get_agent(agent).action_set.actions[action][1].allow_additional_action):
+            ## while action is valid, do action.
+            if agent not in env.dones or env.dones[agent]:
+                # skips the process if agent is done.
+                env.step(0, {})
+                break
+            
             observation, reward, done, info = env.last()
             result = env.agent_manager.agents[agent].agent.policy(observation)
 
