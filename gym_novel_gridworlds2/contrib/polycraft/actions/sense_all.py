@@ -100,6 +100,7 @@ class SenseAll(Action):
                 "count": count,
                 "damage": 0,
                 "maxdamage": 0,
+                "variant": "oak" if "log" in item_name or "plank" in item_name else None
             }
             for slot_id, (item_name, count) in enumerate(agent_entity.inventory.items())
         }
@@ -123,6 +124,7 @@ class SenseAll(Action):
                 "count": selected_item_count,
                 "damage": 0,
                 "maxdamage": 0,
+                "variant": "oak" if "log" in selected_item_name or "plank" in selected_item_name else None
             }
         return inventory
 
