@@ -32,9 +32,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.config_dict = config_dict
 
         self.json_parser = ConfigParser()
-        self.internal_state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
-            json_content=config_dict
-        )
+        (
+            self.internal_state,
+            self.dynamic,
+            self.agent_manager,
+        ) = self.json_parser.parse_json(json_content=config_dict)
         self.goal_item_to_craft = ""  # TODO add to config
         self.MAX_ITER = MAX_ITER
         ##### Required properties for the environment
@@ -73,13 +75,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
     def action_space(self, agent):
         # Gym spaces are defined and documented here: https://gym.openai.com/docs/#spaces
         return self._action_spaces[agent]
-    
+
     def was_done_metadata(self, extra_params, agent):
         """
         Sends a dummy metadata to the agent.
         """
         # The reason is that agent selects an action before
-        # the check_done action is called so it will still get a second 
+        # the check_done action is called so it will still get a second
         # extra action (after the delay) and we will need to send a message back
         # to the agent.
         metadata = {}
@@ -98,7 +100,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             "stepCost": 0,  # TODO cost
         }
         self.agent_manager.agents[agent].agent.update_metadata(metadata)
-    
+
     def step(self, action, extra_params={}):
         """
         TAKEN FROM
@@ -119,7 +121,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # reset rewards for current step ("stepCost")
         self.rewards = {agent: 0 for agent in self.possible_agents}
-        
+
         agent = self.agent_selection
 
         if self.dones[self.agent_selection]:
@@ -127,10 +129,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
             # accepts a None action for the one agent, and moves the agent_selection to
             # the next done agent,  or if there are no more done agents, to the next live agent
             return self._was_done_step(None)
-        
+
         # set to be done if the agent is done
         # DELAYED one round
-        self.dones[agent] = self.internal_state.given_up or self.internal_state.goalAchieved
+        self.dones[agent] = (
+            self.internal_state.given_up or self.internal_state.goalAchieved
+        )
 
         # do the action
         action_set = self.agent_manager.get_agent(agent).action_set
@@ -139,7 +143,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # TODO only print when verbose
         print(
             "------- {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
-                agent, agent_entity.nickname, action_set.actions[action][0], extra_params
+                agent,
+                agent_entity.nickname,
+                action_set.actions[action][0],
+                extra_params,
             )
         )
         if agent_entity.nickname == "main_1":
@@ -161,7 +168,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             action_failed = True
             metadata = {
                 "command_result": {
-                    "command": extra_params.get("_command") or action_set.actions[action][0],
+                    "command": extra_params.get("_command")
+                    or action_set.actions[action][0],
                     "argument": extra_params.get("_raw_args") or "",
                     "result": "FAILED",
                     "message": e.message if hasattr(e, "message") else "",
@@ -190,14 +198,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
             metadata["gameOver"] = self.dones[agent]
             if "command_result" not in metadata:
                 metadata["command_result"] = {
-                    "command": extra_params.get("_command") or action_set.actions[action][0],
+                    "command": extra_params.get("_command")
+                    or action_set.actions[action][0],
                     "argument": extra_params.get("_raw_args") or "",
                     "result": "SUCCESS",
                     "message": "",
                     "stepCost": step_cost,  # TODO cost
                 }
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
-        
+
         # print inventory info
         print("inventory:", agent_entity.inventory)
 
@@ -224,17 +233,23 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
             # update of done, by setting game_over
             # to test: stepCost and max_step_cost
-            self.internal_state.given_up = self.internal_state.given_up or \
-                time.time() - self.initial_time > self.time_limit
-            self.internal_state.given_up = self.internal_state.given_up or \
-                self._cumulative_rewards[agent] > self.agent_manager.get_agent(agent).max_step_cost
-            
+            self.internal_state.given_up = (
+                self.internal_state.given_up
+                or time.time() - self.initial_time > self.time_limit
+            )
+            self.internal_state.given_up = (
+                self.internal_state.given_up
+                or self._cumulative_rewards[agent]
+                > self.agent_manager.get_agent(agent).max_step_cost
+            )
+
             # The dones dictionary must be updated for all players.
             # TODO a super RESET command should terminate everything
             self.dones = {
-                agent: self.dones[agent] or self.num_moves >= self.MAX_ITER for agent in self.agents
+                agent: self.dones[agent] or self.num_moves >= self.MAX_ITER
+                for agent in self.agents
             }
-            
+
         else:
             # necessary so that observe() returns a reasonable observation at all times.
             # no rewards are allocated until both players give an action
@@ -262,9 +277,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
             )
 
         # initialization
-        self.internal_state, self.dynamic, self.agent_manager = self.json_parser.parse_json(
-            json_content=self.config_dict
-        )
+        (
+            self.internal_state,
+            self.dynamic,
+            self.agent_manager,
+        ) = self.json_parser.parse_json(json_content=self.config_dict)
 
         #### agent novelties
         self.possible_agents = self.agent_manager.get_possible_agents()
@@ -332,7 +349,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         font = pygame.font.Font("freesansbold.ttf", 18)
 
-        step_text = font.render("Step:" + str(self.internal_state._step_count), True, (0, 0, 0))
+        step_text = font.render(
+            "Step:" + str(self.internal_state._step_count), True, (0, 0, 0)
+        )
         step_rect = step_text.get_rect()
         step_rect.center = (1120, 30)
         self.internal_state.SCREEN.blit(step_text, step_rect)
@@ -345,7 +364,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.internal_state.SCREEN.blit(facing_text, facing_rect)
 
         action_text = font.render(
-            "Selected Action:" + str(self.internal_state.selected_action), True, (0, 0, 0)
+            "Selected Action:" + str(self.internal_state.selected_action),
+            True,
+            (0, 0, 0),
         )
         action_rect = action_text.get_rect()
         action_rect.center = (1120, 90)
@@ -364,7 +385,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
         )
 
         inv_text = "\n".join(
-            ["{}: {:>4}".format(item, quantity) for item, quantity in agent.inventory.items()]
+            [
+                "{}: {:>4}".format(item, quantity)
+                for item, quantity in agent.inventory.items()
+            ]
         )
 
         self.internal_state.renderMultiLineTextRightJustifiedAt(
@@ -376,6 +400,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.internal_state.SCREEN,
             200,
         )
+        if self.internal_state.goalAchieved:
+            win_text = font.render("GAME OVER", True, (255, 0, 0))
+            win_rect = win_text.get_rect()
+            win_rect.center = (1120, 500)
+            self.internal_state.SCREEN.blit(win_text, win_rect)
+            time.sleep(4)
+
         pygame.display.update()
 
     def close(self):
