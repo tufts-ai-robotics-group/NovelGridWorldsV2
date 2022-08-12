@@ -129,11 +129,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.was_done_metadata(extra_params, agent)
             return self._was_done_step(None)
 
-        ######### Delayed DONE ##########
-        # executed in the next round after game is over
-        self.dones[agent] = self.internal_state.given_up or self.internal_state.goalAchieved
-        ################################
-
         # do the action
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
@@ -184,12 +179,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
         else:
             metadata["goal"] = {
                 "goalType": "ITEM",
-                "goalAchieved": self.internal_state.goalAchieved,
+                "goalAchieved": self.dones[agent] and self.internal_state.goalAchieved,
                 "Distribution": "Uninformed",
             }
             metadata["step"] = self.num_moves
             # TODO below is delayed by one step
-            metadata["gameOver"] = self.internal_state.goalAchieved or self.internal_state.given_up
+            metadata["gameOver"] = self.dones[agent]
             if "command_result" not in metadata:
                 metadata["command_result"] = {
                     "command": extra_params.get("_command") or action_set.actions[action][0],
@@ -208,6 +203,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # agent should start again at 0
         self._cumulative_rewards[agent] = 0
 
+        # set to be done if the agent is done
+        self.dones[agent] = self.internal_state.given_up or self.internal_state.goalAchieved
+
         # collect reward if it is the last agent to act.
         # if the action allows an additional action to be done immediately
         # after it, (like SENSE_ALL in polycraft)
@@ -223,18 +221,19 @@ class NovelGridWorldSequentialEnv(AECEnv):
             # TODO: rewards
 
             self.num_moves += 1
-            # The dones dictionary must be updated for all players.
-            # TODO a super RESET command should terminate everything
-            self.dones = {
-                agent: self.dones[agent] or self.num_moves >= self.MAX_ITER for agent in self.agents
-            }
 
-            # delayed update of done, by setting game_over
+            # update of done, by setting game_over
             # to test: stepCost and max_step_cost
             self.internal_state.given_up = self.internal_state.given_up or \
                 time.time() - self.initial_time > self.time_limit
             self.internal_state.given_up = self.internal_state.given_up or \
                 self._cumulative_rewards[agent] > self.agent_manager.get_agent(agent).max_step_cost
+            
+            # The dones dictionary must be updated for all players.
+            # TODO a super RESET command should terminate everything
+            self.dones = {
+                agent: self.dones[agent] or self.num_moves >= self.MAX_ITER for agent in self.agents
+            }
             
         else:
             # necessary so that observe() returns a reasonable observation at all times.
