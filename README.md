@@ -99,15 +99,14 @@ Example:
 ```
  "action_sets": {
     "main": [
-      "forward",
-      "rotate_left",
+      "smoothmove",
+      "smoothturn",
       "rotate_right",
       "use",
       "break"
     ],
     "trader": [
-      "rotate_left",
-      "rotate_right"
+      "NOP"
     ]
   }
 ```
@@ -199,8 +198,7 @@ Example:
  "action_sets": {
     "main": [
       "forward",
-      "rotate_left",
-      "rotate_right",
+      "smoothmove",
       "use",
       "break",
       "craft_stick" #can input this without importing the module
@@ -230,9 +228,8 @@ Example:
 ```
  "action_sets": {
     "main": [
-      "forward",
-      "rotate_left",
-      "rotate_right",
+      "smoothmove",
+      "smoothturn",
       "use",
       "break",
       "trade_block_of_titanium_1" #can input this without importing the module

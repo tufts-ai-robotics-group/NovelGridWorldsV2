@@ -3,20 +3,17 @@
     "break": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break"
     },
-    "rotate_left": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateLeft"
-    },
-    "rotate_right": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.RotateRight"
-    },
     "forward": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Forward"
     },
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
     },
-    "extract_rubber": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ExtractRubber"
+    "NOP": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
+    },
+    "collect": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
     },
     "select_tree": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
@@ -37,10 +34,8 @@
   "action_sets": {
     "main": [
       "forward",
-      "rotate_left",
-      "rotate_right",
       "use",
-      "extract_rubber",
+      "collect",
       "break",
       "select_tree",
       "select_tree_tap",
@@ -52,8 +47,7 @@
       "craft_pogo_stick"
     ],
     "trader": [
-      "rotate_left",
-      "rotate_right"
+      "NOP"
     ]
   },
   "object_types": {
@@ -198,8 +192,7 @@
       "action_sets": {
         "main": [
           "forward",
-          "rotate_left",
-          "rotate_right",
+          "smoothturn",
           "use",
           "break",
           "select_tree",

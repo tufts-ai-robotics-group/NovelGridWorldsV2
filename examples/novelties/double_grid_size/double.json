@@ -15,12 +15,8 @@
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use"
     },
-    "extract_rubber": {
+    "collect": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect"
-    },
-    "select_oak_log": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
-      "target_type": "oak_log"
     },
     "select_tree_tap": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
@@ -40,9 +36,8 @@
       "rotate_left",
       "rotate_right",
       "use",
-      "extract_rubber",
+      "collect",
       "break",
-      "select_oak_log",
       "select_tree_tap",
       "select_iron_pickaxe",
       "place_item",
@@ -104,7 +99,6 @@
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
       "inventory": {
-        "rubber": 1,
         "iron_pickaxe": 1
       },
       "loc": [
