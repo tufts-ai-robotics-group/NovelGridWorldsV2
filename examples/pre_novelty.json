@@ -262,7 +262,7 @@
       ]
     },
     "pogoist_1": {
-      "agent": "gym_novel_gridworlds2.agents.NOPAgent",
+      "agent": "gym_novel_gridworlds2.agents.Pogoist",
       "name": "entity.polycraft.Pogoist.name",
       "type": "pogoist",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
@@ -362,7 +362,9 @@
       "output": {
         "block_of_titanium": 1
       },
-      "trader": [103]
+      "trader": [
+        103
+      ]
     },
     "block_of_platinum_1": {
       "input": {
@@ -371,7 +373,9 @@
       "output": {
         "block_of_platinum": 1
       },
-      "trader": [103]
+      "trader": [
+        103
+      ]
     },
     "diamond_1": {
       "input": {
@@ -380,7 +384,9 @@
       "output": {
         "diamond": 9
       },
-      "trader": [104]
+      "trader": [
+        104
+      ]
     },
     "block_of_titanium_2": {
       "input": {
@@ -389,7 +395,9 @@
       "output": {
         "block_of_titanium": 2
       },
-      "trader": [104]
+      "trader": [
+        104
+      ]
     }
   }
 }
