@@ -80,6 +80,7 @@ class ConfigParser:
     def __init__(self) -> None:
         self.obj_types = {}
         self.agent_cache = {}
+        self.seed_generator = None
 
     def parse_json(
         self, json_file_name="", json_content=None
@@ -94,14 +95,20 @@ class ConfigParser:
         json_content = deepcopy(json_content)
 
         # seed
-        rng_seed = 0
-        if "seed" in json_content:
-            rng_seed = json_content["seed"]
-        global_rng = np.random.default_rng(seed=rng_seed)
+        if self.seed_generator is None:
+            if "seed" not in json_content:
+                json_content["seed"] = None
+            
+            self.rng_seed = None
+            if json_content["seed"] == "random_seed":
+                self.seed_generator = np.random.default_rng()
+            else:
+                self.rng_seed = json_content["seed"]
+                self.global_rng = np.random.default_rng(seed=self.rng_seed)
 
         # state
         self.state = PolycraftState(
-            rng=global_rng,
+            rng=self.global_rng,
             map_size=tuple(json_content["map_size"]),
         )
 
