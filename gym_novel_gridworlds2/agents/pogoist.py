@@ -58,6 +58,8 @@ class Pogoist(Agent):
         #     action_sets = self.action_set.get_action_names()
         #     return action_sets.index("NOP")
 
+        action_sets = self.action_set.get_action_names()
+
         if self.before_start > 0:
             self.before_start -= 1
             return action_sets.index("NOP")
