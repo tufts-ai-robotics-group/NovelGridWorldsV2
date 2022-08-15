@@ -13,10 +13,6 @@ from gym.spaces import MultiDiscrete
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
-from ..agents import Agent, AgentManager
-from ..state.dynamic import Dynamic
-from ..state.state import State
-from ..utils.MultiAgentActionSpace import MultiAgentActionSpace
 from ..utils.json_parser import ConfigParser
 
 
