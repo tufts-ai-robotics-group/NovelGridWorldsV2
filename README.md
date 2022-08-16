@@ -39,15 +39,16 @@ To run the example, run
 ```
 python3 polycraft.py <config_file>
 ```
+Some example Config files:
+TODO@!!!!
 
-### `test_render_with_parser`
+<!-- ### `test_render_with_parser`
 This file allows you to type commands manually to test the render
 function in text and reproduce some errors.
 
 ### `test_color_render`
 This file allows you to type commands manually to test the render
-function in PyGame and reproduce some errors.
-
+function in PyGame and reproduce some errors. -->
 
 
 ## Configuration File
@@ -74,6 +75,7 @@ Example:
 "actions": {
     "break": {
         "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break"
+        "action_cost": 100
     },
     "name_of_other_action": {
         "module": "...",
@@ -88,6 +90,7 @@ Example:
 | Property | Explanation |
 | -------- | ------------|
 | `module` | The path of the action class, which should extend the `Action` class and implement all necessary methods.|
+| `action_cost` | The action cost of the action. If not specified, it defaults to 0. |
 | \[extra parameters\] | Extra parameters to be passed to the constructor of the custom `Action` class.|
 
 
