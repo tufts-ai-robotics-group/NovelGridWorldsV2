@@ -35,12 +35,14 @@ To run the example, run
 python3 polycraft.py <config_file>
 ```
 
-We now list some of the example Config files and descriptions:
-TODO@!!!!
+The sample config file for the diarc agent is `pre_novelty_diarc.json`.
+
 
 ## Configuration Files
 We designed a format of configuration file that is easy to change,
-extend, and also allows extra code
+extend, and also allows extra code to be easily imported.
+
+Please see [here](docs/config_file.md) for the format of the configuration file.
 
 <!-- ### `test_render_with_parser`
 This file allows you to type commands manually to test the render
