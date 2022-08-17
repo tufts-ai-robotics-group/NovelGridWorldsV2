@@ -27,15 +27,13 @@ the package before you run the examples.
 This file is an example environment for polycraft. 
 The file comes with some config files.
 
-`pre_novelty_diarc.json` is a basic environment pre-novelty.
+`pre_novelty_diarc.json` is a basic pre-novelty environment for diarc.
 `novelty_jump.json` contains an extra novelty called "jump".
 
 To run the example, run
 ```
 python3 polycraft.py <config_file>
 ```
-
-The sample config file for the diarc agent is `pre_novelty_diarc.json`.
 
 
 ## Configuration Files
