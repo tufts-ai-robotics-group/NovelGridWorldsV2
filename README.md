@@ -47,7 +47,7 @@ function in PyGame and reproduce some errors. -->
 
 
 ## Project Structure
-The project consists of <> main components: state, dynamics, actions and action sets, objects and entities, and agents.
+The project consists of 5 main components: state, dynamics, actions and action sets, objects and entities, and agents.
 
 Please see [here](docs/project_structure.md) to see detailed explanation of the
 project structure.
