@@ -1,5 +1,5 @@
 {
-  "sleep_time": 0.05,
+  "sleep_time": 0,
   "time_limit": 180,
   "actions": {
     "break_block": {
@@ -87,8 +87,28 @@
   },
   "action_sets": {
     "main": [
+      "use",
       "rotate_left",
       "rotate_right",
+      "collect",
+      "interact",
+      "break_block",
+      "select_item",
+      "deselect_item",
+      "place",
+      "craft",
+      "NOP",
+      "sense_recipes",
+      "sense_all",
+      "TP_TO",
+      "reset",
+      "give_up",
+      "report_novelty",
+      "smooth_move",
+      "smooth_turn",
+      "trade"
+    ],
+    "pogoist": [
       "use",
       "collect",
       "INTERACT_102",
@@ -121,6 +141,8 @@
       "reset",
       "give_up",
       "report_novelty",
+      "rotate_left",
+      "rotate_right",
       "smooth_move",
       "smooth_turn",
       "trade"
@@ -266,7 +288,7 @@
       "name": "entity.polycraft.Pogoist.name",
       "type": "pogoist",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
-      "action_set": "main",
+      "action_set": "pogoist",
       "inventory": {
         "iron_pickaxe": 1
       },

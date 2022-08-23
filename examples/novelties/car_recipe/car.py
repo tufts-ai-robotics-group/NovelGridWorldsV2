@@ -4,7 +4,6 @@ from gym_novel_gridworlds2.object.entity import Entity, Object
 
 import numpy as np
 
-
 class Forward(Action):
     """def __init__(self, dynamics=None, speed=1, **kwargs):
         self.vec = (0, 0)
