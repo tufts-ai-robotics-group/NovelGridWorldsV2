@@ -1,0 +1,10 @@
+{
+  "extends": "../../pre_novelty_keyboard_template.json",
+  "novelties": {
+    "0": {
+      "object_types": {
+        "oak_log": "novelties.p3_rotting_trees.rotting_tree.RottingTree"
+      }
+    }
+  }
+}

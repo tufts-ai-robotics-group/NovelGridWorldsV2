@@ -115,6 +115,11 @@ class PolycraftState(State):
             pygame.transform.scale(self.POGOIST_IMAGE, (20, 20)), 90
         )
 
+        self.POGOIST_DIAMOND_IMAGE = pygame.image.load("img/polycraft/pogoist_diamond.png")
+        self.POGOIST_DIAMOND = pygame.transform.rotate(
+            pygame.transform.scale(self.POGOIST_DIAMOND_IMAGE, (20, 20)), 90
+        )
+
         self.TRADER_IMAGE = pygame.image.load("img/polycraft/trader.png")
         self.TRADER = pygame.transform.scale(self.TRADER_IMAGE, (20, 20))
 
@@ -533,6 +538,39 @@ class PolycraftState(State):
                                     (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
                                 ),
                             )
+                    elif obj[1][0].type == "pogoist_diamond":
+                        if obj[1][0].facing == "NORTH":
+                            self.SCREEN.blit(
+                                self.POGOIST_DIAMOND,
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "SOUTH":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_DIAMOND, 180),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "EAST":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_DIAMOND, 270),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "WEST":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_DIAMOND, 90),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
                     elif obj[1][0].type == "trader":
                         self.SCREEN.blit(
                             self.TRADER,
@@ -608,7 +646,7 @@ class PolycraftState(State):
                 return ">"
             else:
                 return "<"
-        elif obj == "agent" or obj == "pogoist":
+        elif obj == "agent" or obj == "pogoist" or obj == "pogoist_diamond":
             if facing == "NORTH":
                 return "^"
             elif facing == "SOUTH":
@@ -778,13 +816,13 @@ class PolycraftState(State):
         for loc in picked_spots:
             properties = {"loc": tuple(loc)}
             self.place_object(object_str, ObjectClass, properties=properties)
-    
+
     def renderMultiLineTextRightJustifiedAt(self, text, font, colour, x, y, screen, allowed_width):
         """
         Resource: https://stackoverflow.com/questions/49432109/how-to-wrap-text-in-pygame-using-pygame-font-font
         """
         lines = text.split('\n')
-        
+
         y_offset = 0
         for line in lines:
             fw, fh = font.size(line)
@@ -855,7 +893,7 @@ class PolycraftState(State):
                     self.place_object("bedrock", properties={"loc": (i, j)})
                 else:
                     overlapping_wall.append((i, j))
-        
+
         # first row and last row, except its overlap with the first col and last col
         for i in [start[0], end[0]]:
             for j in range(start[1] + 1, end[1]):
