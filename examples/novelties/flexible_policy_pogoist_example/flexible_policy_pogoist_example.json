@@ -3,16 +3,16 @@
   "novelties": {
     "0": {
       "entities": {
-        "pogoist_diamond": {
-          "agent": "novelties.p3_pogoist_diamond.pogoist_diamond.PogoistDiamond",
+        "flexible_pogoist_example": {
+          "agent": "novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",
           "name": "entity.polycraft.Pogoist.name",
-          "type": "pogoist_diamond",
+          "type": "flexible_pogoist_example",
           "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
           "action_set": "pogoist",
           "inventory": {
             "iron_pickaxe": 1
           },
-          "id": 102,
+          "id": 105,
           "loc": [
             5,
             14
