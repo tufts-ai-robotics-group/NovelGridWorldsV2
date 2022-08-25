@@ -13,7 +13,8 @@ class Agent:
         action_set: ActionSet,
         state,
         entity_data,
-        ob_space: Space = None,
+        ob_space: Space = None, 
+        **kwargs
     ):
         self.id = id
         self.action_set = action_set

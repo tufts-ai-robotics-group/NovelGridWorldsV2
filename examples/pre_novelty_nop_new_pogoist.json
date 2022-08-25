@@ -88,8 +88,6 @@
   "action_sets": {
     "main": [
       "use",
-      "rotate_left",
-      "rotate_right",
       "collect",
       "interact",
       "break_block",
@@ -237,7 +235,7 @@
   "num_episodes": 10,
   "entities": {
     "main_1": {
-      "agent": "gym_novel_gridworlds2.agents.KeyboardAgent",
+      "agent": "gym_novel_gridworlds2.agents.NOPAgent",
       "name": "entity.polycraft.Player.name",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
@@ -283,21 +281,22 @@
         17
       ]
     },
-   "pogoist_1": {
-    "agent": "gym_novel_gridworlds2.agents.Pogoist",
-    "name": "entity.polycraft.Pogoist.name",
-    "type": "pogoist",
-    "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
-    "action_set": "pogoist",
-    "inventory": {
-      "iron_pickaxe": 1
-    },
-    "id": 102,
-    "loc": [
-      5,
-      10
-    ]
-  }
+    "flexible_pogoist_example": {
+      "agent": "novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",
+      "name": "entity.polycraft.Pogoist.name",
+      "type": "flexible_pogoist_example",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
+      "action_set": "pogoist",
+      "inventory": {
+        "iron_pickaxe": 1
+      },
+      "id": 105,
+      "loc": [
+        5,
+        10
+      ]
+      
+    }
   },
   "recipes": {
     "stick": {
