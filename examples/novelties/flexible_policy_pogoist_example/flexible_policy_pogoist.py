@@ -18,8 +18,8 @@ class FlexiblePolicyPogoist(Agent):
         self.before_start = 6
         self.starting_step_safe = 0
         self.doingSafeRoute = False
-        
-        
+
+
         if plan is None:
             #default pogoist plan
             plan = ["collect(oak_log,None)","collect(oak_log,None)","collect(oak_log,None)","goto(crafting_table)","face(crafting_table)","craft(tree_tap)",
@@ -33,7 +33,7 @@ class FlexiblePolicyPogoist(Agent):
         self.current_subgoal_idx = 0
 
     def _plan_item_to_subgoal(self,plan_item):
-        
+
         args = re.findall('\(.*\)',plan_item)[0].strip("()").split(",")
         args = [i if i!='None' else None for i in args]
 
@@ -42,8 +42,8 @@ class FlexiblePolicyPogoist(Agent):
             return self._collect_resource_subgoal(args[0],args[1])
 
         if name=='goto':
-            return self._go_to_obj_subgoal(args[0])   
-        
+            return self._go_to_obj_subgoal(args[0])
+
         if name=='nop':
             return self._null_subgoal()
         if name=='craft':
@@ -56,6 +56,12 @@ class FlexiblePolicyPogoist(Agent):
 
         if name=='trade':
             return self._trade_subgoal(args[0],args[1],int(args[2]))
+
+        if name=='collectfromsafe':
+            return self._collect_from_safe_subgoal()
+
+        if name=='collectfromplasticchest':
+            return self._collect_from_plastic_chest_subgoal()
 
     ## Convenience routines to format the actions. Prevents repetition.
     def _goto_action(self,obj):
@@ -77,7 +83,7 @@ class FlexiblePolicyPogoist(Agent):
         return action_sets.index("NOP")
 
     def _get_obj_infront(self):
-        ent = self.state.get_entity_by_id(105) # what is this magic number? Is this me? I should probably know my id
+        ent = self.state.get_entity_by_id(102) # what is this magic number? Is this me? I should probably know my id
         vec = (0, 0)
         if ent.facing == "NORTH":
             vec = (-1, 0)
@@ -120,11 +126,11 @@ class FlexiblePolicyPogoist(Agent):
         '''
         This should yield the action necessary to craft item. hardcoding treetap for demonstration purposes, but it should:
         1. Retrieve the recipe for the selected item
-        2. If a resource required to craft `item` not in inventory, try to craft it. This could be recursive to accomodate deeper crafting trees. 
+        2. If a resource required to craft `item` not in inventory, try to craft it. This could be recursive to accomodate deeper crafting trees.
         3. Craft item
         '''
         action_sets = self.action_set.get_action_names()
-        #TODO: Generalize this function to use the recipes to create the list of crafting steps. 
+        #TODO: Generalize this function to use the recipes to create the list of crafting steps.
         if item =='tree_tap':
             steps =  self._craft_treetap_steps()
         elif item == 'block_of_diamond':
@@ -156,11 +162,11 @@ class FlexiblePolicyPogoist(Agent):
 
     def _use_treetap_subgoal(self):
         '''
-        Specific subgoal to use the tree tap. 
+        Specific subgoal to use the tree tap.
         '''
-        ent = self.state.get_entity_by_id(105)
+        ent = self.state.get_entity_by_id(102)
         action_sets = self.action_set.get_action_names()
-    
+
         yield action_sets.index("smooth_move"),{"direction":'x'}
         yield action_sets.index("select_tree_tap")
         yield action_sets.index("place")
@@ -184,7 +190,7 @@ class FlexiblePolicyPogoist(Agent):
         Subgoal to trade an item.
         '''
         action_sets = self.action_set.get_action_names()
-        
+
         yield action_sets.index(f"TP_TO_{trader_id}")
 
         face_sub = self._face_subgoal('trader')
@@ -195,11 +201,11 @@ class FlexiblePolicyPogoist(Agent):
                 break
         for _ in range(repeats):
             yield action_sets.index(f"trade_{trade_name}")
-        
 
-            
 
-        
+
+
+
 
     def _collect_resource_subgoal(self, resource = 'oak_log', break_tool = None):
         '''
@@ -217,7 +223,7 @@ class FlexiblePolicyPogoist(Agent):
 
         '''
         action_sets = self.action_set.get_action_names()
-        ent = self.state.get_entity_by_id(105)
+        ent = self.state.get_entity_by_id(102)
         initial_amount = ent.inventory.get(resource,0)
         objs = self.state.get_objects_of_type(resource)
 
@@ -231,7 +237,7 @@ class FlexiblePolicyPogoist(Agent):
         #Look at wood
         obj_infront = self._get_obj_infront()
         is_oak_log = obj_infront[0][0].type == resource if len(obj_infront[0]) > 0 else False
-        
+
         face_resource_subgoal = self._face_subgoal(resource)
 
         for i in range(4):
@@ -239,11 +245,11 @@ class FlexiblePolicyPogoist(Agent):
                 yield next(face_resource_subgoal)
             except StopIteration:
                 break
-        
+
         # use tool if necessary
         if break_tool is not None:
             yield action_sets.index(f"select_{break_tool}")
-        
+
 
         #If you get here, you have wood infront of you, so collect it
         yield action_sets.index("break_block")
@@ -253,7 +259,20 @@ class FlexiblePolicyPogoist(Agent):
 
         #now this subgoal is done.
 
+    def _collect_from_plastic_chest_subgoal(self):
+        '''
+        Collect items from plastic chest
+        '''
+        action_sets = self.action_set.get_action_names()
+        yield action_sets.index("collect")
 
+    def _collect_from_safe_subgoal(self):
+        '''
+        Collect items from safe
+        '''
+        action_sets = self.action_set.get_action_names()
+        yield action_sets.index("use")
+        yield action_sets.index("collect")
 
     def policy(self, observation):
         """

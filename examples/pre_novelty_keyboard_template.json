@@ -282,22 +282,7 @@
         7,
         17
       ]
-    },
-   "pogoist_1": {
-    "agent": "gym_novel_gridworlds2.agents.Pogoist",
-    "name": "entity.polycraft.Pogoist.name",
-    "type": "pogoist",
-    "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
-    "action_set": "pogoist",
-    "inventory": {
-      "iron_pickaxe": 1
-    },
-    "id": 102,
-    "loc": [
-      5,
-      10
-    ]
-  }
+    }
   },
   "recipes": {
     "stick": {

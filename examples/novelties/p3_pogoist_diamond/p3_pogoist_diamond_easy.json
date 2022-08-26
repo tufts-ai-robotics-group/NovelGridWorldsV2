@@ -3,13 +3,13 @@
   "novelties": {
     "0": {
       "entities": {
-        "flexible_pogoist_example": {
+        "pogoist_diamond": {
           "agent": {
                       "module":"novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",
-                      "plan":["collect(oak_log,None)","goto(crafting_table)","collect(diamond_ore,iron_pickaxe)","collect(oak_log,None)","nop()"]
+                      "plan":["collect(diamond_ore,iron_pickaxe)", "collect(diamond_ore,iron_pickaxe)", "nop()"]
           },
           "name": "entity.polycraft.Pogoist.name",
-          "type": "flexible_pogoist_example",
+          "type": "pogoist_diamond",
           "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
           "action_set": "pogoist",
           "inventory": {

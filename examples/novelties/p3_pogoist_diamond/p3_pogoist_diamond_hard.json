@@ -4,7 +4,10 @@
     "0": {
       "entities": {
         "pogoist_diamond": {
-          "agent": "novelties.p3_pogoist_diamond.pogoist_diamond.PogoistDiamond",
+          "agent": {
+                      "module":"novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",
+                      "plan":["collect(diamond_ore,iron_pickaxe)", "collect(diamond_ore,iron_pickaxe)", "collect(diamond_ore,iron_pickaxe)", "collect(diamond_ore,iron_pickaxe)", "goto(plastic_chest)","face(plastic_chest)", "collectfromplasticchest()", "goto(safe)","face(safe)", "collectfromsafe()", "goto(crafting_table)", "nop()"]
+          },
           "name": "entity.polycraft.Pogoist.name",
           "type": "pogoist_diamond",
           "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
@@ -15,8 +18,9 @@
           "id": 102,
           "loc": [
             5,
-            14
+            10
           ]
+
         }
       }
     }
