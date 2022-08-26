@@ -31,7 +31,7 @@ class SmoothTurn(Action):
             return {}
         
         old_facing_index = POSSIBLE_FACING.index(agent_entity.facing)
-        rotate_times = round(int(angle) / 90)
+        rotate_times = - round(int(angle) / 90)
         new_facing_index = (old_facing_index + rotate_times) % 4
         agent_entity.facing = POSSIBLE_FACING[new_facing_index]
 
