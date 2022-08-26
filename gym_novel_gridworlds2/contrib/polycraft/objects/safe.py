@@ -1,15 +1,5 @@
 from .polycraft_obj import PolycraftObject
-
-
-def merge_inventory(old_item, new_item):
-    """
-    Merges two items into one item.
-    """
-    for key, value in new_item.items():
-        if key in old_item:
-            old_item[key] += value
-        else:
-            old_item[key] = value
+from gym_novel_gridworlds2.utils.inventory_utils import merge_inventory
 
 
 class Safe(PolycraftObject):

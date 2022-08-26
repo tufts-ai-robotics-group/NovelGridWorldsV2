@@ -1,4 +1,5 @@
 from .polycraft_obj import PolycraftObject
+from gym_novel_gridworlds2.utils.inventory_utils import merge_inventory
 
 
 class Chest(PolycraftObject):
@@ -15,8 +16,8 @@ class Chest(PolycraftObject):
 
     def acted_upon(self, action_name, agent):
         if action_name == "break":
-            agent.inventory.update(self.inventory)
+            merge_inventory(agent.inventory, self.inventory)
             self.state = "floating"
         if action_name == "use":
-            agent.inventory.update(self.inventory)
+            merge_inventory(agent.inventory, self.inventory)
             self.inventory = {}
