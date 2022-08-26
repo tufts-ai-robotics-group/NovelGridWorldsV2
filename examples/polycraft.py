@@ -28,7 +28,7 @@ time_limit = config_content.get("time_limit") or 200
 novelties = config_content.get("novelties")
 
 env = NovelGridWorldSequentialEnv(
-    config_dict=config_content, 
+    config_dict=config_content,
     MAX_ITER=1000,
     time_limit=time_limit)
 
@@ -41,7 +41,7 @@ for episode in range(num_episodes):
     print()
     env.reset(return_info=True, options={"episode": episode})
     env.render()
-    
+
     for agent in env.agent_iter():
         action: Optional[int] = None
         while (action is None
@@ -51,7 +51,7 @@ for episode in range(num_episodes):
                 # skips the process if agent is done.
                 env.step(0, {})
                 break
-            
+
             observation, reward, done, info = env.last()
             result = env.agent_manager.agents[agent].agent.policy(observation)
 

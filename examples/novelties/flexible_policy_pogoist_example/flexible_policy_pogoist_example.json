@@ -1,0 +1,24 @@
+{
+  "extends": "../../pre_novelty_keyboard_template.json",
+  "novelties": {
+    "0": {
+      "entities": {
+        "flexible_pogoist_example": {
+          "agent": "novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",
+          "name": "entity.polycraft.Pogoist.name",
+          "type": "flexible_pogoist_example",
+          "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
+          "action_set": "pogoist",
+          "inventory": {
+            "iron_pickaxe": 1
+          },
+          "id": 105,
+          "loc": [
+            5,
+            14
+          ]
+        }
+      }
+    }
+  }
+}

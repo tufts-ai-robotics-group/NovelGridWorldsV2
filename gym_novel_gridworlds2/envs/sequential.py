@@ -13,10 +13,6 @@ from gym.spaces import MultiDiscrete
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
-from ..agents import Agent, AgentManager
-from ..state.dynamic import Dynamic
-from ..state.state import State
-from ..utils.MultiAgentActionSpace import MultiAgentActionSpace
 from ..utils.json_parser import ConfigParser
 
 
@@ -349,6 +345,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         font = pygame.font.Font("freesansbold.ttf", 18)
 
+        # north
+        facing_text = font.render("North: -->", True, (0, 0, 0))
+        facing_rect = facing_text.get_rect()
+        facing_rect.center = (900, 60)
+        self.internal_state.SCREEN.blit(facing_text, facing_rect)
+
+        # step
         step_text = font.render(
             "Step:" + str(self.internal_state._step_count), True, (0, 0, 0)
         )
@@ -358,11 +361,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         agent = self.internal_state.get_objects_of_type("agent")[0]
 
+        # facing
         facing_text = font.render("Agent Facing:" + str(agent.facing), True, (0, 0, 0))
         facing_rect = facing_text.get_rect()
         facing_rect.center = (1120, 60)
         self.internal_state.SCREEN.blit(facing_text, facing_rect)
 
+        # selected action
         action_text = font.render(
             "Selected Action:" + str(self.internal_state.selected_action),
             True,
@@ -374,32 +379,45 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         black = (0, 0, 0)
 
+        # step cost
+        cost_text = font.render(
+            "total cost:" + str(self._cumulative_rewards["agent_" + str(agent.id)]),
+            True,
+            (0, 0, 0),
+        )
+        print(self._cumulative_rewards)
+        cost_rect = cost_text.get_rect()
+        cost_rect.center = (1120, 110)
+        self.internal_state.SCREEN.blit(cost_text, cost_rect)
+
+        #### inventory
         self.internal_state.renderTextCenteredAt(
             "Agent Inventory:",
             font,
             black,
             1130,
-            120,
+            140,
             self.internal_state.SCREEN,
             200,
         )
-
         inv_text = "\n".join(
             [
                 "{}: {:>4}".format(item, quantity)
                 for item, quantity in agent.inventory.items()
             ]
         )
-
         self.internal_state.renderMultiLineTextRightJustifiedAt(
             inv_text,
             font,
             black,
             1200,
-            140,
+            160,
             self.internal_state.SCREEN,
             200,
         )
+
+
+        #### goal reached statement
         if self.internal_state.goalAchieved or self.internal_state.given_up:
             timer = 4
             if self.internal_state.given_up:
@@ -408,7 +426,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 game_over_str = f"You Won. Restarting soon..."
             win_text = font.render(game_over_str, True, (255, 0, 0))
             win_rect = win_text.get_rect()
-            win_rect.center = (1120, 500)
+            win_rect.center = (1120, 530)
             self.internal_state.SCREEN.blit(win_text, win_rect)
             for i in range(timer * 2):
                 pygame.display.update()

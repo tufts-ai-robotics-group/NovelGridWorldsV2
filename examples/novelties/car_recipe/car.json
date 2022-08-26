@@ -5,16 +5,12 @@
       "recipes": {
         "car": {
           "input": [
-            {
-              "stick": 2
-            }
+            "stick",
+            "stick"
           ],
-          "output": [
-            {
-              "car": 1
-            }
-          ],
-          "needs_table": "False"
+          "output": {
+            "car": 1
+          }
         }
       },
       "object_types": {
@@ -23,44 +19,36 @@
       "actions": {
         "forward": {
           "module": "novelties.car_recipe.car.Forward"
+        },
+        "select_car": {
+          "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+          "target_type": "car"
         }
       },
       "action_sets": {
         "main": [
-          "forward",
+          "use",
           "rotate_left",
           "rotate_right",
-          "use",
           "collect",
-          "INTERACT_102",
-          "INTERACT_103",
-          "INTERACT_104",
-          "break",
-          "select_sapling",
-          "select_tree_tap",
-          "select_iron_pickaxe",
-          "select_crafting_table",
+          "interact",
+          "break_block",
+          "select_item",
           "select_car",
-          "place_item",
-          "craft_stick",
-          "craft_planks",
-          "craft_block_of_diamond",
-          "craft_tree_tap",
-          "craft_pogo_stick",
+          "deselect_item",
+          "place",
+          "craft",
           "craft_car",
-          "trade_block_of_platinum_1",
-          "trade_block_of_titanium_1",
-          "trade_diamond_1",
-          "trade_block_of_titanium_2",
           "NOP",
           "sense_recipes",
           "sense_all",
-          "TP_TO_103",
           "TP_TO",
           "reset",
-          "select_car",
-          "craft_car",
-          "reset"
+          "give_up",
+          "report_novelty",
+          "smooth_move",
+          "smooth_turn",
+          "trade"
         ]
       }
     }

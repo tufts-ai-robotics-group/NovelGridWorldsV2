@@ -1,7 +1,7 @@
 import numpy as np
-from .agent import Agent
+from gym_novel_gridworlds2.agents.agent import Agent
 
-class Pogoist(Agent):
+class PogoistDiamond(Agent):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -13,7 +13,7 @@ class Pogoist(Agent):
         self.doingSafeRoute = False
 
         #List of subgoals for this agent. TODO: specify the subgoals in the config file (use normal pogoist subgoals as default).
-        self.subgoals = [self._collect_wood_subgoal(), self._go_to_obj_subgoal("crafting_table"),self._collect_wood_subgoal(), self._collect_diamond_ore_subgoal(), self._go_to_obj_subgoal("crafting_table"), self._go_to_obj_subgoal("plastic_chest"), self._go_to_obj_subgoal("safe"), self._null_subgoal()]
+        self.subgoals = [self._collect_diamond_ore_subgoal(), self._collect_diamond_ore_subgoal(), self._collect_diamond_ore_subgoal(), self._collect_diamond_ore_subgoal(), self._go_to_obj_subgoal("safe"), self._null_subgoal()]
 
         self.current_subgoal_idx = 0
 

@@ -1,7 +1,13 @@
 import numpy as np
-from .agent import Agent
+from gym_novel_gridworlds2.agents.agent import Agent
 
-class Pogoist(Agent):
+class FlexiblePolicyPogoist(Agent):
+    '''
+    A pogoist-like agent that has a flexible policy. The policy can be specified as a series of subgoals to achieve.
+    This version simply assumes all the subgoals succeed, which is fine for the pogoist.
+
+    Subgoals are implemented as action generators. The policy looks at the current subgoal and returns its next action.
+    '''
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -13,9 +19,13 @@ class Pogoist(Agent):
         self.doingSafeRoute = False
 
         #List of subgoals for this agent. TODO: specify the subgoals in the config file (use normal pogoist subgoals as default).
-        self.subgoals = [self._collect_wood_subgoal(), self._go_to_obj_subgoal("crafting_table"),self._collect_wood_subgoal(), self._collect_diamond_ore_subgoal(), self._go_to_obj_subgoal("crafting_table"), self._go_to_obj_subgoal("plastic_chest"), self._go_to_obj_subgoal("safe"), self._null_subgoal()]
+        self.subgoals = [self._collect_wood_subgoal(), self._go_to_obj_subgoal("crafting_table"),self._collect_wood_subgoal(),self._null_subgoal()]
 
         self.current_subgoal_idx = 0
+
+
+
+
 
     ## Convenience routines to format the actions. Prevents repetition.
     def _goto_action(self,obj):
@@ -30,7 +40,7 @@ class Pogoist(Agent):
         return action_sets.index("rotate_right")
 
     def _get_obj_infront(self):
-        ent = self.state.get_entity_by_id(102) # what is this magic number? Is this me? I should probably know my id
+        ent = self.state.get_entity_by_id(105) # what is this magic number? Is this me? I should probably know my id
         vec = (0, 0)
         if ent.facing == "NORTH":
             vec = (-1, 0)
@@ -67,6 +77,8 @@ class Pogoist(Agent):
         yield self._goto_action(objs[0])
 
 
+
+
     def _collect_wood_subgoal(self):
         '''
         A subgoal with multple steps.  The subgoal is a generator -- read up on generators if not familiar.
@@ -83,7 +95,7 @@ class Pogoist(Agent):
 
         '''
         action_sets = self.action_set.get_action_names()
-        ent = self.state.get_entity_by_id(102)
+        ent = self.state.get_entity_by_id(105)
         initial_wood_amount = ent.inventory.get("oak_log",0)
         objs = self.state.get_objects_of_type("oak_log")
 
@@ -113,59 +125,6 @@ class Pogoist(Agent):
 
         #now this subgoal is done.
 
-    def _collect_diamond_ore_subgoal(self):
-
-        action_sets = self.action_set.get_action_names()
-        ent = self.state.get_entity_by_id(102)
-        initial_diamond_ore_amount = ent.inventory.get("diamond_ore",0)
-        objs = self.state.get_objects_of_type("diamond_ore")
-
-        while len(objs) == 0:
-            yield action_sets.index("NOP")
-            objs = self.state.get_objects_of_type("diamond_ore")
-
-        yield self._goto_action(objs[0])
-
-        obj_infront = self._get_obj_infront()
-        is_diamond_ore_log = obj_infront[0][0].type == "diamond_ore" if len(obj_infront[0]) > 0 else False
-
-        while not is_diamond_ore_log:
-            yield self._rotate_action()
-            obj_infront = self._get_obj_infront()
-            is_diamond_ore_log = obj_infront[0][0].type == "diamond_ore" if len(obj_infront[0]) > 0 else False
-
-        yield action_sets.index("select_iron_pickaxe")
-
-        yield action_sets.index("break_block")
-
-        yield action_sets.index("smooth_move")
-
-    def _collect_block_of_platinum_subgoal(self):
-
-        action_sets = self.action_set.get_action_names()
-        ent = self.state.get_entity_by_id(102)
-        initial_block_of_platinum_amount = ent.inventory.get("block_of_platinum",0)
-        objs = self.state.get_objects_of_type("block_of_platinum")
-
-        while len(objs) == 0:
-            yield action_sets.index("NOP")
-            objs = self.state.get_objects_of_type("block_of_platinum")
-
-        yield self._goto_action(objs[0])
-
-        obj_infront = self._get_obj_infront()
-        is_block_of_platinum_log = obj_infront[0][0].type == "block_of_platinum" if len(obj_infront[0]) > 0 else False
-
-        while not is_block_of_platinum_log:
-            yield self._rotate_action()
-            obj_infront = self._get_obj_infront()
-            is_block_of_platinum_log = obj_infront[0][0].type == "block_of_platinum" if len(obj_infront[0]) > 0 else False
-
-        yield action_sets.index("select_iron_pickaxe")
-
-        yield action_sets.index("break_block")
-
-        yield action_sets.index("smooth_move")
 
     def policy(self, observation):
         """

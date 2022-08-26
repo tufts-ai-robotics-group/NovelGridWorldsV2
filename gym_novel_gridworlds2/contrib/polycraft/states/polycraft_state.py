@@ -1,4 +1,5 @@
 from gym_novel_gridworlds2.object.object import Object
+from ....utils.room_coord import RoomCoord
 from ..objects.polycraft_obj import PolycraftObject
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
@@ -112,6 +113,11 @@ class PolycraftState(State):
         self.POGOIST_IMAGE = pygame.image.load("img/polycraft/pogoist.png")
         self.POGOIST = pygame.transform.rotate(
             pygame.transform.scale(self.POGOIST_IMAGE, (20, 20)), 90
+        )
+
+        self.POGOIST_DIAMOND_IMAGE = pygame.image.load("img/polycraft/pogoist_diamond.png")
+        self.POGOIST_DIAMOND = pygame.transform.rotate(
+            pygame.transform.scale(self.POGOIST_DIAMOND_IMAGE, (20, 20)), 90
         )
 
         self.TRADER_IMAGE = pygame.image.load("img/polycraft/trader.png")
@@ -532,6 +538,39 @@ class PolycraftState(State):
                                     (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
                                 ),
                             )
+                    elif obj[1][0].type == "pogoist_diamond":
+                        if obj[1][0].facing == "NORTH":
+                            self.SCREEN.blit(
+                                self.POGOIST_DIAMOND,
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "SOUTH":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_DIAMOND, 180),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "EAST":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_DIAMOND, 270),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "WEST":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_DIAMOND, 90),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
                     elif obj[1][0].type == "trader":
                         self.SCREEN.blit(
                             self.TRADER,
@@ -607,7 +646,7 @@ class PolycraftState(State):
                 return ">"
             else:
                 return "<"
-        elif obj == "agent" or obj == "pogoist":
+        elif obj == "agent" or obj == "pogoist" or obj == "pogoist_diamond":
             if facing == "NORTH":
                 return "^"
             elif facing == "SOUTH":
@@ -777,13 +816,13 @@ class PolycraftState(State):
         for loc in picked_spots:
             properties = {"loc": tuple(loc)}
             self.place_object(object_str, ObjectClass, properties=properties)
-    
+
     def renderMultiLineTextRightJustifiedAt(self, text, font, colour, x, y, screen, allowed_width):
         """
         Resource: https://stackoverflow.com/questions/49432109/how-to-wrap-text-in-pygame-using-pygame-font-font
         """
         lines = text.split('\n')
-        
+
         y_offset = 0
         for line in lines:
             fw, fh = font.size(line)
@@ -845,18 +884,25 @@ class PolycraftState(State):
         coords_list = []  # need to add all the coords in the room into a list
         overlapping_wall = []
         # only one overlapping wall max, add this wall to the walls list if we place over it
-        for i in range(end[0] + 1):
-            for j in range(end[1] + 1):
-                if i == start[0] or i == end[0] or j == start[1] or j == end[1]:
-                    if i >= start[0] and j >= start[1]:
-                        if not self.contains_block((i, j)):
-                            self.place_object("bedrock", properties={"loc": (i, j)})
-                        else:
-                            overlapping_wall.append((i, j))
-                if i >= start[0] and j >= start[1]:
-                    coords_list.append((i, j))
 
-        self.room_coords.append(coords_list)
+        # first column and last column
+        for i in range(start[0], end[0] + 1):
+            # first column
+            for j in [start[1], end[1]]:
+                if not self.contains_block((i, j)):
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                else:
+                    overlapping_wall.append((i, j))
+
+        # first row and last row, except its overlap with the first col and last col
+        for i in [start[0], end[0]]:
+            for j in range(start[1] + 1, end[1]):
+                if not self.contains_block((i, j)):
+                    self.place_object("bedrock", properties={"loc": (i, j)})
+                else:
+                    overlapping_wall.append((i, j))
+
+        self.room_coords.append(RoomCoord(start, end))
 
         if len(overlapping_wall) > 0:
             self.walls_list.append(overlapping_wall)
