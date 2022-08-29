@@ -10,6 +10,7 @@
   "novelties": {
     "0": {
       "entities": {
+        "pogoist_1": null,
         "pogoist_diamond": {
           "agent": {
                       "module":"novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",

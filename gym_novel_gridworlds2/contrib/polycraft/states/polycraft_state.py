@@ -120,6 +120,16 @@ class PolycraftState(State):
             pygame.transform.scale(self.POGOIST_DIAMOND_IMAGE, (20, 20)), 90
         )
 
+        self.POGOIST_PLATINUM_IMAGE = pygame.image.load("img/polycraft/pogoist_platinum.png")
+        self.POGOIST_PLATINUM = pygame.transform.rotate(
+            pygame.transform.scale(self.POGOIST_PLATINUM_IMAGE, (20, 20)), 90
+        )
+
+        self.POGOIST_OAK_LOG_IMAGE = pygame.image.load("img/polycraft/pogoist_oak_log.png")
+        self.POGOIST_OAK_LOG = pygame.transform.rotate(
+            pygame.transform.scale(self.POGOIST_OAK_LOG_IMAGE, (20, 20)), 90
+        )
+
         self.TRADER_IMAGE = pygame.image.load("img/polycraft/trader.png")
         self.TRADER = pygame.transform.scale(self.TRADER_IMAGE, (20, 20))
 
@@ -571,6 +581,72 @@ class PolycraftState(State):
                                     (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
                                 ),
                             )
+                    elif obj[1][0].type == "pogoist_platinum":
+                        if obj[1][0].facing == "NORTH":
+                            self.SCREEN.blit(
+                                self.POGOIST_PLATINUM,
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "SOUTH":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_PLATINUM, 180),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "EAST":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_PLATINUM, 270),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "WEST":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_PLATINUM, 90),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                    elif obj[1][0].type == "pogoist_oak_log":
+                        if obj[1][0].facing == "NORTH":
+                            self.SCREEN.blit(
+                                self.POGOIST_OAK_LOG,
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "SOUTH":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_OAK_LOG, 180),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "EAST":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_OAK_LOG, 270),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        elif obj[1][0].facing == "WEST":
+                            self.SCREEN.blit(
+                                pygame.transform.rotate(self.POGOIST_OAK_LOG, 90),
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
                     elif obj[1][0].type == "trader":
                         self.SCREEN.blit(
                             self.TRADER,
@@ -646,7 +722,7 @@ class PolycraftState(State):
                 return ">"
             else:
                 return "<"
-        elif obj == "agent" or obj == "pogoist" or obj == "pogoist_diamond":
+        elif obj == "agent" or obj == "pogoist" or obj == "pogoist_diamond" or obj == "pogoist_platinum" or obj == "pogoist_oak_log":
             if facing == "NORTH":
                 return "^"
             elif facing == "SOUTH":
