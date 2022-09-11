@@ -39,7 +39,7 @@ class FlexiblePolicyPogoist(Agent):
 
         name = plan_item.split("(")[0]
         if name== 'collect':
-            return self._collect_resource_subgoal(args[0],args[1])
+            return self._collect_resource(args[0],args[1])
 
         if name=='goto':
             return self._go_to_obj_subgoal(args[0])
