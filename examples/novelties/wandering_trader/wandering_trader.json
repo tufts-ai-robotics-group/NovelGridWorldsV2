@@ -1,6 +1,13 @@
 {
-  "extends": "../../pre_novelty_keyboard_template.json",
-  "novelties": {
+    "extends": "../../pre_novelty_keyboard_template.json",
+    "entities": {
+        "main_1": {
+        "agent": {
+            "module": "gym_novel_gridworlds2.agents.KeyboardAgent"
+        }
+        }
+    },
+    "novelties": {
         "0": {
             "action_sets": {
                 "trader": [
