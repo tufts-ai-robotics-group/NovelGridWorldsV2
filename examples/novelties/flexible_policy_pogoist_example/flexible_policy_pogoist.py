@@ -63,6 +63,9 @@ class FlexiblePolicyPogoist(Agent):
         if name=='collectfromplasticchest':
             return self._collect_from_plastic_chest_subgoal()
 
+        if name=='collectAmount':
+            return self._collect_resource(args[0], args[1], args[2])
+
     ## Convenience routines to format the actions. Prevents repetition.
     def _goto_action(self,obj):
         action_sets = self.action_set.get_action_names()
@@ -159,7 +162,6 @@ class FlexiblePolicyPogoist(Agent):
         ]
         return steps
 
-
     def _use_treetap_subgoal(self):
         '''
         Specific subgoal to use the tree tap.
@@ -203,62 +205,6 @@ class FlexiblePolicyPogoist(Agent):
             yield action_sets.index(f"trade_{trade_name}")
 
 
-
-
-
-
-    def _collect_resource_subgoal(self, resource = 'oak_log', break_tool = None):
-        '''
-        A subgoal with multple steps.  The subgoal is a generator -- read up on generators if not familiar.
-        The main idea is that the function "pauses" and returns whatever follows the 'yield' keyword. When the function is called again, it resumes from that point.
-        So a subgoal is a generator of actions.
-
-        This is a subgoal to collect one piece of oak_log. The steps
-            1. Go to the nearest tree
-            2. Face tree
-            3. Break tree
-            4. Collect oak_log
-
-        Note that we can package up multiple subgoals into a single generator to make subpolicies. A subpolicy could be to collect X pieces of an object by collecting one X times.
-
-        '''
-        action_sets = self.action_set.get_action_names()
-        ent = self.state.get_entity_by_id(102)
-        initial_amount = ent.inventory.get(resource,0)
-        objs = self.state.get_objects_of_type(resource)
-
-        while len(objs) == 0: # wait for resource to be available
-            yield action_sets.index("NOP")
-            objs = self.state.get_objects_of_type(resource)
-
-        # go to wood
-        yield self._goto_action(objs[0])
-
-        #Look at wood
-        obj_infront = self._get_obj_infront()
-        is_oak_log = obj_infront[0][0].type == resource if len(obj_infront[0]) > 0 else False
-
-        face_resource_subgoal = self._face_subgoal(resource)
-
-        for i in range(4):
-            try:
-                yield next(face_resource_subgoal)
-            except StopIteration:
-                break
-
-        # use tool if necessary
-        if break_tool is not None:
-            yield action_sets.index(f"select_{break_tool}")
-
-
-        #If you get here, you have wood infront of you, so collect it
-        yield action_sets.index("break_block")
-
-        #collect by taking one step forward
-        yield action_sets.index("smooth_move")
-
-        #now this subgoal is done.
-
     def _collect_from_plastic_chest_subgoal(self):
         '''
         Collect items from plastic chest
@@ -273,6 +219,44 @@ class FlexiblePolicyPogoist(Agent):
         action_sets = self.action_set.get_action_names()
         yield action_sets.index("use")
         yield action_sets.index("collect")
+
+    def _collect_resource(self, resource = 'oak_log', break_tool = None, amount_to_be_collected = 1):
+        '''
+        Collect some amount of resources from the environment
+        A subgoal with multple steps.  The subgoal is a generator -- read up on generators if not familiar.
+        The main idea is that the function "pauses" and returns whatever follows the 'yield' keyword. When the function is called again, it resumes from that point.
+        So a subgoal is a generator of actions.
+
+        This is a subgoal to collect one piece of oak_log. The steps
+            1. Go to the nearest tree
+            2. Face tree
+            3. Break tree
+            4. Collect oak_log
+
+        Note that we can package up multiple subgoals into a single generator to make subpolicies. A subpolicy could be to collect X pieces of an object by collecting one X times.
+
+        '''
+        action_sets = self.action_set.get_action_names()
+        objs = self.state.get_objects_of_type(resource)
+        count = 0
+        while count < int(amount_to_be_collected):
+            yield self._goto_action(objs[0])
+            obj_infront = self._get_obj_infront()
+            is_oak_log = obj_infront[0][0].type == resource if len(obj_infront[0]) > 0 else False
+            face_resource_subgoal = self._face_subgoal(resource)
+            for i in range(4):
+                try:
+                    yield next(face_resource_subgoal)
+                except StopIteration:
+                    break
+            if break_tool is not None:
+                yield action_sets.index(f"select_{break_tool}")
+            yield action_sets.index("break_block")
+            yield action_sets.index("smooth_move")
+            count += 1
+
+        action_sets = self.action_set.get_action_names()
+        yield action_sets.index("NOP")
 
     def policy(self, observation):
         """
