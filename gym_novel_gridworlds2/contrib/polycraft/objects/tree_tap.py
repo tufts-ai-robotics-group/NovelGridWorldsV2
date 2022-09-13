@@ -3,8 +3,9 @@ import numpy as np
 
 
 class TreeTap(PolycraftObject):
-    def __init__(self, typee, loc=(0, 0), state="block", **kwargs):
-        self.type = typee
+    def __init__(self, type="tree_tap", loc=(0, 0), state="block", **kwargs):
+        super().__init__(**kwargs)
+        self.type = type
         self.loc = loc  # update such that we update the 3D arr and add the item to it
         self.state = state
 

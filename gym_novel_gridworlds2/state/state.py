@@ -105,7 +105,7 @@ class State:
         # instanciate object
         if "type" in properties:
             del properties["type"]
-        obj = ObjectClass(object_type, **properties)
+        obj = ObjectClass(type=object_type, **properties)
 
         # placing object in the map
         success = cell.place_object(obj)
@@ -138,7 +138,7 @@ class State:
             self.place_object(object_str, ObjectClass, properties=properties)
 
     def random_place_in_room(
-        self, object_str, count, startPos, endPos, ObjectClass=Object
+        self, object_str, count, startPos, endPos, ObjectClass=Object, properties: dict = {}
     ):
         """
         Randomly place the object in the map in a specific room
@@ -155,7 +155,7 @@ class State:
         picked_spots = self.rng.choice(a=all_available_spots, size=count, replace=False)
 
         for loc in picked_spots:
-            properties = {"loc": tuple(loc)}
+            properties["loc"] = tuple(loc)
             self.place_object(object_str, ObjectClass, properties=properties)
 
     def remove_object(self, object_name: str, loc: tuple):

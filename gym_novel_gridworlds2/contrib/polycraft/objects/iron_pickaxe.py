@@ -2,8 +2,9 @@ from .polycraft_obj import PolycraftObject
 
 
 class IronPickaxe(PolycraftObject):
-    def __init__(self, typee, loc=(0, 0), state="floating", **kwargs):
-        self.type = typee
+    def __init__(self, type="iron_pickaxe", loc=(0, 0), state="floating", **kwargs):
+        super().__init__(**kwargs)
+        self.type = type
         self.loc = loc  # update such that we update the 3D arr and add the item to it
         self.state = state  # two states: block and floating
 

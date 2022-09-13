@@ -1,5 +1,5 @@
 {
-  "extends": "../../pre_novelty_keyboard_template.json",
+  "extends": "../../pre_novelty_diarc.json",
   "novelties": {
     "0": {
       "object_types": {

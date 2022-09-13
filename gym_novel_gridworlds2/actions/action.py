@@ -69,3 +69,14 @@ class Action:
         “step”:7, “gameOver”:false}
         """
         pass
+
+    def get_step_cost(self, 
+            agent_entity: Entity,
+            target_type: str = None,
+            target_object: Object = None,
+            *args,
+            **kwargs):
+        """
+        given the parameters, return the step cost of the action.
+        """
+        return getattr(self, "step_cost", None)

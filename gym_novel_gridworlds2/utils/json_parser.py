@@ -273,11 +273,15 @@ class ConfigParser:
         self.obj_types = {}
         for key, info in obj_types_info.items():
             if type(info) == str:
+                # if we just have a string, assume it's a module name
                 self.obj_types[key] = {"module": import_module(info), "params": {}}
             else:
+                # if we have a dict, assume it's a module name and a dict of params
+                module = import_module(info['module'])
+                del info['module']
                 self.obj_types[key] = {
-                    "module": import_module(info),
-                    "params": info["params"],
+                    "module": module,
+                    "params": info,
                 }
 
     def create_place_obj(self, state: State, obj_name, loc):
@@ -296,7 +300,7 @@ class ConfigParser:
         """
         obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
         ObjectModule: Object = obj_type_info["module"]
-        state.random_place(obj_name, quantity, ObjectModule)
+        state.random_place(obj_name, quantity, ObjectModule, properties=obj_type_info["params"])
 
     def create_random_obj_in_room(
         self, state: State, obj_name, quantity, startPos, endPos
@@ -306,7 +310,7 @@ class ConfigParser:
         """
         obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
         ObjectModule: Object = obj_type_info["module"]
-        state.random_place_in_room(obj_name, quantity, startPos, endPos, ObjectModule)
+        state.random_place_in_room(obj_name, quantity, startPos, endPos, ObjectModule, properties=obj_type_info["params"])
 
     def create_obj_chunk_in_room(
         self, state: State, obj_name, quantity, startPos, endPos
@@ -317,7 +321,7 @@ class ConfigParser:
         obj_type_info = self.obj_types.get(obj_name) or self.obj_types["default"]
         ObjectModule: Object = obj_type_info["module"]
         state.random_place_chunk_in_room(
-            obj_name, quantity, startPos, endPos, ObjectModule
+            obj_name, quantity, startPos, endPos, ObjectModule, properties=obj_type_info["params"]
         )
 
     def create_action(self, action_info):

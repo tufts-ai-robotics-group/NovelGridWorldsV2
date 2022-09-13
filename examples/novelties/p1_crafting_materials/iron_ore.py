@@ -2,8 +2,8 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import Polycr
 
 
 class IronOre(PolycraftObject):
-    def __init__(self, typee, loc=(0, 0), state="floating", **kwargs):
-        self.type = typee
+    def __init__(self, type, loc=(0, 0), state="floating", **kwargs):
+        self.type = type
         self.loc = loc  # update such that we update the 3D arr and add the item to it
         self.state = state  # two states: block and floating
 

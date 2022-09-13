@@ -3,10 +3,11 @@ from gym_novel_gridworlds2.utils.inventory_utils import merge_inventory
 
 
 class Chest(PolycraftObject):
-    def __init__(self, typee, loc=(0, 0), state="block", inventory=None, **kwargs):
+    def __init__(self, type="chest", loc=(0, 0), state="block", inventory=None, **kwargs):
+        super().__init__(**kwargs)
         if inventory is None:
             inventory = {}
-        self.type = typee
+        self.type = type
         self.loc = loc  # update such that we update the 3D arr and add the item to it
         self.state = state  # two states: block and floating
         self.inventory = inventory
