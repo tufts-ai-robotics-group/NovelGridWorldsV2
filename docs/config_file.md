@@ -69,9 +69,17 @@ Example:
 "object_types": {
     "default": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
-    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
-},
+    "tree": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "block_of_platinum": {
+        "module": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
+        "break_cost": 600
+    }
+}
 ```
+
+Define the object type either by directly entering the module path, or using
+a dictionary specifying the module path in the module key, and specifying
+extra parameters as needed.
 
 ## Map Size
 Defines the size of the whole map.
