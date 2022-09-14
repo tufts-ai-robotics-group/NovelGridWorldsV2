@@ -83,7 +83,7 @@ class ConfigParser:
         self.seed_generator = None
 
     def parse_json(
-        self, json_file_name="", json_content=None
+        self, json_file_name="", json_content=None, episode=0
     ) -> Tuple[State, Dynamic, AgentManager]:
         """
         Parses the json, given a json content.
@@ -110,6 +110,7 @@ class ConfigParser:
         self.state = PolycraftState(
             rng=self.global_rng,
             map_size=tuple(json_content["map_size"]),
+            episode=episode,
         )
 
         # object types

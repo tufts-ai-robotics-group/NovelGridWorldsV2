@@ -17,6 +17,7 @@ from .exceptions import LocationOccupied, LocationOutOfBound
 class State:
     def __init__(
         self,
+        episode: int = 0,
         map_size: Tuple[int] = None,
         objects: Mapping[str, object] = None,
         map_json: dict = None,
@@ -47,6 +48,8 @@ class State:
         self._map: np.ndarray = np.empty(map_size, dtype="object")
         self._map.fill(None)
         self.rng = rng
+        
+        self.episode = episode
         self._step_count = 0
         self.room_coords = []
         self.entity_count = 0

@@ -23,6 +23,7 @@ class PolycraftState(State):
 
     def __init__(
         self,
+        episode: int = 0,
         map_size: Tuple[int] = None,
         objects: Mapping[str, object] = None,
         map_json: dict = None,
@@ -31,7 +32,7 @@ class PolycraftState(State):
         **kwargs,
     ):
         # TODO remove hard code, make more general
-        super().__init__(map_size, objects, map_json, item_list, rng, **kwargs)
+        super().__init__(episode, map_size, objects, map_json, item_list, rng, **kwargs)
 
         self.time_needed = (
             []
@@ -133,7 +134,7 @@ class PolycraftState(State):
         )
         self.ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
         self.SCREEN = pygame.display.set_mode((1300, 750))
-        pygame.display.set_caption("NovelGridWorlds v2")
+        pygame.display.set_caption(f"NovelGridWorlds v2 [episode {self.episode}]")
         pygame.display.set_icon(self.ICON)
         pygame.init()
         self.CLOCK = pygame.time.Clock()

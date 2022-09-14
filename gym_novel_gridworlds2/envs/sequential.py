@@ -274,7 +274,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.internal_state,
             self.dynamic,
             self.agent_manager,
-        ) = self.json_parser.parse_json(json_content=self.config_dict)
+        ) = self.json_parser.parse_json(json_content=self.config_dict, episode=episode)
 
         #### agent novelties
         self.possible_agents = self.agent_manager.get_possible_agents()
