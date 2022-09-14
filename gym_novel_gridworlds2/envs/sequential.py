@@ -150,10 +150,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # print(agent_entity.inventory)
         metadata = {}
 
-        if hasattr(action_set.actions[action][1], "step_cost"):
-            step_cost = action_set.actions[action][1].step_cost or 0
-        else:
-            step_cost = 0
+        step_cost = action_set.actions[action][1].get_step_cost(agent_entity, **extra_params) or 0
 
         try:
             metadata = action_set.actions[action][1].do_action(
@@ -199,7 +196,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
                     "argument": extra_params.get("_raw_args") or "",
                     "result": "SUCCESS",
                     "message": "",
-                    "stepCost": step_cost,  # TODO cost
+                    "stepCost": step_cost,
                 }
             self.agent_manager.agents[agent].agent.update_metadata(metadata)
 

@@ -156,16 +156,10 @@
     "plastic_chest": "gym_novel_gridworlds2.contrib.polycraft.objects.PlasticChest",
     "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
     "oak_log": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
-    "diamond_ore": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
-      "break_cost": 600
-    },
+    "diamond_ore": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
     "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe",
     "crafting_table": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
-    "block_of_platinum": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
-      "break_cost": 600
-    },
+    "block_of_platinum": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
     "block_of_titanium": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "sapling": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
   },
@@ -241,7 +235,7 @@
   "num_episodes": 10,
   "entities": {
     "main_1": {
-      "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+      "agent": "gym_novel_gridworlds2.agents.NOPAgent",
       "name": "entity.polycraft.Player.name",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
@@ -302,7 +296,7 @@
         10
       ]
     }
-  },
+    },
   "recipes": {
     "stick": {
       "input": [

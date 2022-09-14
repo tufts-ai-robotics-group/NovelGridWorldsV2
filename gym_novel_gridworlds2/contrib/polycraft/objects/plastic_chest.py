@@ -2,10 +2,12 @@ from .polycraft_obj import PolycraftObject
 
 
 class PlasticChest(PolycraftObject):
-    def __init__(self, typee, loc=(0, 0), state="block", inventory=None, **kwargs):
-        self.type = typee
+    def __init__(self, type="plastic_chest", loc=(0, 0), state="block", inventory=None, **kwargs):
+        super().__init__(**kwargs)
+        self.type = type
         self.loc = loc  # update such that we update the 3D arr and add the item to it
         self.state = state  # two states: block and floating
+        
 
     def placement_reqs(self, map_state, loc):
         return True

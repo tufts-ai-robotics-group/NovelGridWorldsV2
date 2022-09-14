@@ -2,8 +2,8 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import Polycr
 
 
 class CraftingTable(PolycraftObject):
-    def __init__(self, typee, loc=(0, 0), state="block", fire_state="on_fire", **kwargs):
-        self.type = typee
+    def __init__(self, type, loc=(0, 0), state="block", fire_state="on_fire", **kwargs):
+        self.type = type
         self.loc = loc  # update such that we update the 3D arr and add the item to it
         self.state = state  # two states: on_fire and available
         self.fire_state = fire_state

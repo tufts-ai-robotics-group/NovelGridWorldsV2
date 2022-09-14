@@ -4,7 +4,10 @@
     "0": {
       "entities": {
         "flexible_pogoist_example": {
-          "agent": "novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",
+          "agent": {
+                      "module":"novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",
+                      "plan":["collect(oak_log,None)","goto(crafting_table)","collect(diamond_ore,iron_pickaxe)","collect(oak_log,None)","nop()"]
+          },
           "name": "entity.polycraft.Pogoist.name",
           "type": "flexible_pogoist_example",
           "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
@@ -12,11 +15,12 @@
           "inventory": {
             "iron_pickaxe": 1
           },
-          "id": 105,
+          "id": 102,
           "loc": [
             5,
-            14
+            10
           ]
+
         }
       }
     }

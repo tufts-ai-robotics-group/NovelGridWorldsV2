@@ -34,7 +34,7 @@ class Trade(Craft):
         entity_id = int(kwargs["_all_params"][0]) if "_all_params" in kwargs else None
         if can_interact(agent_entity, self.state, entity_id) and entity_id in recipe.entities:
             near_trader = True
-
+            
         return near_trader and \
             super().check_precondition(agent_entity, recipe=recipe)
 

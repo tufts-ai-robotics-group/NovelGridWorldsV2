@@ -1,0 +1,36 @@
+{
+  "extends": "../../pre_novelty_keyboard_template.json",
+  "entities": {
+    "main_1": {
+      "agent": {
+        "module": "gym_novel_gridworlds2.agents.NOPAgent"
+      }
+    }
+  },
+  "novelties": {
+    "0": {
+      "entities": {
+        "pogoist_diamond": {
+          "agent": {
+                      "module":"novelties.flexible_policy_pogoist_example.flexible_policy_pogoist.FlexiblePolicyPogoist",
+                      "plan":["collect(diamond_ore,iron_pickaxe)", "collect(diamond_ore,iron_pickaxe)", "collect(diamond_ore,iron_pickaxe)", "collect(diamond_ore,iron_pickaxe)", "goto(plastic_chest)","face(plastic_chest)", "collectfromplasticchest()", "goto(safe)","face(safe)", "collectfromsafe()", "goto(crafting_table)", "collect(oak_log,None)","collect(oak_log,None)","collect(oak_log,None)","goto(crafting_table)","face(crafting_table)","craft(tree_tap)",
+                              "goto(oak_log)","face(oak_log)","use_tree_tap()","collect(block_of_platinum,iron_pickaxe)","collect(block_of_platinum,iron_pickaxe)","trade(block_of_titanium_1,103,2)",
+                              "goto(crafting_table)","face(crafting_table)","craft(block_of_diamond)","craft(block_of_diamond)","craft(pogostick)", "nop()"]
+          },
+          "name": "entity.polycraft.Pogoist.name",
+          "type": "pogoist_diamond",
+          "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist",
+          "action_set": "pogoist",
+          "inventory": {
+            "iron_pickaxe": 1
+          },
+          "id": 102,
+          "loc": [
+            5,
+            10
+          ]
+        }
+      }
+    }
+  }
+}

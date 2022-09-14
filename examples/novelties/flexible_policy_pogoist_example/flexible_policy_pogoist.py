@@ -1,5 +1,6 @@
 import numpy as np
 from gym_novel_gridworlds2.agents.agent import Agent
+import re
 
 class FlexiblePolicyPogoist(Agent):
     '''
@@ -9,7 +10,7 @@ class FlexiblePolicyPogoist(Agent):
     Subgoals are implemented as action generators. The policy looks at the current subgoal and returns its next action.
     '''
 
-    def __init__(self, **kwargs):
+    def __init__(self, plan = None,**kwargs):
         super().__init__(**kwargs)
         self.isMoving = False
         self.policy_step = 0
@@ -18,14 +19,49 @@ class FlexiblePolicyPogoist(Agent):
         self.starting_step_safe = 0
         self.doingSafeRoute = False
 
-        #List of subgoals for this agent. TODO: specify the subgoals in the config file (use normal pogoist subgoals as default).
-        self.subgoals = [self._collect_wood_subgoal(), self._go_to_obj_subgoal("crafting_table"),self._collect_wood_subgoal(),self._null_subgoal()]
+
+        if plan is None:
+            #default pogoist plan
+            plan = ["collect(oak_log,None)","collect(oak_log,None)","collect(oak_log,None)","goto(crafting_table)","face(crafting_table)","craft(tree_tap)",
+                    "goto(oak_log)","face(oak_log)","use_tree_tap()","collect(diamond_ore,iron_pickaxe)",
+                    "collect(diamond_ore,iron_pickaxe)","collect(block_of_platinum,iron_pickaxe)","collect(block_of_platinum,iron_pickaxe)","trade(block_of_titanium_1,103,2)",
+                    "goto(crafting_table)","face(crafting_table)","craft(block_of_diamond)","craft(block_of_diamond)","craft(pogostick)","nop()"]
+
+        #Need to map plan to functions
+        self.subgoals = list(map(self._plan_item_to_subgoal,plan))
 
         self.current_subgoal_idx = 0
 
+    def _plan_item_to_subgoal(self,plan_item):
 
+        args = re.findall('\(.*\)',plan_item)[0].strip("()").split(",")
+        args = [i if i!='None' else None for i in args]
 
+        name = plan_item.split("(")[0]
+        if name== 'collect':
+            return self._collect_resource_subgoal(args[0],args[1])
 
+        if name=='goto':
+            return self._go_to_obj_subgoal(args[0])
+
+        if name=='nop':
+            return self._null_subgoal()
+        if name=='craft':
+            return self._craft_item_subgoal(args[0])
+
+        if name=='use_tree_tap':
+            return self._use_treetap_subgoal()
+        if name=='face':
+            return self._face_subgoal(args[0])
+
+        if name=='trade':
+            return self._trade_subgoal(args[0],args[1],int(args[2]))
+
+        if name=='collectfromsafe':
+            return self._collect_from_safe_subgoal()
+
+        if name=='collectfromplasticchest':
+            return self._collect_from_plastic_chest_subgoal()
 
     ## Convenience routines to format the actions. Prevents repetition.
     def _goto_action(self,obj):
@@ -39,8 +75,15 @@ class FlexiblePolicyPogoist(Agent):
         action_sets = self.action_set.get_action_names()
         return action_sets.index("rotate_right")
 
+    def _noop_action(self):
+        '''
+        No-op action.
+        '''
+        action_sets = self.action_set.get_action_names()
+        return action_sets.index("NOP")
+
     def _get_obj_infront(self):
-        ent = self.state.get_entity_by_id(105) # what is this magic number? Is this me? I should probably know my id
+        ent = self.state.get_entity_by_id(102) # what is this magic number? Is this me? I should probably know my id
         vec = (0, 0)
         if ent.facing == "NORTH":
             vec = (-1, 0)
@@ -64,6 +107,8 @@ class FlexiblePolicyPogoist(Agent):
             #always NOP
             yield self.action_set.get_action_names().index("NOP")
 
+
+
     def _go_to_obj_subgoal(self,obj_type):
         '''
         Slightly more interesting subgoal to go to an object. Waits for the object to exist before going.
@@ -77,9 +122,92 @@ class FlexiblePolicyPogoist(Agent):
         yield self._goto_action(objs[0])
 
 
+    def _craft_item_subgoal(self,item):
+        '''
+        This should yield the action necessary to craft item. hardcoding treetap for demonstration purposes, but it should:
+        1. Retrieve the recipe for the selected item
+        2. If a resource required to craft `item` not in inventory, try to craft it. This could be recursive to accomodate deeper crafting trees.
+        3. Craft item
+        '''
+        action_sets = self.action_set.get_action_names()
+        #TODO: Generalize this function to use the recipes to create the list of crafting steps.
+        if item =='tree_tap':
+            steps =  self._craft_treetap_steps()
+        elif item == 'block_of_diamond':
+            steps = [action_sets.index("craft_block_of_diamond")]
+        elif item == 'pogostick':
+            steps = [action_sets.index("craft_pogo_stick")]
+        else:
+            raise NotImplementedError(f"Crafting subgoal for {item} not implemented")
+
+        for step in steps:
+            yield step
 
 
-    def _collect_wood_subgoal(self):
+
+    def _craft_treetap_steps(self):
+        '''
+        This is a hack. The list of steps should come from recipes
+        '''
+        action_sets = self.action_set.get_action_names()
+        steps = [
+        action_sets.index("craft_planks"),
+        action_sets.index("craft_planks"),
+        action_sets.index("craft_planks"),
+        action_sets.index("craft_stick"),
+        action_sets.index("craft_tree_tap")
+        ]
+        return steps
+
+
+    def _use_treetap_subgoal(self):
+        '''
+        Specific subgoal to use the tree tap.
+        '''
+        ent = self.state.get_entity_by_id(102)
+        action_sets = self.action_set.get_action_names()
+
+        yield action_sets.index("smooth_move"),{"direction":'x'}
+        yield action_sets.index("select_tree_tap")
+        yield action_sets.index("place")
+        yield action_sets.index("collect")
+
+    def _face_subgoal(self,obj):
+        obj_infront = self._get_obj_infront()
+        is_obj = obj_infront[0][0].type == obj if len(obj_infront[0]) > 0 else False
+        is_ent = obj_infront[1][0].type == obj if len(obj_infront[1]) > 0 else False
+        while not is_obj and not is_ent: # while not facing obj or entity, rotate
+            yield self._rotate_action()
+            #Remember, the function resume from here so need to refresh these variables -- otherwise infinite loop
+            obj_infront = self._get_obj_infront()
+            is_obj = obj_infront[0][0].type == obj if len(obj_infront[0]) > 0 else False
+            is_ent = obj_infront[1][0].type == obj if len(obj_infront[1]) > 0 else False
+        else:
+            yield self._noop_action()
+
+    def _trade_subgoal(self,trade_name,trader_id='103',repeats=1):
+        '''
+        Subgoal to trade an item.
+        '''
+        action_sets = self.action_set.get_action_names()
+
+        yield action_sets.index(f"TP_TO_{trader_id}")
+
+        face_sub = self._face_subgoal('trader')
+        for i in range(4):
+            try:
+                yield next(face_sub)
+            except StopIteration:
+                break
+        for _ in range(repeats):
+            yield action_sets.index(f"trade_{trade_name}")
+
+
+
+
+
+
+    def _collect_resource_subgoal(self, resource = 'oak_log', break_tool = None):
         '''
         A subgoal with multple steps.  The subgoal is a generator -- read up on generators if not familiar.
         The main idea is that the function "pauses" and returns whatever follows the 'yield' keyword. When the function is called again, it resumes from that point.
@@ -95,26 +223,32 @@ class FlexiblePolicyPogoist(Agent):
 
         '''
         action_sets = self.action_set.get_action_names()
-        ent = self.state.get_entity_by_id(105)
-        initial_wood_amount = ent.inventory.get("oak_log",0)
-        objs = self.state.get_objects_of_type("oak_log")
+        ent = self.state.get_entity_by_id(102)
+        initial_amount = ent.inventory.get(resource,0)
+        objs = self.state.get_objects_of_type(resource)
 
-        while len(objs) == 0: # wait for wood to be available
+        while len(objs) == 0: # wait for resource to be available
             yield action_sets.index("NOP")
-            objs = self.state.get_objects_of_type("oak_log")
+            objs = self.state.get_objects_of_type(resource)
 
         # go to wood
         yield self._goto_action(objs[0])
 
         #Look at wood
         obj_infront = self._get_obj_infront()
-        is_oak_log = obj_infront[0][0].type == "oak_log" if len(obj_infront[0]) > 0 else False
+        is_oak_log = obj_infront[0][0].type == resource if len(obj_infront[0]) > 0 else False
 
-        while not is_oak_log: # while not facing wood, rotate
-            yield self._rotate_action()
-            #Remember, the function resume from here so need to refresh these variables -- otherwise infinite loop
-            obj_infront = self._get_obj_infront()
-            is_oak_log = obj_infront[0][0].type == "oak_log" if len(obj_infront[0]) > 0 else False
+        face_resource_subgoal = self._face_subgoal(resource)
+
+        for i in range(4):
+            try:
+                yield next(face_resource_subgoal)
+            except StopIteration:
+                break
+
+        # use tool if necessary
+        if break_tool is not None:
+            yield action_sets.index(f"select_{break_tool}")
 
 
         #If you get here, you have wood infront of you, so collect it
@@ -125,6 +259,20 @@ class FlexiblePolicyPogoist(Agent):
 
         #now this subgoal is done.
 
+    def _collect_from_plastic_chest_subgoal(self):
+        '''
+        Collect items from plastic chest
+        '''
+        action_sets = self.action_set.get_action_names()
+        yield action_sets.index("collect")
+
+    def _collect_from_safe_subgoal(self):
+        '''
+        Collect items from safe
+        '''
+        action_sets = self.action_set.get_action_names()
+        yield action_sets.index("use")
+        yield action_sets.index("collect")
 
     def policy(self, observation):
         """
@@ -141,10 +289,11 @@ class FlexiblePolicyPogoist(Agent):
         try:
             action = next(self.subgoals[self.current_subgoal_idx])
         except StopIteration: #if subgoal done
-            self.current_subgoal_idx +=1
+            self.current_subgoal_idx += 1
             if self.current_subgoal_idx == len(self.subgoals): #if no more subgoals
                 action = action_sets.index("NOP") # this could be different, maybe loop back to the beginning? (would need to reset generators)
             else:
                 action = next(self.subgoals[self.current_subgoal_idx])
         self.policy_step += 1
+        self.isMoving = False
         return action

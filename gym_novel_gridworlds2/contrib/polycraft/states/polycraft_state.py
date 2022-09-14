@@ -1,3 +1,4 @@
+from copy import deepcopy
 from gym_novel_gridworlds2.object.object import Object
 from ....utils.room_coord import RoomCoord
 from ..objects.polycraft_obj import PolycraftObject
@@ -706,7 +707,7 @@ class PolycraftState(State):
             raise LocationOccupied from e
 
     def random_place_chunk_in_room(
-        self, object_str, count, startPos, endPos, ObjectClass=Object
+        self, object_str, count, startPos, endPos, ObjectClass=Object, properties={}
     ):
         """
         Randomly place the object chunk in the map in a specific room
@@ -814,8 +815,9 @@ class PolycraftState(State):
                         break
 
         for loc in picked_spots:
-            properties = {"loc": tuple(loc)}
-            self.place_object(object_str, ObjectClass, properties=properties)
+            properties_curr = deepcopy(properties)
+            properties_curr["loc"] = tuple(loc)
+            self.place_object(object_str, ObjectClass, properties=properties_curr)
 
     def renderMultiLineTextRightJustifiedAt(self, text, font, colour, x, y, screen, allowed_width):
         """

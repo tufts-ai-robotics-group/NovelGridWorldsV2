@@ -8,7 +8,7 @@ class Entity(Object):
         type=None,
         loc=(0, 0),
         state="block",
-        inventory={},
+        inventory=None, # bad idea to use this default here right? because its mutable. Use None and replace instead
         id=1,
         name="",
         nickname="",
@@ -20,7 +20,7 @@ class Entity(Object):
         self.name = name
         self.nickname = nickname
         self.loc = loc
-        self.inventory = inventory
+        self.inventory = inventory if inventory is not None else {}
         self.selectedItem: str = None
         self.type = type
         self.facing = facing
