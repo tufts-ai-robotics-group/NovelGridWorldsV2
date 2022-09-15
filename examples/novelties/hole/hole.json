@@ -10,7 +10,7 @@
   "novelties": {
     "0": {
       "actions": {
-        "forward": {
+        "smooth_move": {
           "module": "novelties.hole.forward.Forward"
         }
       },
