@@ -6,11 +6,11 @@ import numpy as np
 
 
 class Forward(Action):
-    def __init__(self, state: State, dynamics=None, speed=1):
+    def __init__(self, dynamics=None, speed=1, **kwargs):
         self.vec = (0, 0)
         self.dynamics = dynamics
-        self.state = state
         self.speed = speed
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None
@@ -20,10 +20,11 @@ class Forward(Action):
         1) The new location must not be out of bounds
         2) The new location must not be occupied by another non-floating object
         3) If the new location is occupied by a door, it must be open
-        4) If the new location is a hole, it is fine.
         """
         if agent_entity.facing == "NORTH":
             self.vec = (-self.speed, 0)
+        elif agent_entity.facing == "EAST":
+            self.vec = (0, self.speed)
         elif agent_entity.facing == "SOUTH":
             self.vec = (self.speed, 0)
         elif agent_entity.facing == "WEST":
@@ -48,7 +49,9 @@ class Forward(Action):
             # out of the bound
             return False
 
-    def do_action(self, agent_entity, target_type=None, target_object=None):
+    def do_action(self, agent_entity, target_type=None, target_object=None, **kwargs):
+        # self.state._step_count += 1
+        self.state.incrementer()
         """
         Checks for precondition, then moves the object to the destination.
         """
@@ -63,13 +66,17 @@ class Forward(Action):
                         and obj.canWalkOver == True
                         and obj.state == "block"
                     ):
-                        if obj.type == "hole":
-                            for item_type in agent_entity.inventory:
-                                obj.inventory[item_type] = agent_entity.inventory[item_type]
-                                agent_entity.inventory[item_type] = 0
                         pass
                     else:
-                        if obj.type != "diamond_ore":
+                        if obj.type == "hole":
+                            print("On a hole")
+                            for item_type in agent_entity.inventory:
+                                print("********************")
+                                print(item_type)
+                                print("********************")
+                                obj.inventory[item_type] = agent_entity.inventory[item_type]
+                                agent_entity.inventory.update({item_type: 0})
+                        elif obj.type != "diamond_ore":
                             if obj.type in agent_entity.inventory:
                                 agent_entity.inventory[obj.type] += 1
                             else:
@@ -81,3 +88,8 @@ class Forward(Action):
                                 agent_entity.inventory.update({"diamond": 9})
                         self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
+            self.result = "SUCCESS"
+        else:
+            self.result = "FAILED"
+
+        return {}

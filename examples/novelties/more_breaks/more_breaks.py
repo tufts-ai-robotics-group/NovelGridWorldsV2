@@ -6,11 +6,11 @@ import numpy as np
 
 
 class MoreBreaks(Action):
-    def __init__(self, state: State, dynamics=None, speed=1):
+    def __init__(self, dynamics=None, speed=1, **kwargs):
         self.vec = (0, 0)
         self.dynamics = dynamics
-        self.state = state
         self.speed = speed
+        super().__init__(**kwargs)
 
     def check_precondition(
         self, agent_entity: Entity, target_type=None, target_object=None
@@ -23,6 +23,8 @@ class MoreBreaks(Action):
         """
         if agent_entity.facing == "NORTH":
             self.vec = (-self.speed, 0)
+        elif agent_entity.facing == "EAST":
+            self.vec = (0, self.speed)
         elif agent_entity.facing == "SOUTH":
             self.vec = (self.speed, 0)
         elif agent_entity.facing == "WEST":
@@ -47,7 +49,7 @@ class MoreBreaks(Action):
             # out of the bound
             return False
 
-    def do_action(self, agent_entity, target_type=None, target_object=None):
+    def do_action(self, agent_entity, target_type=None, target_object=None, **kwargs):
         # self.state._step_count += 1
         self.state.incrementer()
         """
@@ -66,11 +68,16 @@ class MoreBreaks(Action):
                     ):
                         pass
                     else:
-                        if obj.type != "tree":
+                        if obj.type == "oak_log":
                             if obj.type in agent_entity.inventory:
-                                agent_entity.inventory[obj.type] += 4
+                                agent_entity.inventory["oak_log"] += 4
                             else:
-                                agent_entity.inventory[obj.type] = 4
+                                agent_entity.inventory.update({"oak_log": 4})
+                        elif obj.type != "diamond_ore":
+                            if obj.type in agent_entity.inventory:
+                                agent_entity.inventory[obj.type] += 1
+                            else:
+                                agent_entity.inventory[obj.type] = 1
                         else:
                             if "diamond" in agent_entity.inventory:
                                 agent_entity.inventory["diamond"] += 9
@@ -82,15 +89,4 @@ class MoreBreaks(Action):
         else:
             self.result = "FAILED"
 
-        self.action_metadata(agent_entity, target_object)
-
-    def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        print(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “smooth_move”, “argument”: “w”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 27.906975}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}
