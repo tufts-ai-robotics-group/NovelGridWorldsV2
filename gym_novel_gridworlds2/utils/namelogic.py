@@ -1,10 +1,10 @@
 def nameConversion(name):
-    variant = None
+    properties = {}
     if name == None:
         converted_name = "minecraft:air"
     elif name == "oak_log":
         converted_name = "minecraft:log"
-        variant = "oak"
+        properties["variant"] = "oak"
     elif name == "rubber":
         converted_name = "polycraft:sack_polyisoprene_pellets"
     elif name == "block_of_titanium":
@@ -33,14 +33,17 @@ def nameConversion(name):
         converted_name = "minecraft:wooden_door"
     elif name == "planks":
         converted_name = "minecraft:planks"
-        variant = "oak"
+        properties["variant"] = "oak"
+    elif name == "blue_key":
+        converted_name = "polycraft:key"
+        properties["color"] = "blue"
     else:
         converted_name = "minecraft:" + name
     
-    return converted_name, variant
+    return converted_name, properties
 
 
-def backConversion(name, variant=None):
+def backConversion(name, variant=None, **kwargs):
     if name is None:
         return None
     res = name.split(":")
@@ -59,5 +62,7 @@ def backConversion(name, variant=None):
         return "pogo_stick"
     elif res[1] == 0:
         return 0
+    elif res[1] == "key":
+        return kwargs.get("color", "blue") + "_key"
     else:
         return res[1]

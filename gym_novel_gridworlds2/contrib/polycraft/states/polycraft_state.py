@@ -148,11 +148,11 @@ class PolycraftState(State):
         for coord in map_range:
             cell: Cell = self._map[coord]
             if cell is not None:
-                name, variant = cell.get_map_rep(conversion_func)
+                name, properties = cell.get_map_rep(conversion_func)
                 map_dict[f"{coord[0]},17,{coord[1]}"] = {
                     "name": name,
                     "isAccessible": True,
-                    "variant": variant
+                    **properties
                 }
             else:
                 map_dict[f"{coord[0]},17,{coord[1]}"] = {

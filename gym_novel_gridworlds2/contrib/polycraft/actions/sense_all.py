@@ -83,11 +83,11 @@ class SenseAll(Action):
         objs = state.get_objects_at(locInFront)
         if len(objs[0]) > 0:
             obj: Object = objs[0][0]
-            name, variant = nameConversion(obj.type)
+            name, properties = nameConversion(obj.type)
             blockInFront = {
                 "name": name,
                 # TODO generalize; also see polycraft_state
-                "variant": variant
+                **properties
             }
         else:
             blockInFront = {"name": "minecraft:air"}
@@ -100,7 +100,7 @@ class SenseAll(Action):
                 "count": count,
                 "damage": 0,
                 "maxdamage": 0,
-                "variant": nameConversion(item_name)[1]
+                **nameConversion(item_name)[1]
             }
             for slot_id, (item_name, count) in enumerate(agent_entity.inventory.items())
         }
@@ -115,7 +115,7 @@ class SenseAll(Action):
                 "maxdamage": 0,
             }
         else:
-            selected_item_name, selected_item_variant = nameConversion(agent_entity.selectedItem)
+            selected_item_name, selected_item_properties = nameConversion(agent_entity.selectedItem)
             selected_item_count = agent_entity.inventory[agent_entity.selectedItem]
 
             inventory["selectedItem"] = {
@@ -124,7 +124,7 @@ class SenseAll(Action):
                 "count": selected_item_count,
                 "damage": 0,
                 "maxdamage": 0,
-                "variant": selected_item_variant
+                **selected_item_properties
             }
         return inventory
 
