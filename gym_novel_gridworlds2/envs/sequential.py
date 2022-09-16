@@ -250,6 +250,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             episode=self.internal_state.episode, 
             total_steps=self.num_moves,
             total_time=time.time() - self.initial_time,
+            total_cost=self.rewards['agent_0'],
             success=self.internal_state._goal_achieved,
             notes=notes)
 

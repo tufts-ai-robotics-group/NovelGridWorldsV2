@@ -13,10 +13,11 @@ def report_game_result(
     episode: int,
     total_steps: int,
     total_time: int,
+    total_cost: int,
     success: bool,
     notes: str = "",
     output_log_path: str = "game_log_" + get_game_time_str() + ".csv",
 ):
     with open(output_log_path, "a") as output_log:
         output_log.write(
-            f"{episode},{total_steps},{total_time},{success},\"{notes}\"\n")
+            f"{episode},{total_steps},{total_time},{total_cost},{success},\"{notes}\"\n")

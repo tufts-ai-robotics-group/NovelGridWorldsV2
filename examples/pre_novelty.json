@@ -62,7 +62,7 @@
     },
     "collect": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect",
-      "step_cost": 50000.0
+      "step_cost": 1200
     },
     "place": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem",
@@ -154,7 +154,10 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "safe": "gym_novel_gridworlds2.contrib.polycraft.objects.Safe",
     "plastic_chest": "gym_novel_gridworlds2.contrib.polycraft.objects.PlasticChest",
-    "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
+    "tree_tap": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
+      "collect_cost": 50000
+    },
     "oak_log": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "diamond_ore": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
