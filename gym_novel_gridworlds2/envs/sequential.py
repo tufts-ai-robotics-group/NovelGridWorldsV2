@@ -33,6 +33,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.dynamic,
             self.agent_manager,
         ) = self.json_parser.parse_json(json_content=config_dict)
+        self.internal_state.env_set_game_over = self.set_game_over
+
         self.goal_item_to_craft = ""  # TODO add to config
         self.MAX_ITER = MAX_ITER
         ##### Required properties for the environment
@@ -42,6 +44,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # The agent is done when it's killed or when the goal is reached.
         self.dones = {key: False for key, a in self.agent_manager.agents.items()}
+
+        # The number of non-environmental agents.
+        # Game over when all non-env agents are done.
+        # And environmental agents will be automatically terminated
+        # when all other active agents are done.
+        self.num_active_non_env_agents = self.agent_manager.get_non_env_agent_count()
 
         # the episode will stop when it exceeds time limit.
         self.initial_time = time.time()
@@ -83,7 +91,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         metadata = {}
         metadata["goal"] = {
             "goalType": "ITEM",
-            "goalAchieved": self.internal_state.goalAchieved,
+            "goalAchieved": self.internal_state._goal_achieved,
             "Distribution": "Uninformed",
         }
         metadata["step"] = self.num_moves
@@ -128,9 +136,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # set to be done if the agent is done
         # DELAYED one round
-        self.dones[agent] = (
-            self.internal_state.given_up or self.internal_state.goalAchieved
-        )
+        self.dones[agent] = self.is_agent_done(agent)
 
         # do the action
         action_set = self.agent_manager.get_agent(agent).action_set
@@ -175,30 +181,29 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # send the metadata of the command execution result
         # to the agent (mostly for use in the socket connection)
-        # TODO: rn accomodating the string
         if metadata is None:
             metadata = {}
-        if type(metadata) == str:
-            self.agent_manager.agents[agent].agent.update_metadata(metadata)
-        else:
-            metadata["goal"] = {
-                "goalType": "ITEM",
-                "goalAchieved": self.dones[agent] and self.internal_state.goalAchieved,
-                "Distribution": "Uninformed",
+        if type(metadata) != dict:
+            raise Exception("Action metadata must be a dictionary! Check the implementation of the action.")
+        
+        metadata["goal"] = {
+            "goalType": "ITEM",
+            "goalAchieved": self.dones[agent] and self.internal_state._goal_achieved,
+            "Distribution": "Uninformed",
+        }
+        metadata["step"] = self.num_moves
+        # TODO below is delayed by one step
+        metadata["gameOver"] = self.dones[agent]
+        if "command_result" not in metadata:
+            metadata["command_result"] = {
+                "command": extra_params.get("_command")
+                or action_set.actions[action][0],
+                "argument": extra_params.get("_raw_args") or "",
+                "result": "SUCCESS",
+                "message": "",
+                "stepCost": step_cost,
             }
-            metadata["step"] = self.num_moves
-            # TODO below is delayed by one step
-            metadata["gameOver"] = self.dones[agent]
-            if "command_result" not in metadata:
-                metadata["command_result"] = {
-                    "command": extra_params.get("_command")
-                    or action_set.actions[action][0],
-                    "argument": extra_params.get("_raw_args") or "",
-                    "result": "SUCCESS",
-                    "message": "",
-                    "stepCost": step_cost,
-                }
-            self.agent_manager.agents[agent].agent.update_metadata(metadata)
+        self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
         # print inventory info
         print("inventory:", agent_entity.inventory)
@@ -215,33 +220,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         if (
             self._agent_selector.is_last()
             and not action_set.actions[action][1].allow_additional_action
-        ):  # if
-            # rewards for all agents are placed in the .rewards dictionary
-            # self.rewards[self.agents[0]], self.rewards[self.agents[1]] = REWARD_MAP[
-            #     (self.internal_state[self.agents[0]], self.internal_state[self.agents[1]])
-            # ]
-            # TODO: rewards
-
+        ):  
+            self.game_over_agent_update()
             self.num_moves += 1
-
-            # update of done, by setting game_over
-            # to test: stepCost and max_step_cost
-            self.internal_state.given_up = (
-                self.internal_state.given_up
-                or time.time() - self.initial_time > self.time_limit
-            )
-            self.internal_state.given_up = (
-                self.internal_state.given_up
-                or self._cumulative_rewards[agent]
-                > self.agent_manager.get_agent(agent).max_step_cost
-            )
-
-            # The dones dictionary must be updated for all players.
-            # TODO a super RESET command should terminate everything
-            self.dones = {
-                agent: self.dones[agent] or self.num_moves >= self.MAX_ITER
-                for agent in self.agents
-            }
 
         else:
             # necessary so that observe() returns a reasonable observation at all times.
@@ -253,6 +234,60 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.agent_selection = self._agent_selector.next()
         # Adds .rewards to ._cumulative_rewards
         self._accumulate_rewards()
+    
+
+    def set_game_over(self, goal_achieved=False, delayed_by_one_step=True):
+        if delayed_by_one_step:
+            if goal_achieved:
+                self.internal_state._goal_achieved = True
+            else:
+                self.internal_state._given_up = True
+        else:
+            self.dones = {agent: True for agent in self.possible_agents}
+
+
+    def game_over_agent_update(self):
+        """
+        Checks and sets all agent to be done based if the whole episode is over
+        """
+        if self.internal_state._given_up:
+            return
+        # update of done, by setting game_over
+        # to test: stepCost and max_step_cost
+        if time.time() - self.initial_time > self.time_limit:
+            self.set_game_over(False)
+        elif self.num_active_non_env_agents <= 0:
+            self.set_game_over(False)
+
+        # Updated done if 
+        if self.num_moves >= self.MAX_ITER:
+            self.set_game_over(goal_achieved=False, delayed_by_one_step=False)
+
+
+    def is_agent_done(self, agent):
+        """
+        Returns if the agent is done, if the agent is still in the agent list.
+        """
+        # agent already done, return true and update nothing
+        if agent not in self.dones:
+            # agent no longer active, return True
+            return True
+        elif self.dones[self.agent_selection]:
+            # if we already marked as done, return True
+            return True
+        
+        # agent not done but we're marking it done
+        if self._cumulative_rewards[agent] >= \
+            self.agent_manager.get_agent(agent).max_step_cost:
+            # if the total step cost exceeds the max step cost, return True
+            self.num_active_non_env_agents -= 1
+            return True
+        elif self.num_moves > self.MAX_ITER:
+            return True
+        elif self.internal_state._given_up or self.internal_state._goal_achieved:
+            return True
+        return False
+
 
     def reset(self, seed=None, return_info=False, options=None):
         """
@@ -275,6 +310,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.dynamic,
             self.agent_manager,
         ) = self.json_parser.parse_json(json_content=self.config_dict, episode=episode)
+        self.internal_state.env_set_game_over = self.set_game_over
 
         #### agent novelties
         self.possible_agents = self.agent_manager.get_possible_agents()
@@ -286,6 +322,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self._cumulative_rewards = {agent: 0 for agent in self.agents}
         self.dones = {agent: False for agent in self.agents}
         self.infos = {agent: {} for agent in self.agents}
+        self.num_active_non_env_agents = self.agent_manager.get_non_env_agent_count()
         self.num_moves = 0
 
         # Agent
@@ -415,9 +452,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
 
         #### goal reached statement
-        if self.internal_state.goalAchieved or self.internal_state.given_up:
+        if self.internal_state._goal_achieved or self.internal_state._given_up:
             timer = 4
-            if self.internal_state.given_up:
+            if self.internal_state._given_up:
                 game_over_str = f"Given Up. Restarting soon..."
             else:
                 game_over_str = f"You Won. Restarting soon..."

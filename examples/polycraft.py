@@ -7,6 +7,7 @@ from typing import Optional
 from gym_novel_gridworlds2.actions.action import Action
 
 from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
+from gym_novel_gridworlds2.utils.game_report import report_game_result
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser, load_json
 
 import pygame
@@ -69,12 +70,12 @@ for episode in range(num_episodes):
             if agent == last_agent:
                 env.render()
                 time.sleep(sleep_time)
-        if (
-            agent in env._cumulative_rewards and
-            env._cumulative_rewards[agent]
-            >= env.agent_manager.get_agent(agent).max_step_cost
-        ):
-            print(f"Max step cost reached for agent {agent}. Starting new episode.")
-            break
 
 env.close()
+            # report_game_result(
+            #     episode=episode,
+            #     total_steps=env._step_count,
+            #     total_time=time.time() - env._start_time,
+            #     success=False,
+            #     notes="Max step cost reached for agent {agent}.",
+            # )

@@ -37,14 +37,4 @@ class RotateLeft(Action):
         return self.action_metadata(agent_entity)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-            + str(self.state.goalAchieved)
-            + ", “Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “smooth_turn”, “argument”: “-90”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 24}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}

@@ -123,7 +123,7 @@ class Craft(Action):
                     agent_entity.inventory[item] = quantity
 
         if self.itemToCraft == "pogo_stick" or "pogo_stick" in recipe.output_dict:
-            self.state.goalAchieved = True
+            self.state.set_game_over(True)
         return self.action_metadata(kwargs, recipe=recipe)
 
     def action_metadata(self, args=[], recipe: Optional[Recipe] = None):

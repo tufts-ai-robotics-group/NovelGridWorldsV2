@@ -25,5 +25,5 @@ class GiveUp(Action):
         """
         # self.state._step_count += 1
         self.state.incrementer()
-        self.state.given_up = True
+        self.state.set_game_over(False)
         return {}
