@@ -15,7 +15,7 @@ def report_game_result(
     total_time: int,
     success: bool,
     notes: str = "",
-    output_log_path: str = "game_log_" + get_game_time_str(),
+    output_log_path: str = "game_log_" + get_game_time_str() + ".csv",
 ):
     with open(output_log_path, "a") as output_log:
         output_log.write(

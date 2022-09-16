@@ -8,7 +8,7 @@ class ReportNovelty(NOP):
         self.output_log_path = kwargs.get(
             "output_log_path", 
             "novelty_log_"
-        ) + get_game_time_str()
+        ) + get_game_time_str() + ".csv"
     
     def do_action(self, agent_entity: Entity, target_object=None, _raw_args="", **kwargs):
         """
