@@ -316,7 +316,10 @@ class State:
         """
         Sets the game over state.
         """
-        self.env_set_game_over(achieved)
+        if achieved:
+            self.env_set_game_over(achieved, notes="Goal achieved")
+        else:
+            self.env_set_game_over(achieved, notes="Agent gave up")
 
     def clear(self):
         """

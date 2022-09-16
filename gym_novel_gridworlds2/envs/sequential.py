@@ -14,6 +14,7 @@ from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from ..utils.json_parser import ConfigParser
+from ..utils.game_report import report_game_result
 
 
 class NovelGridWorldSequentialEnv(AECEnv):
@@ -236,7 +237,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self._accumulate_rewards()
     
 
-    def set_game_over(self, goal_achieved=False, delayed_by_one_step=True):
+    def set_game_over(self, goal_achieved=False, delayed_by_one_step=True, notes = ""):
         if delayed_by_one_step:
             if goal_achieved:
                 self.internal_state._goal_achieved = True
@@ -244,6 +245,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 self.internal_state._given_up = True
         else:
             self.dones = {agent: True for agent in self.possible_agents}
+
+        report_game_result(
+            episode=self.internal_state.episode, 
+            total_steps=self.num_moves,
+            total_time=time.time() - self.initial_time,
+            success=self.internal_state._goal_achieved,
+            notes=notes)
 
 
     def game_over_agent_update(self):
@@ -255,13 +263,16 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # update of done, by setting game_over
         # to test: stepCost and max_step_cost
         if time.time() - self.initial_time > self.time_limit:
-            self.set_game_over(False)
+            self.set_game_over(False, notes="Time limit exceeded")
         elif self.num_active_non_env_agents <= 0:
-            self.set_game_over(False)
+            self.set_game_over(False, notes="All agents are dead")
 
         # Updated done if 
         if self.num_moves >= self.MAX_ITER:
-            self.set_game_over(goal_achieved=False, delayed_by_one_step=False)
+            self.set_game_over(
+                goal_achieved=False, 
+                delayed_by_one_step=False, notes="Max number of steps exceeded"
+            )
 
 
     def is_agent_done(self, agent):

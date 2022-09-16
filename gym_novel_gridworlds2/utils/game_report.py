@@ -19,4 +19,4 @@ def report_game_result(
 ):
     with open(output_log_path, "a") as output_log:
         output_log.write(
-            f"{episode},{total_steps},{total_time},{success},{notes}\n")
+            f"{episode},{total_steps},{total_time},{success},\"{notes}\"\n")
