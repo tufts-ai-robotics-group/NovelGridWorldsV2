@@ -20,3 +20,4 @@ class PlasticChest(PolycraftObject):
                 agent.inventory["blue_key"] += 1
             else:
                 agent.inventory.update({"blue_key": 1})
+            agent.selectedItem = "blue_key"
