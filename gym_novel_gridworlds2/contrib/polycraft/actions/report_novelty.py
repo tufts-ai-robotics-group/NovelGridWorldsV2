@@ -1,6 +1,6 @@
 from gym_novel_gridworlds2.object.entity import Entity
 from .NOP import NOP
-from datetime import datetime
+from gym_novel_gridworlds2.utils.game_report import get_game_time_str
 
 class ReportNovelty(NOP):
     def __init__(self, **kwargs):
@@ -8,7 +8,7 @@ class ReportNovelty(NOP):
         self.output_log_path = kwargs.get(
             "output_log_path", 
             "novelty_log_"
-        ) + datetime.now().strftime("%y%m%d_%H%M%S") + ".csv"
+        ) + get_game_time_str()
     
     def do_action(self, agent_entity: Entity, target_object=None, _raw_args="", **kwargs):
         """
