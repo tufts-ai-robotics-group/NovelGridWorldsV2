@@ -1,6 +1,6 @@
 {
   "sleep_time": 0,
-  "time_limit": 180,
+  "time_limit": 300,
   "actions": {
     "break_block": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break",
@@ -35,7 +35,7 @@
       "step_cost": 120
     },
     "report_novelty": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ReportNovelty"
     },
     "sense_recipes": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes",
