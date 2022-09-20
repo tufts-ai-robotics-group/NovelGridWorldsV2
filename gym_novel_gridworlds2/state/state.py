@@ -302,6 +302,16 @@ class State:
                 entities += obj_list
         return entities
 
+    def get_room_by_loc(self, loc):
+        """
+        Given a location, return the room that it is in.
+        When the location belongs to multiple rooms, 
+        the first found room is returned.
+        """
+        for room in self.room_coords:
+            if loc in room:
+                return room
+
     def get_map_size(self):
         return self._map.shape
 
