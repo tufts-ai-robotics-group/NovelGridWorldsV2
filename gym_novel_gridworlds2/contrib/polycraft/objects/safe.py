@@ -13,7 +13,7 @@ class Safe(PolycraftObject):
         self.isLocked = True
         self.inventory = inventory
 
-    def placement_reqs(self, map_state, loc):
+    def placement_reqs(map_state, loc):
         return True
 
     def acted_upon(self, action_name, agent):

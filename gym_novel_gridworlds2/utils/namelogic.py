@@ -1,4 +1,15 @@
-def nameConversion(name):
+########### TODO Temporary fix, to convert coordinates
+FACING_DICT = {
+    "NORTH": "WEST",
+    "EAST": "NORTH",
+    "SOUTH": "EAST",
+    "EAST": "NORTH"
+}
+
+def convert_facing(original_facing):
+    return FACING_DICT.get(original_facing) or "NORTH"
+
+def nameConversion(name, obj=None):
     properties = {}
     if name == None:
         converted_name = "minecraft:air"
@@ -29,14 +40,17 @@ def nameConversion(name):
         converted_name = "polycraft:unlocked_safe"
     elif name == "bedrock":
         converted_name = "minecraft:bedrock"
-    elif name == "door":
-        converted_name = "minecraft:wooden_door"
     elif name == "planks":
         converted_name = "minecraft:planks"
         properties["variant"] = "oak"
     elif name == "blue_key":
         converted_name = "polycraft:key"
         properties["color"] = "blue"
+    elif name == "door":
+        converted_name = "minecraft:wooden_door"
+        if obj is not None:
+            properties = {"facing": "south", "hinge": "left", "half": "lower", "open": "false"}
+            properties['facing'] = convert_facing(getattr(obj, "facing", "north")).lower()
     else:
         converted_name = "minecraft:" + name
     

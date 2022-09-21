@@ -170,7 +170,7 @@ class PolycraftState(State):
             for j in range(self._map.shape[1]):
                 cell: Cell = self._map[i][j]
                 if cell is not None:
-                    cell_name = cell.get_map_rep(conversion_func)
+                    cell_name = cell.get_map_rep(conversion_func)[0]
                 else:
                     cell_name = "minecraft:air"
             map_rep[i][j] = cell_name
@@ -885,6 +885,7 @@ class PolycraftState(State):
         initializes a bedrock border surrounding the edges
         """
         coords_list = []  # need to add all the coords in the room into a list
+        wall_facing_NS = False
         overlapping_wall = []
         # only one overlapping wall max, add this wall to the walls list if we place over it
 
@@ -895,7 +896,7 @@ class PolycraftState(State):
                 if not self.contains_block((i, j)):
                     self.place_object("bedrock", properties={"loc": (i, j)})
                 else:
-                    overlapping_wall.append((i, j))
+                    overlapping_wall.append({"facing_NS": False, "direction": (i, j)})
 
         # first row and last row, except its overlap with the first col and last col
         for i in [start[0], end[0]]:
@@ -903,7 +904,7 @@ class PolycraftState(State):
                 if not self.contains_block((i, j)):
                     self.place_object("bedrock", properties={"loc": (i, j)})
                 else:
-                    overlapping_wall.append((i, j))
+                    overlapping_wall.append({"facing_NS": True, "direction": (i, j)})
 
         self.room_coords.append(RoomCoord(start, end))
 
@@ -919,8 +920,8 @@ class PolycraftState(State):
             coord = (0, 0)
             without_borders = wall[1 : len(wall) - 1]
             # don't want to place a door where its inaccessible
-            coord = tuple(self.rng.choice(without_borders))
-            properties = {"loc": coord}
+            coord = tuple(self.rng.choice(without_borders)["direction"])
+            properties = {"loc": coord, "facing": "NORTH" if wall[0]["facing_NS"] else "WEST"}
             self.remove_object("bedrock", coord)
             self.place_object("door", Door, properties=properties)
 
