@@ -83,7 +83,7 @@ class SenseAll(Action):
         objs = state.get_objects_at(locInFront)
         if len(objs[0]) > 0:
             obj: Object = objs[0][0]
-            name, properties = nameConversion(obj.type)
+            name, properties = nameConversion(obj.type, obj=obj)
             blockInFront = {
                 "name": name,
                 # TODO generalize; also see polycraft_state
