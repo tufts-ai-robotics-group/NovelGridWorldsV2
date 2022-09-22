@@ -122,7 +122,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         """
         if self.agent_selection == self.agents[0]:
             print(f"--------------------- step {self.num_moves} ---------------------")
-        self.internal_state.time_updates()
 
         # reset rewards for current step ("stepCost")
         self.rewards = {agent: 0 for agent in self.possible_agents}
@@ -214,7 +213,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # agent should start again at 0
         self._cumulative_rewards[agent] = 0
 
-        # collect reward if it is the last agent to act.
+        # collect reward and do scheduled updates if it is the last agent to act.
         # if the action allows an additional action to be done immediately
         # after it, (like SENSE_ALL in polycraft)
         # then don't update info until the next action is done.
@@ -224,6 +223,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ):  
             self.game_over_agent_update()
             self.num_moves += 1
+            self.internal_state.time_updates()
 
         else:
             # necessary so that observe() returns a reasonable observation at all times.
