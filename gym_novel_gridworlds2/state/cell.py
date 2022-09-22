@@ -24,7 +24,7 @@ class Cell:
             if conversion_func is None:
                 return self._objects[0].type, {}
             else:
-                return conversion_func(self._objects[0].type)
+                return conversion_func(self._objects[0].type, self._objects[0])
         else:
             return conversion_func("air")
 
