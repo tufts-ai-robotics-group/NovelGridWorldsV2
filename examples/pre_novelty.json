@@ -17,7 +17,8 @@
       "entity_id": 103
     },
     "TP_TO": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
+      "step_cost": 120
     },
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use",
@@ -224,11 +225,6 @@
       "quantity": 1,
       "room": 2,
       "chunked": "False"
-    },
-    "diamond_ore": {
-      "quantity": 4,
-      "room": 2,
-      "chunked": "True"
     },
     "safe": {
       "quantity": 1,
