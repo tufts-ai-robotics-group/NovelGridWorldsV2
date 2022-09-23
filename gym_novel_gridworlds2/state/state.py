@@ -308,9 +308,11 @@ class State:
         When the location belongs to multiple rooms, 
         the first found room is returned.
         """
+        rooms = []
         for room in self.room_coords:
             if loc in room:
-                return room
+                rooms.append(room)
+        return rooms
 
     def get_map_size(self):
         return self._map.shape

@@ -19,7 +19,7 @@ class TP_TO(Action):
 
 
     def find_available_spot(self, loc, offset, agent_loc=None, curr_room_only=True):
-        curr_room = self.state.get_room_by_loc(agent_loc)
+        curr_rooms = self.state.get_room_by_loc(agent_loc)
         for dim in range(len(loc)):
             offset_vec = np.zeros(len(loc))
             offset_vec[dim] = offset
@@ -29,7 +29,13 @@ class TP_TO(Action):
                 new_loc = np.add(loc, mult * offset_vec).astype(int)
 
                 # only teleport to the current room if requested
-                if not curr_room_only or agent_loc is None or new_loc in curr_room:
+                dst_in_curr_room = False
+                for room in curr_rooms:
+                    if new_loc in room:
+                        dst_in_curr_room = True
+                        break
+                
+                if not curr_room_only or agent_loc is None or dst_in_curr_room:
                     objs = self.state.get_objects_at(new_loc)
                     if len(objs[1]) == 0:
                         # if there's no entity at the new spot
