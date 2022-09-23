@@ -9,7 +9,7 @@ from gym_novel_gridworlds2.state.exceptions import LocationOccupied
 from typing import Iterable, List, Optional, Tuple, Mapping
 from numpy.random import default_rng
 from gym_novel_gridworlds2.utils import nameConversion, backConversion
-
+from gym_novel_gridworlds2.utils.coord_convert import internal_to_str
 
 import random
 import numpy as np
@@ -149,13 +149,13 @@ class PolycraftState(State):
             cell: Cell = self._map[coord]
             if cell is not None:
                 name, properties = cell.get_map_rep(conversion_func)
-                map_dict[f"{coord[0]},17,{coord[1]}"] = {
+                map_dict[internal_to_str(coord)] = {
                     "name": name,
                     "isAccessible": True,
                     **properties
                 }
             else:
-                map_dict[f"{coord[0]},17,{coord[1]}"] = {
+                map_dict[internal_to_str(coord)] = {
                     "name": "minecraft:air",
                     "isAccessible": True,
                 }

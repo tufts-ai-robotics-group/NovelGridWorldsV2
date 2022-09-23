@@ -1,18 +1,20 @@
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
+from gym_novel_gridworlds2.utils.coord_convert import external_to_internal
 
 import numpy as np
 
 
 class TP_TO(Action):
-    def __init__(self, state: State, x=None, y=None, entity_id=None, offset=1, dynamics=None, **kwargs):
+    def __init__(self, state: State, x=None, y=None, z=None, entity_id=None, offset=1, dynamics=None, **kwargs):
         super().__init__(state, dynamics, **kwargs)
         self.entity_id = entity_id
         self.x = x
         self.y = y
+        self.z = z
         self.offset = offset
-        self.cmd_format = r"tp_to (?P<x>\d+),(?P<z>\d+),(?P<y>\d+)( (?P<offset>\d+))?"
+        self.cmd_format = r"tp_to (?P<x>\d+),(?P<y>\d+),(?P<z>\d+)( (?P<offset>\d+))?"
         self.allow_additional_action = False
 
 
@@ -50,14 +52,17 @@ class TP_TO(Action):
         target_object: Object = None,
         x=None,
         y=None,
+        z=None,
         offset=None,
         **kwargs,
     ):
         x = x if x is not None else self.x
         y = y if y is not None else self.y
+        z = z if z is not None else self.z
 
         if x != None:
-            loc = (int(x), int(y))
+            loc = external_to_internal((int(x), int(y), int(z)))
+            print(loc)
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
             if ent is not None:
@@ -84,9 +89,11 @@ class TP_TO(Action):
         """
         x = x if x is not None else self.x
         y = y if y is not None else self.y
+        z = z if z is not None else self.z
         offset = int(offset) if offset is not None else self.offset
         if x != None:
-            loc = (int(x), int(y))
+            loc = external_to_internal((int(x), int(y), int(z)))
+            print(loc)
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
             if ent is not None:
@@ -96,7 +103,7 @@ class TP_TO(Action):
 
         self.state.incrementer()
         if not self.check_precondition(
-            agent_entity, x=x, y=y, offset=offset, target_object=target_object
+            agent_entity, x=x, y=y, z=z, offset=offset, target_object=target_object
         ):
             raise PreconditionNotMetError(
                 f"Agent {agent_entity.nickname} cannot teleport to {loc}."

@@ -392,7 +392,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         font = pygame.font.Font("freesansbold.ttf", 18)
 
         # north
-        facing_text = font.render("North: -->", True, (0, 0, 0))
+        facing_text = font.render("North: ^ ^ ^", True, (0, 0, 0))
         facing_rect = facing_text.get_rect()
         facing_rect.center = (900, 60)
         self.internal_state.SCREEN.blit(facing_text, facing_rect)

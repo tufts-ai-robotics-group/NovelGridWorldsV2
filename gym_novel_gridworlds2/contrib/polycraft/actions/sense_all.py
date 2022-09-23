@@ -8,6 +8,7 @@ from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.utils import nameConversion
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
+from gym_novel_gridworlds2.utils.coord_convert import internal_to_external
 
 import numpy as np
 
@@ -52,7 +53,7 @@ class SenseAll(Action):
             map_size = self.state.get_map_size()
             map_dict = {
                 "blocks": list(self.state.get_map_rep_in_type(nameConversion).reshape(-1)),
-                "size": [map_size[0], 17, map_size[1]],
+                "size": internal_to_external(map_size),
                 "origin": [0, 0, 0],
             }
 
@@ -60,8 +61,8 @@ class SenseAll(Action):
             "blockInFront": self.getBlockInFront(agent_entity, self.state),
             "inventory": self.getInventory(agent_entity),
             "player": {
-                "pos": [int(agent_entity.loc[0]), 17, int(agent_entity.loc[1])],
-                "facing": convert_facing(agent_entity.facing), #TODO generalize
+                "pos": internal_to_external(agent_entity.loc),
+                "facing": agent_entity.facing, #TODO generalize
                 "yaw": 90.0,  # dummy
                 "pitch": 0.0,  # dummy
             },
@@ -138,7 +139,7 @@ class SenseAll(Action):
                     "type": obj.__class__.__name__,
                     "name": obj.name,
                     "id": obj.id,
-                    "pos": [int(obj.loc[0]), 17, int(obj.loc[1])],
+                    "pos": internal_to_external(obj.loc),
                     "color": "black",
                     "equipment": [],
                 }
