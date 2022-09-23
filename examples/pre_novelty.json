@@ -21,7 +21,7 @@
     },
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use",
-      "action_cost": 300
+      "step_cost": 300
     },
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
