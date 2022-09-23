@@ -11,6 +11,7 @@ from gym_novel_gridworlds2.object.entity import Entity, Object
 from gym_novel_gridworlds2.utils.coord_convert import internal_to_external
 
 import numpy as np
+from typing import Iterable
 
 ########### TODO Temporary fix, to convert coordinates
 FACING_DICT = {
@@ -42,13 +43,17 @@ class SenseAll(Action):
         return True
 
     def do_action(self, agent_entity: Entity, mode: str = "", **kwargs):
-        currRoom = 0
+        currRooms = []
         for index, room in enumerate(self.state.room_coords):
             if tuple(agent_entity.loc) in room:
-                currRoom = index
-
-        if mode is not None and mode.upper() == "NONAV":
-            map_dict = self.state.get_map_rep_in_range(self.state.room_coords[currRoom], nameConversion)
+                currRooms.append(index)
+        
+        if len(currRooms) == 0:
+            # not in a room, return nothing
+            map_dict = {}
+        elif mode is not None and mode.upper() == "NONAV":
+            room_coords = [self.state.room_coords[currRoom] for currRoom in currRooms]
+            map_dict = self.state.get_map_rep_in_range(room_coords, nameConversion)
         else:
             map_size = self.state.get_map_size()
             map_dict = {
@@ -67,7 +72,7 @@ class SenseAll(Action):
                 "pitch": 0.0,  # dummy
             },
             "destinationPos": [0, 0, 0],
-            "entities": self.getEntities(self.state, currRoom, [agent_entity]),
+            "entities": self.getEntities(self.state, currRooms, [agent_entity]),
             "map": map_dict,
         }
 
@@ -129,18 +134,20 @@ class SenseAll(Action):
             }
         return inventory
 
-    def getEntities(self, state: PolycraftState, room_no: int, exclude_entities=[]):
+    def getEntities(self, state: PolycraftState, room_nos: Iterable[int], exclude_entities=[]):
         all_entities: List[Entity] = state.get_all_entities()
         entities_dict = {}
+        
         for obj in all_entities:
-            if tuple(obj.loc) in state.room_coords[room_no] and \
-                    obj not in exclude_entities: # TODO make more efficient
-                entities_dict[str(obj.id)] = {
-                    "type": obj.__class__.__name__,
-                    "name": obj.name,
-                    "id": obj.id,
-                    "pos": internal_to_external(obj.loc),
-                    "color": "black",
-                    "equipment": [],
-                }
+            for room_no in room_nos:
+                if tuple(obj.loc) in state.room_coords[room_no] and \
+                        obj not in exclude_entities: # TODO make more efficient
+                    entities_dict[str(obj.id)] = {
+                        "type": obj.__class__.__name__,
+                        "name": obj.name,
+                        "id": obj.id,
+                        "pos": internal_to_external(obj.loc),
+                        "color": "black",
+                        "equipment": [],
+                    }
         return entities_dict

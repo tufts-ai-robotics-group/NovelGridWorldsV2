@@ -140,25 +140,26 @@ class PolycraftState(State):
         self.CLOCK = pygame.time.Clock()
         self.SCREEN.fill((171, 164, 164))
 
-    def get_map_rep_in_range(self, map_range: Iterable[tuple], conversion_func=None):
+    def get_map_rep_in_range(self, map_ranges: Iterable[Iterable[tuple]], conversion_func=None):
         """
         returns a nonav description of the surrounding
         """
         map_dict = {}
-        for coord in map_range:
-            cell: Cell = self._map[coord]
-            if cell is not None:
-                name, properties = cell.get_map_rep(conversion_func)
-                map_dict[internal_to_str(coord)] = {
-                    "name": name,
-                    "isAccessible": True,
-                    **properties
-                }
-            else:
-                map_dict[internal_to_str(coord)] = {
-                    "name": "minecraft:air",
-                    "isAccessible": True,
-                }
+        for map_range in map_ranges:
+            for coord in map_range:
+                cell: Cell = self._map[coord]
+                if cell is not None:
+                    name, properties = cell.get_map_rep(conversion_func)
+                    map_dict[internal_to_str(coord)] = {
+                        "name": name,
+                        "isAccessible": True,
+                        **properties
+                    }
+                else:
+                    map_dict[internal_to_str(coord)] = {
+                        "name": "minecraft:air",
+                        "isAccessible": True,
+                    }
         return map_dict
 
     def get_map_rep_in_type(self, conversion_func=None):

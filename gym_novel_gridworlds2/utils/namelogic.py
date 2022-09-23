@@ -36,6 +36,9 @@ def nameConversion(name, obj=None):
         converted_name = "polycraft:wooden_pogo_stick"
     elif name == "safe":
         converted_name = "polycraft:safe"
+        properties = {
+            "color": "blue"
+        } # TODO generalize
     elif name == "unlocked_safe":
         converted_name = "polycraft:unlocked_safe"
     elif name == "bedrock":
@@ -49,8 +52,12 @@ def nameConversion(name, obj=None):
     elif name == "door":
         converted_name = "minecraft:wooden_door"
         if obj is not None:
-            properties = {"facing": "south", "hinge": "left", "half": "lower", "open": "false"}
-            properties['facing'] = convert_facing(getattr(obj, "facing", "north")).lower()
+            properties = {
+                "facing": getattr(obj, "facing", "north").lower(),
+                "hinge": "left", 
+                "half": "lower", 
+                "open": str(getattr(obj, "open", False)).lower()
+            }
     else:
         converted_name = "minecraft:" + name
     

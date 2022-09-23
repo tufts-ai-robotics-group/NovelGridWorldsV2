@@ -20,7 +20,7 @@ class Cell:
         self._item_encoder = item_encoder
     
     def get_map_rep(self,  conversion_func=None):
-        if self._contains_block():
+        if len(self._objects) >= 1:
             if conversion_func is None:
                 return self._objects[0].type, {}
             else:
