@@ -17,11 +17,13 @@ from .exceptions import LocationOccupied, LocationOutOfBound
 class State:
     def __init__(
         self,
+        episode: int = 0,
         map_size: Tuple[int] = None,
         objects: Mapping[str, object] = None,
         map_json: dict = None,
         item_list: Mapping[str, int] = {"air": 0},
         rng: np.random.Generator = default_rng(),
+        set_game_over = lambda x: None,
         **kwargs
     ):
         """
@@ -47,14 +49,17 @@ class State:
         self._map: np.ndarray = np.empty(map_size, dtype="object")
         self._map.fill(None)
         self.rng = rng
+        
+        self.episode = episode
         self._step_count = 0
         self.room_coords = []
         self.entity_count = 0
         self.curr_part = 0
         self.selected_action = ""
 
-        self.goalAchieved = False
-        self.given_up = False
+        self.env_set_game_over = set_game_over
+        self._goal_achieved = False
+        self._given_up = False
 
     def make_copy(self):
         return deepcopy(self)
@@ -297,6 +302,18 @@ class State:
                 entities += obj_list
         return entities
 
+    def get_room_by_loc(self, loc):
+        """
+        Given a location, return the room that it is in.
+        When the location belongs to multiple rooms, 
+        the first found room is returned.
+        """
+        rooms = []
+        for room in self.room_coords:
+            if loc in room:
+                rooms.append(room)
+        return rooms
+
     def get_map_size(self):
         return self._map.shape
 
@@ -306,6 +323,15 @@ class State:
         after a certain number of timesteps
         """
         pass
+
+    def set_game_over(self, achieved: bool):
+        """
+        Sets the game over state.
+        """
+        if achieved:
+            self.env_set_game_over(achieved, notes="Goal achieved")
+        else:
+            self.env_set_game_over(achieved, notes="Agent gave up")
 
     def clear(self):
         """

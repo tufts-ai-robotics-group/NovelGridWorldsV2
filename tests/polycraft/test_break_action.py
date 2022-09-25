@@ -3,7 +3,7 @@ import unittest
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 
 from gym_novel_gridworlds2.state import State
-from gym_novel_gridworlds2.contrib.polycraft.actions.move import Move
+from gym_novel_gridworlds2.contrib.polycraft.actions.smoothmove import SmoothMove as Move
 from gym_novel_gridworlds2.contrib.polycraft.actions.break_item import Break
 from gym_novel_gridworlds2.object.entity import Entity
 from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_obj import (

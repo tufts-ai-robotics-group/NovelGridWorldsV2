@@ -9,7 +9,7 @@ from gym_novel_gridworlds2.state.exceptions import LocationOccupied
 from typing import Iterable, List, Optional, Tuple, Mapping
 from numpy.random import default_rng
 from gym_novel_gridworlds2.utils import nameConversion, backConversion
-
+from gym_novel_gridworlds2.utils.coord_convert import internal_to_str
 
 import random
 import numpy as np
@@ -23,6 +23,7 @@ class PolycraftState(State):
 
     def __init__(
         self,
+        episode: int = 0,
         map_size: Tuple[int] = None,
         objects: Mapping[str, object] = None,
         map_json: dict = None,
@@ -31,7 +32,7 @@ class PolycraftState(State):
         **kwargs,
     ):
         # TODO remove hard code, make more general
-        super().__init__(map_size, objects, map_json, item_list, rng, **kwargs)
+        super().__init__(episode, map_size, objects, map_json, item_list, rng, **kwargs)
 
         self.time_needed = (
             []
@@ -133,31 +134,32 @@ class PolycraftState(State):
         )
         self.ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
         self.SCREEN = pygame.display.set_mode((1300, 750))
-        pygame.display.set_caption("NovelGridWorlds v2")
+        pygame.display.set_caption(f"NovelGridWorlds v2 [episode {self.episode}]")
         pygame.display.set_icon(self.ICON)
         pygame.init()
         self.CLOCK = pygame.time.Clock()
         self.SCREEN.fill((171, 164, 164))
 
-    def get_map_rep_in_range(self, map_range: Iterable[tuple], conversion_func=None):
+    def get_map_rep_in_range(self, map_ranges: Iterable[Iterable[tuple]], conversion_func=None):
         """
         returns a nonav description of the surrounding
         """
         map_dict = {}
-        for coord in map_range:
-            cell: Cell = self._map[coord]
-            if cell is not None:
-                name, variant = cell.get_map_rep(conversion_func)
-                map_dict[f"{coord[0]},17,{coord[1]}"] = {
-                    "name": name,
-                    "isAccessible": True,
-                    "variant": variant
-                }
-            else:
-                map_dict[f"{coord[0]},17,{coord[1]}"] = {
-                    "name": "minecraft:air",
-                    "isAccessible": True,
-                }
+        for map_range in map_ranges:
+            for coord in map_range:
+                cell: Cell = self._map[coord]
+                if cell is not None:
+                    name, properties = cell.get_map_rep(conversion_func)
+                    map_dict[internal_to_str(coord)] = {
+                        "name": name,
+                        "isAccessible": True,
+                        **properties
+                    }
+                else:
+                    map_dict[internal_to_str(coord)] = {
+                        "name": "minecraft:air",
+                        "isAccessible": True,
+                    }
         return map_dict
 
     def get_map_rep_in_type(self, conversion_func=None):
@@ -169,7 +171,7 @@ class PolycraftState(State):
             for j in range(self._map.shape[1]):
                 cell: Cell = self._map[i][j]
                 if cell is not None:
-                    cell_name = cell.get_map_rep(conversion_func)
+                    cell_name = cell.get_map_rep(conversion_func)[0]
                 else:
                     cell_name = "minecraft:air"
             map_rep[i][j] = cell_name
@@ -884,6 +886,7 @@ class PolycraftState(State):
         initializes a bedrock border surrounding the edges
         """
         coords_list = []  # need to add all the coords in the room into a list
+        wall_facing_NS = False
         overlapping_wall = []
         # only one overlapping wall max, add this wall to the walls list if we place over it
 
@@ -894,7 +897,7 @@ class PolycraftState(State):
                 if not self.contains_block((i, j)):
                     self.place_object("bedrock", properties={"loc": (i, j)})
                 else:
-                    overlapping_wall.append((i, j))
+                    overlapping_wall.append({"facing_NS": False, "direction": (i, j)})
 
         # first row and last row, except its overlap with the first col and last col
         for i in [start[0], end[0]]:
@@ -902,7 +905,7 @@ class PolycraftState(State):
                 if not self.contains_block((i, j)):
                     self.place_object("bedrock", properties={"loc": (i, j)})
                 else:
-                    overlapping_wall.append((i, j))
+                    overlapping_wall.append({"facing_NS": True, "direction": (i, j)})
 
         self.room_coords.append(RoomCoord(start, end))
 
@@ -918,8 +921,8 @@ class PolycraftState(State):
             coord = (0, 0)
             without_borders = wall[1 : len(wall) - 1]
             # don't want to place a door where its inaccessible
-            coord = tuple(self.rng.choice(without_borders))
-            properties = {"loc": coord}
+            coord = tuple(self.rng.choice(without_borders)["direction"])
+            properties = {"loc": coord, "facing": "NORTH" if wall[0]["facing_NS"] else "WEST"}
             self.remove_object("bedrock", coord)
             self.place_object("door", Door, properties=properties)
 

@@ -1,19 +1,55 @@
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
+from gym_novel_gridworlds2.utils.coord_convert import external_to_internal
 
 import numpy as np
 
 
 class TP_TO(Action):
-    def __init__(self, state: State, x=None, y=None, entity_id=None, offset=1, dynamics=None, **kwargs):
+    def __init__(self, state: State, x=None, y=None, z=None, entity_id=None, offset=1, dynamics=None, **kwargs):
         super().__init__(state, dynamics, **kwargs)
         self.entity_id = entity_id
         self.x = x
         self.y = y
+        self.z = z
         self.offset = offset
-        self.cmd_format = r"tp_to (?P<x>\d+),(?P<z>\d+),(?P<y>\d+)( (?P<offset>\d+))?"
+        self.cmd_format = r"tp_to (?P<x>\d+),(?P<y>\d+),(?P<z>\d+)( (?P<offset>\d+))?"
         self.allow_additional_action = False
+
+
+    def find_available_spot(self, loc, offset, agent_loc=None, curr_room_only=True):
+        curr_rooms = self.state.get_room_by_loc(agent_loc)
+        for dim in range(len(loc)):
+            offset_vec = np.zeros(len(loc))
+            offset_vec[dim] = offset
+            
+            # search for + and -
+            for mult in [1, -1]:
+                new_loc = np.add(loc, mult * offset_vec).astype(int)
+
+                # only teleport to the current room if requested
+                dst_in_curr_room = False
+                for room in curr_rooms:
+                    if new_loc in room:
+                        dst_in_curr_room = True
+                        break
+                
+                if not curr_room_only or agent_loc is None or dst_in_curr_room:
+                    objs = self.state.get_objects_at(new_loc)
+                    if len(objs[1]) == 0:
+                        # if there's no entity at the new spot
+                        if len(objs[0]) != 0:
+                            # if the object there is a block, 
+                            # only true when it's floating
+                            if objs[0][0].state == "floating":
+                                return new_loc
+                        else:
+                            # if there is no object there and no entity,
+                            # it's a valid spot 
+                            if len(objs[1]) == 0:
+                                return new_loc
+        return None
         
 
     def check_precondition(
@@ -22,74 +58,27 @@ class TP_TO(Action):
         target_object: Object = None,
         x=None,
         y=None,
+        z=None,
         offset=None,
         **kwargs,
     ):
         x = x if x is not None else self.x
         y = y if y is not None else self.y
+        z = z if z is not None else self.z
 
         if x != None:
-            loc = (int(x), int(y))
+            loc = external_to_internal((int(x), int(y), int(z)))
+            print(loc)
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
             if ent is not None:
                 loc = ent.loc
             else:
                 loc = (0, 0)
-        """
-        Checks preconditions of the TP_TO action:
-        1) The spots around the location are unoccupied in the order north, south, east, west
-        """
 
-        if loc[0] - offset >= 0:  # ensure not out of bounds
-            self.vec = (-offset, 0)
-            obj1 = self.state.get_objects_at(np.add(loc, self.vec))  # north
-            if len(obj1[0]) != 0:
-                if obj1[0][0].state == "floating":
-                    # agent_entity.facing = "SOUTH"
-                    return True
-            else:
-                if len(obj1[1]) == 0:
-                    # agent_entity.facing = "SOUTH"
-                    return True
-        if (
-            loc[0] + offset < self.state.initial_info["map_size"][0]
-        ):  # ensure not out of bounds
-            self.vec = (offset, 0)
-            obj2 = self.state.get_objects_at(np.add(loc, self.vec))  # south
-            if len(obj2[0]) != 0:
-                if obj2[0][0].state == "floating":
-                    # agent_entity.facing = "NORTH"
-                    return True
-            else:
-                if len(obj2[1]) == 0:
-                    # agent_entity.facing = "NORTH"
-                    return True
-        if (
-            loc[1] + offset < self.state.initial_info["map_size"][1]
-        ):  # ensure not out of bounds
-            self.vec = (0, offset)
-            obj3 = self.state.get_objects_at(np.add(loc, self.vec))  # east
-            if len(obj3[0]) != 0:
-                if obj3[0][0].state == "floating":
-                    # agent_entity.facing = "WEST"
-                    return True
-            else:
-                if len(obj3[1]) == 0:
-                    # agent_entity.facing = "WEST"
-                    return True
-        if loc[1] - offset >= 0:  # ensure not out of bounds
-            self.vec = (0, -offset)
-            obj4 = self.state.get_objects_at(np.add(loc, self.vec))  # west
-            if len(obj4[0]) != 0:
-                if obj4[0][0].state == "floating":
-                    # agent_entity.facing = "EAST"
-                    return True
-            else:
-                if len(obj4[1]) == 0:
-                    # agent_entity.facing = "EAST"
-                    return True
-        return False
+        loc = self.find_available_spot(loc, offset, agent_loc=agent_entity.loc)
+        self.tmp_loc = loc
+        return loc is not None
 
     def do_action(
         self,
@@ -106,9 +95,11 @@ class TP_TO(Action):
         """
         x = x if x is not None else self.x
         y = y if y is not None else self.y
+        z = z if z is not None else self.z
         offset = int(offset) if offset is not None else self.offset
         if x != None:
-            loc = (int(x), int(y))
+            loc = external_to_internal((int(x), int(y), int(z)))
+            print(loc)
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
             if ent is not None:
@@ -118,12 +109,12 @@ class TP_TO(Action):
 
         self.state.incrementer()
         if not self.check_precondition(
-            agent_entity, x=x, y=y, offset=offset, target_object=target_object
+            agent_entity, x=x, y=y, z=z, offset=offset, target_object=target_object
         ):
             raise PreconditionNotMetError(
                 f"Agent {agent_entity.nickname} cannot teleport to {loc}."
             )
-        new_loc = tuple(np.add(self.vec, loc))
+        new_loc = self.tmp_loc
         # multiple objects handling
         objs = self.state.get_objects_at(new_loc)
         if len(objs[0]) != 0:

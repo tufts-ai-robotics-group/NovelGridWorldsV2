@@ -1,15 +1,17 @@
+# !!!!! Deprecated !!!!!
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
 
 import numpy as np
-
+import warnings
 
 class Forward(Action):
     def __init__(self, dynamics=None, speed=1, **kwargs):
         self.vec = (0, 0)
         self.dynamics = dynamics
         self.speed = speed
+        warnings.warn("Forward action is deprecated. Use SmoothMove action instead.", DeprecationWarning)
         super().__init__(**kwargs)
 
     def check_precondition(

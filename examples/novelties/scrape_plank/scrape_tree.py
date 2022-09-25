@@ -10,5 +10,6 @@ class ScrapeTree(Object):
             else:
                 agent.inventory["planks"] = 1
 
-    def placement_reqs(self, map_state, loc):
+    @staticmethod
+    def placement_reqs(map_state, loc):
         return True

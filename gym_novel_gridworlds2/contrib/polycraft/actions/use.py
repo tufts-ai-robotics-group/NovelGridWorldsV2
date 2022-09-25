@@ -68,14 +68,4 @@ class Use(Action):
         return self.action_metadata(agent_entity, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):
-        return "".join(
-            "b'{“goal”: {“goalType”: “ITEM”, “goalAchieved”: '"
-            + str(self.state.goalAchieved)
-            + ",“Distribution”: “Uninformed”}, \
-            “command_result”: {“command”: “use”, “argument”: “”, “result”: "
-            + self.result
-            + ", \
-            “message”: “”, “stepCost: 50000}, “step”: "
-            + str(self.state._step_count)
-            + ", “gameOver”:false}"
-        )
+        return {}

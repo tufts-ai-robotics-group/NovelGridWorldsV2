@@ -16,6 +16,7 @@ from .sense_all import SenseAll
 from .sense_recipes import SenseRecipes
 from .smooth_turn import SmoothTurn
 from .give_up import GiveUp
+from .report_novelty import ReportNovelty
 
 __all__ = [
     "Break",
@@ -35,5 +36,6 @@ __all__ = [
     "SenseAll",
     "SenseRecipes",
     "SmoothTurn",
-    "GiveUp"
+    "GiveUp",
+    "ReportNovelty"
 ]

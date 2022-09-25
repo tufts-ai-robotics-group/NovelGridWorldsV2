@@ -8,7 +8,8 @@ class TreeTap(PolycraftObject):
         self.loc = loc  # update such that we update the 3D arr and add the item to it
         self.state = state
 
-    def placement_reqs(self, map_state, loc):
+    @staticmethod
+    def placement_reqs(map_state, loc):
         """
         A tree must be adjacent to the spot where the tree tap is to be placed
         """

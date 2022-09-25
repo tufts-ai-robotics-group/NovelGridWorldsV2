@@ -80,10 +80,10 @@ class ConfigParser:
     def __init__(self) -> None:
         self.obj_types = {}
         self.agent_cache = {}
-        self.seed_generator = None
+        self.global_rng = None
 
     def parse_json(
-        self, json_file_name="", json_content=None
+        self, json_file_name="", json_content=None, episode=0
     ) -> Tuple[State, Dynamic, AgentManager]:
         """
         Parses the json, given a json content.
@@ -95,21 +95,18 @@ class ConfigParser:
         json_content = deepcopy(json_content)
 
         # seed
-        if self.seed_generator is None:
+        if self.global_rng is None:
             if "seed" not in json_content:
                 json_content["seed"] = None
             
-            self.rng_seed = None
-            if json_content["seed"] == "random_seed":
-                self.seed_generator = np.random.default_rng()
-            else:
-                self.rng_seed = json_content["seed"]
-                self.global_rng = np.random.default_rng(seed=self.rng_seed)
+            self.rng_seed = json_content["seed"]
+            self.global_rng = np.random.default_rng(seed=self.rng_seed)
 
         # state
         self.state = PolycraftState(
             rng=self.global_rng,
             map_size=tuple(json_content["map_size"]),
+            episode=episode,
         )
 
         # object types

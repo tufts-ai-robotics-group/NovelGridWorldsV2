@@ -48,20 +48,14 @@ class PlaceItem(Action):
             return False
         canPlace = False
         if target_type in self.dynamics.obj_types:
-            self.dynamics.obj_types[target_type]
-            self.state.place_object(
-                target_type,
-                self.dynamics.obj_types[target_type]["module"],
-                properties={
-                    "loc": self.temp_loc,
-                    **self.dynamics.obj_types[target_type]["params"],
-                },
-            )
-            objs = self.state.get_objects_at(self.temp_loc)
-            if objs[0][0].placement_reqs(self.state, self.temp_loc):
-                canPlace = True
-            self.state.remove_object(objs[0][0].type, self.temp_loc)
-            # find a way to get the placement requirements out
+            ObjModule = self.dynamics.obj_types[target_type]['module']
+        elif "default" in self.dynamics.obj_types:
+            ObjModule = self.dynamics.obj_types["default"]['module']
+        else:
+            ObjModule = PolycraftObject
+        
+        if ObjModule.placement_reqs(self.state, self.temp_loc):
+            canPlace = True
 
         return agent_entity.inventory[target_type] > 0 and canPlace
 

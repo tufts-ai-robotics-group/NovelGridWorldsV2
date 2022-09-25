@@ -8,7 +8,8 @@ class PlasticChest(PolycraftObject):
         self.state = state  # two states: block and floating
         self.inventory = {"stick": 2, "block_of_diamond": 2, "block_of_titanium": 2, "rubber": 1, "tree_tap": 1}
 
-    def placement_reqs(self, map_state, loc):
+    @staticmethod
+    def placement_reqs(map_state, loc):
         return True
 
     def acted_upon(self, action_name, agent):

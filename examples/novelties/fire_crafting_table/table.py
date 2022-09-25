@@ -9,7 +9,8 @@ class CraftingTable(PolycraftObject):
         self.fire_state = fire_state
         self.canWalkOver = False
 
-    def placement_reqs(self, map_state, loc):
+    @staticmethod
+    def placement_reqs(map_state, loc):
         return True
 
     def acted_upon(self, action_name, agent):

@@ -8,8 +8,8 @@ class Metal(PolycraftObject):
         self.loc = loc  # update such that we update the 3D arr and add the item to it
         self.state = state  # two states: block and floating
         
-
-    def placement_reqs(self, map_state, loc):
+    @staticmethod
+    def placement_reqs(map_state, loc):
         return True
 
     def acted_upon(self, action_name, agent):

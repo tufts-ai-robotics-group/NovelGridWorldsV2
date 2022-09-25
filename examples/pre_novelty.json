@@ -1,6 +1,6 @@
 {
   "sleep_time": 0,
-  "time_limit": 180,
+  "time_limit": 300,
   "actions": {
     "break_block": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Break",
@@ -17,11 +17,12 @@
       "entity_id": 103
     },
     "TP_TO": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
+      "step_cost": 120
     },
     "use": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use",
-      "action_cost": 300
+      "step_cost": 300
     },
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
@@ -35,7 +36,7 @@
       "step_cost": 120
     },
     "report_novelty": {
-      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.ReportNovelty"
     },
     "sense_recipes": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes",
@@ -62,7 +63,7 @@
     },
     "collect": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Collect",
-      "step_cost": 50000.0
+      "step_cost": 1200
     },
     "place": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem",
@@ -154,7 +155,10 @@
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "safe": "gym_novel_gridworlds2.contrib.polycraft.objects.Safe",
     "plastic_chest": "gym_novel_gridworlds2.contrib.polycraft.objects.PlasticChest",
-    "tree_tap": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
+    "tree_tap": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
+      "collect_cost": 50000
+    },
     "oak_log": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
     "diamond_ore": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
@@ -221,11 +225,6 @@
       "quantity": 1,
       "room": 2,
       "chunked": "False"
-    },
-    "diamond_ore": {
-      "quantity": 4,
-      "room": 2,
-      "chunked": "True"
     },
     "safe": {
       "quantity": 1,

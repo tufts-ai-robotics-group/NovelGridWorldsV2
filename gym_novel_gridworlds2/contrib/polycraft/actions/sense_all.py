@@ -8,8 +8,10 @@ from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.utils import nameConversion
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
+from gym_novel_gridworlds2.utils.coord_convert import internal_to_external
 
 import numpy as np
+from typing import Iterable
 
 ########### TODO Temporary fix, to convert coordinates
 FACING_DICT = {
@@ -41,18 +43,22 @@ class SenseAll(Action):
         return True
 
     def do_action(self, agent_entity: Entity, mode: str = "", **kwargs):
-        currRoom = 0
+        currRooms = []
         for index, room in enumerate(self.state.room_coords):
             if tuple(agent_entity.loc) in room:
-                currRoom = index
-
-        if mode is not None and mode.upper() == "NONAV":
-            map_dict = self.state.get_map_rep_in_range(self.state.room_coords[currRoom], nameConversion)
+                currRooms.append(index)
+        
+        if len(currRooms) == 0:
+            # not in a room, return nothing
+            map_dict = {}
+        elif mode is not None and mode.upper() == "NONAV":
+            room_coords = [self.state.room_coords[currRoom] for currRoom in currRooms]
+            map_dict = self.state.get_map_rep_in_range(room_coords, nameConversion)
         else:
             map_size = self.state.get_map_size()
             map_dict = {
                 "blocks": list(self.state.get_map_rep_in_type(nameConversion).reshape(-1)),
-                "size": [map_size[0], 17, map_size[1]],
+                "size": internal_to_external(map_size),
                 "origin": [0, 0, 0],
             }
 
@@ -60,13 +66,13 @@ class SenseAll(Action):
             "blockInFront": self.getBlockInFront(agent_entity, self.state),
             "inventory": self.getInventory(agent_entity),
             "player": {
-                "pos": [int(agent_entity.loc[0]), 17, int(agent_entity.loc[1])],
-                "facing": convert_facing(agent_entity.facing), #TODO generalize
+                "pos": internal_to_external(agent_entity.loc),
+                "facing": agent_entity.facing, #TODO generalize
                 "yaw": 90.0,  # dummy
                 "pitch": 0.0,  # dummy
             },
             "destinationPos": [0, 0, 0],
-            "entities": self.getEntities(self.state, currRoom, [agent_entity]),
+            "entities": self.getEntities(self.state, currRooms, [agent_entity]),
             "map": map_dict,
         }
 
@@ -83,11 +89,11 @@ class SenseAll(Action):
         objs = state.get_objects_at(locInFront)
         if len(objs[0]) > 0:
             obj: Object = objs[0][0]
-            name, variant = nameConversion(obj.type)
+            name, properties = nameConversion(obj.type, obj=obj)
             blockInFront = {
                 "name": name,
                 # TODO generalize; also see polycraft_state
-                "variant": variant
+                **properties
             }
         else:
             blockInFront = {"name": "minecraft:air"}
@@ -100,7 +106,7 @@ class SenseAll(Action):
                 "count": count,
                 "damage": 0,
                 "maxdamage": 0,
-                "variant": nameConversion(item_name)[1]
+                **nameConversion(item_name)[1]
             }
             for slot_id, (item_name, count) in enumerate(agent_entity.inventory.items())
         }
@@ -115,7 +121,7 @@ class SenseAll(Action):
                 "maxdamage": 0,
             }
         else:
-            selected_item_name, selected_item_variant = nameConversion(agent_entity.selectedItem)
+            selected_item_name, selected_item_properties = nameConversion(agent_entity.selectedItem)
             selected_item_count = agent_entity.inventory[agent_entity.selectedItem]
 
             inventory["selectedItem"] = {
@@ -124,22 +130,24 @@ class SenseAll(Action):
                 "count": selected_item_count,
                 "damage": 0,
                 "maxdamage": 0,
-                "variant": selected_item_variant
+                **selected_item_properties
             }
         return inventory
 
-    def getEntities(self, state: PolycraftState, room_no: int, exclude_entities=[]):
+    def getEntities(self, state: PolycraftState, room_nos: Iterable[int], exclude_entities=[]):
         all_entities: List[Entity] = state.get_all_entities()
         entities_dict = {}
+        
         for obj in all_entities:
-            if tuple(obj.loc) in state.room_coords[room_no] and \
-                    obj not in exclude_entities: # TODO make more efficient
-                entities_dict[str(obj.id)] = {
-                    "type": obj.__class__.__name__,
-                    "name": obj.name,
-                    "id": obj.id,
-                    "pos": [int(obj.loc[0]), 17, int(obj.loc[1])],
-                    "color": "black",
-                    "equipment": [],
-                }
+            for room_no in room_nos:
+                if tuple(obj.loc) in state.room_coords[room_no] and \
+                        obj not in exclude_entities: # TODO make more efficient
+                    entities_dict[str(obj.id)] = {
+                        "type": obj.__class__.__name__,
+                        "name": obj.name,
+                        "id": obj.id,
+                        "pos": internal_to_external(obj.loc),
+                        "color": "black",
+                        "equipment": [],
+                    }
         return entities_dict
