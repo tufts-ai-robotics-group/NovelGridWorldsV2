@@ -235,6 +235,11 @@
       "quantity": 1,
       "room": 2,
       "chunked": "False"
+    },
+    "diamond_ore": {
+      "quantity": 4,
+      "room": 2,
+      "chunked": "True"
     }
   },
   "num_episodes": 10,
