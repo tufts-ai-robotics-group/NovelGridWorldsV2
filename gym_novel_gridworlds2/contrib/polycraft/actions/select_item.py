@@ -24,20 +24,21 @@ class SelectItem(Action):
         agent_entity: Entity,
         target_type: str = None,
         target_object: Object = None,
-        **kwargs
+        **kwargs,
     ):
         if target_type is None:
             target_type = backConversion(self.target_type)
         else:
             target_type = backConversion(target_type)
-        # self.state._step_count += 1
         self.state.incrementer()
 
-        if "_command" in kwargs is not None and kwargs["_command"].startswith("deselect"):
+        if "_command" in kwargs is not None and kwargs["_command"].startswith(
+            "deselect"
+        ):
             # deselect action
             agent_entity.selectedItem = None
             return {}
-        
+
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILED"
             raise PreconditionNotMetError(

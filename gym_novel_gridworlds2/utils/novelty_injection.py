@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+
 def inject(original_config, novelty) -> dict:
     """
     replaces 
@@ -16,8 +17,11 @@ def replace_item(old_obj: dict, new_obj: dict, merge_list=True):
     if not exist, remove.
     """
     for new_obj_k, new_obj_v in new_obj.items():
-        if new_obj_k in old_obj and isinstance(new_obj_v, dict) and \
-                new_obj_k in old_obj:
+        if (
+            new_obj_k in old_obj
+            and isinstance(new_obj_v, dict)
+            and new_obj_k in old_obj
+        ):
             # new obj is a dict
             if isinstance(old_obj[new_obj_k], dict):
                 # old obj also a dict, recurse and copy
