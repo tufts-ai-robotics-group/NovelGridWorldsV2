@@ -6,6 +6,20 @@ from gym_novel_gridworlds2.utils.coord_convert import external_to_internal
 import numpy as np
 
 
+def find_facing(curr_loc, dst_loc):
+    """Find the direction the agent should face to face the destination."""
+    # 
+    if curr_loc[0] == dst_loc[0]:
+        if curr_loc[1] < dst_loc[1]:
+            return 'WEST'
+        else:
+            return 'EAST'
+    elif curr_loc[0] < dst_loc[0]:
+        return 'NORTH'
+    else:
+        return 'SOUTH'
+
+
 class TP_TO(Action):
     def __init__(self, state: State, x=None, y=None, z=None, entity_id=None, offset=1, dynamics=None, **kwargs):
         super().__init__(state, dynamics, **kwargs)
@@ -68,7 +82,6 @@ class TP_TO(Action):
 
         if x != None:
             loc = external_to_internal((int(x), int(y), int(z)))
-            print(loc)
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
             if ent is not None:
@@ -76,9 +89,10 @@ class TP_TO(Action):
             else:
                 loc = (0, 0)
 
-        loc = self.find_available_spot(loc, offset, agent_loc=agent_entity.loc)
-        self.tmp_loc = loc
-        return loc is not None
+        loc_w_offset = self.find_available_spot(loc, offset, agent_loc=agent_entity.loc)
+        self.tmp_loc = loc_w_offset
+        self.tmp_new_facing = find_facing(loc, loc_w_offset)
+        return loc_w_offset is not None
 
     def do_action(
         self,
@@ -99,7 +113,6 @@ class TP_TO(Action):
         offset = int(offset) if offset is not None else self.offset
         if x != None:
             loc = external_to_internal((int(x), int(y), int(z)))
-            print(loc)
         else:
             ent = self.state.get_entity_by_id(self.entity_id)
             if ent is not None:
@@ -137,6 +150,8 @@ class TP_TO(Action):
                         else:
                             agent_entity.inventory.update({"diamond": 9})
                     self.state.remove_object(obj.type, new_loc)
+        
+        agent_entity.facing = self.tmp_new_facing
         self.state.update_object_loc(agent_entity.loc, new_loc)
 
         return {}
