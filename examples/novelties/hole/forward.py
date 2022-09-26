@@ -69,11 +69,7 @@ class Forward(Action):
                         pass
                     else:
                         if obj.type == "hole":
-                            print("On a hole")
                             for item_type in agent_entity.inventory:
-                                print("********************")
-                                print(item_type)
-                                print("********************")
                                 obj.inventory[item_type] = agent_entity.inventory[item_type]
                                 agent_entity.inventory.update({item_type: 0})
                         elif obj.type != "diamond_ore":
