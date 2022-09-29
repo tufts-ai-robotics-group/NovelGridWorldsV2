@@ -880,6 +880,13 @@ class PolycraftState(State):
 
             y_offset += fh
 
+    def determine_smaller_room(self, c1, c2):
+        """
+        Given two RoomCoords, determine which room is bigger
+        Return True if c1 is bigger, and False if c2 is bigger
+        """
+        pass
+
     def init_border(self, start, end):
         """
         Given a start and an endpoint,
