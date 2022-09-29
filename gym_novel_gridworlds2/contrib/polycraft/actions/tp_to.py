@@ -8,7 +8,8 @@ import numpy as np
 
 def find_facing(curr_loc, dst_loc):
     """Find the direction the agent should face to face the destination."""
-    # 
+    if curr_loc is None or dst_loc is None:
+        return None
     if curr_loc[0] == dst_loc[0]:
         if curr_loc[1] < dst_loc[1]:
             return 'WEST'
@@ -64,7 +65,7 @@ class TP_TO(Action):
                             if len(objs[1]) == 0:
                                 return new_loc
         return None
-        
+
 
     def check_precondition(
         self,
@@ -91,7 +92,7 @@ class TP_TO(Action):
 
         loc_w_offset = self.find_available_spot(loc, offset, agent_loc=agent_entity.loc)
         self.tmp_loc = loc_w_offset
-        self.tmp_new_facing = find_facing(loc, loc_w_offset)
+        self.tmp_new_facing = find_facing(loc, loc_w_offset) or agent_entity.facing
         return loc_w_offset is not None
 
     def do_action(
