@@ -1,6 +1,21 @@
 {
   "extends": "pre_novelty.json",
   "entities": {
-    "pogoist_1": null
+    "pogoist_1": null,
+    "main_1": {
+      "agent": {
+        "module": "gym_novel_gridworlds2.agents.KeyboardAgent"
+      },
+      "type": "agent",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "main",
+      "inventory": {
+        "iron_pickaxe": 1
+      },
+      "loc": [
+        25,
+        25
+      ]
+    }
   }
 }
