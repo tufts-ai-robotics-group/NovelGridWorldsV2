@@ -53,6 +53,9 @@ The project consists of 5 main components: state, dynamics, actions and action s
 Please see [here](docs/project_structure.md) to see detailed explanation of the
 project structure.
 
+## Documentation of Novelties
+https://docs.google.com/document/d/1jefIDrk-SWubPeo3yOMsDN8w0XeVg_CStB2Q5dY5oqM/edit?usp=sharing
+
 
 ## TODO
 - wild card action set
