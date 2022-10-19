@@ -9,4 +9,3 @@ class HardTree(PolycraftObject):
             else:
                 raise PreconditionNotMetError("You need to select an axe to break this tree")
         super().acted_upon(action_name, agent)
-
