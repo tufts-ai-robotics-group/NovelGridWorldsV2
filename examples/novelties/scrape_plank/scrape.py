@@ -4,7 +4,6 @@ from gym_novel_gridworlds2.object.entity import Entity, Object
 
 import numpy as np
 
-
 class Scrape(Action):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -83,3 +82,4 @@ class Scrape(Action):
             "step": 0,
             "gameOver": False,
         }
+

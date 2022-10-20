@@ -1,11 +1,9 @@
 {
   "extends": "pre_novelty.json",
   "entities": {
-    "pogoist_1": null,
     "main_1": {
-      "agent": {
-        "module": "gym_novel_gridworlds2.agents.KeyboardAgent"
-      },
+      "agent": "gym_novel_gridworlds2.agents.KeyboardAgent",
+      "name": "entity.polycraft.Player.name",
       "type": "agent",
       "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
       "action_set": "main",
@@ -15,7 +13,9 @@
       "loc": [
         25,
         25
-      ]
-    }
+      ],
+      "max_step_cost": 100000
+    },
+    "pogoist_1": null
   }
 }
