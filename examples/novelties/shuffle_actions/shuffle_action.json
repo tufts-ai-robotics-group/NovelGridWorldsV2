@@ -1,43 +1,34 @@
 {
   "extends": "../../pre_novelty_keyboard_template.json",
+  "entities": {
+    "main_1": {
+      "agent": {
+        "module": "gym_novel_gridworlds2.agents.KeyboardAgent"
+      }
+    }
+  },
   "novelties": {
     "0": {
       "action_sets": {
         "main": [
-          "smooth_move",
           "use",
+          "interact",
           "collect",
-          "rotate_left",
-          "rotate_right",
-          "INTERACT_102",
-          "INTERACT_103",
-          "INTERACT_104",
-          "break",
-          "select",
-          "select_sapling",
-          "select_tree_tap",
-          "select_iron_pickaxe",
-          "select_crafting_table",
-          "place",
-          "craft_stick",
-          "craft_planks",
-          "craft_block_of_diamond",
-          "craft_tree_tap",
-          "craft_pogo_stick",
+          "deselect_item",
+          "select_item",
+          "break_block",
           "craft",
-          "trade_block_of_platinum_1",
-          "trade_block_of_titanium_1",
-          "trade_diamond_1",
-          "trade_block_of_titanium_2",
+          "place",
           "NOP",
           "sense_recipes",
           "sense_all",
-          "TP_TO_103",
           "TP_TO",
           "reset",
           "give_up",
           "report_novelty",
-          "smooth_turn"
+          "smooth_move",
+          "smooth_turn",
+          "trade"
         ]
       }
     }

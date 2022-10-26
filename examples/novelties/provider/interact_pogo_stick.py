@@ -71,13 +71,11 @@ class Interact(Action):
                 print("trade_" + item)
         if objs[1][0].id == 106:
             # print("Interacting with supplier.")
-            for item in objs[1][0].inventory:
-                if item in agent_entity.inventory:
-                    agent_entity.inventory[item] += objs[1][0].inventory[item]
-                else:
-                    agent_entity.inventory[item] = objs[1][0].inventory[item]
-                objs[1][0].inventory[item] = 0
-                break
+            if "pogo_stick" in agent_entity.inventory:
+                agent_entity.inventory["pogo_stick"] += objs[1][0].inventory["pogo_stick"]
+            else:
+                agent_entity.inventory["pogo_stick"] = objs[1][0].inventory["pogo_stick"]
+            objs[1][0].inventory["pogo_stick"] = 0
 
         return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
 

@@ -1,5 +1,12 @@
 {
   "extends": "../../pre_novelty_keyboard_template.json",
+  "entities": {
+    "main_1": {
+      "agent": {
+        "module": "gym_novel_gridworlds2.agents.KeyboardAgent"
+      }
+    }
+  },
   "novelties": {
     "0": {
       "object_types": {
