@@ -8,6 +8,15 @@ import sys
 
 from datetime import datetime
 
+JAVA_HOME = None
+NUM_EPISODES = 100
+NG2_CONFIG_PATH = "pre_novelty_diarc.json" # relative to examples folder or absolute path
+DIARC_PATH = ""
+DIARC_CMD = 'ant launch -Dmain=com.config.polycraft.PolycraftAgent -Dargs="-gameport 2346"'
+SECONDARY_AGENT_CMD = None
+
+
+
 # given the json file, initialize the episode using the file to instantiate the env
 def init_episode(json_file):
     # assumes that the ade folder is in the same directory as NG2
@@ -20,7 +29,7 @@ def init_episode(json_file):
     diarchoutput = open(d_string, "w")
     polycraftoutput = open(p_string, "w")
 
-    polycraft_str = "python polycraft.py" + json_file
+    polycraft_str = f"python polycraft.py {json_file} -n {NUM_EPISODES}"
 
     p1 = subprocess.Popen(polycraft_str, shell=True, stdout=subprocess.PIPE)
 
@@ -32,8 +41,8 @@ def init_episode(json_file):
 
     time.sleep(3)
     # specify correct java path, open output file and begin diarch
-    os.system("jenv local 1.8")
-    os.system("echo $JAVA_HOME")
+    # os.system("jenv local 1.8")
+    # os.system("echo $JAVA_HOME")
 
     p2 = subprocess.Popen(
         'ant launch -Dmain=com.config.polycraft.PolycraftAgent -Dargs="-gameport 2346"',
@@ -42,8 +51,8 @@ def init_episode(json_file):
     )
 
     while not episode_done:
-        diarchline = str(p2.stdout.readline())
-        polycraftline = str(p1.stdout.readline())
+        diarchline = p2.stdout.readline().decode('unicode-escape')
+        polycraftline = p1.stdout.readline().decode('unicode-escape')
         print(diarchline)
         diarchoutput.write(diarchline)
         polycraftoutput.write(polycraftline)
@@ -97,13 +106,6 @@ p1 = subprocess.Popen(
     "python polycraft.py pre_novelty_diarc.json", shell=True, stdout=subprocess.PIPE
 )
 
-# with novelties...
-# p1 = subprocess.Popen(
-#     "python polycraft.py novelties/break_axe/break_axe_easy.json",
-#     shell=True,
-#     stdout=subprocess.PIPE,
-# )
-
 time.sleep(1)
 # path to ade
 os.chdir("../../")
@@ -151,94 +153,3 @@ os.killpg(os.getpgid(p1.pid), signal.SIGTERM)
 time.sleep(2)
 os.killpg(os.getpgid(p2.pid), signal.SIGTERM)
 sys.exit()
-
-###OLD CODE INVOLVING REPORTING GAME DATA###
-
-# episode_count = -1  # start at -1 as first episode is 0
-# target_episode = 0
-# terminate = False
-# episode_done = False
-# lines_left = 10
-# completion_details = []
-# successes = []
-
-# # assumes that the ade folder is in the same directory as NG2
-
-# print(os.getcwd())
-
-# # p1 = subprocess.Popen(["python", "polycraft.py", "pre_novelty_diarc.json"])
-# # p1 = subprocess.Popen(
-# #     "python polycraft.py pre_novelty_diarc.json", shell=True, stdout=subprocess.DEVNULL
-# # )
-# # we do DEVNULL so that the output isn't printed out from PC
-
-# # with novelties...
-# p1 = subprocess.Popen(
-#     "python polycraft.py novelties/break_axe/break_axe_easy.json",
-#     shell=True,
-#     stdout=subprocess.DEVNULL,
-# )
-
-# time.sleep(1)
-# # path to ade
-# os.chdir("../../")
-# os.chdir("ade")
-# print(os.getcwd())
-
-# time.sleep(3)
-# # specify correct java path, open output file and begin diarch
-# os.system("jenv local 1.8")
-# os.system("echo $JAVA_HOME")
-
-# file = open("diarchoutput.txt", "w")
-
-# p2 = subprocess.Popen(
-#     'ant launch -Dmain=com.config.polycraft.PolycraftAgent -Dargs="-gameport 2346"',
-#     shell=True,
-#     stdout=subprocess.PIPE,
-# )
-
-# while not episode_done:
-#     line = str(p2.stdout.readline())
-#     print(line)
-#     if "TRIAL" in line and "COMPLETED" in line:
-#         completion_details.append(line)
-#         for i in range(20):
-#             line = str(p2.stdout.readline())
-#             print(line)
-#         episode_count += 1
-#         if episode_count == target_episode:
-#             episode_done = True
-#     if "Goal" in line and "success" in line:
-#         successes.append(line)
-
-# print("Completion details:")
-# c = 0
-# for item in completion_details:
-#     item = str(item)
-#     episode_index1 = item.find("in") + 3
-#     episode_index2 = item.find("sec") + 3
-#     print(item)
-#     # file.write(item)
-#     file.write("episode number: ")
-#     file.write(str(c))
-#     file.write("\n")
-#     file.write("episode time: ")
-#     file.write(item[episode_index1:episode_index2])
-#     file.write("\n")
-
-#     c += 1
-
-# # for item in successes:
-# #     file.write(str(item))
-# #     file.write("\n")
-
-# time.sleep(5)
-# # can pipe diarch output, but can't pipe output of polycraft without game crash
-
-# file.close()
-
-# # terminate both processes automatically
-# os.killpg(os.getpgid(p1.pid), signal.SIGTERM)
-# os.killpg(os.getpgid(p2.pid), signal.SIGTERM)
-
