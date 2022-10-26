@@ -13,17 +13,27 @@ from gym_novel_gridworlds2.utils.json_parser import ConfigParser, load_json
 import pygame
 
 parser = argparse.ArgumentParser(description="Polycraft Environment")
-parser.add_argument("filename", type=str, nargs=1, help="the path of the config file")
+parser.add_argument("filename", type=str, nargs=1, help="The path of the config file.")
+parser.add_argument("-n", "--episodes", 
+    type=int, 
+    nargs=1, 
+    help="The number of episodes.", 
+    required=False
+)
 
 args = parser.parse_args()
 file_name = args.filename[0]
+num_episodes = args.episodes[0] if args.episodes is not None and len(args.episodes) > 0 else None
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
 
 config_content = load_json(config_file_path)
+print()
 
-num_episodes = config_content.get("num_episodes") or 1000
+if num_episodes is None:
+    num_episodes = config_content.get("num_episodes") or 1000
+print(f"Running {num_episodes} episodes")
 sleep_time = config_content.get("sleep_time") or 0.05
 time_limit = config_content.get("time_limit") or 200
 novelties = config_content.get("novelties")
