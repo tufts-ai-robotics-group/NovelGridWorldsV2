@@ -29,9 +29,8 @@ time_limit = config_content.get("time_limit") or 200
 novelties = config_content.get("novelties")
 
 env = NovelGridWorldSequentialEnv(
-    config_dict=config_content,
-    MAX_ITER=1000,
-    time_limit=time_limit)
+    config_dict=config_content, MAX_ITER=1000, time_limit=time_limit
+)
 
 last_agent = env.possible_agents[-1]
 
@@ -45,8 +44,12 @@ for episode in range(num_episodes):
 
     for agent in env.agent_iter():
         action: Optional[int] = None
-        while (action is None
-                or env.agent_manager.get_agent(agent).action_set.actions[action][1].allow_additional_action):
+        while (
+            action is None
+            or env.agent_manager.get_agent(agent)
+            .action_set.actions[action][1]
+            .allow_additional_action
+        ):
             ## while action is valid, do action.
             if agent not in env.dones or env.dones[agent]:
                 # skips the process if agent is done.
@@ -72,10 +75,11 @@ for episode in range(num_episodes):
                 time.sleep(sleep_time)
 
 env.close()
-            # report_game_result(
-            #     episode=episode,
-            #     total_steps=env._step_count,
-            #     total_time=time.time() - env._start_time,
-            #     success=False,
-            #     notes="Max step cost reached for agent {agent}.",
-            # )
+# report_game_result(
+#     episode=episode,
+#     total_steps=env._step_count,
+#     total_time=time.time() - env._start_time,
+#     success=False,
+#     notes="Max step cost reached for agent {agent}.",
+# )
+
