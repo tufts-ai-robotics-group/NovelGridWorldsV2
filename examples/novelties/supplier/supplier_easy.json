@@ -1,5 +1,5 @@
 {
-  "extends": "../../pre_novelty_diarc.json",
+  "extends": "../../pre_novelty_keyboard_template.json",
   "novelties": {
     "0": {
       "entities": {
@@ -20,7 +20,7 @@
       },
       "actions": {
         "INTERACT_106": {
-          "module": "novelties.supplier.interact_pogo_stick.Interact",
+          "module": "novelties.supplier.interact.Interact",
           "entity_id": 106
         }
       },
