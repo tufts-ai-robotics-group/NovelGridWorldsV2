@@ -2,7 +2,7 @@ from copy import deepcopy
 import json
 import importlib
 import pathlib
-from typing import Mapping, Tuple, Type
+from typing import List, Mapping, Tuple, Type
 
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
 from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
@@ -48,31 +48,46 @@ def load_json(config_file_path):
     seen_file = [str(config_file_path)]
 
     # loading extended config
-    while "extends" in config:
+    extended_files = config['extends']
+    if not isinstance(extended_files, list):
+        extended_files = [extended_files]
+
+    while len(extended_files) > 0:
+        file = extended_files.pop()
         # relative / absolute file path
-        if config["extends"][0] != "/":
+        if file[0] != "/":
             config_file_path = \
-                str(pathlib.Path(config_file_path).parent.resolve() / 
-                config["extends"])
+                str(pathlib.Path(config_file_path).parent.resolve() /
+                file)
         else:
             config_file_path = config["extends"]
-        
+
         print("Loading extended file", config_file_path)
         if config_file_path in seen_file:
-            raise RecursionError("loop detected in extended config file")
-        
+            raise RecursionError("import loop detected in extended config file")
+
         seen_file.append(config_file_path)
-        
+
         # file not found
         if config_file_path == "":
             raise Exception("config file not provided")
-        
-        del config["extends"]
+
+        # clean up the extends
+        if 'extends' in config:
+            del config['extends']
 
         # load and extend
         with open(config_file_path, "r") as f:
             extended_content = json.load(f)
             config = inject(extended_content, config)
+
+        # add nested extended files to the queue
+        if 'extends' in config:
+            if not isinstance(config['extends'], list):
+                config['extends'] = [config['extends']]
+
+            for nested_extend in config['extends']:
+                extended_files.append(nested_extend)
     return config
 
 
@@ -98,7 +113,7 @@ class ConfigParser:
         if self.global_rng is None:
             if "seed" not in json_content:
                 json_content["seed"] = None
-            
+
             self.rng_seed = json_content["seed"]
             self.global_rng = np.random.default_rng(seed=self.rng_seed)
 
@@ -236,7 +251,7 @@ class ConfigParser:
                 state=self.state, recipe_set=self.recipe_set,
                 recipe_name=recipe_name
             )
-        
+
         # generic craft
         self.actions["craft"] = Craft(
             state=self.state, recipe_set=self.recipe_set,
@@ -247,12 +262,12 @@ class ConfigParser:
         self.trade_recipe_set = RecipeSet()
         for name, recipe_dict in trades_dict.items():
             self.trade_recipe_set.add_trade(name, recipe_dict)
-        
+
         items = list(trades_dict.keys())
         for i in range(len(items)):
             tradeStr = "trade_" + items[i]
             self.actions[tradeStr] = Trade(
-                state=self.state, 
+                state=self.state,
                 recipe_set=self.trade_recipe_set,
                 recipe_name=items[i]
             )
@@ -406,8 +421,8 @@ class ConfigParser:
         if max_step_cost is None:
             max_step_cost = 999999999
         return {
-            "action_set": action_set, 
-            "agent": agent_obj, 
+            "action_set": action_set,
+            "agent": agent_obj,
             "entity": entity_obj,
             "max_step_cost": max_step_cost
         }
