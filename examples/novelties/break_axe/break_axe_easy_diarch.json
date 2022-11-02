@@ -3,12 +3,17 @@
   "entities": {
     "main_1": {
       "agent": {
-        "module": "gym_novel_gridworlds2.agents.KeyboardAgent"
-      }
+        "module": "gym_novel_gridworlds2.agents.SocketDiarcAgent",
+        "socket_host": "localhost",
+        "socket_port": 2346
+      },
+      "type": "agent",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "main"
     }
   },
   "novelties": {
-    "3": {
+    "1": {
       "object_types": {
         "oak_log": "novelties.break_axe.hard_tree.HardTree",
         "axe": "novelties.break_axe.axe.Axe"

@@ -1,0 +1,434 @@
+Loading file /Users/arvindpillai/NovelGridWorldsV2/examples/novelties/break_axe/break_axe_easy_diarch.json
+Loading extended file /Users/arvindpillai/NovelGridWorldsV2/examples/novelties/break_axe/../../pre_novelty_diarc.json
+Loading extended file /Users/arvindpillai/NovelGridWorldsV2/examples/pre_novelty.json
+
+Running 2 episodes
+
+++++++++++++++ Running episode 0 +++++++++++++++
+
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+agent 0: Waiting for socket agent to be ready...
+agent 0: socket is ready.
+--------------------- step 0 ---------------------
+------- agent_0       main_1       | action_picked: NOP             [{'_all_params': [], '_command': 'NOP', '_raw_args': ''}]
+inventory: {'iron_pickaxe': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 1 ---------------------
+------- agent_0       main_1       | action_picked: NOP             [{'_all_params': [], '_command': 'NOP', '_raw_args': ''}]
+inventory: {'iron_pickaxe': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 2 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1}
+--------------------- step 2 ---------------------
+------- agent_0       main_1       | action_picked: sense_recipes   [{'_all_params': [], '_command': 'SENSE_RECIPES', '_raw_args': ''}]
+inventory: {'iron_pickaxe': 1}
+--------------------- step 2 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '15', 'y': '17', 'z': '7', 'offset': '2', '_command': 'TP_TO', '_all_params': ('15', '17', '7', ' 2', '2'), '_raw_args': '15,17,7 2'}]
+inventory: {'iron_pickaxe': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 3 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1}
+--------------------- step 3 ---------------------
+------- agent_0       main_1       | action_picked: interact        [{'entity_id': '103', '_command': 'INTERACT', '_all_params': ('103',), '_raw_args': '103'}]
+inventory: {'iron_pickaxe': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 4 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1}
+--------------------- step 4 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '17', 'y': '17', 'z': '7', 'offset': '2', '_command': 'TP_TO', '_all_params': ('17', '17', '7', ' 2', '2'), '_raw_args': '17,17,7 2'}]
+inventory: {'iron_pickaxe': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 5 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1}
+--------------------- step 5 ---------------------
+------- agent_0       main_1       | action_picked: interact        [{'entity_id': '104', '_command': 'INTERACT', '_all_params': ('104',), '_raw_args': '104'}]
+inventory: {'iron_pickaxe': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 6 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1}
+--------------------- step 6 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '9', 'y': '17', 'z': '10', 'offset': None, '_command': 'TP_TO', '_all_params': ('9', '17', '10', None, None), '_raw_args': '9,17,10'}]
+inventory: {'iron_pickaxe': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 7 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1}
+--------------------- step 7 ---------------------
+------- agent_0       main_1       | action_picked: break_block     [{'_all_params': [], '_command': 'BREAK_BLOCK', '_raw_args': ''}]
+inventory: {'iron_pickaxe': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+<PolycraftObject "oak_log" at (10, 27)>
+------- agent_102     pogoist_1    | action_picked: TP_TO           [{'x': 10, 'z': 17, 'y': 27}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': -120}
+--------------------- step 8 ---------------------
+------- agent_0       main_1       | action_picked: smooth_move     [{'direction': 'W', '_command': 'SMOOTH_MOVE', '_all_params': ('W',), '_raw_args': 'W'}]
+W
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 9 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+--------------------- step 9 ---------------------
+------- agent_0       main_1       | action_picked: smooth_move     [{'direction': 'X', '_command': 'SMOOTH_MOVE', '_all_params': ('X',), '_raw_args': 'X'}]
+X
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 10 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+--------------------- step 10 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '24', 'y': '17', 'z': '24', 'offset': None, '_command': 'TP_TO', '_all_params': ('24', '17', '24', None, None), '_raw_args': '24,17,24'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 11 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+--------------------- step 11 ---------------------
+------- agent_0       main_1       | action_picked: select_item     [{'target_type': 'minecraft:iron_pickaxe', '_command': 'SELECT_ITEM', '_all_params': ('minecraft:iron_pickaxe',), '_raw_args': 'minecraft:iron_pickaxe'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 12 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+--------------------- step 12 ---------------------
+------- agent_0       main_1       | action_picked: break_block     [{'_all_params': [], '_command': 'BREAK_BLOCK', '_raw_args': ''}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 13 ---------------------
+------- agent_0       main_1       | action_picked: smooth_move     [{'direction': 'W', '_command': 'SMOOTH_MOVE', '_all_params': ('W',), '_raw_args': 'W'}]
+W
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 14 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1}
+--------------------- step 14 ---------------------
+------- agent_0       main_1       | action_picked: smooth_move     [{'direction': 'X', '_command': 'SMOOTH_MOVE', '_all_params': ('X',), '_raw_args': 'X'}]
+X
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 15 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1}
+--------------------- step 15 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '26', 'y': '17', 'z': '2', 'offset': None, '_command': 'TP_TO', '_all_params': ('26', '17', '2', None, None), '_raw_args': '26,17,2'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 16 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1}
+--------------------- step 16 ---------------------
+------- agent_0       main_1       | action_picked: break_block     [{'_all_params': [], '_command': 'BREAK_BLOCK', '_raw_args': ''}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 17 ---------------------
+------- agent_0       main_1       | action_picked: smooth_move     [{'direction': 'W', '_command': 'SMOOTH_MOVE', '_all_params': ('W',), '_raw_args': 'W'}]
+W
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+<PolycraftObject "oak_log" at (10, 27)>
+------- agent_102     pogoist_1    | action_picked: TP_TO           [{'x': 10, 'z': 17, 'y': 27}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': -120}
+--------------------- step 18 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9}
+--------------------- step 18 ---------------------
+------- agent_0       main_1       | action_picked: smooth_move     [{'direction': 'X', '_command': 'SMOOTH_MOVE', '_all_params': ('X',), '_raw_args': 'X'}]
+X
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 19 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9}
+--------------------- step 19 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '15', 'y': '17', 'z': '7', 'offset': '2', '_command': 'TP_TO', '_all_params': ('15', '17', '7', ' 2', '2'), '_raw_args': '15,17,7 2'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 20 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9}
+--------------------- step 20 ---------------------
+------- agent_0       main_1       | action_picked: select_item     [{'_all_params': [], '_command': 'SELECT_ITEM', '_raw_args': ''}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 21 ---------------------
+------- agent_0       main_1       | action_picked: craft           [{'_command': 'CRAFT', '_all_params': ('minecraft:log', '0', '0', '0', None, None, None, None, None), '_raw_args': '1 minecraft:log 0 0 0'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 22 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 4}
+--------------------- step 22 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '18', 'y': '17', 'z': '17', 'offset': None, '_command': 'TP_TO', '_all_params': ('18', '17', '17', None, None), '_raw_args': '18,17,17'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 23 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 4}
+--------------------- step 23 ---------------------
+------- agent_0       main_1       | action_picked: craft           [{'_command': 'CRAFT', '_all_params': ('minecraft:planks', '0', 'minecraft:planks', '0', None, None, None, None, None), '_raw_args': '1 minecraft:planks 0 minecraft:planks 0'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 24 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+--------------------- step 24 ---------------------
+------- agent_0       main_1       | action_picked: break_block     [{'_all_params': [], '_command': 'BREAK_BLOCK', '_raw_args': ''}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 25 ---------------------
+------- agent_0       main_1       | action_picked: smooth_move     [{'direction': 'W', '_command': 'SMOOTH_MOVE', '_all_params': ('W',), '_raw_args': 'W'}]
+W
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 26 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+--------------------- step 26 ---------------------
+------- agent_0       main_1       | action_picked: smooth_move     [{'direction': 'X', '_command': 'SMOOTH_MOVE', '_all_params': ('X',), '_raw_args': 'X'}]
+X
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 27 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+--------------------- step 27 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '27', 'y': '17', 'z': '10', 'offset': '2', '_command': 'TP_TO', '_all_params': ('27', '17', '10', ' 2', '2'), '_raw_args': '27,17,10 2'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+<PolycraftObject "oak_log" at (10, 27)>
+------- agent_102     pogoist_1    | action_picked: TP_TO           [{'x': 10, 'z': 17, 'y': 27}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': -120}
+--------------------- step 28 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 1, 'block_of_platinum': 1, 'diamond': 9, 'planks': 2, 'stick': 4}
+--------------------- step 28 ---------------------
+------- agent_0       main_1       | action_picked: craft           [{'_command': 'CRAFT', '_all_params': ('minecraft:log', '0', '0', '0', None, None, None, None, None), '_raw_args': '1 minecraft:log 0 0 0'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 6, 'stick': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 29 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 6, 'stick': 4}
+--------------------- step 29 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '25', 'y': '17', 'z': '2', 'offset': None, '_command': 'TP_TO', '_all_params': ('25', '17', '2', None, None), '_raw_args': '25,17,2'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 6, 'stick': 4}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 30 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 6, 'stick': 4}
+--------------------- step 30 ---------------------
+------- agent_0       main_1       | action_picked: craft           [{'_command': 'CRAFT', '_all_params': ('minecraft:planks', 'minecraft:stick', 'minecraft:planks', 'minecraft:planks', '0', 'minecraft:planks', '0', 'minecraft:planks', '0'), '_raw_args': '1 minecraft:planks minecraft:stick minecraft:planks minecraft:planks 0 minecraft:planks 0 minecraft:planks 0'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 1, 'stick': 3, 'tree_tap': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 31 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 1, 'stick': 3, 'tree_tap': 1}
+--------------------- step 31 ---------------------
+------- agent_0       main_1       | action_picked: TP_TO           [{'x': '25', 'y': '17', 'z': '4', 'offset': '2', '_command': 'TP_TO', '_all_params': ('25', '17', '4', ' 2', '2'), '_raw_args': '25,17,4 2'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 1, 'stick': 3, 'tree_tap': 1}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: rotate_right    [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 32 ---------------------
+------- agent_0       main_1       | action_picked: sense_all       [{'mode': 'NONAV', '_command': 'SENSE_ALL', '_all_params': ('NONAV',), '_raw_args': 'NONAV'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 1, 'stick': 3, 'tree_tap': 1}
+--------------------- step 32 ---------------------
+------- agent_0       main_1       | action_picked: place           [{'target_type': 'polycraft:tree_tap', '_command': 'PLACE', '_all_params': ('polycraft:tree_tap',), '_raw_args': 'polycraft:tree_tap'}]
+inventory: {'iron_pickaxe': 1, 'oak_log': 0, 'block_of_platinum': 1, 'diamond': 9, 'planks': 1, 'stick': 3, 'tree_tap': 0}
+------- agent_103     trader_joe   | action_picked: NOP             [{}]
+inventory: {'block_of_titanium': 1, 'block_of_platinum': 1}
+------- agent_104     trader_bob   | action_picked: NOP             [{}]
+inventory: {'diamond': 9, 'block_of_titanium': 2}
+------- agent_102     pogoist_1    | action_picked: NOP             [{}]
+inventory: {'iron_pickaxe': 1}
+{'agent_0': 0, 'agent_103': 0, 'agent_104': 0, 'agent_102': 0}
+--------------------- step 33 ---------------------

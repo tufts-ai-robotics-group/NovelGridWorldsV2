@@ -1,0 +1,626 @@
+Buildfile: /Users/arvindpillai/ade/build.xml
+
+launch:
+     [echo] trade.properties = config/trade.properties.default
+     [copy] Copying 1 file to /Users/arvindpillai/ade/build
+     [java] Oct 27, 2022 10:04:35 PM ai.thinkingrobots.trade.TRADE initializeTRADE[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for TRADE Service for submitGoal to be available ...
+     [java] 
+     [java] SEVERE: No connections can be accepted.
+     [java] Oct 27, 2022 10:04:35 PM ai.thinkingrobots.trade.TRADE initializeTRADE
+     [java] INFO: TRADE Version 1.0 Alpha
+     [java] Exception in thread "Service-Discovery" java.lang.ArrayIndexOutOfBoundsException: 1
+     [java] 	at ai.thinkingrobots.trade.TRADE$1.run(TRADE.java:1227)
+     [java] [m[37m[I][m [1m[nding.PathPlannerComponentImpl][m[37m: Path Planner running
+     [java] [m[33m[W][m [1m[nding.PathPlannerComponentImpl][m[33m: registerForNotification service is not yet available. Will only print once.
+     [java] [m[33m[W][m [1m[nding.PathPlannerComponentImpl][m[33m: registerForNotification service now available.
+     [java] [m[37m[I][m [1m[        com.action.db.Database][m[37m: Done processing DB file com/action/db/scripts/core.asl for all agents
+     [java] [m[37m[I][m [1m[        com.action.db.Database][m[37m: Done processing DB file com/action/db/scripts/domains/polycraft.asl for all agents
+     [java] [m[37m[I][m [1m[        com.action.db.Database][m[37m: Done processing DB file com/action/db/scripts/domains/polycraft_nav_tp.asl for all agents
+     [java] [m[37m[I][m [1m[        com.action.db.Database][m[37m: Done processing DB file com/action/db/scripts/domains/polycraft2.asl for all agents
+     [java] [m[37m[I][m [1m[onfig.polycraft.PolycraftAgent][m[37m: Started.
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: TRADE Service for submitGoal found. Starting game loop.
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Running Trial #: 0
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Initializing world.
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Submitting goal: did(interact_with(self,trader_103))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_actor self trader_103 two block_of_platinum one)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_103
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 15, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> interacting with trader_103
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Goal terminated (did(interact_with(self,trader_103))) with status: SUCCEEDED
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Submitting goal: did(interact_with(self,trader_104))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_actor self trader_104 two trader_103 two)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_104
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 17, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> interacting with trader_104
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Goal terminated (did(interact_with(self,trader_104))) with status: SUCCEEDED
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Exploring novelties: []
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Submitting goal: sti(self,fluent_geq(inventory,self,pogo_stick,1))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self oak_log one trader_104 two)
+     [java] (break_and_pickup self oak_log)
+     [java] (approach_object self block_of_platinum one air one)
+     [java] (select self iron_pickaxe)
+     [java] (break_and_pickup_block_of_platinum self block_of_platinum)
+     [java] (approach_object self diamond_ore one air one)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (approach_actor self trader_103 two air one)
+     [java] (deselect self iron_pickaxe)
+     [java] (craft_plank self oak_log)
+     [java] (approach_object self oak_log one trader_103 two)
+     [java] (craft_stick self oak_plank)
+     [java] (break_and_pickup self oak_log)
+     [java] (approach_object self oak_log two air one)
+     [java] (craft_plank self oak_log)
+     [java] (approach_object self crafting_table one oak_log two)
+     [java] (craft_tree_tap self oak_plank stick)
+     [java] (approach_object self oak_log two crafting_table one)
+     [java] (place_tree_tap self tree_tap oak_log)
+     [java] (collect_from_tree_tap self tree_tap oak_log)
+     [java] (approach_actor self trader_103 two tree_tap one)
+     [java] (trade_0 self block_of_platinum)
+     [java] (approach_object self block_of_platinum one trader_103 two)
+     [java] (select self iron_pickaxe)
+     [java] (break_and_pickup_block_of_platinum self block_of_platinum)
+     [java] (approach_actor self trader_103 two air one)
+     [java] (trade_0 self block_of_platinum)
+     [java] (approach_object self crafting_table one trader_103 two)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (approach_object self diamond_ore one crafting_table one)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (approach_object self crafting_table one air one)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (craft_pogo_stick self stick rubber block_of_titanium block_of_diamond)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object oak_log by one at (9,10)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 9, 10 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (9,10)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup oak_log
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object block_of_platinum by one at (24,24)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 24, 24 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (24,24)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> selecting iron_pickaxe
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> break_and_pickup_block_of_platinum block_of_platinum
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object diamond_ore by one at (26,2)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 26, 2 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (26,2)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> break_and_pickup_diamond diamond_ore
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_103
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 15, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> deselect iron_pickaxe
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting oak_plank
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object oak_log by one at (18,17)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 18, 17 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (18,17)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting stick
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup oak_log
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object oak_log by two at (27,10)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 27, 10 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (27,10)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting oak_plank
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object crafting_table by one at (25,2)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 25, 2 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (25,2)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting tree_tap
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object oak_log by two at (25,4)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 25, 4 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (25,4)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> place_tree_tap
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> collecting from tree_tap
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_103
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 15, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> trade_0
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object block_of_platinum by one at (25,24)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 25, 24 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (25,24)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> selecting iron_pickaxe
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> break_and_pickup_block_of_platinum block_of_platinum
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_103
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 15, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> trade_0
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object crafting_table by one at (25,2)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 25, 2 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (25,2)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting block_of_diamond
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object diamond_ore by one at (26,1)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 26, 1 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (27,2)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> break_and_pickup_diamond diamond_ore
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object crafting_table by one at (25,2)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 25, 2 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (25,2)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting block_of_diamond
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting pogo stick
+     [java] [m[37m[I][m [1m[com.polycraft.actions.SenseAll][m[37m: Game Over in received Polycraft message.
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: TRIAL 0 COMPLETED in 96 sec.
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Submitting goal: did(interact_with(self,trader_103))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_actor self trader_103 two air one)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_103
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 15, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> interacting with trader_103
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Goal terminated (did(interact_with(self,trader_103))) with status: SUCCEEDED
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Submitting goal: did(interact_with(self,trader_104))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_actor self trader_104 two trader_103 two)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_104
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 17, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> interacting with trader_104
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Goal terminated (did(interact_with(self,trader_104))) with status: SUCCEEDED
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Handling pre-execution novelties: [subtype(minecraft_axe,physobj), object(minecraft_axe,minecraft_axe)]
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Exploring novelties: [toExplore(object(minecraft_axe,minecraft_axe),did(break_and_pickup_holding_minecraft_axe(self,oak_log))), toExplore(object(minecraft_axe,minecraft_axe),did(break_and_pickup_holding_minecraft_axe(self,diamond_ore))), toExplore(object(minecraft_axe,minecraft_axe),did(break_and_pickup_holding_minecraft_axe(self,crafting_table))), toExplore(object(minecraft_axe,minecraft_axe),did(break_and_pickup_holding_minecraft_axe(self,wall))), toExplore(object(minecraft_axe,minecraft_axe),did(break_and_pickup_holding_minecraft_axe(self,door))), toExplore(object(minecraft_axe,minecraft_axe),did(break_and_pickup_holding_minecraft_axe(self,chest))), toExplore(object(minecraft_axe,minecraft_axe),did(break_and_pickup_holding_minecraft_axe(self,block_of_platinum)))]
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Submitting goal: did(break_and_pickup_holding_minecraft_axe(self,oak_log))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (select self minecraft_axe)
+     [java] (approach_object self oak_log one trader_104 two)
+     [java] 
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Preconditions for action select are not met. Failure reason: [not(actionCost(select_item,minecraft_axe,!actionCost))]
+     [java] [m[33m[W][m [1m[plore.ExplorationComponentImpl][m[33m: No action cost found. Adding initial cost to Belief for: actionCost(select_item,minecraft_axe,!actionCost)
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (select self minecraft_axe)
+     [java] (approach_object self oak_log one trader_104 two)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> selecting minecraft_axe
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object oak_log by one at (11,10)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 11, 10 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (11,10)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup oak_log
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Goal Status for goal (ID=1666922789110): SUCCEEDED
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Submitting goal: did(break_and_pickup_holding_minecraft_axe(self,diamond_ore))
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal did(break_and_pickup_holding_minecraft_axe(self,diamond_ore)) with status FAILED 1666922798037: justifications(found(did(break_and_pickup_holding_minecraft_axe(self,diamond_ore)))). Context id: 5274
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Goal Status for goal (ID=1666922798037): FAILED
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Submitting goal: did(break_and_pickup_holding_minecraft_axe(self,crafting_table))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self crafting_table one air one)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object crafting_table by one at (2,25)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 2, 25 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (2,25)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup crafting_table
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Goal Status for goal (ID=1666922800938): SUCCEEDED
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Submitting goal: did(break_and_pickup_holding_minecraft_axe(self,wall))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self wall one air one)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object wall by one at (0,26)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 0, 26 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (0,26)...
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Preconditions for action break_and_pickup_holding_minecraft_axe are not met. Failure reason: [not(actionCost(break_block,wall,!actionCost))]
+     [java] [m[33m[W][m [1m[plore.ExplorationComponentImpl][m[33m: No action cost found. Adding initial cost to Belief for: actionCost(break_block,wall,!actionCost)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup wall
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,wall,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,wall,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,wall,3600.0) with status FAILED 1666922811855: justifications(actionCost(break_block,wall,3600.0)). Context id: 5863
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup wall
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,wall,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,wall,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,wall,3600.0) with status FAILED 1666922812887: justifications(actionCost(break_block,wall,3600.0)). Context id: 5888
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup wall
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,wall,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,wall,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,wall,3600.0) with status FAILED 1666922813911: justifications(actionCost(break_block,wall,3600.0)). Context id: 5913
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup wall
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,wall,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,wall,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,wall,3600.0) with status FAILED 1666922814941: justifications(actionCost(break_block,wall,3600.0)). Context id: 5938
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup wall
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,wall,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,wall,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,wall,3600.0) with status FAILED 1666922815918: justifications(actionCost(break_block,wall,3600.0)). Context id: 5963
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup wall
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,wall,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,wall,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,wall,3600.0) with status FAILED 1666922816959: justifications(actionCost(break_block,wall,3600.0)). Context id: 5988
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal did(break_and_pickup_holding_minecraft_axe(self,wall)) with status FAILED 1666922808720: justifications(). Context id: 5581
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Goal Status for goal (ID=1666922808720): FAILED
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Submitting goal: did(break_and_pickup_holding_minecraft_axe(self,door))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self door one wall one)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object door by one at (31,25)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 31, 25 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (31,25)...
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Preconditions for action break_and_pickup_holding_minecraft_axe are not met. Failure reason: [not(actionCost(break_block,door,!actionCost))]
+     [java] [m[33m[W][m [1m[plore.ExplorationComponentImpl][m[33m: No action cost found. Adding initial cost to Belief for: actionCost(break_block,door,!actionCost)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup door
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Goal Status for goal (ID=1666922817105): SUCCEEDED
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Submitting goal: did(break_and_pickup_holding_minecraft_axe(self,chest))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self chest one air one)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object chest by one at (5,25)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 5, 25 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (5,25)...
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Preconditions for action break_and_pickup_holding_minecraft_axe are not met. Failure reason: [not(actionCost(break_block,chest,!actionCost))]
+     [java] [m[33m[W][m [1m[plore.ExplorationComponentImpl][m[33m: No action cost found. Adding initial cost to Belief for: actionCost(break_block,chest,!actionCost)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup chest
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,chest,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,chest,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,chest,3600.0) with status FAILED 1666922827136: justifications(actionCost(break_block,chest,3600.0)). Context id: 6582
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup chest
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,chest,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,chest,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,chest,3600.0) with status FAILED 1666922828162: justifications(actionCost(break_block,chest,3600.0)). Context id: 6607
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup chest
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,chest,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,chest,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,chest,3600.0) with status FAILED 1666922829146: justifications(actionCost(break_block,chest,3600.0)). Context id: 6632
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup chest
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,chest,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,chest,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,chest,3600.0) with status FAILED 1666922830190: justifications(actionCost(break_block,chest,3600.0)). Context id: 6657
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup chest
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,chest,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,chest,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,chest,3600.0) with status FAILED 1666922831190: justifications(actionCost(break_block,chest,3600.0)). Context id: 6682
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> breakAndPickup chest
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [breakBlock] failed with message: 
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: Unable to observe action cost: actionCost(break_block,chest,3600.0)
+     [java] [m[31m[E][m [1m[n.execution.ObservationContext][m[31m: [getBoundObservationResults] observation solution is null for: actionCost(break_block,chest,3600.0)
+     [java] [m[33m[W][m [1m[action.execution.ActionContext][m[33m: Trying to exit previously terminated context: break_and_pickup_holding_minecraft_axe Exit status is: FAIL_RETURNVALUE, tried to exit again with: FAIL_RETURNVALUE
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal actionCost(break_block,chest,3600.0) with status FAILED 1666922832229: justifications(actionCost(break_block,chest,3600.0)). Context id: 6707
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal did(break_and_pickup_holding_minecraft_axe(self,chest)) with status FAILED 1666922824018: justifications(). Context id: 6300
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Goal Status for goal (ID=1666922824018): FAILED
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Submitting goal: did(break_and_pickup_holding_minecraft_axe(self,block_of_platinum))
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[31m[E][m [1m[r.ProblemSolvingActionSelector][m[31m: Can't plan.
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal did(break_and_pickup_holding_minecraft_axe(self,block_of_platinum)) with status FAILED 1666922832385: justifications(found(did(break_and_pickup_holding_minecraft_axe(self,block_of_platinum)))). Context id: 6711
+     [java] [m[37m[I][m [1m[raft.explore.util.ExploreUtils][m[37m: Goal Status for goal (ID=1666922832385): FAILED
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Submitting goal: sti(self,fluent_geq(inventory,self,pogo_stick,1))
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self door one chest one)
+     [java] (deselect self minecraft_axe)
+     [java] (open_door self door)
+     [java] (approach_object self block_of_platinum one air one)
+     [java] (craft_plank self oak_log)
+     [java] (craft_stick self oak_plank)
+     [java] (select self iron_pickaxe)
+     [java] (break_and_pickup_block_of_platinum self block_of_platinum)
+     [java] (approach_object self diamond_ore one air one)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (deselect self iron_pickaxe)
+     [java] (place self crafting_table)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (approach_object self diamond_ore one crafting_table one)
+     [java] (select self iron_pickaxe)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (approach_actor self trader_103 two air one)
+     [java] (approach_object self crafting_table one trader_103 two)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (approach_actor self trader_103 two crafting_table one)
+     [java] (trade_0 self block_of_platinum)
+     [java] (approach_object self block_of_platinum one trader_103 two)
+     [java] (break_and_pickup_block_of_platinum self block_of_platinum)
+     [java] (approach_actor self trader_103 two air one)
+     [java] (trade_0 self block_of_platinum)
+     [java] (approach_object self crafting_table one trader_103 two)
+     [java] (craft_pogo_stick self stick rubber block_of_titanium block_of_diamond)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object door by one at (31,10)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 31, 10 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (31,10)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> deselect minecraft_axe
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> open door
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object block_of_platinum by one at (4,6)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 4, 6 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (4,6)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting oak_plank
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> crafting stick
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> selecting iron_pickaxe
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> break_and_pickup_block_of_platinum block_of_platinum
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object diamond_ore by one at (18,26)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 18, 26 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (18,26)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> break_and_pickup_diamond diamond_ore
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> deselect iron_pickaxe
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> place crafting_table
+     [java] [m[33m[W][m [1m[plore.ExplorationComponentImpl][m[33m: This algorithm doesn't currently handle this kind of failure: not(facing_obj(self,air,one))
+     [java] [m[33m[W][m [1m[plore.ExplorationComponentImpl][m[33m: This algorithm doesn't currently handle this kind of failure: facing_obj(self,crafting_table,one)
+     [java] [m[33m[W][m [1m[plore.ExplorationComponentImpl][m[33m: This algorithm doesn't currently handle this kind of failure: at(crafting_table,18,26)
+     [java] [m[33m[W][m [1m[lycraft.PolycraftComponentImpl][m[33m: Reported novelty: novelty(not(facing_obj(self,air,one)),0)
+     [java] [m[33m[W][m [1m[lycraft.PolycraftComponentImpl][m[33m: Reported novelty: novelty(facing_obj(self,crafting_table,one),0)
+     [java] [m[33m[W][m [1m[lycraft.PolycraftComponentImpl][m[33m: Reported novelty: novelty(at(crafting_table,18,26),0)
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_actor self trader_103 two air one)
+     [java] (trade_0 self block_of_platinum)
+     [java] (approach_object self block_of_platinum one trader_103 two)
+     [java] (select self iron_pickaxe)
+     [java] (break_and_pickup_block_of_platinum self block_of_platinum)
+     [java] (approach_actor self trader_103 two air one)
+     [java] (trade_0 self block_of_platinum)
+     [java] (approach_object self crafting_table one trader_103 two)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (approach_object self diamond_ore one crafting_table one)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (approach_object self crafting_table one air one)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (craft_pogo_stick self stick rubber block_of_titanium block_of_diamond)
+     [java] 
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_103
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 15, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> trade_0
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_object block_of_platinum by one at (3,6)
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 3, 6 by one
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  Found path. Following path to object at (3,6)...
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> selecting iron_pickaxe
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> break_and_pickup_block_of_platinum block_of_platinum
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> approach_actor trader_103
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m:  teleporting to 15, 7 by two
+     [java] [m[37m[I][m [1m[          com.action.db.Script][m[37m: >> trade_0
+     [java] [m[33m[W][m [1m[   com.polycraft.util.Movement][m[33m: None found: crafting_table
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self crafting_table one trader_103 two)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (approach_object self diamond_ore one crafting_table one)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (approach_object self crafting_table one air one)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (craft_pogo_stick self stick rubber block_of_titanium block_of_diamond)
+     [java] 
+     [java] [m[33m[W][m [1m[   com.polycraft.util.Movement][m[33m: None found: crafting_table
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self crafting_table one trader_103 two)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (approach_object self diamond_ore one crafting_table one)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (approach_object self crafting_table one air one)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (craft_pogo_stick self stick rubber block_of_titanium block_of_diamond)
+     [java] 
+     [java] [m[33m[W][m [1m[   com.polycraft.util.Movement][m[33m: None found: crafting_table
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self crafting_table one trader_103 two)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (approach_object self diamond_ore one crafting_table one)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (approach_object self crafting_table one air one)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (craft_pogo_stick self stick rubber block_of_titanium block_of_diamond)
+     [java] 
+     [java] [m[33m[W][m [1m[   com.polycraft.util.Movement][m[33m: None found: crafting_table
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[37m[I][m [1m[r.ProblemSolvingActionSelector][m[37m: PLAN = (approach_object self crafting_table one trader_103 two)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (approach_object self diamond_ore one crafting_table one)
+     [java] (break_and_pickup_diamond self diamond_ore)
+     [java] (approach_object self crafting_table one air one)
+     [java] (craft_block_of_diamond self diamond)
+     [java] (craft_pogo_stick self stick rubber block_of_titanium block_of_diamond)
+     [java] 
+     [java] [m[33m[W][m [1m[   com.polycraft.util.Movement][m[33m: None found: crafting_table
+     [java] [m[33m[W][m [1m[covery.ExplorationGoalRecovery][m[33m: Could not determine failed action.
+     [java] [m[37m[I][m [1m[  com.action.ActionInterpreter][m[37m: Halted Action Interpreter for goal fluent_geq(inventory,self,pogo_stick,1) with status FAILED 1666922835426: justifications(not(found(pathTo,crafting_table))). Context id: 6717
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Goal terminated (sti(self,fluent_geq(inventory,self,pogo_stick,1))) with status: FAILED
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Goal success: false
+     [java] [m[33m[W][m [1m[lycraft.PolycraftComponentImpl][m[33m: Reported novelty: novelty(unknown(failure),0)
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Giving up. Trial #1
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.26. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: [sendCommand] reading available message before sending. Read message: [{"goal": {"goalType": "ITEM", "goalAchieved": false, "Distribution": "Uninformed"}, "step": 66, "gameOver": true, "command_result": {"command": "NOP", "argument": "", "result": "SUCCESS", "message": "", "stepCost": 0}}]  
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.247. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.256. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.23. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.257. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.249. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.265. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.27. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.248. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.271. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.253. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.254. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.245. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.28. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.259. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.306. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.283. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.29. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.334. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.295. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.307. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.298. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.308. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.295. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.304. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.287. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.314. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.312. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.286. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.304. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.298. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.28. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.297. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.272. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.248. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.265. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.287. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.274. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.317. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.276. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.289. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.286. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.289. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.26. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.274. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.303. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.273. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.264. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
+     [java] [m[33m[W][m [1m[   com.socket.SocketConnection][m[33m: 2346: No msg available. Max wait time specified: 5.0 Wall clock duration: 5.304. Returning null.
+     [java] [m[31m[E][m [1m[     com.polycraft.actions.Nop][m[31m: Could not parse response. Raw response is: null
+     [java] [m[31m[E][m [1m[lycraft.PolycraftComponentImpl][m[31m: [nop] failed with message: 
+     [java] [m[37m[I][m [1m[olycraft.NovelRunComponentImpl][m[37m: Waiting for game to be over...
