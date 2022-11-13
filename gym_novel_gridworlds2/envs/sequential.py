@@ -13,6 +13,8 @@ from gym.spaces import MultiDiscrete
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
+from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
+
 from ..utils.json_parser import ConfigParser
 from ..utils.game_report import report_game_result
 
@@ -158,6 +160,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         step_cost = action_set.actions[action][1].get_step_cost(agent_entity, **extra_params) or 0
 
+        self.internal_state.update_state_history(agent_entity.nickname, agent_entity, is_pre_action=True)
         try:
             metadata = action_set.actions[action][1].do_action(
                 agent_entity, **extra_params
@@ -176,6 +179,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 }
             }
             pass
+        self.internal_state.update_state_history(agent_entity.nickname, agent_entity, is_pre_action=False)
 
         self.rewards[agent] -= step_cost
 
@@ -204,6 +208,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 "stepCost": step_cost,
             }
         self.agent_manager.agents[agent].agent.update_metadata(metadata)
+        self.internal_state.update_action_info(agent_entity.nickname, agent_entity, {
+            "action": extra_params.get("_command"),
+            "args": extra_params.get("_raw_args") or "",
+            "result": metadata['command_result']['result'],
+            "stepNumber": self.num_moves,
+            "pos": agent_entity.loc,
+            "dir": agent_entity.facing,
+            "blockInFront": ""
+        })
 
         # print inventory info
         print("inventory:", agent_entity.inventory)

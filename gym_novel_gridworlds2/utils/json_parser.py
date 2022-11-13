@@ -99,7 +99,7 @@ class ConfigParser:
 
     def parse_json(
         self, json_file_name="", json_content=None, episode=0
-    ) -> Tuple[State, Dynamic, AgentManager]:
+    ) -> Tuple[PolycraftState, Dynamic, AgentManager]:
         """
         Parses the json, given a json content.
         TODO: check error

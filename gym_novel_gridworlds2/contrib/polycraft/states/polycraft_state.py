@@ -7,6 +7,7 @@ from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 from gym_novel_gridworlds2.state.cell import Cell
 from gym_novel_gridworlds2.state.exceptions import LocationOccupied
 from typing import Iterable, List, Optional, Tuple, Mapping
+from gym_novel_gridworlds2.contrib.polycraft.actions import SenseAll #TODO
 from numpy.random import default_rng
 from gym_novel_gridworlds2.utils import nameConversion, backConversion
 from gym_novel_gridworlds2.utils.coord_convert import internal_to_str
@@ -41,6 +42,7 @@ class PolycraftState(State):
             []
         )  # used to keep track of where saplings should be placed later
         self.walls_list = []  # used to store walls where bedrock overlaps on the map
+        self.state_history = {}
 
         self.WIDTH = 20
         self.HEIGHT = 20
@@ -783,6 +785,34 @@ class PolycraftState(State):
                 result = super().place_object(object_type, ObjectClass, properties)
                 return result
             raise LocationOccupied from e
+
+    ################## Utility to update state history ##################
+    def update_state_history(self, agent_name, agent_entity, is_pre_action):
+        if agent_name not in self.state_history:
+            self.state_history[agent_name] = {
+                "preWorldState": None,
+                "postWorldState": None,
+                "action": None
+            }
+
+        state_rep = self.sense_all_instance.do_action(agent_entity)
+        if is_pre_action:
+            self.state_history[agent_name]["preWorldState"] = state_rep
+        else:
+            self.state_history[agent_name]["postWorldState"] = state_rep
+        print(self.state_history)
+
+    def update_action_info(self, agent_name, agent_entity, action_info):
+        if agent_name not in self.state_history:
+            self.state_history[agent_name] = {
+                "preWorldState": {},
+                "postWorldState": {},
+                "action": {}
+            }
+        self.state_history[agent_name]["action"] = action_info
+        self.state_history[agent_name]["action"]["blockInFront"] = \
+            self.state_history[agent_name]['postWorldState'].get("blockInFront") or ""
+    ################## END Utility to update state history ####################
 
     def random_place_chunk_in_room(
         self, object_str, count, startPos, endPos, ObjectClass=Object, properties={}
