@@ -1,0 +1,66 @@
+{
+  "extends": "../../pre_novelty_keyboard_template.json",
+  "entities": {
+    "main_1": {
+      "agent": {
+        "module": "gym_novel_gridworlds2.agents.KeyboardAgent"
+      }
+    }
+
+  },
+  "novelties": {
+    "0": {
+      "object_types": {
+        "birch_log": "novelties.birch_tree.birch_tree.BirchTree",
+        "tree_tap": {
+          "module": "novelties.birch_tree.tree_tap.TreeTap",
+          "collect_cost": 50000
+        }
+      },
+      "objects": {
+        "oak_log": {
+          "quantity": 1,
+          "room": 2,
+          "chunked": "False"
+        },
+        "birch_log": {
+          "quantity": 5,
+          "room": 2,
+          "chunked": "False"
+        }
+      },
+      "entities": {
+        "main_1": {
+          "inventory": {
+            "iron_pickaxe": 1,
+            "tree_tap": 3
+          }
+        }
+      },
+      "action_sets": {
+        "main": [
+          "use",
+          "rotate_left",
+          "rotate_right",
+          "collect",
+          "interact",
+          "break_block",
+          "select_item",
+          "deselect_item",
+          "place",
+          "craft",
+          "NOP",
+          "sense_recipes",
+          "sense_all",
+          "TP_TO",
+          "reset",
+          "give_up",
+          "report_novelty",
+          "smooth_move",
+          "smooth_turn",
+          "trade"
+        ]
+      }
+    }
+  }
+}

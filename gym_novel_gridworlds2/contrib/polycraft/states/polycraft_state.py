@@ -142,6 +142,15 @@ class PolycraftState(State):
         self.IRON_ORE_PICKUP = pygame.transform.scale(
             self.IRON_ORE_PICKUP_IMAGE, (20, 20)
         )
+
+        self.BIRCH_LOG_IMAGE = pygame.image.load("img/polycraft/birchlog.png")
+        self.BIRCH_LOG = pygame.transform.scale(self.BIRCH_LOG_IMAGE, (20, 20))
+
+        self.BIRCH_LOG_PICKUP_IMAGE = pygame.image.load("img/polycraft/birchlogpickup.png")
+        self.BIRCH_LOG_PICKUP = pygame.transform.scale(
+            self.BIRCH_LOG_PICKUP_IMAGE, (20, 20)
+        )
+
         self.ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
         self.SCREEN = pygame.display.set_mode((1300, 750))
         pygame.display.set_caption(f"NovelGridWorlds v2 [episode {self.episode}]")
@@ -658,6 +667,33 @@ class PolycraftState(State):
                                 (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
                             ),
                         )
+                    elif obj[0][0].type == "birch_log":
+                        if obj[0][0].state == "block":
+                            self.SCREEN.blit(
+                                self.BIRCH_LOG,
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
+                        else:
+                            pygame.draw.rect(
+                                self.SCREEN,
+                                (255, 255, 255),
+                                [
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                    self.WIDTH,
+                                    self.HEIGHT,
+                                ],
+                            )
+                            self.SCREEN.blit(
+                                self.BIRCH_LOG_PICKUP,
+                                (
+                                    (self.MARGIN + self.WIDTH) * j + self.MARGIN,
+                                    (self.MARGIN + self.HEIGHT) * i + self.MARGIN,
+                                ),
+                            )
                     else:
                         pygame.draw.rect(
                             self.SCREEN,

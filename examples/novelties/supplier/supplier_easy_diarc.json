@@ -1,5 +1,17 @@
 {
-  "extends": "../../pre_novelty_keyboard_template.json",
+  "extends": "../../pre_novelty_diarc.json",
+  "entities": {
+    "main_1": {
+      "agent": {
+        "module": "gym_novel_gridworlds2.agents.SocketDiarcAgent",
+        "socket_host": "localhost",
+        "socket_port": 2346
+      },
+      "type": "agent",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "main"
+    }
+  },
   "novelties": {
     "0": {
       "entities": {
@@ -9,7 +21,7 @@
           "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
           "action_set": "trader",
           "inventory": {
-            "block_of_titanium": 2
+            "pogo_stick": 1
           },
           "id": 106,
           "loc": [
@@ -20,21 +32,8 @@
       },
       "actions": {
         "INTERACT_106": {
-          "module": "novelties.provider.interact_block_of_titanium.Interact",
+          "module": "novelties.supplier.interact.Interact",
           "entity_id": 106
-        }
-      },
-      "recipes": {
-        "block_of_titanium": {
-          "input": [
-            "block_of_titanium",
-            "block_of_titanium",
-            "0",
-            "0"
-          ],
-          "output": {
-            "block_of_titanium": 2
-          }
         }
       },
       "action_sets": {
