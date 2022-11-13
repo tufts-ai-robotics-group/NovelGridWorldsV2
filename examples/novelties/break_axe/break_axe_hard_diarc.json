@@ -1,0 +1,61 @@
+{
+  "extends": "../../pre_novelty_diarc.json",
+  "entities": {
+    "main_1": {
+      "agent": {
+        "module": "gym_novel_gridworlds2.agents.SocketDiarcAgent",
+        "socket_host": "localhost",
+        "socket_port": 2346
+      },
+      "type": "agent",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "main"
+    }
+  },
+  "novelties": {
+    "0": {
+      "object_types": {
+        "oak_log": "novelties.break_axe.hard_tree.HardTree",
+        "axe": "novelties.break_axe.axe.Axe"
+      },
+      "objects": {
+        "axe": {
+          "quantity": 1,
+          "room": 2,
+          "chunked": "False"
+        }
+      },
+      "actions": {
+        "select_axe": {
+          "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+          "target_type": "axe"
+        }
+      },
+      "action_sets": {
+        "main": [
+          "use",
+          "rotate_left",
+          "rotate_right",
+          "collect",
+          "interact",
+          "break_block",
+          "select_item",
+          "select_axe",
+          "deselect_item",
+          "place",
+          "craft",
+          "NOP",
+          "sense_recipes",
+          "sense_all",
+          "TP_TO",
+          "reset",
+          "give_up",
+          "report_novelty",
+          "smooth_move",
+          "smooth_turn",
+          "trade"
+        ]
+      }
+    }
+  }
+}
