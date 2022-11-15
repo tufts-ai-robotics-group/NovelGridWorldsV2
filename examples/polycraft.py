@@ -9,21 +9,26 @@ from gym_novel_gridworlds2.actions.action import Action
 from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
 from gym_novel_gridworlds2.utils.game_report import report_game_result
 from gym_novel_gridworlds2.utils.json_parser import ConfigParser, load_json
+from gym_novel_gridworlds2.utils.game_report import get_game_time_str
 
 import pygame
 
 parser = argparse.ArgumentParser(description="Polycraft Environment")
 parser.add_argument("filename", type=str, nargs=1, help="The path of the config file.")
-parser.add_argument("-n", "--episodes", 
-    type=int, 
-    nargs=1, 
-    help="The number of episodes.", 
-    required=False
+parser.add_argument(
+    "-n",
+    "--episodes",
+    type=int,
+    nargs=1,
+    help="The number of episodes.",
+    required=False,
 )
 
 args = parser.parse_args()
 file_name = args.filename[0]
-num_episodes = args.episodes[0] if args.episodes is not None and len(args.episodes) > 0 else None
+num_episodes = (
+    args.episodes[0] if args.episodes is not None and len(args.episodes) > 0 else None
+)
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
@@ -50,6 +55,18 @@ for episode in range(num_episodes):
     print("++++++++++++++ Running episode", episode, "+++++++++++++++")
     print()
     env.reset(return_info=True, options={"episode": episode})
+    if str(episode) in (env.config_dict.get("novelties") or {}):
+        novelty_str = (
+            "++++++++++++++ INJECTING NOVELTY AT EPISODE "
+            + str(episode)
+            + " "
+            + str(env.config_dict["novelties"][str(episode)])
+            + "+++++++++++++++\n"
+        )
+        print(novelty_str)
+        output_log_path = "novelty_log_" + get_game_time_str() + ".csv"
+        with open(output_log_path, "a") as output_log:
+            output_log.write(novelty_str)
     env.render()
 
     for agent in env.agent_iter():

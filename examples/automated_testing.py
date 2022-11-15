@@ -22,7 +22,7 @@ def get_game_time_str():
 
 ### IMPORTANT: SUPPLY NUMBER OF EPISODES TO RUN AND JSON SPECIFICATION HERE!!! ###
 NUM_EPISODES = 2
-NG2_CONFIG_PATH = "novelties/break_axe/break_axe_easy_diarch.json"  # relative to examples folder or absolute path
+NG2_CONFIG_PATH = "novelties/break_axe/break_axe_easy_diarc.json"  # relative to examples folder or absolute path
 ### -------------------------------------------------------------------------- ###
 
 # "pre_novelty_diarc.json"

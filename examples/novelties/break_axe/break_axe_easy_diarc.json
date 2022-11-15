@@ -13,7 +13,7 @@
     }
   },
   "novelties": {
-    "1": {
+    "0": {
       "object_types": {
         "oak_log": "novelties.break_axe.hard_tree.HardTree",
         "axe": "novelties.break_axe.axe.Axe"
@@ -21,7 +21,6 @@
       "entities": {
         "main_1": {
           "inventory": {
-            "rubber": 1,
             "iron_pickaxe": 1,
             "axe": 1
           }
