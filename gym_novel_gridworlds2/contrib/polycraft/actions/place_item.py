@@ -26,10 +26,7 @@ class PlaceItem(Action):
         target_object: Object = None,
         **kwargs,
     ):
-        if (
-            target_type == None
-            or target_type == "iron_pickaxe"
-        ):
+        if target_type == None or target_type == "iron_pickaxe":
             return False
         # convert the entity facing direction to coords
         direction = (0, 0)
@@ -48,12 +45,12 @@ class PlaceItem(Action):
             return False
         canPlace = False
         if target_type in self.dynamics.obj_types:
-            ObjModule = self.dynamics.obj_types[target_type]['module']
+            ObjModule = self.dynamics.obj_types[target_type]["module"]
         elif "default" in self.dynamics.obj_types:
-            ObjModule = self.dynamics.obj_types["default"]['module']
+            ObjModule = self.dynamics.obj_types["default"]["module"]
         else:
             ObjModule = PolycraftObject
-        
+
         if ObjModule.placement_reqs(self.state, self.temp_loc):
             canPlace = True
 
@@ -64,7 +61,7 @@ class PlaceItem(Action):
         agent_entity: Entity,
         target_type: str = None,
         target_object: Object = None,
-        **kwargs
+        **kwargs,
     ):
         self.state.incrementer()
         if target_type is None:
@@ -82,26 +79,25 @@ class PlaceItem(Action):
             itemToPlace = "oak_log"
         else:
             itemToPlace = target_type
+
         # place object of type selectedItem on map in the direction the agent is facing
         if target_type in self.dynamics.obj_types:
             obj_info = self.dynamics.obj_types[target_type]
             self.state.place_object(
                 itemToPlace,
                 obj_info["module"],
-                properties={"loc": self.temp_loc, **obj_info["params"]},
+                properties={**obj_info["params"], "loc": self.temp_loc},
             )
         elif "default" in self.dynamics.obj_types:
             obj_info = self.dynamics.obj_types["default"]
             self.state.place_object(
                 itemToPlace,
                 obj_info["module"],
-                properties={"loc": self.temp_loc, **obj_info["params"]},
+                properties={**obj_info["params"], "loc": self.temp_loc},
             )
         else:
             self.state.place_object(
-                itemToPlace,
-                Entity,
-                properties={"loc": self.temp_loc},
+                itemToPlace, Entity, properties={"loc": self.temp_loc},
             )
         agent_entity.inventory[target_type] -= 1
 

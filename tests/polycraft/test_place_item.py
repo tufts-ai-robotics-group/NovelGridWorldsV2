@@ -193,6 +193,9 @@ class PlaceItemTests(unittest.TestCase):
 
         self.actions["place_item"].do_action(agent, "crafting_table")
 
+        new_ctable = self.state.get_objects_of_type("crafting_table")
+        self.assertNotEqual(new_ctable, [])
+
         print(agent.inventory)
 
         print("LOC2: ", ctable.loc)
@@ -207,7 +210,7 @@ class PlaceItemTests(unittest.TestCase):
             "crafting_table", 1, [0, 0], [5, 8], PolycraftObject, properties=dict()
         )
         ctable = self.state.get_objects_of_type("crafting_table")[0]
-        print("LOC3: ", ctable.loc)
+        print("LOC1: ", ctable.loc)
 
         agent = self.state.place_object(
             "agent", Entity, properties={"loc": (ctable.loc[0] + 1, ctable.loc[1])},
@@ -227,7 +230,7 @@ class PlaceItemTests(unittest.TestCase):
 
         print("LOC2: ", ctable.loc)
 
-        print(agent.loc)
+        print("AGENT: ", agent.loc)
         print(agent.inventory)
 
         self.actions["select_item"].do_action(agent, "crafting_table")
@@ -239,9 +242,12 @@ class PlaceItemTests(unittest.TestCase):
 
         self.assertEqual(agent.selectedItem, "crafting_table")
 
-        print(agent.loc)
+        print("AGENT: ", agent.loc)
 
         self.actions["place_item"].do_action(agent, "crafting_table")
+
+        new_ctable = self.state.get_objects_of_type("crafting_table")
+        self.assertNotEqual(new_ctable, [])
 
         print(agent.inventory)
 
@@ -251,4 +257,6 @@ class PlaceItemTests(unittest.TestCase):
         self.assertEqual(hbn, None)
 
         self.state.clear()
+
+        # raise Exception("")
 
