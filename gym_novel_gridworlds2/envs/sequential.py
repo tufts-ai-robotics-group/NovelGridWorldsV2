@@ -66,6 +66,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
             for key, a in self.agent_manager.agents.items()
         }
 
+        # used to print header of the step
+        self.inited_step = -1
+
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation(
             self.internal_state, self.dynamic
@@ -120,8 +123,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         - agent_selection (to the next agent)
         And any internal state used by observe() or render()
         """
-        if self.agent_selection == self.agents[0]:
+        if self.agent_selection == self.agents[0] and self.inited_step < self.num_moves:
             print(f"--------------------- step {self.num_moves} ---------------------")
+            self.inited_step = self.num_moves
 
         # reset rewards for current step ("stepCost")
         self.rewards = {agent: 0 for agent in self.possible_agents}
