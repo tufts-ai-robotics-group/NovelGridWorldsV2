@@ -26,18 +26,15 @@ class SelectItem(Action):
         target_object: Object = None,
         **kwargs,
     ):
-        if target_type is None:
+        if target_type is None and self.target_type is None:
+            # if the params is empty, it is the deselect action
+            agent_entity.selectedItem = None
+            return {}
+        elif target_type is None:
             target_type = backConversion(self.target_type)
         else:
             target_type = backConversion(target_type)
         self.state.incrementer()
-
-        if "_command" in kwargs is not None and kwargs["_command"].startswith(
-            "deselect"
-        ):
-            # deselect action
-            agent_entity.selectedItem = None
-            return {}
 
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILED"
