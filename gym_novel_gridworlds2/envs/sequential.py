@@ -231,7 +231,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self._clear_rewards()
 
         # selects the next agent.
-        if not action_set.actions[action][1].allow_additional_action:
+        if not action_set.actions[action][1].allow_additional_action or self.dones[agent]:
             self.agent_selection = self._agent_selector.next()
         # Adds .rewards to ._cumulative_rewards
         self._accumulate_rewards()
@@ -264,11 +264,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # update of done, by setting game_over
         # to test: stepCost and max_step_cost
         if time.time() - self.initial_time > self.time_limit:
+            print("Time limit exceeded")
             self.set_game_over(False, notes="Time limit exceeded")
         elif self.num_active_non_env_agents <= 0:
             self.set_game_over(False, notes="All agents are dead")
 
-        # Updated done if 
+        # Updated done if number of moves exceeds limit
         if self.num_moves >= self.MAX_ITER:
             self.set_game_over(
                 goal_achieved=False, 
