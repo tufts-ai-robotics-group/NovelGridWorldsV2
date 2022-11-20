@@ -15,7 +15,7 @@ from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from ..utils.json_parser import ConfigParser
 from ..utils.game_report import report_game_result
-
+from ..utils.terminal_colors import bcolors
 
 class NovelGridWorldSequentialEnv(AECEnv):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
@@ -146,15 +146,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
         # self.agent_manager.update_agent(agent, self.internal_state)
-        # TODO only print when verbose
-        print(
-            "------- {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
-                agent,
-                agent_entity.nickname,
-                action_set.actions[action][0],
-                extra_params,
-            )
-        )
+
         if agent_entity.nickname == "main_1":
             self.internal_state.selected_action = action_set.actions[action][0]
         # print(agent_entity.inventory)
@@ -209,8 +201,23 @@ class NovelGridWorldSequentialEnv(AECEnv):
             }
         self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
+        # TODO only print when verbose
+        if metadata["command_result"]["result"] == "SUCCESS":
+            colorized_result = bcolors.OKGREEN + metadata["command_result"]["result"] + bcolors.ENDC
+        else:
+            colorized_result = " " + bcolors.FAIL + metadata["command_result"]["result"] + bcolors.ENDC
+        print(
+            " [{}] | {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
+                colorized_result,
+                agent,
+                agent_entity.nickname,
+                action_set.actions[action][0],
+                extra_params,
+            )
+        )
+
         # print inventory info
-        print("inventory:", agent_entity.inventory)
+        print("             inventory:", agent_entity.inventory)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this
@@ -348,6 +355,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # reset timer
         self.initial_time = time.time()
+        self.inited_step = -1
         return self.internal_state._map, None
 
     def renderTextCenteredAt(self, text, font, colour, x, y, screen, allowed_width):
