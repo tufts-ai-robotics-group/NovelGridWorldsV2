@@ -88,7 +88,6 @@ class SmoothMove(Action):
             self.direction_tmp = direction.upper()
         else:
             self.direction_tmp = self.direction
-        print(self.direction_tmp)
 
         if self.check_precondition(agent_entity, target_object):
             new_loc = tuple(np.add(self.vec, agent_entity.loc))

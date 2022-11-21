@@ -43,6 +43,9 @@ class Break(Action):
             unbreakableObjects = ["bedrock", "plastic_chest", "safe", "unlocked_safe"]
             if objs[0][0].type in unbreakableObjects:
                 return False
+        elif len(objs[0]) == 0:
+            # cannot break air
+            return False
 
         return correctDirection and (objs[0][0].state == "block")
 
@@ -56,11 +59,14 @@ class Break(Action):
         if not self.check_precondition(agent_entity, target_object):
             self.result = "FAILED"
             self.action_metadata(agent_entity, target_object)
-            obj_type = (
-                target_object.type
-                if hasattr(target_object, "type")
-                else target_object.__class__.__name__
-            )
+
+            if target_object is None:
+                obj_type = "air"
+            elif hasattr(target_object, "type"):
+                obj_type = target_object.type
+            else:
+                obj_type = target_object.__class__.__name__
+
             raise PreconditionNotMetError(
                 f'Agent "{agent_entity.nickname}" cannot perform break on {obj_type}.'
             )
