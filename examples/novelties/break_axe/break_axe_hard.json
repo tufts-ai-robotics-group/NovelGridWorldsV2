@@ -1,10 +1,15 @@
 {
-  "extends": "../../pre_novelty_keyboard_template.json",
+  "extends": "../../pre_novelty_diarc.json",
   "entities": {
     "main_1": {
       "agent": {
-        "module": "gym_novel_gridworlds2.agents.KeyboardAgent"
-      }
+        "module": "gym_novel_gridworlds2.agents.SocketDiarcAgent",
+        "socket_host": "localhost",
+        "socket_port": 2346
+      },
+      "type": "agent",
+      "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+      "action_set": "main"
     }
   },
   "novelties": {
