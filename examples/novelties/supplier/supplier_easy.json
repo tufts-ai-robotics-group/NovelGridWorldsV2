@@ -17,6 +17,7 @@
       "entities": {
         "trader_tesco": {
           "agent": "gym_novel_gridworlds2.agents.RandomAgent",
+          "name": "entity.polycraft.Trader.name",
           "type": "trader",
           "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
           "action_set": "trader",

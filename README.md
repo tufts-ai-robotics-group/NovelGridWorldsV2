@@ -29,6 +29,12 @@ To run a config file, run
 python3 polycraft.py <config_file>
 ```
 
+To test the socket connection to diarc with config file `pre_novelty_diarc.json`
+or the diarc socket connection agent,
+first start NGW2 and then open a new terminal,
+go to folder `tests` and run `python run_test_socket.py`.
+This file serves as a dummy socket connection client.
+
 
 ## Configuration Files
 We designed a format of configuration file that is easy to change,
