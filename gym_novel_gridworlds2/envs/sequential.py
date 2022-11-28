@@ -396,6 +396,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
             y_offset += fh
 
     def render(self, mode="human"):
+        PAR_SKIP = 30
+        LINE_HEIGHT = 20
+        curr_line_pixel = 30
+        black_color = (0, 0, 0)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -415,7 +420,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             "Step:" + str(self.internal_state._step_count), True, (0, 0, 0)
         )
         step_rect = step_text.get_rect()
-        step_rect.center = (1120, 30)
+        step_rect.center = (1120, curr_line_pixel)
+        curr_line_pixel += PAR_SKIP
         self.internal_state.SCREEN.blit(step_text, step_rect)
 
         agent = self.internal_state.get_objects_of_type("agent")[0]
@@ -423,42 +429,55 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # facing
         facing_text = font.render("Agent Facing:" + str(agent.facing), True, (0, 0, 0))
         facing_rect = facing_text.get_rect()
-        facing_rect.center = (1120, 60)
+        facing_rect.center = (1120, curr_line_pixel)
+        curr_line_pixel += LINE_HEIGHT
         self.internal_state.SCREEN.blit(facing_text, facing_rect)
 
         # selected action
         action_text = font.render(
             "Selected Action:" + str(self.internal_state.selected_action),
             True,
-            (0, 0, 0),
+            black_color,
         )
         action_rect = action_text.get_rect()
-        action_rect.center = (1120, 90)
+        action_rect.center = (1120, curr_line_pixel)
+        curr_line_pixel += LINE_HEIGHT
         self.internal_state.SCREEN.blit(action_text, action_rect)
 
-        black = (0, 0, 0)
+        # currently facing
+        cost_text = font.render(
+            "Selected Item: " + str(self.agent_manager.get_agent(f"agent_{agent.id}").entity.selectedItem),
+            True,
+            black_color,
+        )
+        cost_rect = cost_text.get_rect()
+        cost_rect.center = (1120, curr_line_pixel)
+        curr_line_pixel += PAR_SKIP
+        self.internal_state.SCREEN.blit(cost_text, cost_rect)
 
         # step cost
         cost_text = font.render(
             "total cost:" + str(self._cumulative_rewards["agent_" + str(agent.id)]),
             True,
-            (0, 0, 0),
+            black_color,
         )
         print(self._cumulative_rewards)
         cost_rect = cost_text.get_rect()
-        cost_rect.center = (1120, 110)
+        cost_rect.center = (1120, curr_line_pixel)
+        curr_line_pixel += PAR_SKIP
         self.internal_state.SCREEN.blit(cost_text, cost_rect)
 
         #### inventory
         self.internal_state.renderTextCenteredAt(
             "Agent Inventory:",
             font,
-            black,
+            black_color,
             1130,
-            140,
+            curr_line_pixel,
             self.internal_state.SCREEN,
             200,
         )
+        curr_line_pixel += LINE_HEIGHT
         inv_text = "\n".join(
             [
                 "{}: {:>4}".format(item, quantity)
@@ -468,9 +487,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.internal_state.renderMultiLineTextRightJustifiedAt(
             inv_text,
             font,
-            black,
+            black_color,
             1200,
-            160,
+            curr_line_pixel,
             self.internal_state.SCREEN,
             200,
         )
