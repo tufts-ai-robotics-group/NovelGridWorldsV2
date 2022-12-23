@@ -32,8 +32,15 @@
       },
       "actions": {
         "INTERACT_106": {
-          "module": "novelties.supplier.interact.Interact",
+          "module": "novelties.supplier.interact_supplier.InteractSupplier",
           "entity_id": 106
+        }
+      },
+      "objects": {
+        "block_of_titanium": {
+          "quantity": 0,
+          "room": 2,
+          "chunked": "True"
         }
       },
       "action_sets": {
