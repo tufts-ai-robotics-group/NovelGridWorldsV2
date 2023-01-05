@@ -33,7 +33,7 @@
       },
       "actions": {
         "INTERACT_106": {
-          "module": "novelties.supplier.interact.Interact",
+          "module": "novelties.supplier.interact_supplier.InteractSupplier",
           "entity_id": 106
         }
       },

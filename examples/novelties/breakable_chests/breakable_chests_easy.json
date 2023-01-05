@@ -1,0 +1,92 @@
+{
+    "extends": "../../pre_novelty_diarc.json",
+    "entities": {
+      "main_1": {
+        "agent": {
+          "module": "gym_novel_gridworlds2.agents.SocketDiarcAgent",
+          "socket_host": "localhost",
+          "socket_port": 2346
+        },
+        "type": "agent",
+        "entity": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity",
+        "action_set": "main"
+      }
+    },
+    "novelties": {
+      "0": {
+        "object_types": {
+          "breakable_chest": "novelties.breakable_chests.breakable_chest.BreakableChest"
+        },
+        "objects": {
+          "breakable_chest": {
+              "quantity": 6,
+              "room": 2,
+              "chunked": "False"
+          }
+        },
+        "recipes": {
+          "stick": {
+            "input": [
+              "stick",
+              "0",
+              "0",
+              "0"
+            ],
+            "output": {
+              "stick": 1
+            },
+            "step_cost": 1200
+          },
+          "block_of_diamond": {
+            "input": [
+              "block_of_diamond",
+              "0",
+              "0",
+              "0"
+            ],
+            "output": {
+              "block_of_diamond": 1
+            },
+            "step_cost": 1200
+          },
+          "block_of_titanium": {
+            "input": [
+              "block_of_titanium",
+              "0",
+              "0",
+              "0"
+            ],
+            "output": {
+              "block_of_titanium": 1
+            },
+            "step_cost": 1200
+          }
+        },
+        "action_sets": {
+          "main": [
+            "use",
+            "rotate_left",
+            "rotate_right",
+            "collect",
+            "interact",
+            "break_block",
+            "select_item",
+            "deselect_item",
+            "place",
+            "craft",
+            "NOP",
+            "sense_recipes",
+            "sense_all",
+            "TP_TO",
+            "reset",
+            "give_up",
+            "report_novelty",
+            "smooth_move",
+            "smooth_turn",
+            "trade",
+            "INTERACT_106"
+          ]
+        }
+      }
+    }
+  }
