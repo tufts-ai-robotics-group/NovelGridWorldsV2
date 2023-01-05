@@ -55,18 +55,19 @@ for episode in range(num_episodes):
     print("++++++++++++++ Running episode", episode, "+++++++++++++++")
     print()
     env.reset(return_info=True, options={"episode": episode})
-    if str(episode) in (env.config_dict.get("novelties") or {}):
-        novelty_str = (
-            "++++++++++++++ INJECTING NOVELTY AT EPISODE "
-            + str(episode)
-            + " "
-            + str(env.config_dict["novelties"][str(episode)])
-            + "+++++++++++++++\n"
-        )
-        print(novelty_str)
-        output_log_path = "novelty_log_" + get_game_time_str() + ".csv"
-        with open(output_log_path, "a") as output_log:
-            output_log.write(novelty_str)
+    # TODO change way of reporting novelty
+    # if str(episode) in (env.config_dict.get("novelties") or {}):
+    #     novelty_str = (
+    #         "++++++++++++++ INJECTING NOVELTY AT EPISODE "
+    #         + str(episode)
+    #         + " "
+    #         + str(env.config_dict["novelties"][str(episode)])
+    #         + "+++++++++++++++\n"
+    #     )
+    #     print(novelty_str)
+    #     output_log_path = "novelty_log_" + get_game_time_str() + ".csv"
+    #     with open(output_log_path, "a") as output_log:
+    #         output_log.write(novelty_str)
     env.render()
 
     for agent in env.agent_iter():

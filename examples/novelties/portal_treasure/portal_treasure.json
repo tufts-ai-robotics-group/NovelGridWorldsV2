@@ -1,0 +1,24 @@
+{
+  "extends": "../../pre_novelty_diarc.json",
+  "object_types": {
+    "portal": "novelties.portal_treasure.portal.Portal",
+    "treasure": "novelties.portal_treasure.treasure.Treasure"
+  },
+  "novelties": {
+    "0": {
+      "objects": {
+        "diamond_ore": null,
+        "portal": {
+          "quantity": 1,
+          "room": 2,
+          "chunked": false
+        },
+        "treasure": {
+          "quantity": 1,
+          "room": 2,
+          "chunked": false
+        }
+      }
+    }
+  }
+}

@@ -16,3 +16,11 @@ class PolycraftObject(Object):
     @staticmethod
     def placement_reqs(map_state, loc):
         return True
+
+    def get_symbol(self):
+        """Gets text symbol for object"""
+        return " "
+
+    def get_img(self):
+        """Gets image for object"""
+        return None

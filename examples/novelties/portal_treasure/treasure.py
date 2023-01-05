@@ -1,0 +1,14 @@
+from gym_novel_gridworlds2.contrib.polycraft.objects import PolycraftObject
+import pygame, os
+
+# src: https://www.pngwing.com/en/free-png-zdolx
+TREASURE_IMG = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), "treasure.png")
+)
+TREASURE_IMG = pygame.transform.scale(TREASURE_IMG, (32, 32))
+
+
+class Treasure(PolycraftObject):
+    def get_img(self):
+        print("treasure")
+        return TREASURE_IMG

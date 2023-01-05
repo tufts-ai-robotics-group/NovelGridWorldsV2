@@ -16,4 +16,13 @@ class Object:
         pass
 
     def walked_over(self):
+        """Called when an agent walks over this object"""
+        pass
+    
+    def get_symbol(self):
+        """Gets text symbol for object"""
+        pass
+
+    def get_img(self):
+        """Gets image for object"""
         pass

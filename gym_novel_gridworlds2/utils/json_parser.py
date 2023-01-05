@@ -219,7 +219,7 @@ class ConfigParser:
         if "objects" in json_content:
             for obj_name, info in json_content["objects"].items():
                 if type(info["room"]) == int:
-                    if info["chunked"] == "False":
+                    if not info["chunked"] or info["chunked"] == "False":
                         self.create_random_obj_in_room(
                             self.state,
                             obj_name,
