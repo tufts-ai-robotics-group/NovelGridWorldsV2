@@ -5,7 +5,7 @@ import pygame, os
 PORTAL_IMG = pygame.image.load(
     os.path.join(os.path.dirname(__file__), "portal.png")
 )
-PORTAL_IMG = pygame.transform.scale(PORTAL_IMG, (32, 32))
+PORTAL_IMG = pygame.transform.scale(PORTAL_IMG, (20, 20))
 
 class Portal(PolycraftObject):
     def acted_upon(self, action_name, agent):

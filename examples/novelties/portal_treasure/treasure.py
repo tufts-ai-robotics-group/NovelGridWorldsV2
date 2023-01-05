@@ -5,7 +5,7 @@ import pygame, os
 TREASURE_IMG = pygame.image.load(
     os.path.join(os.path.dirname(__file__), "treasure.png")
 )
-TREASURE_IMG = pygame.transform.scale(TREASURE_IMG, (32, 32))
+TREASURE_IMG = pygame.transform.scale(TREASURE_IMG, (20, 20))
 
 
 class Treasure(PolycraftObject):
