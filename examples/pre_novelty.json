@@ -27,6 +27,9 @@
     "NOP": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
+    "characterize_objects": {
+      "module": "gym_novel_gridworlds2.contrib.polycraft.actions.CharacterizeObjects"
+    },
     "select_item": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
       "step_cost": 120

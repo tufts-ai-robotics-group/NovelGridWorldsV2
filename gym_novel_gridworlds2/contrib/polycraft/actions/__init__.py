@@ -17,6 +17,7 @@ from .sense_recipes import SenseRecipes
 from .smooth_turn import SmoothTurn
 from .give_up import GiveUp
 from .report_novelty import ReportNovelty
+from .characterize_objects import CharacterizeObjects
 
 __all__ = [
     "Break",
@@ -37,5 +38,6 @@ __all__ = [
     "SenseRecipes",
     "SmoothTurn",
     "GiveUp",
-    "ReportNovelty"
+    "ReportNovelty",
+    "CharacterizeObjects"
 ]
