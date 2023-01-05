@@ -40,7 +40,7 @@ class Use(Action):
 
         return (
             correctDirection
-            and (objs[0][0].type in validTypes)
+            and (objs[0][0].type in validTypes or getattr(objs[0][0], "useable", False))
             and (objs[0][0].state == "block")
         )
 
