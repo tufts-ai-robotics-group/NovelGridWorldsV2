@@ -10,5 +10,4 @@ TREASURE_IMG = pygame.transform.scale(TREASURE_IMG, (20, 20))
 
 class Treasure(PolycraftObject):
     def get_img(self):
-        print("treasure")
         return TREASURE_IMG

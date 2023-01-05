@@ -15,5 +15,4 @@ class Portal(PolycraftObject):
                 agent.inventory.update({"block_of_diamond": 2})
     
     def get_img(self):
-        print("portal")
         return PORTAL_IMG
