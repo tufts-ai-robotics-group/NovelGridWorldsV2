@@ -15,7 +15,7 @@ class Portal(PolycraftObject):
             if "treasure" in agent.inventory and agent.inventory["treasure"] > 0:
                 agent.inventory["treasure"] -= 1
                 agent.inventory.update({
-                    "block_of_diamond": agent.inventory.get("block_of_diamond", 0) + 6
+                    "oak_log": agent.inventory.get("oak_log", 0) + 9
                 })
     
     def get_img(self):
