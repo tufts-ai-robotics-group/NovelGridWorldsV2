@@ -181,7 +181,7 @@ def draw_map(obj, SCREEN, i, j):
             if obj[0][0].state == "block":
                 draw_item(PLATINUM, i, j, draw_rect=False)
             else:
-                draw_item(PLATINUM_IMAGE, i, j, draw_rect=True)
+                draw_item(PLATINUM_PICKUP, i, j, draw_rect=True)
         elif obj[0][0].type == "iron_ore":
             if obj[0][0].state == "block":
                 draw_item(IRON_ORE, i, j, draw_rect=False)
