@@ -54,7 +54,8 @@ class PlaceItem(Action):
         if ObjModule.placement_reqs(self.state, self.temp_loc):
             canPlace = True
 
-        return agent_entity.inventory[target_type] > 0 and canPlace
+        return target_type in agent_entity.inventory and \
+            agent_entity.inventory[target_type] > 0 and canPlace
 
     def do_action(
         self,
