@@ -16,6 +16,14 @@
       "0": {
         "object_types": {
           "tree_tap": "novelties.breakable_tree_taps.breakable_tree_tap.BreakableTreeTap"
+        },
+        "entities": {
+          "main_1": {
+            "inventory": {
+              "iron_pickaxe": 1,
+              "tree_tap": 2
+            }
+          }
         }
       }
     }
