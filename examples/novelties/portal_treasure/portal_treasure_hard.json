@@ -1,13 +1,14 @@
 {
+  "description": "A hard version of the portal treasure novelty where the agent is supposed to drop the treasure in the portal. This case initalizes the map with a treasure and a portal, and the agent is supposed to pick up the treasure and drop it in the portal.",
   "extends": "../../pre_novelty_diarc.json",
   "object_types": {
     "portal": "novelties.portal_treasure.portal.Portal",
-    "treasure": "novelties.portal_treasure.treasure.Treasure"
+    "treasure": "novelties.portal_treasure.treasure.Treasure",
+    "oak_log": "novelties.portal_treasure.hard_tree.HardTree"
   },
   "novelties": {
     "0": {
       "objects": {
-        "oak_log": null,
         "portal": {
           "quantity": 1,
           "room": 2,
