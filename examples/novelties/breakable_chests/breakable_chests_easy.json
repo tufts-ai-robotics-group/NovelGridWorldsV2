@@ -22,6 +22,9 @@
               "quantity": 6,
               "room": 2,
               "chunked": "False"
+          },
+          "plastic_chest": {
+              "quantity": 0
           }
         },
         "recipes": {
@@ -83,8 +86,7 @@
             "report_novelty",
             "smooth_move",
             "smooth_turn",
-            "trade",
-            "INTERACT_106"
+            "trade"
           ]
         }
       }
