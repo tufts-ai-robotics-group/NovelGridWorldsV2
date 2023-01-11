@@ -48,7 +48,7 @@ def load_json(config_file_path):
     seen_file = [str(config_file_path)]
 
     # loading extended config
-    extended_files = config['extends']
+    extended_files = config.get('extends') or []
     if not isinstance(extended_files, list):
         extended_files = [extended_files]
 
