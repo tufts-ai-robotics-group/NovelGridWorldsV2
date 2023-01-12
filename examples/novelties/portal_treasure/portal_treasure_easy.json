@@ -8,9 +8,11 @@
   },
   "novelties": {
     "0": {
-      "main_1": {
-        "inventory": {
-          "treasure": 1
+      "entities": {
+        "main_1": {
+          "inventory": {
+            "treasure": 1
+          }
         }
       },
       "objects": {

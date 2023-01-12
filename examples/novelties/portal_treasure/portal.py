@@ -9,6 +9,7 @@ PORTAL_IMG = pygame.transform.scale(PORTAL_IMG, (20, 20))
 
 class Portal(PolycraftObject):
     useable = True
+    breakable = False
 
     def acted_upon(self, action_name, agent):
         if action_name == "use":

@@ -43,6 +43,9 @@ class Break(Action):
             unbreakableObjects = ["bedrock", "plastic_chest", "safe", "unlocked_safe"]
             if objs[0][0].type in unbreakableObjects:
                 return False
+            elif not getattr(objs[0][0], "breakable", True):
+                print("unbreakable")
+                return False
         elif len(objs[0]) == 0:
             # cannot break air
             return False
