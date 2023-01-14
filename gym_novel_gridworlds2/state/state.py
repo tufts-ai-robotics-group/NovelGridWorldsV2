@@ -152,9 +152,11 @@ class State:
         all_available_spots = []
         for i in range(self.initial_info["map_size"][0]):
             for j in range(self.initial_info["map_size"][1]):
-                if (i > startPos[0] and i < endPos[0]) and (
-                    j > startPos[1] and j < endPos[1]
-                ):
+                if (i > startPos[0] and i < endPos[0]) and \
+                        (j > startPos[1] and j < endPos[1]) and \
+                        not self.contains_block((i, j)):
+                    # a spot is available if it does not contain a block and is
+                    # within the room
                     all_available_spots.append((i, j))
 
         picked_spots = self.rng.choice(a=all_available_spots, size=count, replace=False)
