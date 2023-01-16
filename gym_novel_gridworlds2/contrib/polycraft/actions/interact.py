@@ -135,6 +135,7 @@ class Interact(Action):
                 f'Agent "{agent_entity.nickname}" cannot perform use on {obj_type}.'
             )
 
+        target_object.acted_upon("interact", agent_entity)
         return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
 
     def action_metadata(
@@ -213,15 +214,3 @@ class Interact(Action):
             }
         else:
             return {}
-        # print(
-        #     "“goal”: {“goalType”: “ITEM”, “goalAchieved”: false, “Distribution”: “Uninformed”}, \
-        #         “command_result”: {“command”: “interact”, “argument”: “"
-        #     + str(self.entity_id)
-        #     + "”, “result”: "
-        #     + self.result
-        #     + ", \
-        #         “message”: “”, “stepCost: 282.72424}, “step”: "
-        #     + str(self.state._step_count)
-        #     + ", “gameOver”:false}"
-        # )
-        # return {} # TODO UPDATE

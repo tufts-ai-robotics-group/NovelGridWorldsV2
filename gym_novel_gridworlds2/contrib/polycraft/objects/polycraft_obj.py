@@ -10,6 +10,7 @@ class PolycraftObject(Object):
                 setattr(self, key, val)
     
     def acted_upon(self, action_name, agent):
+        # interact, break, use, etc
         if action_name == "break":
             self.state = "floating"
 
