@@ -4,5 +4,5 @@ from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 class HardTree(PolycraftObject):
     def acted_upon(self, action_name, agent: PolycraftEntity):
         if action_name == "break":
-            raise PreconditionNotMetError("You need to select an axe to break this tree")
+            raise PreconditionNotMetError("The tree cannot be broken.")
         super().acted_upon(action_name, agent)
