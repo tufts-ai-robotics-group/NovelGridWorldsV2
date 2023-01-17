@@ -32,3 +32,8 @@ class Entity(Object):
 
     def do_action(self, **kwargs):
         pass
+
+    def add_to_inventory(self, item, amount):
+        if item not in self.inventory:
+            self.inventory[item] = amount
+        self.inventory[item] += amount

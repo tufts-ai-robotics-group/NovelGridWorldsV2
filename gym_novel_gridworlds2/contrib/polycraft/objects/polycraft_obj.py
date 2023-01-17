@@ -1,5 +1,4 @@
-from gym_novel_gridworlds2.object import Object
-
+from gym_novel_gridworlds2.object import Object, Entity
 
 class PolycraftObject(Object):
     def __init__(self, *args, **kwargs):
@@ -9,7 +8,7 @@ class PolycraftObject(Object):
                 # set attr for all key
                 setattr(self, key, val)
     
-    def acted_upon(self, action_name, agent):
+    def acted_upon(self, action_name, agent: Entity):
         # interact, break, use, etc
         if action_name == "break":
             self.state = "floating"

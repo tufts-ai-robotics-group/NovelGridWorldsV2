@@ -29,11 +29,15 @@ class ParseError(Exception):
     pass
 
 
-def import_module(module_path: str):
-    module_file_path, class_name = module_path.rsplit(".", 1)
-    file_module = importlib.import_module(module_file_path)
-    class_module = getattr(file_module, class_name)
-    return class_module
+def import_module(module_path: str, config_path=None):
+    try:
+        module_file_path, class_name = module_path.rsplit(".", 1)
+        file_module = importlib.import_module(module_file_path)
+        class_module = getattr(file_module, class_name)
+        return class_module
+    except ModuleNotFoundError:
+        # TODO: relative import
+        raise ParseError(f"Module {module_path} not found.")
 
 
 def load_json(config_file_path):
@@ -96,6 +100,7 @@ class ConfigParser:
         self.obj_types = {}
         self.agent_cache = {}
         self.global_rng = None
+        self.json_file_name = ""
 
     def parse_json(
         self, json_file_name="", json_content=None, episode=0
@@ -107,6 +112,9 @@ class ConfigParser:
         if json_content is None:
             with open(json_file_name, "r") as f:
                 json_content = json.load(f, strict=False)
+                self.json_file_name = json_file_name
+        else:
+            self.json_file_name = ""
         json_content = deepcopy(json_content)
 
         # seed
