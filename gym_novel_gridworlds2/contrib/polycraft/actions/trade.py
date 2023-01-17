@@ -1,5 +1,5 @@
 from typing import Optional
-from gym_novel_gridworlds2.contrib.polycraft.actions.interact import can_interact
+from gym_novel_gridworlds2.contrib.polycraft.actions.interact import check_target
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
@@ -32,7 +32,7 @@ class Trade(Craft):
         # make a 3x3 radius around the agent, determine if the wanted entity is there
         near_trader = False
         entity_id = int(kwargs["_all_params"][0]) if "_all_params" in kwargs else None
-        if can_interact(agent_entity, self.state, entity_id) and entity_id in recipe.entities:
+        if check_target(agent_entity, self.state, entity_id)[0] and entity_id in recipe.entities:
             near_trader = True
             
         return near_trader and \
