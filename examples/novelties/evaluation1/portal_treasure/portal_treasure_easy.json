@@ -1,12 +1,12 @@
 {
   "description": "An easy version of the portal treasure novelty where the agent is supposed to drop the treasure in the portal. This case initalizes the agent with a treasure in its inventory.",
-  "extends": "../../pre_novelty_diarc.json",
-  "object_types": {
-    "portal": "novelties.evaluation1.portal_treasure.portal.Portal",
-    "treasure": "novelties.evaluation1.portal_treasure.treasure.Treasure",
-    "oak_log": "novelties.evaluation1.portal_treasure.hard_tree.HardTree"
-  },
+  "extends": "../../../pre_novelty_diarc.json",
   "novelties": {
+    "object_types": {
+      "portal": "novelties.evaluation1.portal_treasure.portal.Portal",
+      "treasure": "novelties.evaluation1.portal_treasure.treasure.Treasure",
+      "oak_log": "novelties.evaluation1.portal_treasure.hard_tree.HardTree"
+    },
     "0": {
       "entities": {
         "main_1": {
