@@ -1,4 +1,5 @@
 from copy import deepcopy
+from gym_novel_gridworlds2.contrib.polycraft.objects import UnbreakablePolycraftObject
 from gym_novel_gridworlds2.object.object import Object
 from ....utils.room_coord import RoomCoord
 from ..objects.polycraft_obj import PolycraftObject
@@ -407,7 +408,7 @@ class PolycraftState(State):
             # first column
             for j in [start[1], end[1]]:
                 if not self.contains_block((i, j)):
-                    self.place_object("bedrock", properties={"loc": (i, j)})
+                    self.place_object("bedrock", properties={"loc": (i, j), "breakable": False})
                 else:
                     overlapping_wall.append({"facing_NS": False, "direction": (i, j)})
 
@@ -415,7 +416,7 @@ class PolycraftState(State):
         for i in [start[0], end[0]]:
             for j in range(start[1] + 1, end[1]):
                 if not self.contains_block((i, j)):
-                    self.place_object("bedrock", properties={"loc": (i, j)})
+                    self.place_object("bedrock", properties={"loc": (i, j), "breakable": False})
                 else:
                     overlapping_wall.append({"facing_NS": True, "direction": (i, j)})
 

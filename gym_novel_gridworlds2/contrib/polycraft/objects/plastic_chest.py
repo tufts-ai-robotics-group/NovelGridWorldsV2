@@ -1,7 +1,7 @@
-from .polycraft_obj import PolycraftObject
+from .unbreakable_polycraft_obj import UnbreakablePolycraftObject
 
 
-class PlasticChest(PolycraftObject):
+class PlasticChest(UnbreakablePolycraftObject):
     def __init__(self, type="plastic_chest", loc=(0, 0), state="block", inventory=None, **kwargs):
         super().__init__(**kwargs)
         self.type = type

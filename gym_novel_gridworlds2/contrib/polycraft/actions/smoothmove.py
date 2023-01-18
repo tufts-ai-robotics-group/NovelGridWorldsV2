@@ -94,25 +94,23 @@ class SmoothMove(Action):
             # multiple objects handling
             objs = self.state.get_objects_at(new_loc)
             if len(objs[0]) != 0:
-                for obj in objs[0]:
-                    if (
-                        hasattr(obj, "canWalkOver")
-                        and obj.canWalkOver == True
+                # iterate through and remove every non-block element
+                # at the new location
+                i = 0
+                while i != len(objs[0]):
+                    obj = objs[0][i]
+                    if not (
+                        getattr(obj, "canWalkOver", False)
                         and obj.state == "block"
                     ):
-                        pass
-                    else:
                         if obj.type != "diamond_ore":
-                            if obj.type in agent_entity.inventory:
-                                agent_entity.inventory[obj.type] += 1
-                            else:
-                                agent_entity.inventory[obj.type] = 1
+                            agent_entity.add_to_inventory(obj.type, 1)
                         else:
-                            if "diamond" in agent_entity.inventory:
-                                agent_entity.inventory["diamond"] += 9
-                            else:
-                                agent_entity.inventory.update({"diamond": 9})
+                            agent_entity.add_to_inventory("diamond", 9)
                         self.state.remove_object(obj.type, new_loc)
+                    else:
+                        # not removing the current block, increment current index
+                        i += 1
             self.state.update_object_loc(agent_entity.loc, new_loc)
         else:
             raise PreconditionNotMetError()

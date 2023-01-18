@@ -154,6 +154,7 @@
   },
   "object_types": {
     "default": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "bedrock": "gym_novel_gridworlds2.contrib.polycraft.objects.UnbreakablePolycraftObject",
     "door": "gym_novel_gridworlds2.contrib.polycraft.objects.Door",
     "safe": "gym_novel_gridworlds2.contrib.polycraft.objects.Safe",
     "plastic_chest": "gym_novel_gridworlds2.contrib.polycraft.objects.PlasticChest",

@@ -12,7 +12,7 @@ class Cell:
     when getting the obj/entities, just directly access this,
     """
 
-    def __init__(self, obj_limit=1, entity_limit=1, item_encoder=None):
+    def __init__(self, obj_limit=100, entity_limit=1, item_encoder=None):
         self._objects: List[Object] = []
         self._entities: List[Entity] = []
         self._obj_limit = obj_limit

@@ -9,6 +9,7 @@ from .plastic_chest import PlasticChest
 from .safe import Safe
 from .entity_pogoist import EntityPogoist
 from .entity_trader import EntityTrader
+from .unbreakable_polycraft_obj import UnbreakablePolycraftObject
 
 __all__ = [
     "PolycraftEntity",
@@ -22,4 +23,5 @@ __all__ = [
     "Safe",
     "EntityPogoist",
     "EntityTrader",
+    "UnbreakablePolycraftObject"
 ]

@@ -1,10 +1,12 @@
 from gym_novel_gridworlds2.object import Object, Entity
+from typing import Union
 
 class PolycraftObject(Object):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.breakable: Union[bool, str] = True # default
         for key, val in kwargs.items():
-            if "_cost" in key:
+            if key == "breakable" or "_cost" in key:
                 # set attr for all key
                 setattr(self, key, val)
     

@@ -1,8 +1,8 @@
-from .polycraft_obj import PolycraftObject
+from .unbreakable_polycraft_obj import UnbreakablePolycraftObject
 from gym_novel_gridworlds2.utils.inventory_utils import merge_inventory
 
 
-class Safe(PolycraftObject):
+class Safe(UnbreakablePolycraftObject):
     def __init__(self, type="safe", loc=(0, 0), state="block", inventory=None, **kwargs):
         super().__init__(**kwargs)
         if inventory is None:

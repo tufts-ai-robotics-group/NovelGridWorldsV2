@@ -32,25 +32,30 @@ class Break(Action):
         Checks preconditions of the break action:
         1) The agent is facing an object
         2) The object is breakable
+        3) If the object is not breakable, the agent must be holding the correct tool
+         *  Note that the acted upon function of the respective
+            objects can also raise a custom PreconditionNotMetError, which is not 
+            necessarily caught here.
         """
         # convert the entity facing direction to coords
-        correctDirection = False
-
         self.temp_loc = self.get_tmp_loc(agent_entity, target_object)
         objs = self.state.get_objects_at(self.temp_loc)
-        if len(objs[0]) == 1:
-            correctDirection = True
-            unbreakableObjects = ["bedrock", "plastic_chest", "safe", "unlocked_safe"]
-            if objs[0][0].type in unbreakableObjects:
-                return False
-            elif not getattr(objs[0][0], "breakable", True):
+        has_block_obj = False
+
+        for obj in objs[0]:
+            if obj.state != "block":
+                # pass if no block in front
+                continue
+            # assumes breakable if all non-floating items are breakable
+            is_breakable = getattr(obj, "breakable", True)
+            is_breakable_if_holding = getattr(obj, "breakable_holding", [])
+            if not is_breakable and is_breakable_if_holding != "all" and \
+                        agent_entity.selectedItem not in is_breakable_if_holding:
                 print("unbreakable")
                 return False
-        elif len(objs[0]) == 0:
-            # cannot break air
-            return False
+            has_block_obj = True
 
-        return correctDirection and (objs[0][0].state == "block")
+        return has_block_obj
 
     def do_action(
         self, agent_entity: Entity, target_object: Object = None, **kwargs

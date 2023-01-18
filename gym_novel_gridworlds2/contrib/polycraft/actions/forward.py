@@ -51,7 +51,7 @@ class Forward(Action):
             # out of the bound
             return False
 
-    def do_action(self, agent_entity, target_type=None, target_object=None, **kwargs):
+    def do_action(self, agent_entity: Entity, target_type=None, target_object=None, **kwargs):
         # self.state._step_count += 1
         self.state.incrementer()
         """
@@ -63,23 +63,14 @@ class Forward(Action):
             objs = self.state.get_objects_at(new_loc)
             if len(objs[0]) != 0:
                 for obj in objs[0]:
-                    if (
-                        hasattr(obj, "canWalkOver")
-                        and obj.canWalkOver == True
+                    if not (
+                        getattr(obj, "canWalkOver", False)
                         and obj.state == "block"
                     ):
-                        pass
-                    else:
                         if obj.type != "diamond_ore":
-                            if obj.type in agent_entity.inventory:
-                                agent_entity.inventory[obj.type] += 1
-                            else:
-                                agent_entity.inventory[obj.type] = 1
+                            agent_entity.add_to_inventory(obj.type, 1)
                         else:
-                            if "diamond" in agent_entity.inventory:
-                                agent_entity.inventory["diamond"] += 9
-                            else:
-                                agent_entity.inventory.update({"diamond": 9})
+                            agent_entity.add_to_inventory("diamond", 9)
                         self.state.remove_object(obj.type, new_loc)
             self.state.update_object_loc(agent_entity.loc, new_loc)
             self.result = "SUCCESS"
