@@ -1,0 +1,20 @@
+{
+  "extends": "../../../pre_novelty_diarc.json",
+  "novelties": {
+    "0": {
+      "object_types": {
+        "oak_log": "novelties.evaluation1.portal_treasure.hard_tree.HardTree"
+      },
+      "actions": {
+        "break_block": {
+          "module": "novelties.evaluation1.random_drop_break.random_drop_break.RandomDropBreak",
+          "step_cost": 3600,
+          "drop_prob": 0.1,
+          "random_drop_items": {
+            "oak_log": 9
+          }
+        }
+      }
+    }
+  }
+}
