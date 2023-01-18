@@ -42,6 +42,7 @@ print(f"Running {num_episodes} episodes")
 sleep_time = config_content.get("sleep_time") or 0.05
 time_limit = config_content.get("time_limit") or 200
 novelties = config_content.get("novelties")
+config_content['filename'] = file_name.split('/')[-1]
 
 env = NovelGridWorldSequentialEnv(
     config_dict=config_content, MAX_ITER=1000, time_limit=time_limit

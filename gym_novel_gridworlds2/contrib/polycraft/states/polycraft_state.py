@@ -46,7 +46,6 @@ class PolycraftState(State):
 
         self.ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
         self.SCREEN = pygame.display.set_mode((1300, 750))
-        pygame.display.set_caption(f"NovelGridWorlds v2 [episode {self.episode}]")
         pygame.display.set_icon(self.ICON)
         pygame.init()
         self.CLOCK = pygame.time.Clock()

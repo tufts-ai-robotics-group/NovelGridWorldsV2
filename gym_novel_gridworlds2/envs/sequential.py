@@ -27,6 +27,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         """
         ### custom variables environment
         self.config_dict = config_dict
+        pygame.display.set_caption(f"NovelGridWorlds2 - {config_dict.get('filename')}")
 
         self.json_parser = ConfigParser()
         (
@@ -414,6 +415,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
         facing_rect = facing_text.get_rect()
         facing_rect.center = (900, 60)
         self.internal_state.SCREEN.blit(facing_text, facing_rect)
+
+        # episode
+        episode_text = font.render(
+            "Episode:" + str(self.internal_state.episode), True, (0, 0, 0)
+        )
+        episode_rect = episode_text.get_rect()
+        episode_rect.center = (1120, curr_line_pixel)
+        curr_line_pixel += LINE_HEIGHT
+        self.internal_state.SCREEN.blit(episode_text, episode_rect)
 
         # step
         step_text = font.render(
