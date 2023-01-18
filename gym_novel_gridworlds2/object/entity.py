@@ -36,4 +36,5 @@ class Entity(Object):
     def add_to_inventory(self, item, amount):
         if item not in self.inventory:
             self.inventory[item] = amount
-        self.inventory[item] += amount
+        else:
+            self.inventory[item] += amount
