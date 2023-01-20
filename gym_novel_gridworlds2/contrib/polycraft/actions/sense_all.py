@@ -143,7 +143,7 @@ class SenseAll(Action):
                 if tuple(obj.loc) in state.room_coords[room_no] and \
                         obj not in exclude_entities: # TODO make more efficient
                     entities_dict[str(obj.id)] = {
-                        "type": obj.__class__.__name__,
+                        "type": getattr(obj, "entity_type", None) or obj.__class__.__name__,
                         "name": obj.name,
                         "id": obj.id,
                         "pos": internal_to_external(obj.loc),
