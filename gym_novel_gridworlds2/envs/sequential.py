@@ -20,12 +20,13 @@ from ..utils.terminal_colors import bcolors
 class NovelGridWorldSequentialEnv(AECEnv):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
-    def __init__(self, config_dict: str, MAX_ITER: int = 2000, time_limit=5000):
+    def __init__(self, config_dict: str, MAX_ITER: int = 2000, time_limit=5000, run_name=None):
         """
         Init
         TODO more docs
         """
         ### custom variables environment
+        self.run_name = run_name
         self.config_dict = config_dict
         pygame.display.set_caption(f"NovelGridWorlds2 - {config_dict.get('filename')}")
 
@@ -259,6 +260,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.dones = {agent: True for agent in self.possible_agents}
 
         report_game_result(
+            output_prefix=self.run_name,
             episode=self.internal_state.episode, 
             total_steps=self.num_moves,
             total_time=time.time() - self.initial_time,

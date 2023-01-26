@@ -23,12 +23,20 @@ parser.add_argument(
     help="The number of episodes.",
     required=False,
 )
+parser.add_argument(
+    "--exp_name",
+    type=str, 
+    nargs=1, 
+    help="The name of the experiment.", 
+    required=False
+)
 
 args = parser.parse_args()
 file_name = args.filename[0]
 num_episodes = (
     args.episodes[0] if args.episodes is not None and len(args.episodes) > 0 else None
 )
+exp_name = args.exp_name[0] if args.exp_name is not None and len(args.exp_name) > 0 else None
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
@@ -45,7 +53,7 @@ novelties = config_content.get("novelties")
 config_content['filename'] = file_name.split('/')[-1]
 
 env = NovelGridWorldSequentialEnv(
-    config_dict=config_content, MAX_ITER=1000, time_limit=time_limit
+    config_dict=config_content, MAX_ITER=1000, time_limit=time_limit, run_name=exp_name
 )
 
 last_agent = env.possible_agents[-1]

@@ -156,6 +156,5 @@ cython_debug/
 .DS_Store
 .vscode/
 game_log_*.csv
+ngwlog_*.csv
 novelty_log_*.csv
-**/diarchoutput*.txt
-**/polycraftoutput*.txt
