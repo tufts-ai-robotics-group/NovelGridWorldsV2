@@ -30,6 +30,14 @@ parser.add_argument(
     help="The name of the experiment.", 
     required=False
 )
+parser.add_argument(
+    "--gameport",
+    type=int, 
+    nargs=1, 
+    help="The port where NGW should listen on.", 
+    required=False
+)
+
 
 args = parser.parse_args()
 file_name = args.filename[0]
@@ -37,6 +45,7 @@ num_episodes = (
     args.episodes[0] if args.episodes is not None and len(args.episodes) > 0 else None
 )
 exp_name = args.exp_name[0] if args.exp_name is not None and len(args.exp_name) > 0 else None
+gameport = args.gameport[0] if args.gameport is not None and len(args.gameport) > 0 else 2346
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
@@ -51,6 +60,13 @@ sleep_time = config_content.get("sleep_time") or 0.05
 time_limit = config_content.get("time_limit") or 200
 novelties = config_content.get("novelties")
 config_content['filename'] = file_name.split('/')[-1]
+
+# try manually changing the port for evaluation
+try:
+    config_content['entities']['main_1']['agent']['socket_port'] = gameport
+    print("Using port", gameport)
+except KeyError as e:
+    pass
 
 env = NovelGridWorldSequentialEnv(
     config_dict=config_content, MAX_ITER=1000, time_limit=time_limit, run_name=exp_name
