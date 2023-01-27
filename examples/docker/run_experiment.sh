@@ -56,7 +56,7 @@ for i in $(seq 1 $NUM_RUNS); do
 
     RL_PID=0
     if [[ $RL == "rl" ]]; then
-        cd $ORIGINAL_DIR/polycraft_tufts/rl_agent/rapid_learn_diarc
+        cd $ORIGINAL_DIR/rapid_learn_diarc
         python3 rapid_learn.py &
         RL_PID=$!
         
