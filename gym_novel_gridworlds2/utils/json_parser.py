@@ -123,6 +123,8 @@ class ConfigParser:
                 json_content["seed"] = None
 
             self.rng_seed = json_content["seed"]
+            if self.rng_seed == "random":
+                self.rng_seed = np.random.randint(0, 2 ** 32 - 1)
             self.global_rng = np.random.default_rng(seed=self.rng_seed)
 
         # state

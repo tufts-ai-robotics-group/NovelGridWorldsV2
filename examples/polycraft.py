@@ -12,6 +12,7 @@ from gym_novel_gridworlds2.utils.json_parser import ConfigParser, load_json
 from gym_novel_gridworlds2.utils.game_report import get_game_time_str
 
 import pygame
+import numpy as np
 
 parser = argparse.ArgumentParser(description="Polycraft Environment")
 parser.add_argument("filename", type=str, nargs=1, help="The path of the config file.")
@@ -49,6 +50,14 @@ parser.add_argument(
     required=False,
     default="human"
 )
+parser.add_argument(
+    '--seed',
+    type=str,
+    help="The seed.",
+    required=False,
+    default=None
+)
+
 
 
 
@@ -59,6 +68,7 @@ exp_name = args.exp_name
 gameport = args.gameport
 num_runs = args.num_runs
 rendering_mode = args.rendering
+seed = args.seed
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
@@ -80,6 +90,12 @@ try:
     print("Using port", gameport)
 except KeyError as e:
     pass
+# try manually changing the seed from the command line
+if seed is not None:
+    if seed == "random":
+        seed = np.random.randint(0, 100000)
+    config_content['seed'] = seed
+print("Using seed", config_content['seed'])
 
 env = NovelGridWorldSequentialEnv(
     enable_render=rendering_mode not in ["none", "off", None],
