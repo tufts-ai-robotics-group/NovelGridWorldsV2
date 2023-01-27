@@ -31,6 +31,7 @@ class PolycraftState(State):
         map_json: dict = None,
         item_list: Mapping[str, int] = {"air": 0},
         rng: np.random.Generator = default_rng(),
+        rendering=True,
         **kwargs,
     ):
         # TODO remove hard code, make more general
@@ -44,12 +45,13 @@ class PolycraftState(State):
         )  # used to keep track of where saplings should be placed later
         self.walls_list = []  # used to store walls where bedrock overlaps on the map
 
-        self.ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
-        self.SCREEN = pygame.display.set_mode((1300, 750))
-        pygame.display.set_icon(self.ICON)
-        pygame.init()
-        self.CLOCK = pygame.time.Clock()
-        self.SCREEN.fill((171, 164, 164))
+        if rendering:
+            self.ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
+            self.SCREEN = pygame.display.set_mode((1300, 750))
+            pygame.display.set_icon(self.ICON)
+            pygame.init()
+            self.CLOCK = pygame.time.Clock()
+            self.SCREEN.fill((171, 164, 164))
 
     def get_map_rep_in_range(self, map_ranges: Iterable[Iterable[tuple]], conversion_func=None):
         """

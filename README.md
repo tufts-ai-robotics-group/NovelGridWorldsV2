@@ -67,3 +67,4 @@ https://docs.google.com/document/d/1jefIDrk-SWubPeo3yOMsDN8w0XeVg_CStB2Q5dY5oqM/
 - wild card action set
 - extendable action set
 - recipe-based crafting step cost
+- more modular rendering

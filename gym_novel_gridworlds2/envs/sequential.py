@@ -14,13 +14,13 @@ from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from ..utils.json_parser import ConfigParser
-from ..utils.game_report import report_game_result
+from ..utils.game_report import create_empty_game_result_file, report_game_result
 from ..utils.terminal_colors import bcolors
 
 class NovelGridWorldSequentialEnv(AECEnv):
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
+    metadata = {"render_modes": ["human", "rgb_array", None], "render_fps": 4}
 
-    def __init__(self, config_dict: str, MAX_ITER: int = 2000, time_limit=5000, run_name=None):
+    def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True):
         """
         Init
         TODO more docs
@@ -28,7 +28,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ### custom variables environment
         self.run_name = run_name
         self.config_dict = config_dict
-        pygame.display.set_caption(f"NovelGridWorlds2 - {config_dict.get('filename')}")
+        if enable_render:
+            pygame.display.set_caption(f"NovelGridWorlds2 - {config_dict.get('filename')}")
 
         self.json_parser = ConfigParser()
         (
@@ -39,7 +40,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.internal_state.env_set_game_over = self.set_game_over
 
         self.goal_item_to_craft = ""  # TODO add to config
-        self.MAX_ITER = MAX_ITER
+        self.MAX_ITER = max_time_step
         ##### Required properties for the environment
         # Agent lists
         self.possible_agents = self.agent_manager.get_possible_agents()
@@ -70,6 +71,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # used to print header of the step
         self.inited_step = -1
+
+        # initialize the game result file
+        create_empty_game_result_file(self.run_name)
 
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation(
@@ -399,6 +403,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             y_offset += fh
 
     def render(self, mode="human"):
+        if mode != "human":
+            return
         PAR_SKIP = 30
         LINE_HEIGHT = 20
         curr_line_pixel = 30

@@ -19,33 +19,46 @@ parser.add_argument(
     "-n",
     "--episodes",
     type=int,
-    nargs=1,
     help="The number of episodes.",
     required=False,
 )
 parser.add_argument(
     "--exp_name",
     type=str, 
-    nargs=1, 
     help="The name of the experiment.", 
     required=False
 )
 parser.add_argument(
     "--gameport",
     type=int, 
-    nargs=1, 
     help="The port where NGW should listen on.", 
-    required=False
+    required=False,
+    default=2346
 )
+parser.add_argument(
+    "--num_runs",
+    type=int,
+    help="The number of independent runs.",
+    required=False,
+    default=1
+)
+parser.add_argument(
+    '--rendering',
+    type=str,
+    help="The rendering mode.",
+    required=False,
+    default="human"
+)
+
 
 
 args = parser.parse_args()
 file_name = args.filename[0]
-num_episodes = (
-    args.episodes[0] if args.episodes is not None and len(args.episodes) > 0 else None
-)
-exp_name = args.exp_name[0] if args.exp_name is not None and len(args.exp_name) > 0 else None
-gameport = args.gameport[0] if args.gameport is not None and len(args.gameport) > 0 else 2346
+num_episodes = args.episodes
+exp_name = args.exp_name
+gameport = args.gameport
+num_runs = args.num_runs
+rendering_mode = args.rendering
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
@@ -69,7 +82,11 @@ except KeyError as e:
     pass
 
 env = NovelGridWorldSequentialEnv(
-    config_dict=config_content, MAX_ITER=1000, time_limit=time_limit, run_name=exp_name
+    enable_render=rendering_mode not in ["none", "off", None],
+    config_dict=config_content, 
+    max_time_step=1000, 
+    time_limit=time_limit, 
+    run_name=exp_name
 )
 
 last_agent = env.possible_agents[-1]
@@ -80,20 +97,7 @@ for episode in range(num_episodes):
     print("++++++++++++++ Running episode", episode, "+++++++++++++++")
     print()
     env.reset(return_info=True, options={"episode": episode})
-    # TODO change way of reporting novelty
-    # if str(episode) in (env.config_dict.get("novelties") or {}):
-    #     novelty_str = (
-    #         "++++++++++++++ INJECTING NOVELTY AT EPISODE "
-    #         + str(episode)
-    #         + " "
-    #         + str(env.config_dict["novelties"][str(episode)])
-    #         + "+++++++++++++++\n"
-    #     )
-    #     print(novelty_str)
-    #     output_log_path = "novelty_log_" + get_game_time_str() + ".csv"
-    #     with open(output_log_path, "a") as output_log:
-    #         output_log.write(novelty_str)
-    env.render()
+    env.render(mode=rendering_mode)
 
     for agent in env.agent_iter():
         action: Optional[int] = None
@@ -128,11 +132,3 @@ for episode in range(num_episodes):
                 time.sleep(sleep_time)
 
 env.close()
-# report_game_result(
-#     episode=episode,
-#     total_steps=env._step_count,
-#     total_time=time.time() - env._start_time,
-#     success=False,
-#     notes="Max step cost reached for agent {agent}.",
-# )
-
