@@ -50,7 +50,7 @@ ORIGINAL_DIR=$(pwd)
 for i in $(seq 1 $NUM_RUNS); do
     echo "Starting run $i of $NUM_RUNS"
     cd $ORIGINAL_DIR/NovelGridWorldsV2/examples
-    python3 polycraft.py $CONFIG_FILE --exp_name $RUN_NAME_$RL --episodes $EPISODES --num_runs $NUM_RUNS --seed random &
+    python3 polycraft.py $CONFIG_FILE --exp_name $RUN_NAME\_$RL --episodes $EPISODES --num_runs $NUM_RUNS --seed random &
     NGW_CMD_PID=$!
     sleep 5
 
