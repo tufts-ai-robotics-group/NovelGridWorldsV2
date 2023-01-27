@@ -9,7 +9,7 @@
         "break_block": {
           "module": "novelties.evaluation1.random_drop_break.random_drop_break.RandomDropBreak",
           "step_cost": 3600,
-          "drop_prob": 0.1,
+          "drop_prob": 0.2,
           "random_drop_items": {
             "oak_log": 9
           }
