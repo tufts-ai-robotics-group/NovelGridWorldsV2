@@ -17,7 +17,7 @@ RUN cd NovelGridWorldsV2 && pip3 install .
 
 COPY polycraft_tufts/rl_agent/rapid_learn_diarc rapid_learn_diarc
 RUN rm -rf rapid_learn_diarc/policies/*.npz && rm -rf rapid_learn_diarc/policies/*.json
-RUN cd rapid_learn_diarc && pip install -r requirements.txt
+RUN cd rapid_learn_diarc && pip3 install -r requirements.txt
 
 ENV SDL_VIDEODRIVER="dummy"
 ENTRYPOINT [ "/run_experiment.sh" ]

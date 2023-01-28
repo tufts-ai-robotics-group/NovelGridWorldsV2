@@ -5,7 +5,7 @@ RL="no_rl"
 CONFIG_FILE="pre_novelty_diarc.json"
 RUN_NAME="default"
 EPISODES=50
-NUM_RUNS=10
+NUM_RUNS=1
 
 
 while [[ $# -gt 0 ]]; do
