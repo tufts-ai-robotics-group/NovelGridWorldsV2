@@ -1,13 +1,13 @@
 from gym_novel_gridworlds2.contrib.polycraft.objects import PolycraftObject
 
-RADIUS = 3
-TARGET_OBJS = ["bedrock"]
+RADIUS = 2
+TARGET_OBJS = ["oak_log", "sapling", "bedrock"]
 
 class ClearRadiusPolycraftObject(PolycraftObject):
     @staticmethod
     def placement_reqs(map_state, loc):
         """
-        The crafting table cannot be placed too close to a wall.
+        The obj cannot be placed too close to a wall.
         """
         map_size = map_state.get_map_size()
         for i in range(max(0, loc[0] - RADIUS), min(map_size[0], loc[0] + RADIUS + 1)):

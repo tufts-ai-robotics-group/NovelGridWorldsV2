@@ -3,17 +3,17 @@
   "novelties": {
     "0": {
       "object_types": {
-        "crafting_table": "novelties.evaluation1.space_around_crafting_table.clear_radius_obj.ClearRadiusPolycraftObject"
+        "sapling": "novelties.evaluation1.space_around_crafting_table.clear_radius_obj.ClearRadiusPolycraftObject"
       },
       "entities": {
         "main_1": {
           "inventory": {
-            "crafting_table": 2
+            "sapling": 10
           }
         }
       },
       "objects": {
-        "crafting_table": null
+        "oak_log": null
       }
     }
   }
