@@ -17,7 +17,7 @@ class PolycraftObject(Object):
 
     @staticmethod
     def placement_reqs(map_state, loc):
-        return True
+        return False
 
     def get_symbol(self):
         """Gets text symbol for object"""

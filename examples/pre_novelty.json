@@ -162,19 +162,19 @@
       "module": "gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap",
       "collect_cost": 50000
     },
-    "oak_log": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "oak_log": "gym_novel_gridworlds2.contrib.polycraft.objects.PlacablePolycraftObject",
     "diamond_ore": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
       "break_cost": 600
     },
     "iron_pickaxe": "gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe",
-    "crafting_table": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
+    "crafting_table": "gym_novel_gridworlds2.contrib.polycraft.objects.PlacablePolycraftObject",
     "block_of_platinum": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.objects.Metal",
       "break_cost": 600
     },
-    "block_of_titanium": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject",
-    "sapling": "gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject"
+    "block_of_titanium": "gym_novel_gridworlds2.contrib.polycraft.objects.PlacablePolycraftObject",
+    "sapling": "gym_novel_gridworlds2.contrib.polycraft.objects.PlacablePolycraftObject"
   },
   "map_size": [
     32,

@@ -1,3 +1,4 @@
+from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 from .polycraft_obj import PolycraftObject
 
 
@@ -24,4 +25,4 @@ class Door(PolycraftObject):
                 self.canWalkOver = True
                 self.open = True
         elif action_name == "break":
-            self.state = "floating"
+            raise PreconditionNotMetError("Cannot break door")
