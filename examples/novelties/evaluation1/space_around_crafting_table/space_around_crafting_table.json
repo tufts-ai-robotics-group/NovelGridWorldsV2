@@ -1,0 +1,20 @@
+{
+  "extends": "../../../pre_novelty_diarc.json",
+  "novelties": {
+    "0": {
+      "object_types": {
+        "crafting_table": "novelties.evaluation1.space_around_crafting_table.clear_radius_obj.ClearRadiusPolycraftObject"
+      },
+      "entities": {
+        "main_1": {
+          "inventory": {
+            "crafting_table": 2
+          }
+        }
+      },
+      "objects": {
+        "crafting_table": null
+      }
+    }
+  }
+}
