@@ -1,7 +1,7 @@
 from gym_novel_gridworlds2.contrib.polycraft.objects import PolycraftObject
 
 RADIUS = 2
-TARGET_OBJS = ["oak_log", "sapling", "bedrock"]
+TARGET_OBJS = ["oak_log", "bedrock"]
 
 class ClearRadiusPolycraftObject(PolycraftObject):
     @staticmethod

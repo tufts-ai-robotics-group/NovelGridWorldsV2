@@ -13,7 +13,11 @@
         }
       },
       "objects": {
-        "oak_log": null
+        "oak_log": {
+          "quantity": 1,
+          "room": 2,
+          "chunked": "False"
+        }
       }
     }
   }
