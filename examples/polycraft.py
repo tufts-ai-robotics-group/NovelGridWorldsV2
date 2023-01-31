@@ -100,7 +100,7 @@ print("Using seed", config_content['seed'])
 env = NovelGridWorldSequentialEnv(
     enable_render=rendering_mode not in ["none", "off", None],
     config_dict=config_content, 
-    max_time_step=1000, 
+    max_time_step=4000, 
     time_limit=time_limit, 
     run_name=exp_name
 )
