@@ -183,19 +183,28 @@ class ConfigParser:
                 tp_to_actions.append("TP_TO_" + str(i) + ",17," + str(j))
 
         # add manually added actions
+        TradeModule: Type[Action] = Trade
+        CraftModule: Type[Action] = Craft
         if "actions" in json_content:
             for key, action_info in json_content["actions"].items():
-                self.actions[key] = self.create_action(action_info)
+                # special treatment for trade and craft actions 
+                # since they require additional information in the json
+                if key == "trade":
+                    TradeModule = import_module(action_info["module"])
+                elif key == "craft":
+                    CraftModule = import_module(action_info["module"])
+                else:
+                    self.actions[key] = self.create_action(action_info)
         self.dynamics.actions = self.actions
 
         # recipe
         if "recipes" in json_content:
-            self.parse_recipe(json_content["recipes"])
+            self.parse_recipe(json_content["recipes"], CraftModule=CraftModule)
         self.dynamics.recipe_set = self.recipe_set
 
         # trade
         if "trades" in json_content:
-            self.parse_trades(json_content["trades"])
+            self.parse_trades(json_content["trades"], TradeModule=TradeModule)
 
         # action sets
         self.action_sets = {}
@@ -250,7 +259,7 @@ class ConfigParser:
         return (self.state, self.dynamics, self.agent_manager)
 
 
-    def parse_recipe(self, recipe_config: dict):
+    def parse_recipe(self, recipe_config: dict, CraftModule: Type[Action] = Craft):
         self.recipe_set = RecipeSet()
         for name, recipe_dict in recipe_config.items():
             self.recipe_set.add_recipe(recipe_name=name, recipe_dict=recipe_dict)
@@ -268,7 +277,7 @@ class ConfigParser:
         )
         return self.actions
 
-    def parse_trades(self, trades_dict):
+    def parse_trades(self, trades_dict, TradeModule):
         self.trade_recipe_set = RecipeSet()
         for name, recipe_dict in trades_dict.items():
             self.trade_recipe_set.add_trade(name, recipe_dict)
@@ -281,7 +290,7 @@ class ConfigParser:
                 recipe_set=self.trade_recipe_set,
                 recipe_name=items[i]
             )
-        self.actions["trade"] = Trade(
+        self.actions["trade"] = TradeModule(
             state=self.state, recipe_set=self.trade_recipe_set,
         )
 

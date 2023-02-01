@@ -9,7 +9,7 @@ class SimpleItemEncoder:
         self.curr_id = initial_id - 1
         self.item_dict = {}
         self.reverse_look_up_table = {}
-        self.id_limit = id_limit
+        self.id_limit = id_limit + 1000
         if item_dict is not None:
             self.load_item_list(item_dict)
     

@@ -2,8 +2,18 @@
   "extends": "../../../pre_novelty_diarc.json",
   "novelties": {
     "0": {
-      "object_types": {
-        "oak_log": "novelties.evaluation1.key_inventory_break_tree.hard_tree.HardTree"
+      "actions": {
+        "trade": {
+          "module": "novelties.evaluation1.key_inventory_break_tree.trade.KeyTrade"
+        }
+      },
+      "entities": {
+        "main_1": {
+          "inventory": {
+          }
+        }
+      },
+      "objects": {
       }
     }
   }
