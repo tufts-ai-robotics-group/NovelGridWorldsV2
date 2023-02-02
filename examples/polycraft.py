@@ -88,7 +88,7 @@ config_content['filename'] = file_name.split('/')[-1]
 try:
     config_content['entities']['main_1']['agent']['socket_port'] = gameport
     print("Using port", gameport)
-except KeyError as e:
+except (KeyError, TypeError) as e:
     pass
 # try manually changing the seed from the command line
 if seed is not None:
