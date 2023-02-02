@@ -416,12 +416,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.internal_state.SCREEN.fill((171, 164, 164))
         self.internal_state.drawMap()
 
+        LEFT_MARGIN = 1120
+
         font = pygame.font.Font("freesansbold.ttf", 18)
 
         # north
         facing_text = font.render("North: ^ ^ ^", True, (0, 0, 0))
         facing_rect = facing_text.get_rect()
-        facing_rect.center = (900, 60)
+        facing_rect.center = (LEFT_MARGIN, curr_line_pixel)
+        curr_line_pixel += LINE_HEIGHT
         self.internal_state.SCREEN.blit(facing_text, facing_rect)
 
         # episode
@@ -429,7 +432,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             "Episode:" + str(self.internal_state.episode), True, (0, 0, 0)
         )
         episode_rect = episode_text.get_rect()
-        episode_rect.center = (1120, curr_line_pixel)
+        episode_rect.center = (LEFT_MARGIN, curr_line_pixel)
         curr_line_pixel += LINE_HEIGHT
         self.internal_state.SCREEN.blit(episode_text, episode_rect)
 
@@ -438,7 +441,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             "Step:" + str(self.internal_state._step_count), True, (0, 0, 0)
         )
         step_rect = step_text.get_rect()
-        step_rect.center = (1120, curr_line_pixel)
+        step_rect.center = (LEFT_MARGIN, curr_line_pixel)
         curr_line_pixel += PAR_SKIP
         self.internal_state.SCREEN.blit(step_text, step_rect)
 
@@ -447,7 +450,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # facing
         facing_text = font.render("Agent Facing:" + str(agent.facing), True, (0, 0, 0))
         facing_rect = facing_text.get_rect()
-        facing_rect.center = (1120, curr_line_pixel)
+        facing_rect.center = (LEFT_MARGIN, curr_line_pixel)
         curr_line_pixel += LINE_HEIGHT
         self.internal_state.SCREEN.blit(facing_text, facing_rect)
 
@@ -458,7 +461,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             black_color,
         )
         action_rect = action_text.get_rect()
-        action_rect.center = (1120, curr_line_pixel)
+        action_rect.center = (LEFT_MARGIN, curr_line_pixel)
         curr_line_pixel += LINE_HEIGHT
         self.internal_state.SCREEN.blit(action_text, action_rect)
 
@@ -481,7 +484,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         )
         print(self._cumulative_rewards)
         cost_rect = cost_text.get_rect()
-        cost_rect.center = (1120, curr_line_pixel)
+        cost_rect.center = (LEFT_MARGIN, curr_line_pixel)
         curr_line_pixel += PAR_SKIP
         self.internal_state.SCREEN.blit(cost_text, cost_rect)
 
@@ -506,7 +509,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             inv_text,
             font,
             black_color,
-            1200,
+            LEFT_MARGIN + 80,
             curr_line_pixel,
             self.internal_state.SCREEN,
             200,
@@ -522,7 +525,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 game_over_str = f"You Won. Restarting soon..."
             win_text = font.render(game_over_str, True, (255, 0, 0))
             win_rect = win_text.get_rect()
-            win_rect.center = (1120, 530)
+            win_rect.center = (LEFT_MARGIN, 530)
             self.internal_state.SCREEN.blit(win_text, win_rect)
             for i in range(timer * 2):
                 pygame.display.update()
