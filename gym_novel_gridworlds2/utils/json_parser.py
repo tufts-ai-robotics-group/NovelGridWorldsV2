@@ -186,11 +186,11 @@ class ConfigParser:
 
         # automatically add approach_<item_name> for all items available
         for obj_type, info in self.obj_types.items():
-            if info['module'].placeable:
+            if obj_type != "default" and info['module'].placeable:
                 self.actions["approach_" + obj_type] = self.create_action(
                     {
                         "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
-                        "target_type": obj_type,
+                        "target_obj_type": obj_type,
                     }
                 )
 

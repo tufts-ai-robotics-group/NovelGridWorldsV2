@@ -108,6 +108,24 @@ class TP_TO(Action):
         loc_w_offset = self.find_available_spot(loc, offset, agent_loc=agent_entity.loc)
         self.tmp_loc = loc_w_offset
         self.tmp_new_facing = find_facing(loc, loc_w_offset) or agent_entity.facing
+
+        if loc_w_offset is None:
+
+            if x is not None:
+                target = f"location {(x, y, z)}"
+            elif target_object is not None:
+                target = f"object {target_object}"
+            else:
+                target = f"entity {self.entity_id}"
+            
+            if loc is None:
+                raise PreconditionNotMetError(
+                    f"{target} is not found in the world"
+                )
+            else:
+                raise PreconditionNotMetError(
+                    f"No available spot around {target}"
+                )
         return loc_w_offset
 
     def do_action(
@@ -126,26 +144,14 @@ class TP_TO(Action):
         x = x if x is not None else self.x
         y = y if y is not None else self.y
         z = z if z is not None else self.z
+        target_object = self.target_obj_type if target_object is None else target_object
+
         offset = int(offset) if offset is not None else self.offset
         self.state.incrementer()
 
         new_loc = self.check_precondition(
             agent_entity, x=x, y=y, z=z, offset=offset, target_object=target_object
         )
-
-        if new_loc is None:
-            if x is not None:
-                raise PreconditionNotMetError(
-                    f"Agent {agent_entity.nickname} cannot teleport to {(x, y, z)}."
-                )
-            elif target_object is not None:
-                raise PreconditionNotMetError(
-                    f"Agent {agent_entity.nickname} cannot teleport to {target_object}."
-                )
-            else:
-                raise PreconditionNotMetError(
-                    f"Agent {agent_entity.nickname} cannot teleport to entity {self.entity_id}."
-                )
         
         new_loc = self.tmp_loc
         # multiple objects handling

@@ -224,6 +224,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # print inventory info
         print("             inventory:", agent_entity.inventory)
+        if metadata["command_result"]["result"] != "SUCCESS":
+            print("Failure Reason:", metadata["command_result"]["message"])
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this
