@@ -4,6 +4,8 @@ import importlib
 import pathlib
 from typing import List, Mapping, Tuple, Type
 
+import fnmatch # for wildcard matching
+
 from gym_novel_gridworlds2.agents.agent_manager import AgentManager
 from gym_novel_gridworlds2.contrib.polycraft.actions.sense_all import SenseAll
 from gym_novel_gridworlds2.contrib.polycraft.states import PolycraftState
@@ -381,7 +383,15 @@ class ConfigParser:
     def create_action_set(self, action_str_list):
         action_list = []
         for action_str in action_str_list:
-            action_list.append((action_str, self.actions[action_str]))
+            if "*" in action_str:
+                # wildcard matching
+                for action in self.actions:
+                    if fnmatch.fnmatch(action, action_str):
+                        action_list.append((action, self.actions[action]))
+            elif action_str not in self.actions:
+                raise ValueError("Action " + action_str + " not found.")
+            else:
+                action_list.append((action_str, self.actions[action_str]))
         return ActionSet(action_list)
 
     def create_policy_agent(self, agent_info, id, entity_data, action_set):
