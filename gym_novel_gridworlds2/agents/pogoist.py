@@ -50,19 +50,19 @@ class Pogoist(Agent):
         #     self.isMoving = False
         #     action_sets = self.action_set.get_action_names()
         #     to_do = self.get_action_space().sample()
-        #     while to_do == action_sets.index("NOP"):
+        #     while to_do == action_sets.index("nop"):
         #         to_do = self.get_action_space().sample()
         #     return to_do
         # else:  # skip every other turn
         #     self.isMoving = True
         #     action_sets = self.action_set.get_action_names()
-        #     return action_sets.index("NOP")
+        #     return action_sets.index("nop")
 
         action_sets = self.action_set.get_action_names()
 
         if self.before_start > 0:  # a way to balance the pogoist
             self.before_start -= 1
-            return action_sets.index("NOP")
+            return action_sets.index("nop")
         ent = self.state.get_entity_by_id(102)
 
         if self.isMoving:
@@ -78,19 +78,9 @@ class Pogoist(Agent):
                     or self.policy_step == 8
                     or self.policy_step == 19
                 ):
-                    objs = self.state.get_objects_of_type("oak_log")
-                    if len(objs) > 0:
-                        self.policy_step += 1
-                        print(objs[0])
-                        return action_sets.index("TP_TO"), {
-                            "x": objs[0].loc[0],
-                            "z": 17,
-                            "y": objs[0].loc[1],
-                        }
-                    else:
-                        self.policy_step += 1
-                        return action_sets.index("NOP")
-
+                    return action_sets.index("TP_TO"), {
+                        "target_object": "oak_log"
+                    }
                 elif (
                     self.policy_step == 1
                     or self.policy_step == 5
@@ -117,7 +107,7 @@ class Pogoist(Agent):
                         else:
                             self.policy_step += 1
                             self.rotate_step = 0
-                            return action_sets.index("NOP")
+                            return action_sets.index("nop")
                             # do nothing as already facing the log, move onto next part of policy
                     else:
                         self.rotate_step += 1
@@ -146,18 +136,9 @@ class Pogoist(Agent):
                     self.policy_step += 1
                     return action_sets.index("smooth_move")
                 elif self.policy_step == 12 or self.policy_step == 46:
-                    objs = self.state.get_objects_of_type("crafting_table")
-                    if len(objs) > 0:
-                        self.policy_step += 1
-                        print(objs[0])
-                        return action_sets.index("TP_TO"), {
-                            "x": objs[0].loc[0],
-                            "z": 17,
-                            "y": objs[0].loc[1],
-                        }
-                    else:
-                        # will have to wait until crafting table is available
-                        return action_sets.index("NOP")
+                    return action_sets.index("TP_TO"), {
+                        "target_object": "crafting_table"
+                    }
                 elif self.policy_step == 13 or self.policy_step == 47:
                     vec = (0, 0)
                     if ent.facing == "NORTH":
@@ -179,7 +160,7 @@ class Pogoist(Agent):
                         else:
                             self.policy_step += 1
                             self.rotate_step = 0
-                            return action_sets.index("NOP")
+                            return action_sets.index("nop")
                             # do nothing as already facing the log, move onto next part of policy
                     else:
                         self.rotate_step += 1
@@ -220,26 +201,14 @@ class Pogoist(Agent):
                 elif self.policy_step == 26 or self.policy_step == 30:
                     objs = self.state.get_objects_of_type("diamond_ore")
                     if len(objs) > 0:
-                        self.policy_step += 1
                         return action_sets.index("TP_TO"), {
-                            "x": objs[0].loc[0],
-                            "z": 17,
-                            "y": objs[0].loc[1],
+                            "target_object": "diamond_ore"
                         }
                     else:
                         self.doingSafeRoute = True
-                        objs = self.state.get_objects_of_type("plastic_chest")
-                        if len(objs) > 0:
-                            self.policy_step += 1
-                            self.starting_step_safe = self.policy_step
-                            return action_sets.index("TP_TO"), {
-                                "x": objs[0].loc[0],
-                                "z": 17,
-                                "y": objs[0].loc[1],
-                            }
-                        else:
-                            self.policy_step += 1
-                            return action_sets.index("NOP")
+                        return action_sets.index("TP_TO"), {
+                            "target_object": "plastic_chest"
+                        }
                 elif self.policy_step == 27 or self.policy_step == 31:
                     vec = (0, 0)
                     if ent.facing == "NORTH":
@@ -261,24 +230,16 @@ class Pogoist(Agent):
                         else:
                             self.policy_step += 1
                             self.rotate_step = 0
-                            return action_sets.index("NOP")
+                            return action_sets.index("nop")
                             # do nothing as already facing the diamond ore, move onto next part of policy
                     else:
                         self.rotate_step += 1
                         return action_sets.index("rotate_right")
                         # need to rotate until we are facing the diamond ore
                 elif self.policy_step == 34 or self.policy_step == 38:
-                    objs = self.state.get_objects_of_type("block_of_platinum")
-                    if len(objs) > 0:
-                        self.policy_step += 1
-                        return action_sets.index("TP_TO"), {
-                            "x": objs[0].loc[0],
-                            "z": 17,
-                            "y": objs[0].loc[1],
-                        }
-                    else:
-                        self.policy_step += 1
-                        return action_sets.index("NOP")
+                    return action_sets.index("TP_TO"), {
+                        "target_object": "block_of_platinum"
+                    }
                 elif self.policy_step == 35 or self.policy_step == 39:
                     vec = (0, 0)
                     if ent.facing == "NORTH":
@@ -300,7 +261,7 @@ class Pogoist(Agent):
                         else:
                             self.policy_step += 1
                             self.rotate_step = 0
-                            return action_sets.index("NOP")
+                            return action_sets.index("nop")
                             # do nothing as already facing the block_of_platinum, move onto next part of policy
                     else:
                         self.rotate_step += 1
@@ -308,7 +269,9 @@ class Pogoist(Agent):
                         # need to rotate until we are facing the block_of_platinum
                 elif self.policy_step == 42:
                     self.policy_step += 1
-                    return action_sets.index("TP_TO_103")
+                    return action_sets.index("TP_TO"), {
+                        "entity_id": 103
+                    }
                 elif self.policy_step == 43:
                     vec = (0, 0)
                     if ent.facing == "NORTH":
@@ -329,7 +292,7 @@ class Pogoist(Agent):
                         else:
                             self.policy_step += 1
                             self.rotate_step = 0
-                            return action_sets.index("NOP")
+                            return action_sets.index("nop")
                     else:
                         self.rotate_step += 1
                         return action_sets.index("rotate_right")
@@ -344,7 +307,7 @@ class Pogoist(Agent):
                     return action_sets.index("craft_pogo_stick")
                 else:
                     self.policy_step = 0
-                    return action_sets.index("NOP")
+                    return action_sets.index("nop")
             else:
                 # doing the safe route - now, we collect key, tp to safe, use key, and collect diamonds
                 if self.policy_step == self.starting_step_safe:
@@ -365,24 +328,16 @@ class Pogoist(Agent):
                             return action_sets.index("rotate_right")
                         else:
                             self.policy_step += 1
-                            return action_sets.index("NOP")
+                            return action_sets.index("nop")
                     else:
                         return action_sets.index("rotate_right")
                 elif self.policy_step == self.starting_step_safe + 1:
                     self.policy_step += 1
                     return action_sets.index("collect")
                 elif self.policy_step == self.starting_step_safe + 2:
-                    objs = self.state.get_objects_of_type("safe")
-                    if len(objs) > 0:
-                        self.policy_step += 1
-                        return action_sets.index("TP_TO"), {
-                            "x": objs[0].loc[0],
-                            "z": 17,
-                            "y": objs[0].loc[1],
-                        }
-                    else:
-                        self.policy_step += 1
-                        return action_sets.index("NOP")
+                    return action_sets.index("TP_TO"), {
+                        "target_object": "safe"
+                    }
                 elif self.policy_step == self.starting_step_safe + 3:
                     vec = (0, 0)
                     if ent.facing == "NORTH":
@@ -401,7 +356,7 @@ class Pogoist(Agent):
                             return action_sets.index("rotate_right")
                         else:
                             self.policy_step += 1
-                            return action_sets.index("NOP")
+                            return action_sets.index("nop")
                     else:
                         return action_sets.index("rotate_right")
                 elif self.policy_step == self.starting_step_safe + 4:
@@ -415,8 +370,8 @@ class Pogoist(Agent):
 
             # in case we don't return an action for some reason
             print("policy step: ", self.policy_step)
-            return action_sets.index("NOP")
+            return action_sets.index("nop")
         else:  # skip every other turn
             self.isMoving = True
             action_sets = self.action_set.get_action_names()
-            return action_sets.index("NOP")
+            return action_sets.index("nop")

@@ -170,17 +170,17 @@ class ConfigParser:
             select_actions.append("select_" + obj_type)
 
         # automatically add TP_TO_<coordinate> for all coordinates available on the map
-        tp_to_actions = []
-        for i in range(json_content["map_size"][0]):
-            for j in range(json_content["map_size"][1]):
-                self.actions["TP_TO_" + str(i) + ",17," + str(j)] = self.create_action(
-                    {
-                        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
-                        "x": i,
-                        "y": j,
-                    }
-                )
-                tp_to_actions.append("TP_TO_" + str(i) + ",17," + str(j))
+        # tp_to_actions = []
+        # for i in range(json_content["map_size"][0]):
+        #     for j in range(json_content["map_size"][1]):
+        #         self.actions["TP_TO_" + str(i) + ",17," + str(j)] = self.create_action(
+        #             {
+        #                 "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
+        #                 "x": i,
+        #                 "y": j,
+        #             }
+        #         )
+        #         tp_to_actions.append("TP_TO_" + str(i) + ",17," + str(j))
 
         # add manually added actions
         TradeModule: Type[Action] = Trade

@@ -3,7 +3,7 @@ from gym_novel_gridworlds2.contrib.polycraft.objects import UnbreakablePolycraft
 from gym_novel_gridworlds2.object.object import Object
 from ....utils.room_coord import RoomCoord
 from ..objects.polycraft_obj import PolycraftObject
-from ..utils.draw_item_map import draw_map
+from ..utils.draw_item_map import ICON, draw_map
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 from gym_novel_gridworlds2.state.cell import Cell
@@ -46,9 +46,8 @@ class PolycraftState(State):
         self.walls_list = []  # used to store walls where bedrock overlaps on the map
 
         if rendering:
-            self.ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
             self.SCREEN = pygame.display.set_mode((1300, 750))
-            pygame.display.set_icon(self.ICON)
+            pygame.display.set_icon(ICON)
             pygame.init()
             self.CLOCK = pygame.time.Clock()
             self.SCREEN.fill((171, 164, 164))

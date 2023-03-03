@@ -1,116 +1,120 @@
 import pygame 
+import os
+
+def get_file_path(file_name):
+    return os.path.join(os.path.dirname(__file__), os.path.pardir, "img", file_name + ".png")
 
 
 WIDTH = 20
 HEIGHT = 20
 MARGIN = 1
-CHEST_IMAGE = pygame.image.load("img/polycraft/chest.png")
+CHEST_IMAGE = pygame.image.load(get_file_path("chest"))
 CHEST = pygame.transform.scale(CHEST_IMAGE, (20, 20))
 
-CRAFTING_TABLE_IMAGE = pygame.image.load("img/polycraft/craftingtable.png")
+CRAFTING_TABLE_IMAGE = pygame.image.load(get_file_path("craftingtable"))
 CRAFTING_TABLE = pygame.transform.scale(
     CRAFTING_TABLE_IMAGE, (20, 20)
 )
 
 CRAFTING_TABLE_PICKUP_IMAGE = pygame.image.load(
-    "img/polycraft/craftingtablepickup.png"
+    get_file_path("craftingtablepickup")
 )
 CRAFTING_TABLE_PICKUP = pygame.transform.scale(
     CRAFTING_TABLE_PICKUP_IMAGE, (20, 20)
 )
 
-OAK_LOG_IMAGE = pygame.image.load("img/polycraft/oaklog.png")
+OAK_LOG_IMAGE = pygame.image.load(get_file_path("oaklog"))
 OAK_LOG = pygame.transform.scale(OAK_LOG_IMAGE, (20, 20))
 
-OAK_LOG_PICKUP_IMAGE = pygame.image.load("img/polycraft/oaklogpickup.png")
+OAK_LOG_PICKUP_IMAGE = pygame.image.load(get_file_path("oaklogpickup"))
 OAK_LOG_PICKUP = pygame.transform.scale(
     OAK_LOG_PICKUP_IMAGE, (20, 20)
 )
 
-DOOR_IMAGE = pygame.image.load("img/polycraft/door.png")
+DOOR_IMAGE = pygame.image.load(get_file_path("door"))
 DOOR = pygame.transform.scale(DOOR_IMAGE, (20, 20))
 
-DOOR_OPEN_IMAGE = pygame.image.load("img/polycraft/dooropen.png")
+DOOR_OPEN_IMAGE = pygame.image.load(get_file_path("dooropen"))
 DOOR_OPEN = pygame.transform.scale(DOOR_OPEN_IMAGE, (20, 20))
 
-DOOR_PICKUP_IMAGE = pygame.image.load("img/polycraft/doorpickup.png")
+DOOR_PICKUP_IMAGE = pygame.image.load(get_file_path("doorpickup"))
 DOOR_PICKUP = pygame.transform.scale(DOOR_PICKUP_IMAGE, (20, 20))
 
-DIAMOND_ORE_IMAGE = pygame.image.load("img/polycraft/diamond_ore.png")
+DIAMOND_ORE_IMAGE = pygame.image.load(get_file_path("diamond_ore"))
 DIAMOND_ORE = pygame.transform.scale(DIAMOND_ORE_IMAGE, (20, 20))
 
-DIAMOND_PICKUP_IMAGE = pygame.image.load("img/polycraft/diamondpickup.png")
+DIAMOND_PICKUP_IMAGE = pygame.image.load(get_file_path("diamondpickup"))
 DIAMOND_PICKUP = pygame.transform.scale(
     DIAMOND_PICKUP_IMAGE, (20, 20)
 )
 
-AXE_IMAGE = pygame.image.load("img/polycraft/ironaxe.png")
+AXE_IMAGE = pygame.image.load(get_file_path("ironaxe"))
 AXE = pygame.transform.scale(AXE_IMAGE, (20, 20))
 
-SAPLING_IMAGE = pygame.image.load("img/polycraft/sapling.png")
+SAPLING_IMAGE = pygame.image.load(get_file_path("sapling"))
 SAPLING = pygame.transform.scale(SAPLING_IMAGE, (20, 20))
 
-SAFE_IMAGE = pygame.image.load("img/polycraft/safe.png")
+SAFE_IMAGE = pygame.image.load(get_file_path("safe"))
 SAFE = pygame.transform.scale(SAFE_IMAGE, (20, 20))
 
-HOPPER_IMAGE = pygame.image.load("img/polycraft/hopper.png")
+HOPPER_IMAGE = pygame.image.load(get_file_path("hopper"))
 HOPPER = pygame.transform.scale(HOPPER_IMAGE, (20, 20))
 
-PLATINUM_IMAGE = pygame.image.load("img/polycraft/platinum.png")
+PLATINUM_IMAGE = pygame.image.load(get_file_path("platinum"))
 PLATINUM = pygame.transform.scale(PLATINUM_IMAGE, (20, 20))
 
 PLATINUM_PICKUP_IMAGE = pygame.image.load(
-    "img/polycraft/platinumpickup.png"
+    get_file_path("platinumpickup")
 )
 PLATINUM_PICKUP = pygame.transform.scale(
     PLATINUM_PICKUP_IMAGE, (20, 20)
 )
 
-AGENT_IMAGE = pygame.image.load("img/polycraft/agent.png")
+AGENT_IMAGE = pygame.image.load(get_file_path("agent"))
 AGENT = pygame.transform.rotate(
     pygame.transform.scale(AGENT_IMAGE, (20, 20)), 90
 )
 
-POGOIST_IMAGE = pygame.image.load("img/polycraft/pogoist.png")
+POGOIST_IMAGE = pygame.image.load(get_file_path("pogoist"))
 POGOIST = pygame.transform.rotate(
     pygame.transform.scale(POGOIST_IMAGE, (20, 20)), 90
 )
 
-POGOIST_DIAMOND_IMAGE = pygame.image.load("img/polycraft/pogoist_diamond.png")
+POGOIST_DIAMOND_IMAGE = pygame.image.load(get_file_path("pogoist_diamond"))
 POGOIST_DIAMOND = pygame.transform.rotate(
     pygame.transform.scale(POGOIST_DIAMOND_IMAGE, (20, 20)), 90
 )
 
-POGOIST_PLATINUM_IMAGE = pygame.image.load("img/polycraft/pogoist_platinum.png")
+POGOIST_PLATINUM_IMAGE = pygame.image.load(get_file_path("pogoist_platinum"))
 POGOIST_PLATINUM = pygame.transform.rotate(
     pygame.transform.scale(POGOIST_PLATINUM_IMAGE, (20, 20)), 90
 )
 
-POGOIST_OAK_LOG_IMAGE = pygame.image.load("img/polycraft/pogoist_oak_log.png")
+POGOIST_OAK_LOG_IMAGE = pygame.image.load(get_file_path("pogoist_oak_log"))
 POGOIST_OAK_LOG = pygame.transform.rotate(
     pygame.transform.scale(POGOIST_OAK_LOG_IMAGE, (20, 20)), 90
 )
 
-TRADER_IMAGE = pygame.image.load("img/polycraft/trader.png")
+TRADER_IMAGE = pygame.image.load(get_file_path("trader"))
 TRADER = pygame.transform.scale(TRADER_IMAGE, (20, 20))
 
-IRON_ORE_IMAGE = pygame.image.load("img/polycraft/iron_ore.png")
+IRON_ORE_IMAGE = pygame.image.load(get_file_path("iron_ore"))
 IRON_ORE = pygame.transform.scale(IRON_ORE_IMAGE, (20, 20))
 
-IRON_ORE_PICKUP_IMAGE = pygame.image.load("img/polycraft/iron_ingot.png")
+IRON_ORE_PICKUP_IMAGE = pygame.image.load(get_file_path("iron_ingot"))
 IRON_ORE_PICKUP = pygame.transform.scale(
     IRON_ORE_PICKUP_IMAGE, (20, 20)
 )
 
-BIRCH_LOG_IMAGE = pygame.image.load("img/polycraft/birchlog.png")
+BIRCH_LOG_IMAGE = pygame.image.load(get_file_path("birchlog"))
 BIRCH_LOG = pygame.transform.scale(BIRCH_LOG_IMAGE, (20, 20))
 
-BIRCH_LOG_PICKUP_IMAGE = pygame.image.load("img/polycraft/birchlogpickup.png")
+BIRCH_LOG_PICKUP_IMAGE = pygame.image.load(get_file_path("birchlogpickup"))
 BIRCH_LOG_PICKUP = pygame.transform.scale(
     BIRCH_LOG_PICKUP_IMAGE, (20, 20)
 )
 
-ICON = pygame.image.load('img/polycraft/polycraft_logo.png')
+ICON = pygame.image.load(get_file_path("polycraft_logo"))
 SCREEN = pygame.display.set_mode((1300, 750))
 
 def draw_item(loaded_surface, i, j, draw_rect=False):

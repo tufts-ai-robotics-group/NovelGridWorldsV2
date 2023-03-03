@@ -22,9 +22,10 @@ def find_facing(curr_loc, dst_loc):
 
 
 class TP_TO(Action):
-    def __init__(self, state: State, x=None, y=None, z=None, entity_id=None, offset=1, dynamics=None, **kwargs):
+    def __init__(self, state: State, x=None, y=None, z=None, entity_id=None, target_obj_type=None, offset=1, dynamics=None, **kwargs):
         super().__init__(state, dynamics, **kwargs)
         self.entity_id = entity_id
+        self.target_obj_type = target_obj_type
         self.x = x
         self.y = y
         self.z = z
@@ -34,6 +35,8 @@ class TP_TO(Action):
 
 
     def find_available_spot(self, loc, offset, agent_loc=None, curr_room_only=True):
+        if loc is None:
+            return None
         curr_rooms = self.state.get_room_by_loc(agent_loc)
         for dim in range(len(loc)):
             offset_vec = np.zeros(len(loc))
@@ -66,11 +69,18 @@ class TP_TO(Action):
                                 return new_loc
         return None
 
+    def find_object(self, obj_type):
+        objs = self.state.get_objects_of_type(obj_type)
+        if len(objs) > 0:
+            return objs[0].loc
+        else:
+            return None
+
 
     def check_precondition(
         self,
         agent_entity: Entity,
-        target_object: Object = None,
+        target_object: str = None,
         x=None,
         y=None,
         z=None,
@@ -82,18 +92,23 @@ class TP_TO(Action):
         z = z if z is not None else self.z
 
         if x != None:
+            # mode 1: teleport to a specific location
             loc = external_to_internal((int(x), int(y), int(z)))
+        elif target_object is not None:
+            # mode 2: teleport to an object
+            loc = self.find_object(target_object)
         else:
+            # mode 3: teleport to the location of an entity
             ent = self.state.get_entity_by_id(self.entity_id)
             if ent is not None:
                 loc = ent.loc
             else:
-                loc = (0, 0)
+                loc = None
 
         loc_w_offset = self.find_available_spot(loc, offset, agent_loc=agent_entity.loc)
         self.tmp_loc = loc_w_offset
         self.tmp_new_facing = find_facing(loc, loc_w_offset) or agent_entity.facing
-        return loc_w_offset is not None
+        return loc_w_offset
 
     def do_action(
         self,
@@ -112,22 +127,26 @@ class TP_TO(Action):
         y = y if y is not None else self.y
         z = z if z is not None else self.z
         offset = int(offset) if offset is not None else self.offset
-        if x != None:
-            loc = external_to_internal((int(x), int(y), int(z)))
-        else:
-            ent = self.state.get_entity_by_id(self.entity_id)
-            if ent is not None:
-                loc = ent.loc
-            else:
-                loc = (0, 0)
-
         self.state.incrementer()
-        if not self.check_precondition(
+
+        new_loc = self.check_precondition(
             agent_entity, x=x, y=y, z=z, offset=offset, target_object=target_object
-        ):
-            raise PreconditionNotMetError(
-                f"Agent {agent_entity.nickname} cannot teleport to {loc}."
-            )
+        )
+
+        if new_loc is None:
+            if x is not None:
+                raise PreconditionNotMetError(
+                    f"Agent {agent_entity.nickname} cannot teleport to {(x, y, z)}."
+                )
+            elif target_object is not None:
+                raise PreconditionNotMetError(
+                    f"Agent {agent_entity.nickname} cannot teleport to {target_object}."
+                )
+            else:
+                raise PreconditionNotMetError(
+                    f"Agent {agent_entity.nickname} cannot teleport to entity {self.entity_id}."
+                )
+        
         new_loc = self.tmp_loc
         # multiple objects handling
         objs = self.state.get_objects_at(new_loc)
