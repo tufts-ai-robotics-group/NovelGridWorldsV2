@@ -182,6 +182,16 @@ class ConfigParser:
         #         )
         #         tp_to_actions.append("TP_TO_" + str(i) + ",17," + str(j))
 
+        # automatically add approach_<item_name> for all items available
+        for obj_type, info in self.obj_types.items():
+            if info['module'].placeable:
+                self.actions["approach_" + obj_type] = self.create_action(
+                    {
+                        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
+                        "target_type": obj_type,
+                    }
+                )
+
         # add manually added actions
         TradeModule: Type[Action] = Trade
         CraftModule: Type[Action] = Craft

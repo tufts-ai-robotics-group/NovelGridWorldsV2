@@ -2,6 +2,8 @@ from gym_novel_gridworlds2.object import Object, Entity
 from typing import Union
 
 class PolycraftObject(Object):
+    placeable = True
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.breakable: Union[bool, str] = True # default

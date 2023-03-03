@@ -2,6 +2,8 @@ from .polycraft_obj import PolycraftObject
 
 
 class IronPickaxe(PolycraftObject):
+    placeable = False
+
     def __init__(self, type="iron_pickaxe", loc=(0, 0), state="floating", **kwargs):
         super().__init__(**kwargs)
         self.type = type
@@ -10,7 +12,7 @@ class IronPickaxe(PolycraftObject):
 
     @staticmethod
     def placement_reqs(map_state, loc):
-        return True
+        return False
 
     def acted_upon(self, action_name, agent):
         if action_name == "break":
