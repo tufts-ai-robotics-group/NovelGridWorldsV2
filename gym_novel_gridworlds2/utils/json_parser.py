@@ -193,6 +193,17 @@ class ConfigParser:
                         "target_obj_type": obj_type,
                     }
                 )
+        for entity_name, info in json_content["entities"].items():
+            # if entity_name == "main_1":
+            #     # bad practice.
+            #     # ignore any entity called main_1
+            #     continue
+            self.actions[f"approach_entity_{info['id']}"] = self.create_action(
+                {
+                    "module": "gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO",
+                    "entity_id": info['id'],
+                }
+            )
 
         # add manually added actions
         TradeModule: Type[Action] = Trade
