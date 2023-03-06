@@ -26,7 +26,10 @@ class Cell:
             else:
                 return conversion_func(self._objects[0].type, self._objects[0])
         else:
-            return conversion_func("air")
+            if conversion_func is None:
+                return "air", {}
+            else:
+                return conversion_func("air")
 
     def place_object(self, obj: Entity) -> bool:
         """

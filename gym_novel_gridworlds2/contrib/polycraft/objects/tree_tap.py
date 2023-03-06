@@ -3,6 +3,8 @@ import numpy as np
 
 
 class TreeTap(PolycraftObject):
+    breakable = False
+
     def __init__(self, type="tree_tap", loc=(0, 0), state="block", **kwargs):
         super().__init__(**kwargs)
         self.type = type

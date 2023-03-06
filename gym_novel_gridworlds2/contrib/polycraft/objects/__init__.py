@@ -11,6 +11,7 @@ from .entity_pogoist import EntityPogoist
 from .entity_trader import EntityTrader
 from .unbreakable_polycraft_obj import UnbreakablePolycraftObject
 from .placable_polycraft_obj import PlacablePolycraftObject
+from .breakable_polycraft_obj import BreakablePolycraftObject
 
 __all__ = [
     "PolycraftEntity",
@@ -25,5 +26,6 @@ __all__ = [
     "EntityPogoist",
     "EntityTrader",
     "UnbreakablePolycraftObject",
-    "PlacablePolycraftObject"
+    "PlacablePolycraftObject",
+    "BreakalePolycraftObject"
 ]

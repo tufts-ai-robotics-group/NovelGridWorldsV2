@@ -3,6 +3,7 @@ from typing import List
 from gym_novel_gridworlds2.contrib.polycraft.states.polycraft_state import (
     PolycraftState,
 )
+from gym_novel_gridworlds2.contrib.polycraft.utils.map_utils import getBlockInFront
 
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.utils import nameConversion
@@ -63,7 +64,7 @@ class SenseAll(Action):
             }
 
         return {
-            "blockInFront": self.getBlockInFront(agent_entity, self.state),
+            "blockInFront": getBlockInFront(agent_entity, self.state, nameConversion),
             "inventory": self.getInventory(agent_entity),
             "player": {
                 "pos": internal_to_external(agent_entity.loc),

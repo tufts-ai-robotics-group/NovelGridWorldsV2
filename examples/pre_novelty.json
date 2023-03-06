@@ -24,7 +24,7 @@
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.Use",
       "step_cost": 300
     },
-    "NOP": {
+    "nop": {
       "module": "gym_novel_gridworlds2.contrib.polycraft.actions.NOP"
     },
     "characterize": {
@@ -98,7 +98,7 @@
       "select_item",
       "place",
       "craft",
-      "NOP",
+      "nop",
       "sense_recipes",
       "sense_all",
       "TP_TO",
@@ -134,7 +134,7 @@
       "trade_block_of_titanium_1",
       "trade_diamond_1",
       "trade_block_of_titanium_2",
-      "NOP",
+      "nop",
       "sense_recipes",
       "sense_all",
       "TP_TO_103",
@@ -149,7 +149,7 @@
       "trade"
     ],
     "trader": [
-      "NOP"
+      "nop"
     ]
   },
   "object_types": {
