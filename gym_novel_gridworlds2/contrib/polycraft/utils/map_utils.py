@@ -17,7 +17,10 @@ def getBlockInFront(agent_entity, state: PolycraftState, nameConversion=None):
     objs = state.get_objects_at(locInFront)
     if len(objs[0]) > 0:
         obj: Object = objs[0][0]
-        name, properties = nameConversion(obj.type, obj=obj)
+        if nameConversion is not None:
+            name, properties = nameConversion(obj.type, obj=obj)
+        else:
+            name, properties = obj.type, {}
         blockInFront = {
             "name": name,
             # TODO generalize; also see polycraft_state

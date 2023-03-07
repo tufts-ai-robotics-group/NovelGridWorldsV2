@@ -1,3 +1,4 @@
+from gym_novel_gridworlds2.contrib.polycraft.utils.inventory_utils import collect_item
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.actions import Action, PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity, Object
@@ -103,11 +104,7 @@ class SmoothMove(Action):
                         getattr(obj, "canWalkOver", False)
                         and obj.state == "block"
                     ):
-                        if obj.type != "diamond_ore":
-                            agent_entity.add_to_inventory(obj.type, 1)
-                        else:
-                            agent_entity.add_to_inventory("diamond", 9)
-                        self.state.remove_object(obj.type, new_loc)
+                        collect_item(self.state, agent_entity, obj)
                     else:
                         # not removing the current block, increment current index
                         i += 1

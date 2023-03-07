@@ -279,6 +279,9 @@ class ConfigParser:
                         )
                 else:
                     self.create_random_obj(self.state, obj_name, info["quantity"])
+        
+        # entities that automatically floating collect items around them
+        self.state.auto_pickup_agents = json_content.get("auto_pickup_agents") or []
         return (self.state, self.dynamics, self.agent_manager)
 
 

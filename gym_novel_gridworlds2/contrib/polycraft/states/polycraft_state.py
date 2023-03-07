@@ -1,5 +1,7 @@
 from copy import deepcopy
 from gym_novel_gridworlds2.contrib.polycraft.objects import UnbreakablePolycraftObject
+from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_entity import PolycraftEntity
+from gym_novel_gridworlds2.contrib.polycraft.utils.inventory_utils import collect_item
 from gym_novel_gridworlds2.object.object import Object
 from ....utils.room_coord import RoomCoord
 from ..objects.polycraft_obj import PolycraftObject
@@ -32,6 +34,7 @@ class PolycraftState(State):
         item_list: Mapping[str, int] = {"air": 0},
         rng: np.random.Generator = default_rng(),
         rendering=True,
+        auto_collect_agents: list = [],
         **kwargs,
     ):
         # TODO remove hard code, make more general
@@ -51,6 +54,8 @@ class PolycraftState(State):
             pygame.init()
             self.CLOCK = pygame.time.Clock()
             self.SCREEN.fill((171, 164, 164))
+
+        self.auto_pickup_agents = auto_collect_agents
 
     def get_map_rep_in_range(self, map_ranges: Iterable[Iterable[tuple]], conversion_func=None):
         """
@@ -482,6 +487,24 @@ class PolycraftState(State):
         self.time_needed.append(random.randint(4, 7))
         self.sapling_locs.append(loc)
 
+    def collect_items_around(self, agent_id):
+        """
+        Collects all items around the agent
+        """
+        entity: PolycraftEntity = self.get_entity_by_id(agent_id)
+        if entity is None:
+            return
+        
+        loc = entity.loc
+        
+        for offset in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+            new_coord = (loc[0] + offset[0], loc[1] + offset[1])
+            items: List[PolycraftObject] = [obj for obj in self.get_objects_at(new_coord)]
+            for item in items[0]:
+                if item.state == "floating":
+                    collect_item(self, entity, item, new_coord)
+
+
     def time_updates(self):
         """
         Called after every step, updates things in the environment that elapse
@@ -490,6 +513,11 @@ class PolycraftState(State):
         In polycraft, used to keep track of placing sapling logic after the
         elapsed timesteps
         """
+        # collect all items around the user
+        for agent_id in self.auto_pickup_agents:
+            self.collect_items_around(agent_id)
+
+        # if the time is up, place a sapling
         for index, time in enumerate(self.time_needed):
             if time == -1:
                 continue
