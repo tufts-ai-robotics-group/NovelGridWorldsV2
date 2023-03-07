@@ -529,9 +529,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
             win_rect = win_text.get_rect()
             win_rect.center = (LEFT_MARGIN, 530)
             self.internal_state.SCREEN.blit(win_text, win_rect)
-            for i in range(timer * 2):
-                pygame.display.update()
-                time.sleep(0.5)
+            # for i in range(timer * 2):
+            #     pygame.display.update()
+            #     time.sleep(0.5)
 
         pygame.display.update()
 
