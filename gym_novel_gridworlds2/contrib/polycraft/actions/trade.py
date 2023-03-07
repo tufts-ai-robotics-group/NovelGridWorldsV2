@@ -32,7 +32,14 @@ class Trade(Craft):
         # make a 3x3 radius around the agent, determine if the wanted entity is there
         near_trader = False
         entity_id = int(kwargs["_all_params"][0]) if "_all_params" in kwargs else None
-        if check_target(agent_entity, self.state, entity_id)[0] and entity_id in recipe.entities:
+
+        near_trader, entity = check_target(agent_entity, self.state, entity_id)
+        if entity_id is not None and entity.id != entity_id:
+            # if we specified the trader, but it's not the one we're facing
+            near_trader = False
+        elif near_trader and entity.id in recipe.entities:
+            # if we are facing the trader, and either we did not specify the 
+            # trader or it's the one we want
             near_trader = True
             
         return near_trader and \

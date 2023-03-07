@@ -53,7 +53,7 @@ class Craft(Action):
                 if count > agent_entity.inventory[item]:
                     return False  # not enough of the item
             else:
-                raise PreconditionNotMetError("Not sufficient materials")  # one of the inputs isnt in the agents inventory
+                raise PreconditionNotMetError(f"Not sufficient {item} in the inventory.")  # one of the inputs isnt in the agents inventory
         if self.is_trade:
             # not craft, skip crafting table check
             return True
