@@ -104,7 +104,7 @@ class SmoothMove(Action):
                         getattr(obj, "canWalkOver", False)
                         and obj.state == "block"
                     ):
-                        collect_item(self.state, agent_entity, obj)
+                        collect_item(self.state, agent_entity, obj, new_loc)
                     else:
                         # not removing the current block, increment current index
                         i += 1

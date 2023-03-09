@@ -260,6 +260,7 @@
         25,
         25
       ],
+      "id": 0,
       "max_step_cost": 100000
     },
     "trader_joe": {

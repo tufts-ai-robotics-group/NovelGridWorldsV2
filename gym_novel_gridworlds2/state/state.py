@@ -212,7 +212,7 @@ class State:
         else:
             return []
 
-    def get_entity_by_id(self, entity_id: int):
+    def get_entity_by_id(self, entity_id: int) -> Optional[Entity]:
         """
         Gets an entity by id
         """
