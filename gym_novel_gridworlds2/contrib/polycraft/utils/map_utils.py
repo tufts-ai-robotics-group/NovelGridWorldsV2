@@ -28,6 +28,4 @@ def getBlockInFront(agent_entity, state: PolycraftState, nameConversion=None):
         }
     else:
         blockInFront = {"name": "air"}
-    if nameConversion is not None:
-        blockInFront["name"] = nameConversion(blockInFront["name"])
     return blockInFront
