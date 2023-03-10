@@ -293,7 +293,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         if self.num_moves >= self.MAX_ITER:
             self.set_game_over(
                 goal_achieved=False, 
-                delayed_by_one_step=False, notes="Max number of steps exceeded"
+                delayed_by_one_step=True, notes="Max number of steps exceeded"
             )
 
 

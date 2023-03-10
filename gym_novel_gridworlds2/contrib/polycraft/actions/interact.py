@@ -100,8 +100,8 @@ class Interact(Action):
         entity_id = int(entity_id)
 
         can_interact, target_entity = check_target(agent_entity, self.state, entity_id)
-        if target_entity.id == entity_id:
-            return can_interact
+        if can_interact and target_entity.id == entity_id:
+            return True
         else:
             return False
 
