@@ -9,7 +9,7 @@ from ..actions.action_set import ActionSet
 class Agent:
     def __init__(
         self,
-        id: str,
+        id: int,
         action_set: ActionSet,
         state,
         entity_data,
