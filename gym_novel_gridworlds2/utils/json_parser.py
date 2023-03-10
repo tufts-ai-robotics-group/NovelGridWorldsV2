@@ -42,14 +42,17 @@ def import_module(module_path: str, config_path=None):
         raise ParseError(f"Module {module_path} not found.")
 
 
-def load_json(config_file_path):
+def load_json(config_file_path="", config_json=None):
     """
     Loading a file. When the json file includes the "extends" field,
     load another file and extend the current json.
     """
-    with open(config_file_path, "r") as f:
-        print("Loading file", str(config_file_path))
-        config = json.load(f)
+    if config_json is None:
+        with open(config_file_path, "r") as f:
+            print("Loading file", str(config_file_path))
+            config = json.load(f)
+    else:
+        config = config_json
 
     seen_file = [str(config_file_path)]
 
@@ -66,7 +69,7 @@ def load_json(config_file_path):
                 str(pathlib.Path(config_file_path).parent.resolve() /
                 file)
         else:
-            config_file_path = config["extends"]
+            config_file_path = file
 
         print("Loading extended file", config_file_path)
         if config_file_path in seen_file:
