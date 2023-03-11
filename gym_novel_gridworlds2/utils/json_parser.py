@@ -3,6 +3,7 @@ import json
 import importlib
 import pathlib
 from typing import List, Mapping, Tuple, Type
+import queue
 
 import fnmatch # for wildcard matching
 
@@ -42,6 +43,15 @@ def import_module(module_path: str, config_path=None):
         raise ParseError(f"Module {module_path} not found.")
 
 
+def add_to_extended_files(extended_files: queue.Queue, config_file_path, ext_file):
+    if ext_file[0] != "/":
+        config_file_path = \
+            str(pathlib.Path(config_file_path).parent.resolve() /
+            ext_file)
+    else:
+        config_file_path = ext_file
+    extended_files.put(config_file_path)
+
 def load_json(config_file_path="", config_json=None):
     """
     Loading a file. When the json file includes the "extends" field,
@@ -57,19 +67,15 @@ def load_json(config_file_path="", config_json=None):
     seen_file = [str(config_file_path)]
 
     # loading extended config
-    extended_files = config.get('extends') or []
-    if not isinstance(extended_files, list):
-        extended_files = [extended_files]
+    extended_files = queue.Queue()
+    ext_tmp = config.get('extends') or []
+    if not isinstance(ext_tmp, list):
+        ext_tmp = [ext_tmp]
+    for file in ext_tmp:
+        add_to_extended_files(extended_files, config_file_path, file)
 
-    while len(extended_files) > 0:
-        file = extended_files.pop()
-        # relative / absolute file path
-        if file[0] != "/":
-            config_file_path = \
-                str(pathlib.Path(config_file_path).parent.resolve() /
-                file)
-        else:
-            config_file_path = file
+    while not extended_files.empty():
+        config_file_path = extended_files.get()
 
         print("Loading extended file", config_file_path)
         if config_file_path in seen_file:
@@ -96,7 +102,7 @@ def load_json(config_file_path="", config_json=None):
                 config['extends'] = [config['extends']]
 
             for nested_extend in config['extends']:
-                extended_files.append(nested_extend)
+                add_to_extended_files(extended_files, config_file_path, nested_extend)
     return config
 
 
@@ -295,13 +301,13 @@ class ConfigParser:
 
         for recipe_name in self.recipe_set.get_recipe_names():
             craftStr = "craft_" + recipe_name
-            self.actions[craftStr] = Craft(
+            self.actions[craftStr] = CraftModule(
                 state=self.state, recipe_set=self.recipe_set,
                 recipe_name=recipe_name
             )
 
         # generic craft
-        self.actions["craft"] = Craft(
+        self.actions["craft"] = CraftModule(
             state=self.state, recipe_set=self.recipe_set,
         )
         return self.actions
@@ -314,7 +320,7 @@ class ConfigParser:
         items = list(trades_dict.keys())
         for i in range(len(items)):
             tradeStr = "trade_" + items[i]
-            self.actions[tradeStr] = Trade(
+            self.actions[tradeStr] = TradeModule(
                 state=self.state,
                 recipe_set=self.trade_recipe_set,
                 recipe_name=items[i]
