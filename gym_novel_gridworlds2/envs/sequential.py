@@ -20,7 +20,7 @@ from ..utils.terminal_colors import bcolors
 class NovelGridWorldSequentialEnv(AECEnv):
     metadata = {"render_modes": ["human", "rgb_array", None], "render_fps": 4}
 
-    def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True):
+    def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True, logged_agents=[]):
         """
         Init
         TODO more docs
@@ -74,6 +74,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # initialize the game result file
         create_empty_game_result_file(self.run_name)
+
+        # initialize the logged agents set
+        self.logged_agents = {*logged_agents}
 
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation(
@@ -129,7 +132,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         - agent_selection (to the next agent)
         And any internal state used by observe() or render()
         """
-        if self.agent_selection == self.agents[0] and self.inited_step < self.num_moves:
+        if len(self.logged_agents) > 0 and\
+                self.agent_selection == self.agents[0] and self.inited_step < self.num_moves:
+            # if we log agent behavior and it's the first agent, print the timestep
             print(f"--------------------- step {self.num_moves} ---------------------")
             self.inited_step = self.num_moves
 
@@ -208,24 +213,25 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.agent_manager.agents[agent].agent.update_metadata(metadata)
 
         # TODO only print when verbose
-        if metadata["command_result"]["result"] == "SUCCESS":
-            colorized_result = bcolors.OKGREEN + metadata["command_result"]["result"] + bcolors.ENDC
-        else:
-            colorized_result = " " + bcolors.FAIL + metadata["command_result"]["result"] + bcolors.ENDC
-        print(
-            " [{}] | {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
-                colorized_result,
-                agent,
-                agent_entity.nickname,
-                action_set.actions[action][0],
-                extra_params,
+        if agent_entity.nickname in self.logged_agents:
+            if metadata["command_result"]["result"] == "SUCCESS":
+                colorized_result = bcolors.OKGREEN + metadata["command_result"]["result"] + bcolors.ENDC
+            else:
+                colorized_result = " " + bcolors.FAIL + metadata["command_result"]["result"] + bcolors.ENDC
+            print(
+                " [{}] | {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
+                    colorized_result,
+                    agent,
+                    agent_entity.nickname,
+                    action_set.actions[action][0],
+                    extra_params,
+                )
             )
-        )
 
-        # print inventory info
-        print("             inventory:", agent_entity.inventory)
-        if metadata["command_result"]["result"] != "SUCCESS":
-            print("Failure Reason:", metadata["command_result"]["message"])
+            # print inventory info
+            print("             inventory:", agent_entity.inventory)
+            if metadata["command_result"]["result"] != "SUCCESS":
+                print("Failure Reason:", metadata["command_result"]["message"])
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this
@@ -484,7 +490,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
             True,
             black_color,
         )
-        print(self._cumulative_rewards)
         cost_rect = cost_text.get_rect()
         cost_rect.center = (LEFT_MARGIN, curr_line_pixel)
         curr_line_pixel += PAR_SKIP
