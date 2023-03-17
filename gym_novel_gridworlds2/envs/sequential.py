@@ -290,14 +290,14 @@ class NovelGridWorldSequentialEnv(AECEnv):
             return
         # update of done, by setting game_over
         # to test: stepCost and max_step_cost
-        if time.time() - self.initial_time > self.time_limit:
+        if self.time_limit is not None and time.time() - self.initial_time > self.time_limit:
             print("Time limit exceeded")
             self.set_game_over(False, notes="Time limit exceeded")
         elif self.num_active_non_env_agents <= 0:
             self.set_game_over(False, notes="All agents are dead")
 
         # Updated done if number of moves exceeds limit
-        if self.num_moves >= self.MAX_ITER:
+        if self.MAX_ITER is not None and self.num_moves >= self.MAX_ITER:
             self.set_game_over(
                 goal_achieved=False, 
                 delayed_by_one_step=True, notes="Max number of steps exceeded"
@@ -322,7 +322,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             # if the total step cost exceeds the max step cost, return True
             self.num_active_non_env_agents -= 1
             return True
-        elif self.num_moves > self.MAX_ITER:
+        elif self.MAX_ITER is not None and self.num_moves > self.MAX_ITER:
             return True
         elif self.internal_state._given_up or self.internal_state._goal_achieved:
             return True
