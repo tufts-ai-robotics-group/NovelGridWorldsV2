@@ -78,6 +78,17 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # initialize the logged agents set
         self.logged_agents = {*logged_agents}
 
+        # Agent
+        self.agents = self.possible_agents[:]
+        self.rewards = {agent: 0 for agent in self.agents}
+        self._cumulative_rewards = {agent: 0 for agent in self.agents}
+        self.dones = {agent: False for agent in self.agents}
+        self.infos = {agent: {} for agent in self.agents}
+        self.num_active_non_env_agents = self.agent_manager.get_non_env_agent_count()
+        self.num_moves = 0
+        self._agent_selector = agent_selector(self.agents)
+        self.agent_selection = self._agent_selector.next()
+
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation(
             self.internal_state, self.dynamic
