@@ -26,7 +26,6 @@ def report_game_result(
 ):
     if output_log_path is None:
         output_log_path = get_output_log_path(output_prefix)
-    print(output_log_path)
     with open(output_log_path, "a") as output_log:
         output_log.write(
             f"{episode},{total_steps},{total_time},{total_cost},{success},\"{notes}\"\n")

@@ -62,6 +62,16 @@ class ActionSet:
             "_raw_args": " ".join(command.split(" ")[1:])
         }
         return action_id, info
+    
+    def create_sub_actionset(self, excluded_actions: List[str]) -> "ActionSet":
+        """
+        Creates a new action set with the specified actions excluded
+        """
+        new_actions = []
+        for name, action in self.actions:
+            if name not in excluded_actions:
+                new_actions.append((name, action))
+        return ActionSet(new_actions)
 
 
     def remove_action(self, index):
