@@ -114,7 +114,7 @@ class ConfigParser:
         self.json_file_name = ""
 
     def parse_json(
-        self, json_file_name="", json_content=None, episode=0
+        self, json_file_name="", json_content=None, episode=0, seed=None
     ) -> Tuple[State, Dynamic, AgentManager]:
         """
         Parses the json, given a json content.
@@ -129,12 +129,12 @@ class ConfigParser:
         json_content = deepcopy(json_content)
 
         # seed
-        if self.global_rng is None:
-            if "seed" not in json_content:
-                json_content["seed"] = None
-
-            self.rng_seed = json_content["seed"]
-            if self.rng_seed == "random":
+        if seed is not None:
+            print("Using seed", seed)
+            self.global_rng = np.random.default_rng(seed=self.rng_seed)
+        elif self.global_rng is None:
+            self.rng_seed = json_content.get("seed") or None
+            if self.rng_seed is None or self.rng_seed == "random":
                 self.rng_seed = np.random.randint(0, 2 ** 32 - 1)
             self.global_rng = np.random.default_rng(seed=self.rng_seed)
 

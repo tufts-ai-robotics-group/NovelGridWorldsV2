@@ -360,7 +360,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.internal_state,
             self.dynamic,
             self.agent_manager,
-        ) = self.json_parser.parse_json(json_content=self.config_dict, episode=episode)
+        ) = self.json_parser.parse_json(
+            json_content=self.config_dict, 
+            episode=episode,
+            seed=seed
+        )
         self.internal_state.env_set_game_over = self.set_game_over
 
         #### agent novelties
