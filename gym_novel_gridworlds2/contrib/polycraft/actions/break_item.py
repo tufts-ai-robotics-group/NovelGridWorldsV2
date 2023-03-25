@@ -51,7 +51,6 @@ class Break(Action):
             is_breakable_if_holding = getattr(obj, "breakable_holding", [])
             if not is_breakable and is_breakable_if_holding != "all" and \
                         agent_entity.selectedItem not in is_breakable_if_holding:
-                print("unbreakable")
                 return False
             has_block_obj = True
 
