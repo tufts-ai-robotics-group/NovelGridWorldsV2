@@ -30,5 +30,8 @@ setuptools.setup(
         include=['gym_novel_gridworlds2*'],  # ["*"] by default
     ),
     python_requires=">=3.6",
-    install_requires=install_requires
+    install_requires=install_requires,
+    package_data={
+        "gym_novel_gridworlds2.contrib.polycraft": ["img/*.png"],
+    }
 )
