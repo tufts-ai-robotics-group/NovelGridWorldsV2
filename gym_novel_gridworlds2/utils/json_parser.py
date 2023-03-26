@@ -52,14 +52,15 @@ def add_to_extended_files(extended_files: queue.Queue, config_file_path, ext_fil
         config_file_path = ext_file
     extended_files.put(config_file_path)
 
-def load_json(config_file_path="", config_json=None):
+def load_json(config_file_path="", config_json=None, verbose=True):
     """
     Loading a file. When the json file includes the "extends" field,
     load another file and extend the current json.
     """
     if config_json is None:
         with open(config_file_path, "r") as f:
-            print("Loading file", str(config_file_path))
+            if verbose:
+                print("Loading file", str(config_file_path))
             config = json.load(f)
     else:
         config = config_json
@@ -76,8 +77,8 @@ def load_json(config_file_path="", config_json=None):
 
     while not extended_files.empty():
         config_file_path = extended_files.get()
-
-        print("Loading extended file", config_file_path)
+        if verbose:
+            print("Loading extended file", config_file_path)
         if config_file_path in seen_file:
             raise RecursionError("import loop detected in extended config file")
 
