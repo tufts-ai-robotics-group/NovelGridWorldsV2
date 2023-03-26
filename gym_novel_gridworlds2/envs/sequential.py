@@ -36,7 +36,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self.internal_state,
             self.dynamic,
             self.agent_manager,
-        ) = self.json_parser.parse_json(json_content=config_dict)
+        ) = self.json_parser.parse_json(json_content=config_dict, rendering=enable_render)
+        self.enable_render = enable_render
         self.internal_state.env_set_game_over = self.set_game_over
 
         self.goal_item_to_craft = ""  # TODO add to config
@@ -363,7 +364,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ) = self.json_parser.parse_json(
             json_content=self.config_dict, 
             episode=episode,
-            seed=seed
+            seed=seed,
+            rendering=self.enable_render,
         )
         self.internal_state.env_set_game_over = self.set_game_over
 
@@ -429,132 +431,149 @@ class NovelGridWorldSequentialEnv(AECEnv):
     def render(self, mode="human"):
         if mode != "human":
             return
-        PAR_SKIP = 30
-        LINE_HEIGHT = 20
-        curr_line_pixel = 30
-        black_color = (0, 0, 0)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-        self.internal_state.SCREEN.fill((171, 164, 164))
-        self.internal_state.drawMap()
-
-        LEFT_MARGIN = 1120
-
-        font = pygame.font.Font("freesansbold.ttf", 18)
-
-        # north
-        facing_text = font.render("North: ^ ^ ^", True, (0, 0, 0))
-        facing_rect = facing_text.get_rect()
-        facing_rect.center = (LEFT_MARGIN, curr_line_pixel)
-        curr_line_pixel += LINE_HEIGHT
-        self.internal_state.SCREEN.blit(facing_text, facing_rect)
-
-        # episode
-        episode_text = font.render(
-            "Episode:" + str(self.internal_state.episode), True, (0, 0, 0)
-        )
-        episode_rect = episode_text.get_rect()
-        episode_rect.center = (LEFT_MARGIN, curr_line_pixel)
-        curr_line_pixel += LINE_HEIGHT
-        self.internal_state.SCREEN.blit(episode_text, episode_rect)
-
-        # step
-        step_text = font.render(
-            "Step:" + str(self.internal_state._step_count), True, (0, 0, 0)
-        )
-        step_rect = step_text.get_rect()
-        step_rect.center = (LEFT_MARGIN, curr_line_pixel)
-        curr_line_pixel += PAR_SKIP
-        self.internal_state.SCREEN.blit(step_text, step_rect)
-
+        
         agent = self.internal_state.get_objects_of_type("agent")[0]
-
-        # facing
-        facing_text = font.render("Agent Facing:" + str(agent.facing), True, (0, 0, 0))
-        facing_rect = facing_text.get_rect()
-        facing_rect.center = (LEFT_MARGIN, curr_line_pixel)
-        curr_line_pixel += LINE_HEIGHT
-        self.internal_state.SCREEN.blit(facing_text, facing_rect)
-
-        # selected action
-        action_text = font.render(
-            "Selected Action:" + str(self.internal_state.selected_action),
-            True,
-            black_color,
-        )
-        action_rect = action_text.get_rect()
-        action_rect.center = (LEFT_MARGIN, curr_line_pixel)
-        curr_line_pixel += LINE_HEIGHT
-        self.internal_state.SCREEN.blit(action_text, action_rect)
-
-        # currently facing
-        cost_text = font.render(
-            "Selected Item: " + str(self.agent_manager.get_agent(f"agent_{agent.id}").entity.selectedItem),
-            True,
-            black_color,
-        )
-        cost_rect = cost_text.get_rect()
-        cost_rect.center = (1120, curr_line_pixel)
-        curr_line_pixel += PAR_SKIP
-        self.internal_state.SCREEN.blit(cost_text, cost_rect)
-
-        # step cost
-        cost_text = font.render(
-            "total cost:" + str(self._cumulative_rewards["agent_" + str(agent.id)]),
-            True,
-            black_color,
-        )
-        cost_rect = cost_text.get_rect()
-        cost_rect.center = (LEFT_MARGIN, curr_line_pixel)
-        curr_line_pixel += PAR_SKIP
-        self.internal_state.SCREEN.blit(cost_text, cost_rect)
-
-        #### inventory
-        self.internal_state.renderTextCenteredAt(
-            "Agent Inventory:",
-            font,
-            black_color,
-            1130,
-            curr_line_pixel,
-            self.internal_state.SCREEN,
-            200,
-        )
-        curr_line_pixel += LINE_HEIGHT
-        inv_text = "\n".join(
-            [
-                "{}: {:>4}".format(item, quantity)
-                for item, quantity in agent.inventory.items()
-            ]
-        )
-        self.internal_state.renderMultiLineTextRightJustifiedAt(
-            inv_text,
-            font,
-            black_color,
-            LEFT_MARGIN + 80,
-            curr_line_pixel,
-            self.internal_state.SCREEN,
-            200,
+        # agent_obj = self.agent_manager.get_agent(f"agent_{agent.id}")
+        self.internal_state.renderer.clear_map()
+        self.internal_state.drawMap()
+        self.internal_state.renderer.draw_info(
+            episode=self.internal_state.episode,
+            step_count=self.internal_state._step_count,
+            agent_facing=agent.facing,
+            selected_action=self.internal_state.selected_action,
+            agent_selected_item=agent.selectedItem,
+            total_cost=self._cumulative_rewards["agent_" + str(agent.id)],
+            agent_inventory=agent.inventory,
+            goal_achieved=self.internal_state._goal_achieved,
+            given_up=self.internal_state._given_up
         )
 
+        # PAR_SKIP = 30
+        # LINE_HEIGHT = 20
+        # curr_line_pixel = 30
+        # black_color = (0, 0, 0)
 
-        #### goal reached statement
-        if self.internal_state._goal_achieved or self.internal_state._given_up:
-            timer = 4
-            if self.internal_state._given_up:
-                game_over_str = f"Given Up. Restarting soon..."
-            else:
-                game_over_str = f"You Won. Restarting soon..."
-            win_text = font.render(game_over_str, True, (255, 0, 0))
-            win_rect = win_text.get_rect()
-            win_rect.center = (LEFT_MARGIN, 530)
-            self.internal_state.SCREEN.blit(win_text, win_rect)
-            # for i in range(timer * 2):
-            #     pygame.display.update()
-            #     time.sleep(0.5)
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         pygame.quit()
+        # self.internal_state.renderer.SCREEN.fill((171, 164, 164))
+        # self.internal_state.renderer.draw_map()
 
-        pygame.display.update()
+        # LEFT_MARGIN = 1120
+
+        # font = pygame.font.Font("freesansbold.ttf", 18)
+
+        # # north
+        # facing_text = font.render("North: ^ ^ ^", True, (0, 0, 0))
+        # facing_rect = facing_text.get_rect()
+        # facing_rect.center = (LEFT_MARGIN, curr_line_pixel)
+        # curr_line_pixel += LINE_HEIGHT
+        # self.internal_state.SCREEN.blit(facing_text, facing_rect)
+
+        # # episode
+        # episode_text = font.render(
+        #     "Episode:" + str(self.internal_state.episode), True, (0, 0, 0)
+        # )
+        # episode_rect = episode_text.get_rect()
+        # episode_rect.center = (LEFT_MARGIN, curr_line_pixel)
+        # curr_line_pixel += LINE_HEIGHT
+        # self.internal_state.SCREEN.blit(episode_text, episode_rect)
+
+        # # step
+        # step_text = font.render(
+        #     "Step:" + str(self.internal_state._step_count), True, (0, 0, 0)
+        # )
+        # step_rect = step_text.get_rect()
+        # step_rect.center = (LEFT_MARGIN, curr_line_pixel)
+        # curr_line_pixel += PAR_SKIP
+        # self.internal_state.SCREEN.blit(step_text, step_rect)
+
+        # agent = self.internal_state.get_objects_of_type("agent")[0]
+
+        # # facing
+        # facing_text = font.render("Agent Facing:" + str(agent.facing), True, (0, 0, 0))
+        # facing_rect = facing_text.get_rect()
+        # facing_rect.center = (LEFT_MARGIN, curr_line_pixel)
+        # curr_line_pixel += LINE_HEIGHT
+        # self.internal_state.SCREEN.blit(facing_text, facing_rect)
+
+        # # selected action
+        # action_text = font.render(
+        #     "Selected Action:" + str(self.internal_state.selected_action),
+        #     True,
+        #     black_color,
+        # )
+        # action_rect = action_text.get_rect()
+        # action_rect.center = (LEFT_MARGIN, curr_line_pixel)
+        # curr_line_pixel += LINE_HEIGHT
+        # self.internal_state.SCREEN.blit(action_text, action_rect)
+
+        # # currently facing
+        # cost_text = font.render(
+        #     "Selected Item: " + str(self.agent_manager.get_agent(f"agent_{agent.id}").entity.selectedItem),
+        #     True,
+        #     black_color,
+        # )
+        # cost_rect = cost_text.get_rect()
+        # cost_rect.center = (1120, curr_line_pixel)
+        # curr_line_pixel += PAR_SKIP
+        # self.internal_state.SCREEN.blit(cost_text, cost_rect)
+
+        # # step cost
+        # cost_text = font.render(
+        #     "total cost:" + str(self._cumulative_rewards["agent_" + str(agent.id)]),
+        #     True,
+        #     black_color,
+        # )
+        # cost_rect = cost_text.get_rect()
+        # cost_rect.center = (LEFT_MARGIN, curr_line_pixel)
+        # curr_line_pixel += PAR_SKIP
+        # self.internal_state.SCREEN.blit(cost_text, cost_rect)
+
+        # #### inventory
+        # self.internal_state.renderTextCenteredAt(
+        #     "Agent Inventory:",
+        #     font,
+        #     black_color,
+        #     1130,
+        #     curr_line_pixel,
+        #     self.internal_state.SCREEN,
+        #     200,
+        # )
+        # curr_line_pixel += LINE_HEIGHT
+        # inv_text = "\n".join(
+        #     [
+        #         "{}: {:>4}".format(item, quantity)
+        #         for item, quantity in agent.inventory.items()
+        #     ]
+        # )
+        # self.internal_state.renderMultiLineTextRightJustifiedAt(
+        #     inv_text,
+        #     font,
+        #     black_color,
+        #     LEFT_MARGIN + 80,
+        #     curr_line_pixel,
+        #     self.internal_state.SCREEN,
+        #     200,
+        # )
+
+
+        # #### goal reached statement
+        # if self.internal_state._goal_achieved or self.internal_state._given_up:
+        #     timer = 4
+        #     if self.internal_state._given_up:
+        #         game_over_str = f"Given Up. Restarting soon..."
+        #     else:
+        #         game_over_str = f"You Won. Restarting soon..."
+        #     win_text = font.render(game_over_str, True, (255, 0, 0))
+        #     win_rect = win_text.get_rect()
+        #     win_rect.center = (LEFT_MARGIN, 530)
+        #     self.internal_state.SCREEN.blit(win_text, win_rect)
+        #     # for i in range(timer * 2):
+        #     #     pygame.display.update()
+        #     #     time.sleep(0.5)
+
+        # pygame.display.update()
 
     def close(self):
         if hasattr(self, "window") and self.window is not None:

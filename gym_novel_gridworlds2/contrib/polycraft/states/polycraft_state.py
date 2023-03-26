@@ -1,11 +1,11 @@
 from copy import deepcopy
 from gym_novel_gridworlds2.contrib.polycraft.objects import UnbreakablePolycraftObject
 from gym_novel_gridworlds2.contrib.polycraft.objects.polycraft_entity import PolycraftEntity
+from gym_novel_gridworlds2.contrib.polycraft.utils.draw_item_map import DummyRenderer, PygameRenderer
 from gym_novel_gridworlds2.contrib.polycraft.utils.inventory_utils import collect_item
 from gym_novel_gridworlds2.object.object import Object
 from ....utils.room_coord import RoomCoord
 from ..objects.polycraft_obj import PolycraftObject
-from ..utils.draw_item_map import ICON, draw_map
 from gym_novel_gridworlds2.state import State
 from gym_novel_gridworlds2.contrib.polycraft.objects.door import Door
 from gym_novel_gridworlds2.state.cell import Cell
@@ -49,11 +49,9 @@ class PolycraftState(State):
         self.walls_list = []  # used to store walls where bedrock overlaps on the map
 
         if rendering:
-            self.SCREEN = pygame.display.set_mode((1300, 750))
-            pygame.display.set_icon(ICON)
-            pygame.init()
-            self.CLOCK = pygame.time.Clock()
-            self.SCREEN.fill((171, 164, 164))
+            self.renderer = PygameRenderer()
+        else:
+            self.renderer = DummyRenderer()
 
         self.auto_pickup_agents = auto_collect_agents
 
@@ -103,7 +101,7 @@ class PolycraftState(State):
         for i in range(self.initial_info["map_size"][0]):
             for j in range(self.initial_info["map_size"][1]):
                 obj = self.get_objects_at((i, j))
-                draw_map(obj, self.SCREEN, i, j)
+                self.renderer.draw_map(obj, i, j)
                     
     def getSymbol(self, obj, state, canWalkOver=False, facing="NORTH"):
         """
@@ -332,64 +330,6 @@ class PolycraftState(State):
             properties_curr["loc"] = tuple(loc)
             self.place_object(object_str, ObjectClass, properties=properties_curr)
 
-    def renderMultiLineTextRightJustifiedAt(self, text, font, colour, x, y, screen, allowed_width):
-        """
-        Resource: https://stackoverflow.com/questions/49432109/how-to-wrap-text-in-pygame-using-pygame-font-font
-        """
-        lines = text.split('\n')
-
-        y_offset = 0
-        for line in lines:
-            fw, fh = font.size(line)
-
-            # (tx, ty) is the top-left of the font surface
-            tx = x - fw
-            ty = y + y_offset
-
-            font_surface = font.render(line, True, colour)
-            screen.blit(font_surface, (tx, ty))
-
-            y_offset += fh
-
-    def renderTextCenteredAt(self, text, font, colour, x, y, screen, allowed_width):
-        """
-        Resource: https://stackoverflow.com/questions/49432109/how-to-wrap-text-in-pygame-using-pygame-font-font
-        """
-        # first, split the text into words
-        words = text.split()
-
-        # now, construct lines out of these words
-        lines = []
-        while len(words) > 0:
-            # get as many words as will fit within allowed_width
-            line_words = []
-            while len(words) > 0:
-                line_words.append(words.pop(0))
-                fw, fh = font.size(" ".join(line_words + words[:1]))
-                if fw > allowed_width:
-                    break
-
-            # add a line consisting of those words
-            line = " ".join(line_words)
-            lines.append(line)
-
-        # now we've split our text into lines that fit into the width, actually
-        # render them
-
-        # we'll render each line below the last, so we need to keep track of
-        # the culmative height of the lines we've rendered so far
-        y_offset = 0
-        for line in lines:
-            fw, fh = font.size(line)
-
-            # (tx, ty) is the top-left of the font surface
-            tx = x - fw / 2
-            ty = y + y_offset
-
-            font_surface = font.render(line, True, colour)
-            screen.blit(font_surface, (tx, ty))
-
-            y_offset += fh
 
     def determine_smaller_room(self, c1, c2):
         """

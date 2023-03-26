@@ -114,7 +114,7 @@ class ConfigParser:
         self.json_file_name = ""
 
     def parse_json(
-        self, json_file_name="", json_content=None, episode=0, seed=None
+        self, json_file_name="", json_content=None, episode=0, seed=None, rendering=True
     ) -> Tuple[State, Dynamic, AgentManager]:
         """
         Parses the json, given a json content.
@@ -143,6 +143,7 @@ class ConfigParser:
             rng=self.global_rng,
             map_size=tuple(json_content["map_size"]),
             episode=episode,
+            rendering=rendering
         )
 
         # object types
