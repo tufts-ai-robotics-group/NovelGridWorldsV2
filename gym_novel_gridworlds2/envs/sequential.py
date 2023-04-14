@@ -20,7 +20,7 @@ from ..utils.terminal_colors import bcolors
 class NovelGridWorldSequentialEnv(AECEnv):
     metadata = {"render_modes": ["human", "rgb_array", None], "render_fps": 4}
 
-    def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True, logged_agents=[]):
+    def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True, logged_agents=[], generate_csv=False):
         """
         Init
         TODO more docs
@@ -74,7 +74,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.inited_step = -1
 
         # initialize the game result file
-        create_empty_game_result_file(self.run_name)
+        self.generate_csv = generate_csv
+        if self.generate_csv:
+            create_empty_game_result_file(self.run_name)
 
         # initialize the logged agents set
         self.logged_agents = {*logged_agents}
@@ -284,14 +286,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
         else:
             self.dones = {agent: True for agent in self.possible_agents}
 
-        report_game_result(
-            output_prefix=self.run_name,
-            episode=self.internal_state.episode, 
-            total_steps=self.num_moves,
-            total_time=time.time() - self.initial_time,
-            total_cost=self.rewards['agent_0'],
-            success=self.internal_state._goal_achieved,
-            notes=notes)
+        if self.generate_csv:
+            report_game_result(
+                output_prefix=self.run_name,
+                episode=self.internal_state.episode, 
+                total_steps=self.num_moves,
+                total_time=time.time() - self.initial_time,
+                total_cost=self.rewards['agent_0'],
+                success=self.internal_state._goal_achieved,
+                notes=notes)
 
 
     def game_over_agent_update(self):

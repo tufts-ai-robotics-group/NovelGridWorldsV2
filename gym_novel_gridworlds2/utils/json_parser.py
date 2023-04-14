@@ -52,7 +52,7 @@ def add_to_extended_files(extended_files: queue.Queue, config_file_path, ext_fil
         config_file_path = ext_file
     extended_files.put(config_file_path)
 
-def load_json(config_file_path="", config_json=None, verbose=True):
+def load_json(config_file_path="", config_json=None, verbose=False):
     """
     Loading a file. When the json file includes the "extends" field,
     load another file and extend the current json.
