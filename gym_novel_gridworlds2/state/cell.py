@@ -20,7 +20,12 @@ class Cell:
         self._item_encoder = item_encoder
     
     def get_map_rep(self,  conversion_func=None):
-        if len(self._objects) >= 1:
+        if len(self._entities) >= 1:
+            if conversion_func is None:
+                return "entity_" + self._entities[0].id, {}
+            else:
+                return conversion_func(self._entities[0].type, self._entities[0])
+        elif len(self._objects) >= 1:
             if conversion_func is None:
                 return self._objects[0].type, {}
             else:
