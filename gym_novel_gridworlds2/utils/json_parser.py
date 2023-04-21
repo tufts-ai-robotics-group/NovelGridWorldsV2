@@ -173,14 +173,20 @@ class ConfigParser:
         self.actions = {}
         # automatically add select_<item_name> for all items available
         select_actions = []
-        for obj_type in self.obj_types:
-            self.actions["select_" + obj_type] = self.create_action(
-                {
-                    "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
-                    "target_type": obj_type,
-                }
-            )
-            select_actions.append("select_" + obj_type)
+        for obj_type, obj_info in self.obj_types.items():
+            obj_module = obj_info['module']
+            if (
+                    getattr(obj_module, "breakable", True) or \
+                    getattr(obj_module, "placable", True) or \
+                    len(getattr(obj_module, "breakable_holding", [])) > 0
+                ) and obj_type != "bedrock" and obj_type != "default":
+                self.actions["select_" + obj_type] = self.create_action(
+                    {
+                        "module": "gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem",
+                        "target_type": obj_type,
+                    }
+                )
+                select_actions.append("select_" + obj_type)
 
         # automatically add TP_TO_<coordinate> for all coordinates available on the map
         # tp_to_actions = []
