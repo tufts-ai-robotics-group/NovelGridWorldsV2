@@ -20,7 +20,7 @@ from ..utils.terminal_colors import bcolors
 class NovelGridWorldSequentialEnv(AECEnv):
     metadata = {"render_modes": ["human", "rgb_array", None], "render_fps": 4}
 
-    def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True, logged_agents=[], generate_csv=False):
+    def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True, logged_agents=[], generate_csv=False, seed=None):
         """
         Init
         TODO more docs
@@ -31,12 +31,14 @@ class NovelGridWorldSequentialEnv(AECEnv):
         if enable_render:
             pygame.display.set_caption(f"NovelGridWorlds2 - {config_dict.get('filename')}")
 
+        self.rng = np.random.default_rng(seed=seed)
+
         self.json_parser = ConfigParser()
         (
             self.internal_state,
             self.dynamic,
             self.agent_manager,
-        ) = self.json_parser.parse_json(json_content=config_dict, rendering=enable_render)
+        ) = self.json_parser.parse_json(json_content=config_dict, rendering=enable_render, rng=self.rng)
         self.enable_render = enable_render
         self.internal_state.env_set_game_over = self.set_game_over
 
@@ -348,6 +350,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         """
         Resets the novelty and injects novelty
         """
+        if seed is not None:
+            self.rng = np.random.default_rng(seed=seed)
 
         ## injection of novelty
         episode = 0
@@ -367,7 +371,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ) = self.json_parser.parse_json(
             json_content=self.config_dict, 
             episode=episode,
-            seed=seed,
+            rng = self.rng,
             rendering=self.enable_render,
         )
         self.internal_state.env_set_game_over = self.set_game_over
