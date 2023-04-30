@@ -137,11 +137,13 @@ class PygameRenderer(DummyRenderer):
         BIRCH_LOG_PICKUP_IMAGE, (20, 20)
     )
 
+    TEXT_BAR_WIDTH = 200
+
     def __init__(self, map_size: Tuple[int, int]):
         self.map_size = (map_size[0], map_size[1])
         self.map_pixel_size = ((self.MARGIN + self.WIDTH) * map_size[0], (self.MARGIN + self.HEIGHT) * map_size[0])
         self.ICON = pygame.image.load(get_file_path("polycraft_logo"))
-        self.SCREEN = pygame.display.set_mode((self.map_pixel_size[0] + 300, self.map_pixel_size[1]))
+        self.SCREEN = pygame.display.set_mode((self.map_pixel_size[0] + 200, self.map_pixel_size[1]))
         pygame.display.set_icon(self.ICON)
         pygame.init()
         self.CLOCK = pygame.time.Clock()
@@ -229,7 +231,7 @@ class PygameRenderer(DummyRenderer):
         
         curr_line_pixel = 30
         black_color = (0, 0, 0)
-        LEFT_MARGIN = self.map_pixel_size[0] + 150
+        LEFT_MARGIN = self.map_pixel_size[0] + self.TEXT_BAR_WIDTH / 2
 
         # self.draw_map()
 
@@ -321,7 +323,7 @@ class PygameRenderer(DummyRenderer):
             inv_text,
             font,
             black_color,
-            LEFT_MARGIN + 80,
+            LEFT_MARGIN + 50,
             curr_line_pixel,
             self.SCREEN,
             200,
