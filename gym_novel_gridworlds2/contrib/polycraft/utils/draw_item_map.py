@@ -141,7 +141,7 @@ class PygameRenderer(DummyRenderer):
         self.map_size = (map_size[0], map_size[1])
         self.map_pixel_size = ((self.MARGIN + self.WIDTH) * map_size[0], (self.MARGIN + self.HEIGHT) * map_size[0])
         self.ICON = pygame.image.load(get_file_path("polycraft_logo"))
-        self.SCREEN = pygame.display.set_mode((self.map_pixel_size[0] + 400, self.map_pixel_size[1]))
+        self.SCREEN = pygame.display.set_mode((self.map_pixel_size[0] + 300, self.map_pixel_size[1]))
         pygame.display.set_icon(self.ICON)
         pygame.init()
         self.CLOCK = pygame.time.Clock()
@@ -223,15 +223,17 @@ class PygameRenderer(DummyRenderer):
             goal_achieved: bool = False,
             given_up: bool = False
         ):
-        PAR_SKIP = 30
-        LINE_HEIGHT = 20
+        FONT_SIZE = 12
+        LINE_HEIGHT = FONT_SIZE * 1.05
+        PAR_SKIP = LINE_HEIGHT * 1.3
+        
         curr_line_pixel = 30
         black_color = (0, 0, 0)
-        LEFT_MARGIN = self.map_pixel_size[0] + 220
+        LEFT_MARGIN = self.map_pixel_size[0] + 150
 
         # self.draw_map()
 
-        font = pygame.font.Font("freesansbold.ttf", 18)
+        font = pygame.font.Font("freesansbold.ttf", FONT_SIZE)
 
         # north
         facing_text = font.render("North: ^ ^ ^", True, (0, 0, 0))
