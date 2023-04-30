@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Tuple, Union
 import pygame 
 import os
 
@@ -11,6 +11,9 @@ def get_file_path(file_name):
     )
 
 class DummyRenderer:
+    def __init__(self, **kwargs):
+        pass
+
     def clear_map(self):
         pass
 
@@ -134,9 +137,11 @@ class PygameRenderer(DummyRenderer):
         BIRCH_LOG_PICKUP_IMAGE, (20, 20)
     )
 
-    def __init__(self):
+    def __init__(self, map_size: Tuple[int, int]):
+        self.map_size = (map_size[0], map_size[1])
+        self.map_pixel_size = ((self.MARGIN + self.WIDTH) * map_size[0], (self.MARGIN + self.HEIGHT) * map_size[0])
         self.ICON = pygame.image.load(get_file_path("polycraft_logo"))
-        self.SCREEN = pygame.display.set_mode((1300, 750))
+        self.SCREEN = pygame.display.set_mode((self.map_pixel_size[0] + 400, self.map_pixel_size[1]))
         pygame.display.set_icon(self.ICON)
         pygame.init()
         self.CLOCK = pygame.time.Clock()
@@ -222,7 +227,7 @@ class PygameRenderer(DummyRenderer):
         LINE_HEIGHT = 20
         curr_line_pixel = 30
         black_color = (0, 0, 0)
-        LEFT_MARGIN = 1120
+        LEFT_MARGIN = self.map_pixel_size[0] + 220
 
         # self.draw_map()
 
@@ -278,7 +283,7 @@ class PygameRenderer(DummyRenderer):
             black_color,
         )
         cost_rect = cost_text.get_rect()
-        cost_rect.center = (1120, curr_line_pixel)
+        cost_rect.center = (LEFT_MARGIN, curr_line_pixel)
         curr_line_pixel += PAR_SKIP
         self.SCREEN.blit(cost_text, cost_rect)
 
@@ -298,7 +303,7 @@ class PygameRenderer(DummyRenderer):
             "Agent Inventory:",
             font,
             black_color,
-            1130,
+            LEFT_MARGIN + 10,
             curr_line_pixel,
             self.SCREEN,
             200,

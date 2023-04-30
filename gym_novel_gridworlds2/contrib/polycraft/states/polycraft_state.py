@@ -49,7 +49,7 @@ class PolycraftState(State):
         self.walls_list = []  # used to store walls where bedrock overlaps on the map
 
         if rendering:
-            self.renderer = PygameRenderer()
+            self.renderer = PygameRenderer(map_size=map_size)
         else:
             self.renderer = DummyRenderer()
 
