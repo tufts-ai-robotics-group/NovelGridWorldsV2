@@ -291,6 +291,11 @@ class ConfigParser:
                 else:
                     self.create_random_obj(self.state, obj_name, info["quantity"])
         
+        # run map gen plugins
+        if "map_gen_plugins" in json_content:
+            for plugin in json_content["map_gen_plugins"]:
+                self.run_map_gen_plugin(plugin['func'], plugin['args'])
+        
         # entities that automatically floating collect items around them
         self.state.auto_pickup_agents = json_content.get("auto_pickup_agents") or []
         return (self.state, self.dynamics, self.agent_manager)
@@ -451,6 +456,10 @@ class ConfigParser:
         )
         self.agent_cache[id] = agent
         return agent
+    
+    def run_map_gen_plugin(self, func, plugin_args):
+        plugin_func = import_module(func)
+        return plugin_func(state=self.state, obj_class_map=self.obj_types, **plugin_args)
 
     def create_place_entity(self, nickname: str, entity_info: dict, rooms: Mapping[str, Mapping[str, Tuple[int]]]):
         # import entity class
