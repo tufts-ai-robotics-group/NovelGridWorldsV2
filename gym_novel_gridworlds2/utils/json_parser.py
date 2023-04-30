@@ -468,7 +468,6 @@ class ConfigParser:
         if "id" not in entity_info:
             entity_info["id"] = self.state.entity_count
         self.state.entity_count += 1
-        print("entity_info", entity_info)
         if "loc" not in entity_info:
             # specified a room
             room_no = entity_info.get("room")
