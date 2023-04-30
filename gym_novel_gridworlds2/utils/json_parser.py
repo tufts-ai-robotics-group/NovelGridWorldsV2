@@ -254,7 +254,7 @@ class ConfigParser:
             for key, entity_info in json_content["entities"].items():
                 # creates and places the entity in the map
                 agent_entity = self.create_place_entity(
-                    nickname=key, entity_info=entity_info
+                    nickname=key, entity_info=entity_info, rooms=json_content["rooms"]
                 )
                 # add agent to the agent list (for action per round)
                 self.agent_manager.add_agent(**agent_entity)
@@ -452,7 +452,7 @@ class ConfigParser:
         self.agent_cache[id] = agent
         return agent
 
-    def create_place_entity(self, nickname: str, entity_info: dict):
+    def create_place_entity(self, nickname: str, entity_info: dict, rooms: Mapping[str, Mapping[str, Tuple[int]]]):
         # import entity class
         EntityClass: Type[Entity] = import_module(entity_info["entity"])
 
@@ -468,11 +468,25 @@ class ConfigParser:
         if "id" not in entity_info:
             entity_info["id"] = self.state.entity_count
         self.state.entity_count += 1
-        entity_obj = self.state.place_object(
-            entity_info["type"],
-            EntityClass,
-            entity_info,
-        )
+        print("entity_info", entity_info)
+        if "loc" not in entity_info:
+            # specified a room
+            room_no = entity_info.get("room")
+            entity_obj = self.state.random_place_in_room(
+                entity_info["type"], 
+                1, 
+                rooms[str(room_no)]["start"],
+                rooms[str(room_no)]["end"],
+                EntityClass, 
+                properties=entity_info
+            )[0]
+        else:
+            # specified a location
+            entity_obj = self.state.place_object(
+                entity_info["type"],
+                EntityClass,
+                entity_info,
+            )
 
         # agent object
         agent_obj = self.create_policy_agent(

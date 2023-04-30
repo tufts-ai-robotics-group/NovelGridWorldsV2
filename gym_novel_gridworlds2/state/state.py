@@ -148,6 +148,8 @@ class State:
         """
         Randomly place the object in the map in a specific room
         if there's not enough spots available, all available spots will be filled
+
+        Returns the list of objects created
         """
         all_available_spots = []
         for i in range(self.initial_info["map_size"][0]):
@@ -161,9 +163,11 @@ class State:
 
         picked_spots = self.rng.choice(a=all_available_spots, size=count, replace=False)
 
+        objs = []
         for loc in picked_spots:
             properties["loc"] = tuple(loc)
-            self.place_object(object_str, ObjectClass, properties=properties)
+            objs.append(self.place_object(object_str, ObjectClass, properties=properties))
+        return objs
 
     def remove_object(self, object_name: str, loc: tuple):
         """
