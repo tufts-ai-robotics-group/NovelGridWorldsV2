@@ -299,7 +299,7 @@ class State:
     def contains_block(self, loc: tuple):
         if self._map[loc] is None:
             return False
-        return self._map[loc]._contains_block()
+        return self._map[loc]._contains_block() or self._map[loc]._contains_entity()
 
     def get_all_entities(self):
         entities = []

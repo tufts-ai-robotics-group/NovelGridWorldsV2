@@ -59,10 +59,13 @@ class Cell:
                 return True
         return False
 
-    def _contains_entity(self, entity_id):
+    def _contains_entity(self, entity_id=None):
         """
         Returns whether a given id of entity exists in the current cell.
+        if entity is None, then returns whether there is an entity in the cell.
         """
+        if entity_id is None:
+            return len(self._entities) > 0
         for entity in self._entities:
             if entity.id == entity_id:
                 return True
