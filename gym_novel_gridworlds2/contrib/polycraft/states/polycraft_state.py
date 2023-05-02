@@ -495,33 +495,22 @@ class PolycraftState(State):
                             0
                         ].inventory.update({"sapling": 1})
                 else:  # case where the tile where the sapling should be placed is nonempty
-                    vec = None
-                    obj1 = self.get_objects_at(
-                        np.add(self.sapling_locs[index], (-1, 0))
-                    )  # north
-                    if len(obj1[0]) == 0 and len(obj1[1]) == 0:
-                        vec = (-1, 0)
-                    obj2 = self.get_objects_at(
-                        np.add(self.sapling_locs[index], (1, 0))
-                    )  # south
-                    if len(obj2[0]) == 0 and len(obj2[1]) == 0:
-                        vec = (1, 0)
-                    obj3 = self.get_objects_at(
-                        np.add(self.sapling_locs[index], (0, 1))
-                    )  # east
-                    if len(obj3[0]) == 0 and len(obj3[1]) == 0:
-                        vec = (0, 1)
-                    obj4 = self.get_objects_at(
-                        np.add(self.sapling_locs[index], (0, -1))
-                    )  # west
-                    if len(obj4[0]) == 0 and len(obj4[1]) == 0:
-                        vec = (0, -1)
-
-                    new_loc = tuple(np.add(self.sapling_locs[index], vec))
-                    self.place_object(
-                        "sapling",
-                        PolycraftObject,
-                        properties={"loc": new_loc, "state": "floating"},
-                    )
+                    # randomly place the sapling in an adjacent tile
+                    vecs = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+                    self.rng.shuffle(vecs)
+                    new_loc = None
+                    for vec in vecs:
+                        obj = self.get_objects_at(
+                            np.add(self.sapling_locs[index], vec)
+                        )
+                        if len(obj[0]) == 0 and len(obj[1]) == 0:
+                            new_loc = tuple(np.add(self.sapling_locs[index], vec))
+                    if new_loc is not None:
+                        # if there's no available tile, don't place the sapling
+                        self.place_object(
+                            "sapling",
+                            PolycraftObject,
+                            properties={"loc": new_loc, "state": "floating"},
+                        )
 
                 self.time_needed[index] = -1
