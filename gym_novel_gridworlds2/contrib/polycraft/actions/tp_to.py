@@ -34,7 +34,7 @@ class TP_TO(Action):
         self.allow_additional_action = False
 
 
-    def find_available_spot(self, loc, offset, agent_loc=None, curr_room_only=True):
+    def find_available_spot_around(self, loc, offset, agent_loc=None, curr_room_only=True):
         if loc is None:
             return None
         curr_rooms = self.state.get_room_by_loc(agent_loc)
@@ -69,12 +69,15 @@ class TP_TO(Action):
                                 return new_loc
         return None
 
-    def find_object(self, obj_type):
+    def find_object_of_type(self, obj_type, agent_loc):
         objs = self.state.get_objects_of_type(obj_type)
-        if len(objs) > 0:
-            return objs[0].loc
-        else:
-            return None
+        found_obj = False
+        for obj in objs:
+            found_obj = True
+            spot = self.find_available_spot_around(obj.loc, 1, agent_loc)
+            if spot is not None:
+                return True, obj.loc, spot
+        return found_obj, None, None
 
 
     def check_precondition(
@@ -91,21 +94,27 @@ class TP_TO(Action):
         y = y if y is not None else self.y
         z = z if z is not None else self.z
 
+        found_obj = False
+
         if x != None:
             # mode 1: teleport to a specific location
             loc = external_to_internal((int(x), int(y), int(z)))
+            found_obj = True
+            loc_w_offset = self.find_available_spot_around(loc, offset, agent_loc=agent_entity.loc)
         elif target_object is not None:
             # mode 2: teleport to an object
-            loc = self.find_object(target_object)
+            found_obj, loc, loc_w_offset = self.find_object_of_type(target_object, agent_entity.loc)
         else:
             # mode 3: teleport to the location of an entity
             ent = self.state.get_entity_by_id(self.entity_id)
             if ent is not None:
                 loc = ent.loc
+                found_obj = True
             else:
                 loc = None
-
-        loc_w_offset = self.find_available_spot(loc, offset, agent_loc=agent_entity.loc)
+                found_obj = False
+            loc_w_offset = self.find_available_spot_around(loc, offset, agent_loc=agent_entity.loc)
+        
         self.tmp_loc = loc_w_offset
         self.tmp_new_facing = find_facing(loc, loc_w_offset) or agent_entity.facing
 
@@ -118,7 +127,7 @@ class TP_TO(Action):
             else:
                 target = f"entity {self.entity_id}"
             
-            if loc is None:
+            if not found_obj:
                 raise PreconditionNotMetError(
                     f"{target} is not found in the world"
                 )
