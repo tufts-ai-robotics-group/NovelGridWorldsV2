@@ -279,7 +279,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
     
 
     def set_game_over(self, goal_achieved=False, delayed_by_one_step=True, notes = ""):
-        print("Episode over. Total time steps:", self.num_moves, "Goal achieved:", goal_achieved)
+        if self.enable_render:
+            print("Episode over. Total time steps:", self.num_moves, "Goal achieved:", goal_achieved)
         if delayed_by_one_step:
             if goal_achieved:
                 self.internal_state._goal_achieved = True
@@ -351,6 +352,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         Resets the novelty and injects novelty
         """
         if seed is not None:
+            print("Setting seed to", seed)
             self.rng = np.random.default_rng(seed=seed)
 
         ## injection of novelty
