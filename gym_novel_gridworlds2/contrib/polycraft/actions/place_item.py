@@ -83,7 +83,7 @@ class PlaceItem(Action):
 
         # place object of type selectedItem on map in the direction the agent is facing
         if target_type in self.dynamics.obj_types:
-            obj_info = self.dynamics.obj_types[target_type]
+            obj_info = self.dynamics.obj_types[itemToPlace]
             self.state.place_object(
                 itemToPlace,
                 obj_info["module"],
