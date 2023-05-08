@@ -352,7 +352,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         Resets the novelty and injects novelty
         """
         if seed is not None:
-            print("Setting seed to", seed)
+            # print("Setting seed to", seed)
             self.rng = np.random.default_rng(seed=seed)
 
         ## injection of novelty
