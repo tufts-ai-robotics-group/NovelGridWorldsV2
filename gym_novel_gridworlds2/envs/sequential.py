@@ -29,7 +29,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.run_name = run_name
         self.config_dict = config_dict
         if enable_render:
+            self.render_mode = "human"
             pygame.display.set_caption(f"NovelGridWorlds2 - {config_dict.get('filename')}")
+        else:
+            self.render_mode = None
 
         self.rng = np.random.default_rng(seed=seed)
 
@@ -437,8 +440,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
             y_offset += fh
 
-    def render(self, mode="human"):
-        if mode != "human":
+    def render(self):
+        if self.render_mode != "human":
             return
         
         agent = self.internal_state.get_objects_of_type("agent")[0]
