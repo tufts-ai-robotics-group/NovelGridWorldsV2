@@ -339,7 +339,6 @@ class ConfigParser:
             TradeModule: Type[Action] = Trade,
             module_params: dict = {}
         ):
-        print(module_params)
         self.trade_recipe_set = RecipeSet()
         for name, recipe_dict in trades_dict.items():
             self.trade_recipe_set.add_trade(name, recipe_dict)
