@@ -1,4 +1,5 @@
 from typing import List, Mapping
+import numpy as np
 
 from gym_novel_gridworlds2.state.recipe_set import RecipeSet
 
@@ -11,6 +12,7 @@ class Dynamic:
         action_space, 
         obj_types,
         recipe_set: RecipeSet,
+        rng: np.random.RandomState
     ):
         """
         actions: the instanciated classes and funcs that execute the actions
@@ -23,3 +25,4 @@ class Dynamic:
         self.action_space = action_space
         self.obj_types = obj_types
         self.recipe_set = recipe_set
+        self.rng = rng

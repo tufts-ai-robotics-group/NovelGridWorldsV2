@@ -161,7 +161,7 @@ class ConfigParser:
         self.state.remove_space()
 
         # initialize dynamics
-        self.dynamics = Dynamic(None, None, None, self.obj_types, None)
+        self.dynamics = Dynamic(None, None, None, self.obj_types, None, rng=self.global_rng)
 
         ############################# actions ##################################
         self.actions = {}
@@ -217,8 +217,6 @@ class ConfigParser:
             )
 
         # add manually added actions
-        TradeModule: Type[Action] = Trade
-        CraftModule: Type[Action] = Craft
         if "actions" in json_content:
             for key, action_info in json_content["actions"].items():
                 # special treatment for trade and craft actions 
@@ -231,14 +229,22 @@ class ConfigParser:
                     self.actions[key] = self.create_action(action_info)
         self.dynamics.actions = self.actions
 
+        # special trade and craft modules
+        TradeModule: Type[Action] = import_module(json_content["actions"]["trade"]["module"])
+        trade_extra_params = json_content["actions"]["trade"]
+        del trade_extra_params['module']
+        CraftModule: Type[Action] = import_module(json_content["actions"]["craft"]["module"])
+        craft_extra_params = json_content["actions"]["craft"]
+        del craft_extra_params['module']
+
         # recipe
         if "recipes" in json_content:
-            self.parse_recipe(json_content["recipes"], CraftModule=CraftModule)
+            self.parse_recipe(json_content["recipes"], CraftModule=CraftModule, module_params=craft_extra_params)
         self.dynamics.recipe_set = self.recipe_set
 
         # trade
         if "trades" in json_content:
-            self.parse_trades(json_content["trades"], TradeModule=TradeModule)
+            self.parse_trades(json_content["trades"], TradeModule=TradeModule, module_params=trade_extra_params)
 
         # action sets
         self.action_sets = {}
@@ -301,7 +307,11 @@ class ConfigParser:
         return (self.state, self.dynamics, self.agent_manager)
 
 
-    def parse_recipe(self, recipe_config: dict, CraftModule: Type[Action] = Craft):
+    def parse_recipe(
+            self, recipe_config: dict, 
+            CraftModule: Type[Action] = Craft, 
+            module_params: dict = {}
+        ):
         self.recipe_set = RecipeSet()
         for name, recipe_dict in recipe_config.items():
             self.recipe_set.add_recipe(recipe_name=name, recipe_dict=recipe_dict)
@@ -309,17 +319,27 @@ class ConfigParser:
         for recipe_name in self.recipe_set.get_recipe_names():
             craftStr = "craft_" + recipe_name
             self.actions[craftStr] = CraftModule(
-                state=self.state, recipe_set=self.recipe_set,
-                recipe_name=recipe_name
+                state=self.state, dynamics=self.dynamics,
+                recipe_set=self.recipe_set,
+                recipe_name=recipe_name,
+                **module_params
             )
 
         # generic craft
         self.actions["craft"] = CraftModule(
-            state=self.state, recipe_set=self.recipe_set,
+            state=self.state, 
+            dynamics=self.dynamics,
+            recipe_set=self.recipe_set,
+            **module_params
         )
         return self.actions
 
-    def parse_trades(self, trades_dict, TradeModule):
+    def parse_trades(
+            self, trades_dict, 
+            TradeModule: Type[Action] = Trade,
+            module_params: dict = {}
+        ):
+        print(module_params)
         self.trade_recipe_set = RecipeSet()
         for name, recipe_dict in trades_dict.items():
             self.trade_recipe_set.add_trade(name, recipe_dict)
@@ -329,11 +349,16 @@ class ConfigParser:
             tradeStr = "trade_" + items[i]
             self.actions[tradeStr] = TradeModule(
                 state=self.state,
+                dynamics=self.dynamics,
                 recipe_set=self.trade_recipe_set,
-                recipe_name=items[i]
+                recipe_name=items[i],
+                **module_params
             )
         self.actions["trade"] = TradeModule(
-            state=self.state, recipe_set=self.trade_recipe_set,
+            state=self.state, 
+            dynamics=self.dynamics,
+            recipe_set=self.trade_recipe_set,
+            **module_params
         )
 
         return self.actions
