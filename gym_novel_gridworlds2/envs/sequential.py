@@ -30,7 +30,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.config_dict = config_dict
         if enable_render:
             self.render_mode = "human"
-            pygame.display.set_caption(f"NovelGridWorlds2 - {config_dict.get('filename')}")
+            pygame.display.set_caption(f"NovelGym - {config_dict.get('filename')}")
         else:
             self.render_mode = None
 
