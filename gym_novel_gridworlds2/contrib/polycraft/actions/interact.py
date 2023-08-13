@@ -117,7 +117,7 @@ class Interact(Action):
         """
         if entity_id is None:
             entity_id = self.entity_id
-        self.state.incrementer()
+        
         if not self.check_precondition(
             agent_entity, target_object, entity_id=entity_id
         ):

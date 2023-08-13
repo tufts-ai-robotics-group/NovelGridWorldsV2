@@ -81,7 +81,7 @@ class SmoothMove(Action):
         """
         Checks for precondition, then moves the object to the destination.
         """
-        self.state.incrementer()
+        
 
         if self.direction is None:
             if direction is None:

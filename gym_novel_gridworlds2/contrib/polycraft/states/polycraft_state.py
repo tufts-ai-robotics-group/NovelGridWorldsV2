@@ -92,7 +92,7 @@ class PolycraftState(State):
             map_rep[i][j] = cell_name
         return map_rep
 
-    def drawMap(self):
+    def _draw_map(self):
         """
         The primary function used to render the map out using PyGame
         Represents every slot in the 2D np array as an image based on the

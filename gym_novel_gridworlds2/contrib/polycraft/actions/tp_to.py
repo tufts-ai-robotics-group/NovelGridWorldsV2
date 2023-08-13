@@ -156,7 +156,7 @@ class TP_TO(Action):
         target_object = self.target_obj_type if target_object is None else target_object
 
         offset = int(offset) if offset is not None else self.offset
-        self.state.incrementer()
+        
 
         new_loc = self.check_precondition(
             agent_entity, x=x, y=y, z=z, offset=offset, target_object=target_object

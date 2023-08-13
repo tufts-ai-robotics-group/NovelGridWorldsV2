@@ -55,7 +55,6 @@ class State:
         self._step_count = 0
         self.room_coords = []
         self.entity_count = 0
-        self.curr_part = 0
         self.selected_action = ""
 
         self.env_set_game_over = set_game_over
@@ -74,16 +73,7 @@ class State:
         if self._map[loc] is None:
             self._map[loc] = Cell()
 
-    def incrementer(self):
-        """
-        Used to update the internal state count only after all of the agents have taken their turns
-        """
-        self.curr_part += 1
-        if self.curr_part == self.entity_count:
-            self._step_count += 1
-            self.curr_part = 0
-
-    def drawMap(self):
+    def _draw_map(self):
         """
         Used for Pygame rendering of the map, should be overloaded by the custom version of the state
         to include custom imagery and colors

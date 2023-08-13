@@ -34,7 +34,7 @@ class SelectItem(Action):
             target_type = backConversion(self.target_type)
         else:
             target_type = backConversion(target_type)
-        self.state.incrementer()
+        
 
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILED"

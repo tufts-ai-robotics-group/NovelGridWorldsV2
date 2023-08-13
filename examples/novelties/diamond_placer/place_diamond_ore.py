@@ -65,7 +65,7 @@ class PlaceDiamondOre(Action):
     ):
         # print(agent_entity.selectedItem)
         # self.state._step_count += 1
-        self.state.incrementer()
+        
         if not self.check_precondition(agent_entity, target_type, target_object):
             self.result = "FAILURE"
             self.action_metadata(agent_entity, target_type, target_object)

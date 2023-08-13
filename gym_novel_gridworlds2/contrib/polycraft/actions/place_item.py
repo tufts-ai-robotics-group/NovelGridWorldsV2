@@ -64,7 +64,7 @@ class PlaceItem(Action):
         target_object: Object = None,
         **kwargs,
     ):
-        self.state.incrementer()
+        
         if target_type is None:
             target_type = backConversion(agent_entity.selectedItem)
         else:

@@ -23,7 +23,7 @@ class RotateLeft(Action):
         Rotates the object to the left
         """
         # self.state._step_count += 1
-        self.state.incrementer()
+        
         if agent_entity.facing == "NORTH":
             agent_entity.facing = "WEST"
         elif agent_entity.facing == "EAST":

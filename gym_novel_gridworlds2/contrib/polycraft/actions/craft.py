@@ -100,7 +100,7 @@ class Craft(Action):
                     target_object = [backConversion(o) for o in input_list]
                 recipe = self.recipe_set.get_recipe_by_input(target_object)
 
-        self.state.incrementer()
+        
         if not self.check_precondition(agent_entity, 
             target_type=target_type, 
             target_object=target_object, 

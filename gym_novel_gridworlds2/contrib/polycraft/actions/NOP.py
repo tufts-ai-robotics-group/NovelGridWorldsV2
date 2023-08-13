@@ -24,6 +24,6 @@ class NOP(Action):
         Checks for precondition, then does nothing
         """
         # self.state._step_count += 1
-        self.state.incrementer()
+        
         self.result = "SUCCESS"
         return {}

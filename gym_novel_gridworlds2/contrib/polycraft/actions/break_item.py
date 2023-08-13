@@ -62,7 +62,7 @@ class Break(Action):
         """
         Checks for precondition, then breaks the object
         """
-        self.state.incrementer()
+        
         if not self.check_precondition(agent_entity, target_object):
             self.result = "FAILED"
             self.action_metadata(agent_entity, target_object)

@@ -27,7 +27,7 @@ class TestColorRender:
                     if event.type == pygame.QUIT:
                         pygame.quit()
                 self.state.SCREEN.fill((171, 164, 164))
-                self.state.drawMap()
+                self.state._draw_map()
 
                 font = pygame.font.Font("freesansbold.ttf", 18)
 

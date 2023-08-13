@@ -361,7 +361,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         agent = self.internal_state.get_objects_of_type("agent")[0]
         # agent_obj = self.agent_manager.get_agent(f"agent_{agent.id}")
         self.internal_state.renderer.clear_map()
-        self.internal_state.drawMap()
+        self.internal_state._draw_map()
         self.internal_state.renderer.draw_info(
             episode=self.internal_state.episode,
             step_count=self.internal_state._step_count,

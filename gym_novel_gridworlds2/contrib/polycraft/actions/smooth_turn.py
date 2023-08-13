@@ -25,7 +25,7 @@ class SmoothTurn(Action):
         Rotates the object to the right
         """
         # self.state._step_count += 1
-        self.state.incrementer()
+        
 
         if angle == 0:
             return {}
