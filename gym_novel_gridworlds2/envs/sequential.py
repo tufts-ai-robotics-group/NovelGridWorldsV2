@@ -19,7 +19,7 @@ from ..utils.game_report import create_empty_game_result_file, report_game_resul
 from ..utils.terminal_colors import bcolors
 
 class NovelGridWorldSequentialEnv(AECEnv):
-    metadata = {"render_modes": ["human", "rgb_array", None], "render_fps": 4}
+    metadata = {"render_modes": ["human", "rgb_array", None]}
 
     def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True, logged_agents=[], generate_csv=False, seed=None):
         """
@@ -55,7 +55,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.agent_name_mapping = self.agent_manager.get_agent_name_mapping()
 
         # The agent is done when it's killed or when the goal is reached.
-        self.dones = {key: False for key, a in self.agent_manager.agents.items()}
+        self.terminations = {key: False for key, a in self.agent_manager.agents.items()}
+        self.truncations = {key: False for key, a in self.agent_manager.agents.items()}
 
         # The number of non-environmental agents.
         # Game over when all non-env agents are done.
@@ -76,9 +77,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
             key: a.agent.get_observation_space(self.internal_state._map.shape, 10)
             for key, a in self.agent_manager.agents.items()
         }
-
-        # used to print header of the step
-        self.inited_step = -1
 
         # initialize the game result file
         self.generate_csv = generate_csv
@@ -143,12 +141,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # DELAYED one round
         self.dones[agent] = self._is_agent_done(agent)
 
-        # do the action
+        ############# BEGIN EXECUTION ################
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
-        # self.agent_manager.update_agent(agent, self.internal_state)
 
+        # store the saved agent nickname
         if agent_entity.nickname == "main_1":
+            # TODO remove hardcode
             self.internal_state.selected_action = action_set.actions[action][0]
         # print(agent_entity.inventory)
         info = {}
@@ -201,7 +200,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             # no rewards are allocated until both players give an action
             self._clear_rewards()
 
-        # selects the next agent.
+        # selects the next agent, unless the action that the current
+        # agent has taken allows for an additional action in the round.
         if not action_set.actions[action][1].allow_additional_action or self.dones[agent]:
             self.agent_selection = self._agent_selector.next()
         # Adds .rewards to ._cumulative_rewards
@@ -351,10 +351,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # reset timer
         self.initial_time = time.time()
-        self.inited_step = -1
         return self.internal_state._map, None
 
     def render(self, mode=None):
+        # TODO generalize
         if self.render_mode != "human":
             return
         
