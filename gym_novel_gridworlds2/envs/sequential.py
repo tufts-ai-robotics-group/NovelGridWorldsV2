@@ -11,6 +11,7 @@ from pettingzoo.utils import wrappers
 from gym.spaces import MultiDiscrete
 
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
+from gym_novel_gridworlds2.object.entity import Entity
 from gym_novel_gridworlds2.utils.novelty_injection import inject
 
 from ..utils.json_parser import ConfigParser
@@ -25,6 +26,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         Init
         TODO more docs
         """
+        assert type(logged_agents) == list
         ### custom variables environment
         self.run_name = run_name
         self.config_dict = config_dict
@@ -112,31 +114,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # Gym spaces are defined and documented here: https://gym.openai.com/docs/#spaces
         return self._action_spaces[agent]
 
-    def _was_done_metadata(self, extra_params, agent):
-        """
-        Sends a dummy metadata to the agent.
-        """
-        # The reason is that agent selects an action before
-        # the check_done action is called so it will still get a second
-        # extra action (after the delay) and we will need to send a message back
-        # to the agent.
-        metadata = {}
-        metadata["goal"] = {
-            "goalType": "ITEM",
-            "goalAchieved": self.internal_state._goal_achieved,
-            "Distribution": "Uninformed",
-        }
-        metadata["step"] = self.num_moves
-        metadata["gameOver"] = True
-        metadata["command_result"] = {
-            "command": extra_params.get("_command"),
-            "argument": extra_params.get("_raw_args") or "",
-            "result": "SUCCESS",
-            "message": "",
-            "stepCost": 0,  # TODO cost
-        }
-        self.agent_manager.agents[agent].agent.update_metadata(metadata)
-
     def step(self, action, extra_params={}):
         """
         TAKEN FROM
@@ -151,12 +128,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         - agent_selection (to the next agent)
         And any internal state used by observe() or render()
         """
-        if len(self.logged_agents) > 0 and\
-                self.agent_selection == self.agents[0] and self.inited_step < self.num_moves:
-            # if we log agent behavior and it's the first agent, print the timestep
-            print(f"--------------------- step {self.num_moves} ---------------------")
-            self.inited_step = self.num_moves
-
         # reset rewards for current step ("stepCost")
         self.rewards = {agent: 0 for agent in self.possible_agents}
 
@@ -180,77 +151,33 @@ class NovelGridWorldSequentialEnv(AECEnv):
         if agent_entity.nickname == "main_1":
             self.internal_state.selected_action = action_set.actions[action][0]
         # print(agent_entity.inventory)
-        metadata = {}
+        info = {}
 
         step_cost = action_set.actions[action][1].get_step_cost(agent_entity, **extra_params) or 0
+        action_failed = False
 
+        # execution of the action
         try:
-            metadata = action_set.actions[action][1].do_action(
+            info["message"] = action_set.actions[action][1].do_action(
                 agent_entity, **extra_params
             )
         except PreconditionNotMetError as e:
             # TODO set an error message
             action_failed = True
-            metadata = {
-                "command_result": {
-                    "command": extra_params.get("_command")
-                    or action_set.actions[action][0],
-                    "argument": extra_params.get("_raw_args") or "",
-                    "result": "FAILED",
-                    "message": e.message if hasattr(e, "message") else "",
-                    "stepCost": step_cost,  # TODO cost
-                }
+            info = {
+                "message": e.message if hasattr(e, "message") else "",
             }
             pass
-
-        self.rewards[agent] -= step_cost
-
-        # send the metadata of the command execution result
-        # to the agent (mostly for use in the socket connection)
-        if metadata is None:
-            metadata = {}
-        if type(metadata) != dict:
-            raise Exception("Action metadata must be a dictionary! Check the implementation of the action.")
         
-        metadata["goal"] = {
-            "goalType": "ITEM",
-            "goalAchieved": self.dones[agent] and self.internal_state._goal_achieved,
-            "Distribution": "Uninformed",
-        }
-        metadata["step"] = self.num_moves
-        # TODO below is delayed by one step
-        metadata["gameOver"] = self.dones[agent]
-        if "command_result" not in metadata:
-            metadata["command_result"] = {
-                "command": extra_params.get("_command")
-                or action_set.actions[action][0],
-                "argument": extra_params.get("_raw_args") or "",
-                "result": "SUCCESS",
-                "message": "",
-                "stepCost": step_cost,
-            }
-        self.agent_manager.agents[agent].agent.update_metadata(metadata)
+        # process step cost
+        self.rewards[agent] -= step_cost
 
         # TODO only print when verbose
         if agent_entity.nickname in self.logged_agents:
-            if metadata["command_result"]["result"] == "SUCCESS":
-                colorized_result = bcolors.OKGREEN + metadata["command_result"]["result"] + bcolors.ENDC
-            else:
-                colorized_result = " " + bcolors.FAIL + metadata["command_result"]["result"] + bcolors.ENDC
-            print(
-                " [{}] | {:<12}  {:<12} | action_picked: {:<15} [{}]".format(
-                    colorized_result,
-                    agent,
-                    agent_entity.nickname,
-                    action_set.actions[action][0],
-                    extra_params,
-                )
-            )
-
-            # print inventory info
-            print("             inventory:", agent_entity.inventory)
-            if metadata["command_result"]["result"] != "SUCCESS":
-                print("Failure Reason:", metadata["command_result"]["message"])
+            self._print_curr_agent_action_info(
+                not action_failed, agent, 
+                agent_entity.nickname, action_set.actions[action][0], 
+                agent_entity, info)
 
         # the agent which stepped last had its _cumulative_rewards accounted for
         # (because it was returned by last()), so the _cumulative_rewards for this
@@ -301,6 +228,30 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 total_cost=self.rewards['agent_0'],
                 success=self.internal_state._goal_achieved,
                 notes=notes)
+    
+    def _print_curr_agent_action_info(self, 
+            is_success: bool, agent_name: str, 
+            agent_nickname: str, action_name: str, 
+            agent_entity: Entity, info: dict
+        ):
+        if is_success:
+            colorized_result = bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC
+        else:
+            colorized_result = " " + bcolors.FAIL + "FAILED" + bcolors.ENDC
+        print(
+            " {:>4} | [{}] | {:<12}  {:<12} | action_picked: {:<15}".format(
+                self.num_moves,
+                colorized_result,
+                agent_name,
+                agent_nickname,
+                action_name,
+            )
+        )
+
+        # print inventory info
+        agent_entity.print_agent_status()
+        if not is_success:
+            print("Info:", info)
 
 
     def _game_over_agent_update(self):
@@ -403,44 +354,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.inited_step = -1
         return self.internal_state._map, None
 
-    def renderTextCenteredAt(self, text, font, colour, x, y, screen, allowed_width):
-        # first, split the text into words
-        words = text.split()
-
-        # now, construct lines out of these words
-        lines = []
-        while len(words) > 0:
-            # get as many words as will fit within allowed_width
-            line_words = []
-            while len(words) > 0:
-                line_words.append(words.pop(0))
-                fw, fh = font.size(" ".join(line_words + words[:1]))
-                if fw > allowed_width:
-                    break
-
-            # add a line consisting of those words
-            line = " ".join(line_words)
-            lines.append(line)
-
-        # now we've split our text into lines that fit into the width, actually
-        # render them
-
-        # we'll render each line below the last, so we need to keep track of
-        # the culmative height of the lines we've rendered so far
-        y_offset = 0
-        for line in lines:
-            fw, fh = font.size(line)
-
-            # (tx, ty) is the top-left of the font surface
-            tx = x - fw / 2
-            ty = y + y_offset
-
-            font_surface = font.render(line, True, colour)
-            screen.blit(font_surface, (tx, ty))
-
-            y_offset += fh
-
-    def render(self):
+    def render(self, mode=None):
         if self.render_mode != "human":
             return
         

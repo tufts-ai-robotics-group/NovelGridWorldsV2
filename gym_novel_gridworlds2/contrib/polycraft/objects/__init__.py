@@ -12,6 +12,7 @@ from .entity_trader import EntityTrader
 from .unbreakable_polycraft_obj import UnbreakablePolycraftObject
 from .placable_polycraft_obj import PlacablePolycraftObject
 from .breakable_polycraft_obj import BreakablePolycraftObject
+from .easy_oak_log import OakLog
 
 __all__ = [
     "PolycraftEntity",
@@ -27,5 +28,6 @@ __all__ = [
     "EntityTrader",
     "UnbreakablePolycraftObject",
     "PlacablePolycraftObject",
-    "BreakalePolycraftObject"
+    "BreakablePolycraftObject",
+    "OakLog"
 ]

@@ -12,6 +12,7 @@ from ..utils.item_encoder import SimpleItemEncoder
 from .cell import Cell
 
 from .exceptions import LocationOccupied, LocationOutOfBound
+from .renderer import DummyRenderer
 
 
 class State:
@@ -60,6 +61,8 @@ class State:
         self.env_set_game_over = set_game_over
         self._goal_achieved = False
         self._given_up = False
+
+        self.renderer = DummyRenderer()
 
     def make_copy(self):
         return deepcopy(self)

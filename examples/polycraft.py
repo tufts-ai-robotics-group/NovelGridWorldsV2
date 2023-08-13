@@ -102,7 +102,8 @@ env = NovelGridWorldSequentialEnv(
     config_dict=config_content, 
     max_time_step=4000, 
     time_limit=time_limit, 
-    run_name=exp_name
+    run_name=exp_name,
+    logged_agents=["main_1"]
 )
 
 last_agent = env.possible_agents[-1]

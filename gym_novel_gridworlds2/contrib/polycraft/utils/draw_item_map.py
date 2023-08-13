@@ -2,6 +2,8 @@ from typing import Tuple, Union
 import pygame 
 import os
 
+from gym_novel_gridworlds2.state.renderer import DummyRenderer
+
 def get_file_path(file_name):
     return os.path.join(
         os.path.abspath(os.path.dirname(__file__)), 
@@ -9,22 +11,6 @@ def get_file_path(file_name):
         "img", 
         file_name + ".png"
     )
-
-class DummyRenderer:
-    def __init__(self, **kwargs):
-        pass
-
-    def clear_map(self):
-        pass
-
-    def draw_map(self):
-        pass
-
-    def draw_item(self):
-        pass
-
-    def draw_info(self, **kwargs):
-        pass
 
 
 class PygameRenderer(DummyRenderer):

@@ -38,3 +38,6 @@ class Entity(Object):
             self.inventory[item] = amount
         else:
             self.inventory[item] += amount
+    
+    def print_agent_status(self):
+        pass
