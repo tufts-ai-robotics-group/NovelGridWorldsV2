@@ -54,10 +54,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.possible_agents = self.agent_manager.get_possible_agents()
         self.agent_name_mapping = self.agent_manager.get_agent_name_mapping()
 
-        # The agent is done when it's killed or when the goal is reached.
-        self.terminations = {key: False for key, a in self.agent_manager.agents.items()}
-        self.truncations = {key: False for key, a in self.agent_manager.agents.items()}
-
         # The number of non-environmental agents.
         # Game over when all non-env agents are done.
         # And environmental agents will be automatically terminated
@@ -86,16 +82,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # initialize the logged agents set
         self.logged_agents = {*logged_agents}
 
-        # Agent
-        self.agents = self.possible_agents[:]
-        self.rewards = {agent: 0 for agent in self.agents}
-        self._cumulative_rewards = {agent: 0 for agent in self.agents}
-        self.dones = {agent: False for agent in self.agents}
-        self.infos = {agent: {} for agent in self.agents}
-        self.num_active_non_env_agents = self.agent_manager.get_non_env_agent_count()
-        self.num_moves = 0
-        self._agent_selector = agent_selector(self.agents)
-        self.agent_selection = self._agent_selector.next()
 
     def observe(self, agent_name):
         return self.agent_manager.get_agent(agent_name).agent.get_observation(
@@ -121,25 +107,32 @@ class NovelGridWorldSequentialEnv(AECEnv):
         agent_selection) and needs to update
         - rewards
         - _cumulative_rewards (accumulating the rewards)
-        - dones
+        - terminations / truncations
         - infos
         - agent_selection (to the next agent)
         And any internal state used by observe() or render()
         """
-        # reset rewards for current step ("stepCost")
-        self.rewards = {agent: 0 for agent in self.possible_agents}
-
         agent = self.agent_selection
 
-        if self.dones[self.agent_selection]:
+        if self.terminations[self.agent_selection] or self.truncations[self.agent_selection]:
             # handles stepping an agent which is already done
             # accepts a None action for the one agent, and moves the agent_selection to
             # the next done agent,  or if there are no more done agents, to the next live agent
-            return self._was_done_step(None)
+            return self._was_dead_step(None)
+
+        agent = self.agent_selection
+
+        # the agent which stepped last had its _cumulative_rewards accounted for
+        # (because it was returned by last()), so the _cumulative_rewards for this
+        # agent should start again at 0
+        self._cumulative_rewards[agent] = 0
+
+        # stores action of current agent
+        self.state[self.agent_selection] = action
 
         # set to be done if the agent is done
         # DELAYED one round
-        self.dones[agent] = self._is_agent_done(agent)
+        self.terminations[agent] = self._is_agent_done(agent)
 
         ############# BEGIN EXECUTION ################
         action_set = self.agent_manager.get_agent(agent).action_set
@@ -202,10 +195,15 @@ class NovelGridWorldSequentialEnv(AECEnv):
 
         # selects the next agent, unless the action that the current
         # agent has taken allows for an additional action in the round.
-        if not action_set.actions[action][1].allow_additional_action or self.dones[agent]:
+        if not action_set.actions[action][1].allow_additional_action \
+                    or self.truncations[agent] or self.terminations[agent]:
             self.agent_selection = self._agent_selector.next()
+
         # Adds .rewards to ._cumulative_rewards
         self._accumulate_rewards()
+
+        if self.render_mode == "human":
+            self.render()
     
 
     def _set_game_over(self, goal_achieved=False, delayed_by_one_step=True, notes = ""):
@@ -217,7 +215,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             else:
                 self.internal_state._given_up = True
         else:
-            self.dones = {agent: True for agent in self.possible_agents}
+            self.terminations = {agent: True for agent in self.possible_agents}
 
         if self.generate_csv:
             report_game_result(
@@ -281,10 +279,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
         Returns if the agent is done, if the agent is still in the agent list.
         """
         # agent already done, return true and update nothing
-        if agent not in self.dones:
+        if agent not in self.truncations:
             # agent no longer active, return True
             return True
-        elif self.dones[self.agent_selection]:
+        elif self.truncations[self.agent_selection] or self.terminations[self.agent_selection]:
             # if we already marked as done, return True
             return True
         
@@ -340,9 +338,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.agents = self.possible_agents[:]
         self.rewards = {agent: 0 for agent in self.agents}
         self._cumulative_rewards = {agent: 0 for agent in self.agents}
-        self.dones = {agent: False for agent in self.agents}
+        self.terminations = {agent: False for agent in self.agents}
+        self.truncations = {agent: False for agent in self.agents}
         self.infos = {agent: {} for agent in self.agents}
-        self.num_active_non_env_agents = self.agent_manager.get_non_env_agent_count()
+        self.state = {agent: None for agent in self.agents}
+        self.observations = {agent: None for agent in self.agents}
         self.num_moves = 0
 
         # Agent
@@ -366,7 +366,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
             episode=self.internal_state.episode,
             step_count=self.internal_state._step_count,
             agent_facing=agent.facing,
-            selected_action=self.internal_state.selected_action,
+            selected_action=self.state["agent_" + str(agent.id)],
             agent_selected_item=agent.selectedItem,
             total_cost=self._cumulative_rewards["agent_" + str(agent.id)],
             agent_inventory=agent.inventory,

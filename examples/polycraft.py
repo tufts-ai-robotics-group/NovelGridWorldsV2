@@ -125,12 +125,12 @@ for episode in range(num_episodes):
             .allow_additional_action
         ):
             ## while action is valid, do action.
-            if agent not in env.dones or env.dones[agent]:
+            if agent not in env.terminations or env.terminations[agent]:
                 # skips the process if agent is done.
                 env.step(0, {})
                 break
 
-            observation, reward, done, info = env.last()
+            observation, reward, terminated, truncated, info = env.last()
             result = env.agent_manager.agents[agent].agent.policy(observation)
 
             # getting the actions
