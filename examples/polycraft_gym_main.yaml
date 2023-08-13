@@ -1,0 +1,302 @@
+---
+sleep_time: 0
+time_limit: 890
+actions:
+  break_block:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.Break
+    step_cost: 3600
+  rotate_left:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.RotateLeft
+  rotate_right:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.RotateRight
+  approach_103:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO
+    entity_id: 103
+  use:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.Use
+    step_cost: 300
+  select_item:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem
+    step_cost: 120
+  deselect_item:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SelectItem
+    step_cost: 120
+  interact_102:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.Interact
+    entity_id: 102
+  interact_103:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.Interact
+    entity_id: 103
+  interact_104:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.Interact
+    entity_id: 104
+  collect:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.Collect
+    step_cost: 1200
+  place:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.PlaceItem
+    step_cost: 300
+  nop:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.NOP
+  TP_TO:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.TP_TO
+  move_forward:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove
+    direction: W
+    step_cost: 27.906975
+  move_backward:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove
+    direction: X
+    step_cost: 27.906975
+  move_left:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove
+    direction: A
+    step_cost: 27.906975
+  move_right:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove
+    direction: D
+    step_cost: 27.906975
+  give_up:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.GiveUp
+  trade:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.Trade
+  craft:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.Craft
+action_sets:
+  main:
+  - use
+  - collect
+  - break_block
+  - approach_*
+  - interact_*
+  - select_oak_log
+  - select_*axe
+  - select_sapling
+  - select_tree_tap
+  - select_crafting_table
+  - deselect_item
+  - craft_*
+  - trade_*
+  - move_*
+  - rotate_*
+  - place
+  - nop
+  - give_up
+  pogoist_smart:
+  - use
+  - collect
+  - interact_102
+  - interact_103
+  - interact_104
+  - break_block
+  - select_sapling
+  - select_tree_tap
+  - select_iron_pickaxe
+  - select_crafting_table
+  - place
+  - craft_stick
+  - craft_planks
+  - craft_block_of_diamond
+  - craft_tree_tap
+  - craft_pogo_stick
+  - trade_block_of_platinum_1
+  - trade_block_of_titanium_1
+  - trade_diamond_1
+  - trade_block_of_titanium_2
+  - rotate_left
+  - rotate_right
+  - move_forward
+  - move_backward
+  - move_left
+  - move_right
+  - trade
+  - nop
+  - TP_TO
+  trader:
+  - nop
+  pogoist:
+  - nop
+object_types:
+  default: gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject
+  bedrock: gym_novel_gridworlds2.contrib.polycraft.objects.UnbreakablePolycraftObject
+  door: gym_novel_gridworlds2.contrib.polycraft.objects.Door
+  safe: gym_novel_gridworlds2.contrib.polycraft.objects.Safe
+  plastic_chest: gym_novel_gridworlds2.contrib.polycraft.objects.PlasticChest
+  tree_tap:
+    module: gym_novel_gridworlds2.contrib.polycraft.objects.TreeTap
+    collect_cost: 50000
+  oak_log: gym_novel_gridworlds2.contrib.polycraft.objects.easy_oak_log.OakLog
+  diamond_ore:
+    module: gym_novel_gridworlds2.contrib.polycraft.objects.Metal
+    break_cost: 600
+  iron_pickaxe: gym_novel_gridworlds2.contrib.polycraft.objects.IronPickaxe
+  crafting_table: gym_novel_gridworlds2.contrib.polycraft.objects.BreakablePolycraftObject
+  block_of_platinum:
+    module: gym_novel_gridworlds2.contrib.polycraft.objects.Metal
+    break_cost: 600
+  block_of_titanium: gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject
+  sapling: gym_novel_gridworlds2.contrib.polycraft.objects.PlacablePolycraftObject
+map_size: [16, 16]
+seed: 23
+rooms:
+  '2':
+    start: [0, 0]
+    end: [15, 15]
+objects:
+  oak_log:
+    quantity: 5
+    room: 2
+    chunked: 'False'
+  block_of_platinum:
+    quantity: 4
+    room: 2
+    chunked: 'True'
+  crafting_table:
+    quantity: 1
+    room: 2
+    chunked: 'False'
+  plastic_chest:
+    quantity: 1
+    room: 2
+    chunked: 'False'
+  diamond_ore:
+    quantity: 4
+    room: 2
+    chunked: 'True'
+num_episodes: 10
+entities:
+  main_1:
+    agent: gym_novel_gridworlds2.agents.KeyboardAgent
+    name: entity.polycraft.Player.name
+    type: agent
+    entity: gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity
+    action_set: main
+    inventory:
+      iron_pickaxe: 1
+    id: 0
+    room: 2
+    max_step_cost: 100000
+  trader_joe:
+    agent: gym_novel_gridworlds2.agents.RandomAgent
+    name: entity.polycraft.Trader.name
+    type: trader
+    entity: gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader
+    action_set: trader
+    inventory:
+      block_of_titanium: 1
+      block_of_platinum: 1
+    id: 103
+    room: 2
+  trader_bob:
+    agent: gym_novel_gridworlds2.agents.RandomAgent
+    name: entity.polycraft.Trader.name
+    type: trader
+    entity: gym_novel_gridworlds2.contrib.polycraft.objects.EntityTrader
+    action_set: trader
+    inventory:
+      diamond: 9
+      block_of_titanium: 2
+    id: 104
+    room: 2
+  pogoist_1:
+    agent: gym_novel_gridworlds2.agents.RandomAgent
+    name: entity.polycraft.Pogoist.name
+    type: pogoist
+    entity: gym_novel_gridworlds2.contrib.polycraft.objects.EntityPogoist
+    action_set: pogoist
+    inventory:
+      iron_pickaxe: 1
+    id: 102
+    room: 2
+recipes:
+  stick:
+    input:
+    - planks
+    - '0'
+    - planks
+    - '0'
+    output:
+      stick: 4
+    step_cost: 2400
+  planks:
+    input:
+    - oak_log
+    - '0'
+    - '0'
+    - '0'
+    output:
+      planks: 4
+    step_cost: 1200
+  block_of_diamond:
+    input:
+    - diamond
+    - diamond
+    - diamond
+    - diamond
+    - diamond
+    - diamond
+    - diamond
+    - diamond
+    - diamond
+    output:
+      block_of_diamond: 1
+    step_cost: 10800
+  tree_tap:
+    input:
+    - planks
+    - stick
+    - planks
+    - planks
+    - '0'
+    - planks
+    - '0'
+    - planks
+    - '0'
+    output:
+      tree_tap: 1
+    step_cost: 7200
+  pogo_stick:
+    input:
+    - stick
+    - block_of_titanium
+    - stick
+    - block_of_diamond
+    - block_of_titanium
+    - block_of_diamond
+    - '0'
+    - rubber
+    - '0'
+    output:
+      pogo_stick: 1
+    step_cost: 8400
+trades:
+  block_of_titanium_1:
+    input:
+      block_of_platinum: 1
+    output:
+      block_of_titanium: 1
+    trader:
+    - 103
+  block_of_platinum_1:
+    input:
+      diamond: 18
+    output:
+      block_of_platinum: 1
+    trader:
+    - 103
+  diamond_1:
+    input:
+      block_of_platinum: 2
+    output:
+      diamond: 9
+    trader:
+    - 104
+  block_of_titanium_2:
+    input:
+      oak_log: 10
+    output:
+      block_of_titanium: 2
+    trader:
+    - 104
+auto_pickup_agents:
+- 0

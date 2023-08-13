@@ -1,5 +1,9 @@
 from copy import deepcopy
-import json
+import yaml
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
 import importlib
 import pathlib
 from typing import List, Mapping, Tuple, Type
@@ -52,7 +56,7 @@ def add_to_extended_files(extended_files: queue.Queue, config_file_path, ext_fil
         config_file_path = ext_file
     extended_files.put(config_file_path)
 
-def load_json(config_file_path="", config_json=None, verbose=False):
+def load_config(config_file_path="", config_json=None, verbose=False):
     """
     Loading a file. When the json file includes the "extends" field,
     load another file and extend the current json.
@@ -61,7 +65,7 @@ def load_json(config_file_path="", config_json=None, verbose=False):
         with open(config_file_path, "r") as f:
             if verbose:
                 print("Loading file", str(config_file_path))
-            config = json.load(f)
+            config = yaml.load(f, Loader=Loader)
     else:
         config = config_json
 
@@ -106,6 +110,12 @@ def load_json(config_file_path="", config_json=None, verbose=False):
                 add_to_extended_files(extended_files, config_file_path, nested_extend)
     return config
 
+def load_json(config_file_path="", config_json=None, verbose=False):
+    """
+    Compatibility layer for load_config
+    """
+    return load_config()
+
 
 class ConfigParser:
     def __init__(self) -> None:
@@ -115,18 +125,12 @@ class ConfigParser:
         self.json_file_name = ""
 
     def parse_json(
-        self, json_file_name="", json_content=None, episode=0, rng=None, rendering=True
+        self, json_content=None, episode=0, rng=None, rendering=True
     ) -> Tuple[State, Dynamic, AgentManager]:
         """
         Parses the json, given a json content.
         TODO: check error
         """
-        if json_content is None:
-            with open(json_file_name, "r") as f:
-                json_content = json.load(f, strict=False)
-                self.json_file_name = json_file_name
-        else:
-            self.json_file_name = ""
         json_content = deepcopy(json_content)
 
         # seed

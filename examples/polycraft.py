@@ -8,7 +8,7 @@ from gym_novel_gridworlds2.actions.action import Action
 
 from gym_novel_gridworlds2.envs.sequential import NovelGridWorldSequentialEnv
 from gym_novel_gridworlds2.utils.game_report import report_game_result
-from gym_novel_gridworlds2.utils.json_parser import ConfigParser, load_json
+from gym_novel_gridworlds2.utils.json_parser import ConfigParser, load_config
 from gym_novel_gridworlds2.utils.game_report import get_game_time_str
 
 import pygame
@@ -73,7 +73,7 @@ seed = args.seed
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
 
-config_content = load_json(config_file_path)
+config_content = load_config(config_file_path)
 print()
 
 if num_episodes is None:
