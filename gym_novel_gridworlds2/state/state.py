@@ -24,7 +24,6 @@ class State:
         map_json: dict = None,
         item_list: Mapping[str, int] = {"air": 0},
         rng: np.random.Generator = default_rng(),
-        set_game_over = lambda x: None,
         **kwargs
     ):
         """
@@ -57,11 +56,16 @@ class State:
         self.entity_count = 0
         self.selected_action = ""
 
-        self.env_set_game_over = set_game_over
         self._goal_achieved = False
         self._given_up = False
 
         self.renderer = DummyRenderer()
+    
+    def set_game_over(self, goal_achieved=False, notes = ""):
+        if goal_achieved:
+            self._goal_achieved = True
+        else:
+            self._given_up = True
 
     def make_copy(self):
         return deepcopy(self)
@@ -322,15 +326,6 @@ class State:
         after a certain number of timesteps
         """
         pass
-
-    def set_game_over(self, achieved: bool):
-        """
-        Sets the game over state.
-        """
-        if achieved:
-            self.env_set_game_over(achieved, notes="Goal achieved")
-        else:
-            self.env_set_game_over(achieved, notes="Agent gave up")
 
     def clear(self):
         """

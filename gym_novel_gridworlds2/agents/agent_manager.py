@@ -26,16 +26,15 @@ class AgentManager:
         self.agent_id_counter += 1
         self.agent_count += 1
     
-    def get_non_env_agent_count(self):
+    def get_non_env_agents(self):
         """
         returns the number of agents not environmental agents (e.g. pogoist)
         """
-        count = 0
+        active_agents = []
         for agent in self.agents.values():
             if not getattr(agent.agent, "is_env_agent", False):
-                count += 1
-        
-        return count
+                active_agents.append("agent_" + str(agent.entity.id))
+        return active_agents
 
 
     # def remove_agent(self, agent_id):

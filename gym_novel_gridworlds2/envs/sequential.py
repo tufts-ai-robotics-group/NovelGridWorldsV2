@@ -2,7 +2,7 @@ import numpy as np
 import functools
 import pygame
 from copy import deepcopy
-from typing import List
+from typing import List, Tuple
 import time
 
 from pettingzoo import AECEnv
@@ -19,9 +19,18 @@ from ..utils.game_report import create_empty_game_result_file, report_game_resul
 from ..utils.terminal_colors import bcolors
 
 class NovelGridWorldSequentialEnv(AECEnv):
-    metadata = {"render_modes": ["human", "rgb_array", None]}
+    metadata = {"render_modes": ["human", None]}
 
-    def __init__(self, config_dict: str, max_time_step: int = 2000, time_limit=5000, run_name=None, enable_render=True, logged_agents=[], generate_csv=False, seed=None):
+    def __init__(self, 
+            config_dict: dict, 
+            max_time_step: int = 2000, 
+            time_limit=5000, 
+            run_name=None, 
+            render_mode=None,
+            logged_agents=[], 
+            generate_csv=False, 
+            seed=None
+        ):
         """
         Init
         TODO more docs
@@ -30,11 +39,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
         ### custom variables environment
         self.run_name = run_name
         self.config_dict = config_dict
-        if enable_render:
-            self.render_mode = "human"
+        self.render_mode = render_mode
+        if render_mode == "human":
             pygame.display.set_caption(f"NovelGym - {config_dict.get('filename')}")
-        else:
-            self.render_mode = None
 
         self.rng = np.random.default_rng(seed=seed)
 
@@ -42,10 +49,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
         (
             self.internal_state,
             self.dynamic,
-            self.agent_manager,
-        ) = self.json_parser.parse_json(json_content=config_dict, rendering=enable_render, rng=self.rng)
-        self.enable_render = enable_render
-        self.internal_state.env_set_game_over = self._set_game_over
+            self.agent_manager
+        ) = self.json_parser.parse_json(
+            json_content=config_dict, 
+            rendering=(render_mode == "human"), 
+            rng=self.rng
+        )
 
         self.goal_item_to_craft = ""  # TODO add to config
         self.MAX_ITER = max_time_step
@@ -54,11 +63,11 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.possible_agents = self.agent_manager.get_possible_agents()
         self.agent_name_mapping = self.agent_manager.get_agent_name_mapping()
 
-        # The number of non-environmental agents.
+        # The list of non-environmental agents.
         # Game over when all non-env agents are done.
         # And environmental agents will be automatically terminated
         # when all other active agents are done.
-        self.num_active_non_env_agents = self.agent_manager.get_non_env_agent_count()
+        self.active_non_env_agents = self.agent_manager.get_non_env_agents()
 
         # the episode will stop when it exceeds time limit.
         self.initial_time = time.time()
@@ -130,19 +139,10 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # stores action of current agent
         self.state[self.agent_selection] = action
 
-        # set to be done if the agent is done
-        # DELAYED one round
-        self.terminations[agent] = self._is_agent_done(agent)
-
         ############# BEGIN EXECUTION ################
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
 
-        # store the saved agent nickname
-        if agent_entity.nickname == "main_1":
-            # TODO remove hardcode
-            self.internal_state.selected_action = action_set.actions[action][0]
-        # print(agent_entity.inventory)
         info = {}
 
         step_cost = action_set.actions[action][1].get_step_cost(agent_entity, **extra_params) or 0
@@ -184,17 +184,17 @@ class NovelGridWorldSequentialEnv(AECEnv):
             self._agent_selector.is_last()
             and not action_set.actions[action][1].allow_additional_action
         ):  
-            self._game_over_agent_update()
+            self._check_truncate_env_agents()
             self.num_moves += 1
             self.internal_state.time_updates()
 
-        else:
-            # necessary so that observe() returns a reasonable observation at all times.
-            # no rewards are allocated until both players give an action
-            self._clear_rewards()
+        # necessary so that observe() returns a reasonable observation at all times.
+        # no rewards are allocated until both players give an action
+        self._clear_rewards()
 
         # selects the next agent, unless the action that the current
-        # agent has taken allows for an additional action in the round.
+        # agent has taken an action that allows for 
+        # an additional action in the round.
         if not action_set.actions[action][1].allow_additional_action \
                     or self.truncations[agent] or self.terminations[agent]:
             self.agent_selection = self._agent_selector.next()
@@ -202,31 +202,27 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # Adds .rewards to ._cumulative_rewards
         self._accumulate_rewards()
 
+        # process terminations
+        self.truncations[agent] = self.MAX_ITER is not None and self.num_moves > self.MAX_ITER
+        self.terminations[agent] = self.internal_state._given_up or self.internal_state._goal_achieved
+        if self.truncations[agent] or self.terminations[agent] and agent in self.active_non_env_agents:
+            self.active_non_env_agents.remove(agent)
+
         if self.render_mode == "human":
             self.render()
-    
 
-    def _set_game_over(self, goal_achieved=False, delayed_by_one_step=True, notes = ""):
-        if self.enable_render:
-            print("Episode over. Total time steps:", self.num_moves, "Goal achieved:", goal_achieved)
-        if delayed_by_one_step:
-            if goal_achieved:
-                self.internal_state._goal_achieved = True
-            else:
-                self.internal_state._given_up = True
-        else:
-            self.terminations = {agent: True for agent in self.possible_agents}
-
-        if self.generate_csv:
-            report_game_result(
-                output_prefix=self.run_name,
-                episode=self.internal_state.episode, 
-                total_steps=self.num_moves,
-                total_time=time.time() - self.initial_time,
-                total_cost=self.rewards['agent_0'],
-                success=self.internal_state._goal_achieved,
-                notes=notes)
     
+    def _check_truncate_env_agents(self):
+        """
+        Checks and sets all agent to be done based on if the whole world is over
+        """
+        # stop the world, by truncating all environment agents
+        if len(self.active_non_env_agents) <= 0:
+            for agent in self.possible_agents:
+                if not self.terminations[agent]:
+                    self.truncations[agent] = True
+
+
     def _print_curr_agent_action_info(self, 
             is_success: bool, agent_name: str, 
             agent_nickname: str, action_name: str, 
@@ -250,53 +246,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         agent_entity.print_agent_status()
         if not is_success:
             print("Info:", info)
-
-
-    def _game_over_agent_update(self):
-        """
-        Checks and sets all agent to be done based if the whole episode is over
-        """
-        if self.internal_state._given_up:
-            return
-        # update of done, by setting game_over
-        # to test: stepCost and max_step_cost
-        if self.time_limit is not None and time.time() - self.initial_time > self.time_limit:
-            print("Time limit exceeded")
-            self._set_game_over(False, notes="Time limit exceeded")
-        elif self.num_active_non_env_agents <= 0:
-            self._set_game_over(False, notes="All agents are dead")
-
-        # Updated done if number of moves exceeds limit
-        if self.MAX_ITER is not None and self.num_moves >= self.MAX_ITER:
-            self._set_game_over(
-                goal_achieved=False, 
-                delayed_by_one_step=True, notes="Max number of steps exceeded"
-            )
-
-
-    def _is_agent_done(self, agent):
-        """
-        Returns if the agent is done, if the agent is still in the agent list.
-        """
-        # agent already done, return true and update nothing
-        if agent not in self.truncations:
-            # agent no longer active, return True
-            return True
-        elif self.truncations[self.agent_selection] or self.terminations[self.agent_selection]:
-            # if we already marked as done, return True
-            return True
-        
-        # agent not done but we're marking it done
-        if self._cumulative_rewards[agent] >= \
-            self.agent_manager.get_agent(agent).max_step_cost:
-            # if the total step cost exceeds the max step cost, return True
-            self.num_active_non_env_agents -= 1
-            return True
-        elif self.MAX_ITER is not None and self.num_moves > self.MAX_ITER:
-            return True
-        elif self.internal_state._given_up or self.internal_state._goal_achieved:
-            return True
-        return False
 
 
     def reset(self, seed=None, return_info=False, options=None):
@@ -326,9 +275,8 @@ class NovelGridWorldSequentialEnv(AECEnv):
             json_content=self.config_dict, 
             episode=episode,
             rng = self.rng,
-            rendering=self.enable_render,
+            rendering=(self.render_mode == "human"),
         )
-        self.internal_state.env_set_game_over = self._set_game_over
 
         #### agent novelties
         self.possible_agents = self.agent_manager.get_possible_agents()

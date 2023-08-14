@@ -19,14 +19,6 @@ class ActionSet:
     def do_action(self, entity, index):
         action = self.actions[index][1]
         action.do_action(entity)
-    
-    # def parse_exec_command(self, command, entity):
-    #     """
-    #     Symbolic functionalities:
-    #     Parse and execute a command
-    #     """
-    #     # fallback: no cmd_format specified and or input format not matched
-    #     return action.do_action(entity)
 
 
     def parse_command(self, command: str) -> Tuple[int, Mapping[str, Union[List[str], str]]]:

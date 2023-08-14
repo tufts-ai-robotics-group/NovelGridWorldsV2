@@ -67,7 +67,7 @@ num_episodes = args.episodes
 exp_name = args.exp_name
 gameport = args.gameport
 num_runs = args.num_runs
-rendering_mode = args.rendering
+render_mode = args.rendering
 seed = args.seed
 
 json_parser = ConfigParser()
@@ -98,7 +98,7 @@ if seed is not None:
 print("Using seed", config_content['seed'])
 
 env = NovelGridWorldSequentialEnv(
-    enable_render=rendering_mode not in ["none", "off", None],
+    render_mode=render_mode,
     config_dict=config_content, 
     max_time_step=4000, 
     time_limit=time_limit, 
@@ -114,7 +114,7 @@ for episode in range(num_episodes):
     print("++++++++++++++ Running episode", episode, "+++++++++++++++")
     print()
     env.reset(return_info=True, options={"episode": episode})
-    env.render(mode=rendering_mode)
+    env.render(mode=render_mode)
 
     for agent in env.agent_iter():
         action: Optional[int] = None
@@ -145,7 +145,6 @@ for episode in range(num_episodes):
             env.step(action, extra_params)
 
             if agent == last_agent:
-                env.render()
                 time.sleep(sleep_time)
 
 env.close()
