@@ -98,7 +98,7 @@ def load_config(config_file_path="", config_json=None, verbose=False):
 
         # load and extend
         with open(config_file_path, "r") as f:
-            extended_content = json.load(f)
+            extended_content = yaml.load(f, Loader=Loader)
             config = inject(extended_content, config)
 
         # add nested extended files to the queue
@@ -114,7 +114,7 @@ def load_json(config_file_path="", config_json=None, verbose=False):
     """
     Compatibility layer for load_config
     """
-    return load_config()
+    return load_config(config_file_path, config_json, verbose)
 
 
 class ConfigParser:
