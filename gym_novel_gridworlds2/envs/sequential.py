@@ -310,11 +310,13 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # agent_obj = self.agent_manager.get_agent(f"agent_{agent.id}")
         self.internal_state.renderer.clear_map()
         self.internal_state._draw_map()
+        curr_action_set = self.agent_manager.agents["agent_0"].action_set.actions
+        curr_action = self.state["agent_" + str(agent.id)]
         self.internal_state.renderer.draw_info(
             episode=self.internal_state.episode,
             step_count=self.internal_state._step_count,
             agent_facing=agent.facing,
-            selected_action=self.state["agent_" + str(agent.id)],
+            selected_action=curr_action_set[curr_action][0] if curr_action is not None else None,
             agent_selected_item=agent.selectedItem,
             total_cost=self._cumulative_rewards["agent_" + str(agent.id)],
             agent_inventory=agent.inventory,
