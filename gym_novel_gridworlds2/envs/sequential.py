@@ -296,6 +296,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # Agent
         self._agent_selector = agent_selector(self.agents)
         self.agent_selection = self._agent_selector.next()
+        self.active_non_env_agents = self.agent_manager.get_non_env_agents()
 
         # reset timer
         self.initial_time = time.time()
