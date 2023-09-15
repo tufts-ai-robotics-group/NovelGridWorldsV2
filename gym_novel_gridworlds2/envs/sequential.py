@@ -165,7 +165,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.rewards[agent] -= step_cost
 
         # TODO only print when verbose
-        if agent_entity.nickname in self.logged_agents:
+        if "agent_{}".format(agent_entity.id) in self.logged_agents:
             self._print_curr_agent_action_info(
                 not action_failed, agent, 
                 agent_entity.nickname, action_set.actions[action][0], 
