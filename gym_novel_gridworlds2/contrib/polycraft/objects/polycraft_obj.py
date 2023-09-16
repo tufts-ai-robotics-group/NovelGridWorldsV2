@@ -6,7 +6,7 @@ class PolycraftObject(Object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.breakable: Union[bool, str] = True # default
+        self.breakable: Union[bool, str] = False # default
         for key, val in kwargs.items():
             if key == "breakable" or "_cost" in key:
                 # set attr for all key
@@ -14,7 +14,7 @@ class PolycraftObject(Object):
     
     def acted_upon(self, action_name, agent: Entity):
         # interact, break, use, etc
-        if action_name == "break":
+        if action_name == "break" and self.breakable:
             self.state = "floating"
 
     @staticmethod
