@@ -3,10 +3,10 @@ from typing import Union
 
 class PolycraftObject(Object):
     placeable = True
+    breakable = False
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.breakable: Union[bool, str] = False # default
         for key, val in kwargs.items():
             if key == "breakable" or "_cost" in key:
                 # set attr for all key
