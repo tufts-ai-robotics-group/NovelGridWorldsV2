@@ -2,7 +2,8 @@ import pathlib
 import time
 import argparse
 
-import json
+import yaml
+from yaml.loader import Loader
 from typing import Optional
 from gym_novel_gridworlds2.actions.action import Action
 
@@ -14,8 +15,17 @@ from gym_novel_gridworlds2.utils.game_report import get_game_time_str
 import pygame
 import numpy as np
 
+from gym_novel_gridworlds2.utils.novelty_injection import inject
+
 parser = argparse.ArgumentParser(description="Polycraft Environment")
 parser.add_argument("filename", type=str, nargs=1, help="The path of the config file.")
+parser.add_argument(
+    '--novelty_config',
+    type=str,
+    help="The filename of the novelty to inject.",
+    required=False,
+    default=None
+)
 parser.add_argument(
     "-n",
     "--episodes",
@@ -69,6 +79,7 @@ gameport = args.gameport
 num_runs = args.num_runs
 render_mode = args.rendering
 seed = args.seed
+novelty_file = args.novelty_config
 
 json_parser = ConfigParser()
 config_file_path = pathlib.Path(__file__).parent.resolve() / file_name
@@ -97,13 +108,19 @@ if seed is not None:
     config_content['seed'] = seed
 print("Using seed", config_content['seed'])
 
+# injection of an extra config file if needed.
+if novelty_file is not None:
+    with open(novelty_file, 'r') as f:
+        novelty_config = yaml.load(f, Loader=Loader)
+    config_content = inject(config_content, novelty_config)
+
 env = NovelGridWorldSequentialEnv(
     render_mode=render_mode,
     config_dict=config_content, 
     max_time_step=4000, 
     time_limit=time_limit, 
     run_name=exp_name,
-    logged_agents=["main_1"]
+    logged_agents=["agent_0"]
 )
 
 last_agent = env.possible_agents[-1]

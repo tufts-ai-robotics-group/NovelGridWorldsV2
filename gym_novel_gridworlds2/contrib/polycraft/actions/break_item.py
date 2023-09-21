@@ -64,7 +64,6 @@ class Break(Action):
         """
         
         if not self.check_precondition(agent_entity, target_object):
-            self.result = "FAILED"
             self.action_metadata(agent_entity, target_object)
 
             if target_object is None:
@@ -82,7 +81,6 @@ class Break(Action):
         if objs[0][0].type == "oak_log" and objs[0][0].state == "floating":
             self.state.tree_was_broken(self.temp_loc)
 
-        self.result = "SUCCESS"
         return self.action_metadata(agent_entity, target_object)
 
     def action_metadata(self, agent_entity, target_type=None, target_object=None):

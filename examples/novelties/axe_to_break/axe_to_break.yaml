@@ -1,0 +1,10 @@
+---
+object_types:
+  oak_log: novelties.axe_to_break.hard_tree.HardTree
+  axe: gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftObject
+novelties:
+  '0':
+    entities:
+      main_1:
+        inventory:
+          axe: 1
