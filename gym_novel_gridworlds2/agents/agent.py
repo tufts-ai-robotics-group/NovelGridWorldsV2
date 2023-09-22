@@ -39,9 +39,6 @@ class Agent:
     def get_action_space(self):
         return self.action_set.get_action_space()
     
-    def update_metadata(self, metadata: dict):
-        pass
-    
     def policy(self, observation):
         """
         Main policy for the agent
