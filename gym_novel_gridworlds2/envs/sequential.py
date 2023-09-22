@@ -148,7 +148,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         step_cost = action_set.actions[action][1].get_step_cost(agent_entity, **extra_params) or 0
         action_failed = False
 
-        # execution of the action
+        # execution of the action, adding info
         try:
             info["message"] = action_set.actions[action][1].do_action(
                 agent_entity, **extra_params
@@ -160,6 +160,9 @@ class NovelGridWorldSequentialEnv(AECEnv):
                 "message": e.message if hasattr(e, "message") else "",
             }
             pass
+
+        info["success"] = not action_failed
+        self.infos[agent] = info
         
         # process step cost
         self.rewards[agent] -= step_cost
