@@ -143,21 +143,25 @@ class NovelGridWorldSequentialEnv(AECEnv):
         action_set = self.agent_manager.get_agent(agent).action_set
         agent_entity = self.agent_manager.get_agent(agent).entity
 
-        info = {}
+        info = {
+            "message": ""
+        }
 
         step_cost = action_set.actions[action][1].get_step_cost(agent_entity, **extra_params) or 0
         action_failed = False
 
         # execution of the action, adding info
         try:
-            info["message"] = action_set.actions[action][1].do_action(
+            result = action_set.actions[action][1].do_action(
                 agent_entity, **extra_params
             )
+            if type(result) is str:
+                info["message"] = result
         except PreconditionNotMetError as e:
             # TODO set an error message
             action_failed = True
             info = {
-                "message": e.message if hasattr(e, "message") else "",
+                "message": str(e.message) if hasattr(e, "message") else "",
             }
             pass
 
@@ -291,7 +295,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self._cumulative_rewards = {agent: 0 for agent in self.agents}
         self.terminations = {agent: False for agent in self.agents}
         self.truncations = {agent: False for agent in self.agents}
-        self.infos = {agent: {} for agent in self.agents}
+        self.infos = {agent: {"message": "", "success": False} for agent in self.agents}
         self.state = {agent: None for agent in self.agents}
         self.observations = {agent: None for agent in self.agents}
         self.num_moves = 0
