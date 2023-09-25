@@ -6,7 +6,7 @@ The package is structured as follows:
 ## Action
 ### Actions
 The `Action` class specifies the preconditions and consequences of an 
-action, depending on the type of the entity that's executing the action
+action, depending on the type of the entity that is executing the action
 and the object that is acted upon.
 
 ### ActionSets
@@ -18,7 +18,7 @@ Most default actions are designed to accomodate both symbolic planning
 and Reinforcement Learning. 
 
 To run an action with parameters (mostly used in symbolic planning), 
-simply pass the parameter to the do_action function.
+simply pass the parameter to the `do_action` function.
 To initialize multiple actions with pre-defined set of parameters,
 pass the parameter when you initialize the object 
 (to the `__init__` function). The action will store the
@@ -26,7 +26,7 @@ pre-defined parameters and those will be used when `do_action` is called
 even if no parameter is provided.
 
 Our configuration file will automatically initialize some actions for you,
-which you can see in the [configuration file documentation](docs/config_file.md).
+which you can see in the configuration file documentation at [docs/config_file.md](docs/config_file.md).
 
 
 
