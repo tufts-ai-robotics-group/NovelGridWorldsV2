@@ -3,3 +3,4 @@ numpy>=1.19.5
 pygame>=2.1.0
 PettingZoo>=1.23.0
 matplotlib
+PyYAML

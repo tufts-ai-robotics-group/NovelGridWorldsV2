@@ -1,5 +1,5 @@
 from .sequential import NovelGridWorldSequentialEnv
-from gym.envs.registration import register
+from gymnasium.envs.registration import register
 
 register(
     id='NovelGridWorlds-Sequential-v2',

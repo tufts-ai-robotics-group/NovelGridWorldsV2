@@ -1,4 +1,4 @@
-from gym.spaces.space import Space
+from gymnasium.spaces.space import Space
 
 #modified version of code taken from:
 #https://github.com/koulanurag/ma-gym/blob/master/ma_gym/envs/utils/action_space.py

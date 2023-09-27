@@ -8,7 +8,7 @@ import time
 from pettingzoo import AECEnv
 from pettingzoo.utils import agent_selector
 from pettingzoo.utils import wrappers
-from gym.spaces import MultiDiscrete
+from gymnasium.spaces import MultiDiscrete
 
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity

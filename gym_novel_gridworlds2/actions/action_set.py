@@ -2,7 +2,7 @@ from typing import List, Mapping, Tuple, Union
 from ..object.entity import Entity
 from .action import Action 
 import re
-from gym.spaces import Discrete
+from gymnasium.spaces import Discrete
 
 class CommandParseError(Exception):
     pass
