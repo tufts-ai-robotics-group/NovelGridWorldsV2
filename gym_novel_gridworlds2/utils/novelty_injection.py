@@ -7,14 +7,13 @@ def inject(original_config, novelty) -> dict:
     """
     copied_config = deepcopy(original_config)
     replace_item(copied_config, novelty)
-    print(copied_config)
     return copied_config
 
 def test_merge_list():
     list_a = ["a", "b", "c"]
     list_b = ["->   123", "+d", "c -> e", "b -> "]
     merge_lists(list_a, list_b)
-    print(list_a)
+    # print(list_a)
     assert(list_a == ["a", "", "e", "d"])
 
 def merge_lists(base_list: list, new_list: list):
@@ -67,7 +66,8 @@ def replace_item(old_obj: dict, new_obj: dict, merge_list=True):
             #      list with a new one. 
             # + new_obj is the syntax of adding objects.
             # only check the first we require substitute actions to be the first.
-            merge_lists(new_obj_v, old_obj[new_obj_k])
+            print('merge')
+            merge_lists( old_obj[new_obj_k], new_obj_v)
         else:
             # otherwise (might be a list), deep copy
             old_obj[new_obj_k] = deepcopy(new_obj[new_obj_k])
