@@ -66,8 +66,7 @@ def replace_item(old_obj: dict, new_obj: dict, merge_list=True):
             #      list with a new one. 
             # + new_obj is the syntax of adding objects.
             # only check the first we require substitute actions to be the first.
-            print('merge')
-            merge_lists( old_obj[new_obj_k], new_obj_v)
+            merge_lists(old_obj[new_obj_k], new_obj_v)
         else:
             # otherwise (might be a list), deep copy
             old_obj[new_obj_k] = deepcopy(new_obj[new_obj_k])
