@@ -1,7 +1,7 @@
 from ast import Mult
 from typing import Optional
 import numpy as np
-from gym import spaces
+from gymnasium import spaces
 import json
 from gym_novel_gridworlds2.actions.action_set import CommandParseError
 

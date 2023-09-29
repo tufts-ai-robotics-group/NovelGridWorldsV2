@@ -1,5 +1,5 @@
-from gym import Space
-from gym.spaces import Discrete
+from gymnasium import Space
+from gymnasium.spaces import Discrete
 
 from gym_novel_gridworlds2.actions.action import Action
 
