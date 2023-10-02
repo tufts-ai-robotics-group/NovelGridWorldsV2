@@ -51,10 +51,26 @@ class Break(Action):
             is_breakable_if_holding = getattr(obj, "breakable_holding", [])
             if not is_breakable and is_breakable_if_holding != "all" and \
                         agent_entity.selectedItem not in is_breakable_if_holding:
-                return False
+                if obj is None:
+                    obj_type = "air"
+                elif hasattr(obj, "type"):
+                    obj_type = obj.type
+                else:
+                    obj_type = target_object.__class__.__name__
+                if not is_breakable and is_breakable_if_holding == []:
+                    raise PreconditionNotMetError(
+                        f'Agent "{agent_entity.nickname}" cannot perform break on {obj_type} because it is unbreakable.'
+                    )
+                else:
+                    raise PreconditionNotMetError(
+                        f'Agent "{agent_entity.nickname}" cannot perform break on {obj_type} because it requires tools to be broken.'
+                    )
             has_block_obj = True
 
-        return has_block_obj
+        if not has_block_obj:
+            raise PreconditionNotMetError(
+                f'Agent "{agent_entity.nickname}" cannot perform break because there is nothing in front of it.'
+            )
 
     def do_action(
         self, agent_entity: Entity, target_object: Object = None, **kwargs
@@ -63,19 +79,8 @@ class Break(Action):
         Checks for precondition, then breaks the object
         """
         
-        if not self.check_precondition(agent_entity, target_object):
-            self.action_metadata(agent_entity, target_object)
+        self.check_precondition(agent_entity, target_object)
 
-            if target_object is None:
-                obj_type = "air"
-            elif hasattr(target_object, "type"):
-                obj_type = target_object.type
-            else:
-                obj_type = target_object.__class__.__name__
-
-            raise PreconditionNotMetError(
-                f'Agent "{agent_entity.nickname}" cannot perform break on {obj_type}.'
-            )
         objs = self.state.get_objects_at(self.temp_loc)
         objs[0][0].acted_upon("break", agent_entity)
         if objs[0][0].type == "oak_log" and objs[0][0].state == "floating":

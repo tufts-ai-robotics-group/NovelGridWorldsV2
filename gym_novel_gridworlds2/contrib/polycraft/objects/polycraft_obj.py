@@ -14,7 +14,7 @@ class PolycraftObject(Object):
     
     def acted_upon(self, action_name, agent: Entity):
         # interact, break, use, etc
-        if action_name == "break" and self.breakable:
+        if action_name == "break":
             self.state = "floating"
 
     @staticmethod
