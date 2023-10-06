@@ -11,10 +11,12 @@ import numpy as np
 
 
 class Trade(Craft):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, min_distance=1, max_distance=3, **kwargs):
+        super().__init__(min_distance=1, max_distance=3, **kwargs)
         self.cmd_format = r"\w+ (\d+) *(?: +([\w:]+) (\d+))+"
         self.is_trade = True
+        self.min_distance = min_distance
+        self.max_distance = max_distance
     
     def check_precondition(
         self,
@@ -33,7 +35,7 @@ class Trade(Craft):
         near_trader = False
         entity_id = int(kwargs["_all_params"][0]) if "_all_params" in kwargs else None
 
-        near_trader, entity = check_target(agent_entity, self.state, entity_id)
+        near_trader, entity = check_target(agent_entity, self.state, distance_min=self.min_distance, distance_max=self.max_distance)
         if entity_id is not None and entity.id != entity_id:
             # if we specified the trader, but it's not the one we're facing
             near_trader = False
