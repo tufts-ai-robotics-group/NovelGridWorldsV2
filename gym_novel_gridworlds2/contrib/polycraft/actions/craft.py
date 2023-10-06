@@ -124,26 +124,4 @@ class Craft(Action):
 
         if self.itemToCraft == "pogo_stick" or "pogo_stick" in recipe.output_dict:
             self.state.set_game_over(True)
-        return self.action_metadata(kwargs, recipe=recipe)
-
-    def action_metadata(self, args=[], recipe: Optional[Recipe] = None):
-        if self.itemToCraft is not None:
-            return {
-                "command_result": {
-                    "command": args.get('_command') or "craft",
-                    "argument": self.itemToCraft,
-                    "message": "",
-                    "result": "SUCCESS",
-                    "stepCost": self.recipe_set.get_recipe(self.itemToCraft).step_cost,
-                }
-            }
-        else:
-            return {
-                "command_result": {
-                    "command": args['_command'],
-                    "argument": args['_raw_args'],
-                    "message": "",
-                    "result": "SUCCESS",
-                    "stepCost": recipe.step_cost,
-                }
-            }
+        return {}

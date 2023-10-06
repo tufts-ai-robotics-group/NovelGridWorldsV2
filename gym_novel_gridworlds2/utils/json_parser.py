@@ -299,6 +299,7 @@ class ConfigParser:
                             json_content["rooms"][str(info["room"])]["end"],
                         )
                 else:
+                    # TODO obsolete code. unfound objs will reach here
                     self.create_random_obj(self.state, obj_name, info["quantity"])
         
         # run map gen plugins
