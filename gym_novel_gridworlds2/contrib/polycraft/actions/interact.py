@@ -17,7 +17,6 @@ DIRECTIONS = [
 def check_target(agent_entity, state: State, distance_min=1, distance_max=3) -> Tuple[bool, PolycraftEntity]:
     # checks and finds the target entity to interact with.
     agent_room = state.get_room_by_loc(agent_entity.loc)[0] # assumes the first room for easier process
-    print(agent_room, distance_min, distance_max)
     for distance in range(distance_min, distance_max + 1):
         for direction in DIRECTIONS:
             tgt_loc = direction * distance + agent_entity.loc
@@ -85,4 +84,4 @@ class Interact(Action):
 
         _, target_object = check_target(agent_entity, self.state) #TODO optimize called twice
         target_object.acted_upon("interact", agent_entity)
-        return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
+        return {}
