@@ -1,101 +1,69 @@
-# NovelGridWorlds Version 2
-This is a redesigned version of NovelGridWorlds, built on top of OpenAI gym.
-The project is tested on Python 3.8, 3.9, and 3.10.
+# Novel GridWorlds Version 2 (NovelGridWorldsV2)
 
-# Installation
+This is a redesigned version of [gtatiya/gym-novel-gridworlds](https://github.com/gtatiya/gym-novel-gridworlds), which
 
-To install the project directly from source, go to the root folder of the
-project, activate your python environment (if applicable), and run
+> are [OpenAI Gym](https://github.com/openai/gym) environments for developing and evaluating AI agents that can detect and adapt to unknown sudden novelties in their environments. In each environment, the agent needs to craft objects using multiple recipes, which requires performing certain steps in some sequence.
+
+What is new in this version:
+
+1. possibility of multi-agent reinforcement learning,
+
+2. improved customisability of environment,
+
+3. improved modularity of novelty implementation.
+
+This project has been tested on Python 3.8, 3.9, and 3.10.
+
+## Installation
+
+To install this project, you can clone this repository, activate your Python environment such as `venv` or `conda` (if applicable), and install dependencies using `pip`.
 
 ```
+git clone https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2.git
+cd NovelGridWorldsV2
 pip install .
 ```
 
-# Running Examples
-There are example files in the `examples` folder. Just
-make sure you install
-the package before you run the examples.
+## Basic Usage
 
-## `polycraft.py`
-This file is an example environment for polycraft. 
-The file comes with some config files.
+### Project Structure
 
-- `pre_novelty_diarc.json` is a basic pre-novelty environment for diarc.
-- `novelty_jump.json` contains an extra novelty called "jump".
-- Other novelties are implemented 
+The project consists of five main components, namely the state, dynamics, actions and action sets, objects and entities, and agents. See [docs/project_structure.md](docs/project_structure.md) for a detailed explanation of the project structure.
 
-To run a config file, run
+### Running Examples
+
+In the `examples` folder, you can find the sample environment `polycraft.py`, which can be run using
+
 ```
 python3 polycraft.py <config_file>
 ```
 
-## Testing config files
-To test the socket connection to diarc with config file `pre_novelty_diarc.json`
-or the diarc socket connection agent,
-first start NGW2 and then open a new terminal,
-go to folder `tests` and run `python run_test_socket.py`.
-This file serves as a dummy socket connection client.
+where the `<config_file>` is a `.yaml` file specifying the configuration of all the components of the project. For some introductory interaction with the environment through a keyboard agent, assuming that you are in the `examples` folder, run
 
-## Phase 1 Evaluation Example Novelties
-The following files are example files that may be used for evaluation. 
+```
+python3 polycraft.py polycraft_gym_main.yaml
+```
 
-### Breakable Tree Taps
-Tree Taps cannot be collected from anymore, but they can be broken and can yield
-rubber.
+For more detail on how the project structure translates into the creation of config files for `polycraft.py`, see [docs/usage.md](docs/usage.md).
 
-file: `novelties/evaluation1/breakable_tree_taps/breakable_tree_tap.json`
+## Basic Novelty Injection
 
-### Key to Trade
-Requires the agent to have a key in the inventory to trade with the trader.
+To see how a simple novelty can be implemented, see the `axe_to_break` folder under `examples/novelties`. This is a novelty under which the agent must hold axe initially in its inventory in order to break trees. To demonstrate this novelty, assuming that you are in the `examples` folder, run
 
-file: `novelties/evaluation1/key_to_trade/key_to_trade.json`
+```
+python3 polycraft.py novelties/axe_to_break/axe_to_break.yaml
+```
 
-### Convince Me.
-Trees cannot be broken anymore, but you might interact with the trader
-and every once in a while the trader will give you oak logs for free.
+For documentation of all novelties, see [NovelGridWorldsV2 Novelty Documentation](https://docs.google.com/document/d/1jefIDrk-SWubPeo3yOMsDN8w0XeVg_CStB2Q5dY5oqM/edit?usp=sharing). For more detail on how to implement and inject your own novelties, see [docs/novelty_injection.md](docs/novelty_injection.md).
 
-file: `novelties/evaluation1/multi_interact/multi_interact.json`
+## NovelGym
 
-### random drop break
-Trees cannot be broken anymore, but there's a chance that 
-oak logs might be dropped when you break other blocks.
+For a continuation of the NovelGridWorldsV2 project, see [NovelGym](https://github.com/tufts-ai-robotics-group/NovelGym), a wrapper on this repository that
 
-file: `novelties/evaluation1/random_drop_break/random_drop_break.json`
+1. only uses one agent and focuses on environment development,
 
-### Trees can't grow here!
-You may not place saplings within 3 blocks around a tree or the wall (bedrock).
+2. adds and modularizes agent strategies in novelty encounters,
 
-file: `novelties/evaluation1/no_place_around_object/no_place_around_object.json`
+3. demonstrates the use of different libraries such as `tianshou`.
 
-# Configuration Files
-We designed a format of configuration file that is easy to change,
-extend, and also allows extra code to be easily imported.
-
-Please see [here](docs/config_file.md) for the format of the configuration file.
-
-<!-- ## `test_render_with_parser`
-This file allows you to type commands manually to test the render
-function in text and reproduce some errors.
-
-## `test_color_render`
-This file allows you to type commands manually to test the render
-function in PyGame and reproduce some errors. -->
-
-
-
-
-# Project Structure
-The project consists of 5 main components: state, dynamics, actions and action sets, objects and entities, and agents.
-
-Please see [here](docs/project_structure.md) to see detailed explanation of the
-project structure.
-
-# Documentation of Novelties
-https://docs.google.com/document/d/1jefIDrk-SWubPeo3yOMsDN8w0XeVg_CStB2Q5dY5oqM/edit?usp=sharing
-
-
-# TODO
-- wild card action set
-- extendable action set
-- recipe-based crafting step cost
-- more modular rendering
+The [NovelGym](https://github.com/tufts-ai-robotics-group/NovelGym) repository elaborates on the connection between the [NovelGridWorldsV2](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2) project and the [NovelGym](https://github.com/tufts-ai-robotics-group/NovelGym) project.
