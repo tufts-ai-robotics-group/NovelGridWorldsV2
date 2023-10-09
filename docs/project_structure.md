@@ -1,5 +1,6 @@
 # Project structure
-The package is structured as follows:
+
+The project is structured as follows.
 
 ![Project Structure](NG2_structure.png)
 

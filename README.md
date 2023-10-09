@@ -1,6 +1,6 @@
 # Novel GridWorlds Version 2 (NovelGridWorldsV2)
 
-This is a redesigned version of [gtatiya/gym-novel-gridworlds](https://github.com/gtatiya/gym-novel-gridworlds), which
+This is a redesigned version of gym-novel-gridworlds, which
 
 > are [OpenAI Gym](https://github.com/openai/gym) environments for developing and evaluating AI agents that can detect and adapt to unknown sudden novelties in their environments. In each environment, the agent needs to craft objects using multiple recipes, which requires performing certain steps in some sequence.
 
@@ -19,7 +19,7 @@ This project has been tested on Python 3.8, 3.9, and 3.10.
 To install this project, you can clone this repository, activate your Python environment such as `venv` or `conda` (if applicable), and install dependencies using `pip`.
 
 ```
-git clone https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2.git
+git clone <repo_https>
 cd NovelGridWorldsV2
 pip install .
 ```
@@ -58,7 +58,7 @@ For documentation of all novelties, see [NovelGridWorldsV2 Novelty Documentation
 
 ## NovelGym
 
-For a continuation of the NovelGridWorldsV2 project, see [NovelGym](https://github.com/tufts-ai-robotics-group/NovelGym), a wrapper on this repository that
+For a continuation of the NovelGridWorldsV2 project, see NovelGym, a wrapper on this repository that
 
 1. only uses one agent and focuses on environment development,
 
@@ -66,4 +66,4 @@ For a continuation of the NovelGridWorldsV2 project, see [NovelGym](https://gith
 
 3. demonstrates the use of different libraries such as `tianshou`.
 
-The [NovelGym](https://github.com/tufts-ai-robotics-group/NovelGym) repository elaborates on the connection between the [NovelGridWorldsV2](https://github.com/tufts-ai-robotics-group/NovelGridWorldsV2) project and the [NovelGym](https://github.com/tufts-ai-robotics-group/NovelGym) project.
+The NovelGym repository elaborates on the connection between the NovelGridWorldsV2 project and the NovelGym project.
