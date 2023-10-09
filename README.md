@@ -44,7 +44,7 @@ where the `<config_file>` is a `.yaml` file specifying the configuration of all 
 python3 polycraft.py polycraft_gym_main.yaml
 ```
 
-For more detail on how the project structure translates into the creation of config files for `polycraft.py`, see [docs/usage.md](docs/usage.md).
+For more detail on how the project structure translates into the creation of config files for `polycraft.py`, see [docs/config_file.md](docs/config_file.md).
 
 ## Basic Novelty Injection
 
@@ -54,7 +54,7 @@ To see how a simple novelty can be implemented, see the `axe_to_break` folder un
 python3 polycraft.py novelties/axe_to_break/axe_to_break.yaml
 ```
 
-For documentation of all novelties, see [NovelGridWorldsV2 Novelty Documentation](https://docs.google.com/document/d/1jefIDrk-SWubPeo3yOMsDN8w0XeVg_CStB2Q5dY5oqM/edit?usp=sharing). For more detail on how to implement and inject your own novelties, see [docs/novelty_injection.md](docs/novelty_injection.md).
+For documentation of all novelties, see [NovelGridWorldsV2 Novelty Documentation](https://docs.google.com/document/d/1jefIDrk-SWubPeo3yOMsDN8w0XeVg_CStB2Q5dY5oqM/edit?usp=sharing). For more detail on how to implement and inject your own novelties, see [docs/config_file.md](docs/config_file.md).
 
 ## NovelGym
 
