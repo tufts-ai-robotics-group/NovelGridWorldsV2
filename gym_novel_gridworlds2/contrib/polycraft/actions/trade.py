@@ -50,6 +50,17 @@ class Trade(Craft):
     def do_action(
         self, agent_entity: Entity, target_type=None, target_object=None, **kwargs
     ):
+        recipe = self._get_recipe(**kwargs)
+        if recipe is None:
+            raise PreconditionNotMetError("wrong recipe")
+        
+        return super().do_action(agent_entity, target_type, target_object, recipe, **kwargs)
+
+    def get_step_cost(self, agent_entity: Entity, target_type: str = None, target_object: Object = None, *args, **kwargs):
+        recipe = self._get_recipe(**kwargs)
+        return recipe.step_cost
+
+    def _get_recipe(self, **kwargs):
         if self.itemToCraft is not None:
             recipe = self.recipe_set.get_recipe(self.itemToCraft)
         else:
@@ -64,7 +75,5 @@ class Trade(Craft):
                         # backconvert the quantity
                         target_object.append(item)
             recipe = self.recipe_set.get_recipe_by_input(target_object)
-        if recipe is None:
-            raise PreconditionNotMetError("wrong recipe")
-        
-        return super().do_action(agent_entity, target_type, target_object, recipe, **kwargs)
+
+        return recipe

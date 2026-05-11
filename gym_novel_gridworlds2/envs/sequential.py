@@ -13,6 +13,7 @@ from gymnasium.spaces import MultiDiscrete
 from gym_novel_gridworlds2.actions.action import PreconditionNotMetError
 from gym_novel_gridworlds2.object.entity import Entity
 from gym_novel_gridworlds2.utils.novelty_injection import inject
+from ..agents import SocketDiarcAgent
 
 from ..utils.json_parser import ConfigParser
 from ..utils.game_report import create_empty_game_result_file, report_game_result
@@ -107,6 +108,31 @@ class NovelGridWorldSequentialEnv(AECEnv):
         # Gym spaces are defined and documented here: https://gym.openai.com/docs/#spaces
         return self._action_spaces[agent]
 
+    def _was_done_metadata(self, extra_params, agent):
+        """
+        Sends a dummy metadata to the agent.
+        """
+        # The reason is that agent selects an action before
+        # the check_done action is called so it will still get a second
+        # extra action (after the delay) and we will need to send a message back
+        # to the agent.
+        metadata = {}
+        metadata["goal"] = {
+            "goalType": "ITEM",
+            "goalAchieved": self.internal_state._goal_achieved,
+            "Distribution": "Uninformed",
+        }
+        metadata["step"] = self.num_moves
+        metadata["gameOver"] = True
+        metadata["command_result"] = {
+            "command": extra_params.get("_command"),
+            "argument": extra_params.get("_raw_args") or "",
+            "result": "SUCCESS",
+            "message": "",
+            "stepCost": 0,  # TODO cost
+        }
+        self.agent_manager.agents[agent].agent.update_metadata(metadata)
+
     def step(self, action, extra_params={}):
         """
         TAKEN FROM
@@ -151,10 +177,12 @@ class NovelGridWorldSequentialEnv(AECEnv):
         action_failed = False
 
         # execution of the action, adding info
+        metadata = {}
         try:
             result = action_set.actions[action][1].do_action(
                 agent_entity, **extra_params
             )
+            metadata = result
             if type(result) is str:
                 info["message"] = result
         except PreconditionNotMetError as e:
@@ -162,6 +190,16 @@ class NovelGridWorldSequentialEnv(AECEnv):
             action_failed = True
             info = {
                 "message": str(e.message) if hasattr(e, "message") else "",
+            }
+            metadata = {
+                "command_result": {
+                    "command": extra_params.get("_command")
+                    or action_set.actions[action][0],
+                    "argument": extra_params.get("_raw_args") or "",
+                    "result": "FAILED",
+                    "message": e.message if hasattr(e, "message") else "",
+                    "stepCost": step_cost,  # TODO cost
+                }
             }
             pass
 
@@ -218,6 +256,33 @@ class NovelGridWorldSequentialEnv(AECEnv):
         if self.render_mode == "human":
             self.render()
 
+        # send the metadata of the command execution result
+        # to the agent (mostly for use in the socket connection)
+        if isinstance(self.agent_manager.agents[agent].agent, SocketDiarcAgent):
+            if metadata is None:
+                metadata = {}
+            if type(metadata) != dict:
+                raise Exception("Action metadata must be a dictionary! Check the implementation of the action.")
+
+            metadata["goal"] = {
+                "goalType": "ITEM",
+                "goalAchieved": self.internal_state._goal_achieved,
+                "Distribution": "Uninformed",
+            }
+            metadata["step"] = self.num_moves
+            # TODO below is delayed by one step
+            metadata["gameOver"] = self.terminations[agent] or self.truncations[agent]
+            if "command_result" not in metadata:
+                metadata["command_result"] = {
+                    "command": extra_params.get("_command")
+                    or action_set.actions[action][0],
+                    "argument": extra_params.get("_raw_args") or "",
+                    "result": "SUCCESS",
+                    "message": "",
+                    "stepCost": step_cost,
+                }
+            self.agent_manager.agents[agent].agent.update_metadata(metadata)
+
     
     def _check_truncate_env_agents(self):
         """
@@ -253,7 +318,6 @@ class NovelGridWorldSequentialEnv(AECEnv):
         agent_entity.print_agent_status()
         if not is_success:
             print("Info:", info)
-
 
     def reset(self, seed=None, return_info=False, options=None):
         """
@@ -301,7 +365,7 @@ class NovelGridWorldSequentialEnv(AECEnv):
         self.num_moves = 0
 
         # Agent
-        self._agent_selector = agent_selector(self.agents)
+        self._agent_selector = agent_selector.AgentSelector(self.agents)
         self.agent_selection = self._agent_selector.next()
         self.active_non_env_agents = self.agent_manager.get_non_env_agents()
 

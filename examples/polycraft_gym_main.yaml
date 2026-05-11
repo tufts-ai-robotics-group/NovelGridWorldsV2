@@ -56,12 +56,24 @@ actions:
     module: gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove
     direction: D
     step_cost: 27.906975
+  smooth_move:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SmoothMove
+    step_cost: 27.906975
+  smooth_turn:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SmoothTurn
+    step_cost: 24
   give_up:
     module: gym_novel_gridworlds2.contrib.polycraft.actions.GiveUp
   trade:
     module: gym_novel_gridworlds2.contrib.polycraft.actions.Trade
   craft:
     module: gym_novel_gridworlds2.contrib.polycraft.actions.Craft
+  sense_all:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SenseAll
+    step_cost: 114
+  sense_recipes:
+    module: gym_novel_gridworlds2.contrib.polycraft.actions.SenseRecipes
+    step_cost: 1200
 action_sets:
   main:
   - use
@@ -74,14 +86,20 @@ action_sets:
   - select_sapling
   - select_tree_tap
   - select_crafting_table
+  - select_item
   - deselect_item
-  - craft_*
-  - trade_*
+  - craft
+  - trade
   - move_*
   - rotate_*
   - place
   - nop
   - give_up
+  - sense_all
+  - sense_recipes
+  - TP_TO
+  - smooth_move
+  - smooth_turn
   pogoist_smart:
   - use
   - collect
@@ -166,7 +184,10 @@ objects:
 num_episodes: 10
 entities:
   main_1:
-    agent: gym_novel_gridworlds2.agents.KeyboardAgent
+    agent:
+      module: gym_novel_gridworlds2.agents.SocketDiarcAgent
+      socket_host: localhost
+      socket_port: 2346
     name: entity.polycraft.Player.name
     type: agent
     entity: gym_novel_gridworlds2.contrib.polycraft.objects.PolycraftEntity

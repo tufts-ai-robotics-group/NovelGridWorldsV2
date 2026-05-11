@@ -84,4 +84,81 @@ class Interact(Action):
 
         _, target_object = check_target(agent_entity, self.state) #TODO optimize called twice
         target_object.acted_upon("interact", agent_entity)
-        return {}
+        return self.action_metadata(agent_entity, target_object, entity_id=entity_id)
+
+    def action_metadata(
+        self, agent_entity, target_type=None, target_object=None, entity_id=None
+    ):
+        entity_id = int(entity_id)
+        if entity_id == 103:
+            return {
+                "trades": {
+                    "trades": [
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 1,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_titanium",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "minecraft:diamond",
+                                    "stackSize": 18,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                    ]
+                },
+            }
+        elif entity_id == 104:
+            return {
+                "trades": {
+                    "trades": [
+                        {
+                            "inputs": [
+                                {
+                                    "Item": "polycraft:block_of_platinum",
+                                    "stackSize": 2,
+                                    "slot": 0,
+                                }
+                            ],
+                            "outputs": [
+                                {"Item": "minecraft:diamond", "stackSize": 9, "slot": 5}
+                            ],
+                        },
+                        {
+                            "inputs": [
+                                {"Item": "minecraft:log", "stackSize": 10, "slot": 0}
+                            ],
+                            "outputs": [
+                                {
+                                    "Item": "polycraft:block_of_titanium",
+                                    "stackSize": 1,
+                                    "slot": 5,
+                                }
+                            ],
+                        },
+                    ]
+                },
+            }
+        else:
+            return {}

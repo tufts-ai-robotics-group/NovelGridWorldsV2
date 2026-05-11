@@ -92,14 +92,7 @@ class Craft(Action):
     ):
         
         if recipe is None:
-            if self.itemToCraft is not None:
-                recipe = self.recipe_set.get_recipe(self.itemToCraft)
-            else:
-                if "_all_params" in kwargs:
-                    input_list = [o for o in kwargs["_all_params"] if o is not None]
-                    target_object = [backConversion(o) for o in input_list]
-                recipe = self.recipe_set.get_recipe_by_input(target_object)
-
+            recipe = self._get_recipe(**kwargs)
         
         if not self.check_precondition(agent_entity, 
             target_type=target_type, 
@@ -125,3 +118,19 @@ class Craft(Action):
         if self.itemToCraft == "pogo_stick" or "pogo_stick" in recipe.output_dict:
             self.state.set_game_over(True)
         return {}
+
+
+    def _get_recipe(self, **kwargs):
+        if self.itemToCraft is not None:
+            recipe = self.recipe_set.get_recipe(self.itemToCraft)
+        else:
+            if "_all_params" in kwargs:
+                input_list = [o for o in kwargs["_all_params"] if o is not None]
+                target_object = [backConversion(o) for o in input_list]
+            recipe = self.recipe_set.get_recipe_by_input(target_object)
+
+        return recipe
+
+    def get_step_cost(self, agent_entity: Entity, target_type: str = None, target_object: Object = None, *args, **kwargs):
+        recipe = self._get_recipe(**kwargs)
+        return recipe.step_cost
